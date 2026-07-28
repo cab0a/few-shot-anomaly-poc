@@ -159,6 +159,8 @@ Accuracy reported by prior work is not treated as evidence that a method will pa
 
 The shortlist is intentionally small. If neither method passes the preregistered gates, `REJECT` remains a valid result and motivates, but does not automatically authorize, a v0.2 pretrained-feature experiment.
 
+The exact preprocessing, fitting, scoring, and failure rules are fixed in the [v0.1 method specification](method-specification.md).
+
 ## Deferred v0.2 Question
 
 The first deferred question is:

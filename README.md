@@ -147,6 +147,7 @@ The repository currently contains design documents only:
 
 - [Problem and requirements](docs/problem-and-requirements.md)
 - [Research and method selection](docs/research-and-method-selection.md)
+- [v0.1 method specification](docs/method-specification.md)
 - [Evaluation plan](docs/evaluation-plan.md)
 
 Implementation, tests, data acquisition, experiments, result figures, failure analysis, and the final decision have not started.

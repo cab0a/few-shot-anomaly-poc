@@ -74,7 +74,7 @@ Both methods may use only the 20 reference images to build their normal represen
 - The calibration partition may be scored only to select the operating threshold.
 - Calibration scores must not select the method, feature definition, SVM kernel, image size, residual aggregation, or another implementation parameter.
 
-All method parameters and preprocessing rules must be committed before the first final-test run.
+All method parameters and preprocessing rules are preregistered in the [v0.1 method specification](method-specification.md) and must be committed before implementation and the first final-test run.
 
 ## Threshold Calibration
 
@@ -82,19 +82,27 @@ Each method receives its own threshold because the score scales are not assumed 
 
 Higher scores must consistently mean "more anomalous."
 
-For one method:
+For `n` calibration scores from one method:
 
 1. Score every normal calibration image.
-2. Sort the finite scores in ascending order.
-3. Choose the empirical 95th-percentile score using a documented higher-order-statistic rule.
-4. Classify an image as anomalous only when its score is strictly greater than that threshold.
-5. Record the calibration sample count, threshold, number above threshold, and realized calibration false-positive rate.
-
-The concrete numeric-library call and version must be documented with the implementation. Its behavior must match the rule above.
+2. Sort all preregistered finite scores, including fixed failure scores, in ascending order.
+3. Set `rank = ceil(0.95 * n)`.
+4. Choose `sorted_scores[rank - 1]` as the threshold.
+5. Classify an image as anomalous when its score status is `failed` or its score is strictly greater than the threshold.
+6. Record the calibration sample count, threshold, number classified as anomalous, and realized calibration false-positive rate.
 
 No anomaly image and no final-test image may influence this threshold.
 
 The threshold remains fixed during final-test evaluation, even if the realized final-test normal false-positive rate exceeds 5%.
+
+## Scoring Failure Policy
+
+The fixed finite failure scores and method-level fitting-failure rules are defined in the [v0.1 method specification](method-specification.md).
+
+- A failed image remains in calibration, ranking metrics, fixed-threshold metrics, failure counts, and latency evidence when a timing exists.
+- A failed image is operationally classified as anomalous regardless of the numeric threshold.
+- A method with `FIT_FAILED` status cannot pass and cannot be adopted.
+- Failure handling must not be changed after calibration or final-test inspection.
 
 ## Test Leakage Prevention
 
@@ -106,7 +114,7 @@ The following controls are mandatory:
 - Do not select a threshold from a test ROC curve.
 - Do not choose a method from final-test AUROC or AUPRC and then rerun it with revised settings.
 - Do not exclude difficult images, failed registrations, non-finite scores, or slow images from the primary result.
-- Treat a method failure to produce a finite score as a recorded failed prediction.
+- Convert a score-generation failure to the preregistered finite failure score and retain its failed status.
 - Commit method configuration and partition manifests before final-test scoring.
 - Record the first valid final-test run used for the decision.
 
