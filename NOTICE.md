@@ -17,3 +17,5 @@
 
 - Governed by their respective licenses
 - The PolyForm license does not replace or modify dependency licenses
+- Not vendored or redistributed by this repository at the current project stage
+- The selected direct runtime versions and their separate license boundaries are recorded in [`docs/dependencies-and-licenses.md`](docs/dependencies-and-licenses.md)

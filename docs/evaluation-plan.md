@@ -286,7 +286,8 @@ Before v0.1 completion, the repository must record:
 - Reference and calibration relative-path manifests
 - Fixed seed and selection-procedure version
 - Method configuration
-- Exact dependency versions
+- Exact Python and direct dependency versions
+- The fully resolved dependency lock, distribution hashes, and license inventory
 - Environment and CPU information
 - Thresholds and calibration counts
 - Per-image scores, labels, predictions, and latency samples

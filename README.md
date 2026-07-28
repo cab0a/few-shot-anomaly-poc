@@ -148,6 +148,7 @@ The repository currently contains design documents only:
 - [Problem and requirements](docs/problem-and-requirements.md)
 - [Research and method selection](docs/research-and-method-selection.md)
 - [v0.1 method specification](docs/method-specification.md)
+- [Runtime dependencies and license boundaries](docs/dependencies-and-licenses.md)
 - [Evaluation plan](docs/evaluation-plan.md)
 
-Implementation, tests, data acquisition, experiments, result figures, failure analysis, and the final decision have not started.
+The direct runtime baseline is preregistered but has not been installed or smoke-tested. The transitive dependency lock, implementation, tests, data acquisition, experiments, result figures, failure analysis, and final decision have not started.

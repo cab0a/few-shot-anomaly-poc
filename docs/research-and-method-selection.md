@@ -34,7 +34,7 @@ Accuracy reported by prior work is not treated as evidence that a method will pa
 
 **Compute requirement:** Low to moderate CPU cost, dominated by registration and image operations.
 
-**License or dependency concern:** The planned ECC implementation depends on OpenCV. OpenCV 4.x is Apache-2.0; the `opencv-python` packaging project is MIT. Exact installed package versions and bundled notices must be reviewed before implementation.
+**License or dependency concern:** The selected `opencv-python-headless==4.13.0.92` wheel has a composite boundary: packaging scripts use MIT terms, OpenCV uses Apache License 2.0, FFmpeg is included under LGPL-2.1, and other bundled binaries carry separate notices. The full resolved distribution and notices must be retained in the environment record.
 
 **v0.1 decision:** **Adopt.** It is the minimum interpretable baseline. The implemented form will be an ECC-aligned normal-template residual, not an unregistered raw difference.
 
@@ -50,7 +50,7 @@ Accuracy reported by prior work is not treated as evidence that a method will pa
 
 **Compute requirement:** Low to moderate CPU cost.
 
-**License or dependency concern:** A likely dependency is scikit-image, whose main license is BSD-3-Clause and whose license file lists some separately attributed components. The exact imported implementation must be checked before pinning.
+**License or dependency concern:** The selected runtime includes `scikit-image==0.26.0`. Its main terms are BSD-3-Clause, and its license file identifies BSD-2-Clause and MIT components. SSIM remains outside the selected method scope even though its likely package is already required for HOG.
 
 **v0.1 decision:** **Do not select.** It belongs to the same reference-residual family as the registered pixel baseline. Including both would spend the limited milestone on two closely related methods rather than testing a different modeling assumption.
 
@@ -66,7 +66,7 @@ Accuracy reported by prior work is not treated as evidence that a method will pa
 
 **Compute requirement:** Moderate CPU cost for patch feature extraction and one-class scoring.
 
-**License or dependency concern:** The planned dependencies are scikit-image for HOG and scikit-learn for One-Class SVM. Both use permissive BSD-family terms, but exact versions, transitive dependencies, and redistribution notices must be recorded before implementation.
+**License or dependency concern:** The selected direct dependencies are `scikit-image==0.26.0` for HOG and `scikit-learn==1.9.0` for One-Class SVM. scikit-image mainly uses BSD-3-Clause terms with separately identified BSD-2-Clause and MIT components; scikit-learn uses BSD-3-Clause. Their transitive dependencies and exact distribution notices must be recorded in the resolved lock before implementation.
 
 **v0.1 decision:** **Adopt.** It supplies a distinct classical learned comparator without anomalous training labels or model weights.
 
@@ -82,7 +82,7 @@ Accuracy reported by prior work is not treated as evidence that a method will pa
 
 **Compute requirement:** Low to moderate CPU cost, depending on feature dimensionality.
 
-**License or dependency concern:** Likely NumPy or scikit-learn dependencies use BSD-family terms. Exact versions and numerical-solver dependencies must be checked.
+**License or dependency concern:** The selected baseline includes `numpy==2.5.1` and `scikit-learn==1.9.0`, but a PCA prototype is not authorized to use them in v0.1. NumPy's published metadata identifies multiple bundled-component license terms in addition to its top-level BSD-3-Clause license.
 
 **v0.1 decision:** **Do not select.** The 20-image budget makes the fitted subspace a prominent confound, and adding it would create a third prototype without resolving the main baseline-versus-one-class question.
 
@@ -161,6 +161,8 @@ The shortlist is intentionally small. If neither method passes the preregistered
 
 The exact preprocessing, fitting, scoring, and failure rules are fixed in the [v0.1 method specification](method-specification.md).
 
+The selected Python and direct package versions, composite license boundaries, and remaining transitive-lock gate are recorded in [the runtime dependency inventory](dependencies-and-licenses.md).
+
 ## Deferred v0.2 Question
 
 The first deferred question is:
@@ -183,15 +185,17 @@ VisA remains separately licensed under CC BY 4.0, and this repository does not i
   <https://registry.opendata.aws/visa/>
 - CC BY 4.0:
   <https://creativecommons.org/licenses/by/4.0/>
+- Runtime versions and license boundaries:
+  [dependencies-and-licenses.md](dependencies-and-licenses.md)
 - OpenCV license:
   <https://github.com/opencv/opencv/blob/4.x/LICENSE>
 - DINOv2 official repository:
   <https://github.com/facebookresearch/dinov2>
 - AnomalyDINO paper:
   <https://openaccess.thecvf.com/content/WACV2025/html/Damm_AnomalyDINO_Boosting_Patch-Based_Few-Shot_Anomaly_Detection_with_DINOv2_WACV_2025_paper.html>
-- scikit-image license:
-  <https://github.com/scikit-image/scikit-image/blob/main/LICENSE.txt>
-- scikit-learn license:
-  <https://github.com/scikit-learn/scikit-learn/blob/main/COPYING>
+- scikit-image 0.26.0 license:
+  <https://github.com/scikit-image/scikit-image/blob/v0.26.0/LICENSE.txt>
+- scikit-learn 1.9.0 license:
+  <https://github.com/scikit-learn/scikit-learn/blob/1.9.0/COPYING>
 
 This document records a technical review, not legal advice. Exact distributed dependencies and notices must be verified again when implementation versions are pinned.

@@ -226,4 +226,4 @@ Calibration must not change preprocessing, registration limits, template fitting
 - scikit-learn `OneClassSVM`:
   <https://scikit-learn.org/stable/modules/generated/sklearn.svm.OneClassSVM.html>
 
-Exact dependency versions remain a separate preregistration step. This specification fixes method behavior, not package versions.
+The Python and direct package versions are preregistered in [the runtime dependency inventory](dependencies-and-licenses.md). This specification fixes method behavior; the dependency inventory fixes the selected runtime baseline and records the remaining transitive-lock gate.
