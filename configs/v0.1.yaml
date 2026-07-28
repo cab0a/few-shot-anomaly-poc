@@ -31,6 +31,21 @@
     "output_dtype": "float32",
     "scale_divisor": 255.0
   },
+  "ecc_registration": {
+    "motion_model": "euclidean",
+    "initial_warp": "identity_2x3",
+    "termination": "count_plus_epsilon",
+    "max_iterations": 100,
+    "epsilon": 0.000001,
+    "gaussian_filter_size": 5,
+    "warp_interpolation": "linear",
+    "mask_interpolation": "nearest",
+    "warp_border": "constant_zero",
+    "max_abs_rotation_degrees": 10.0,
+    "max_abs_horizontal_translation_pixels": 64.0,
+    "max_abs_vertical_translation_pixels": 64.0,
+    "min_valid_fraction": 0.80
+  },
   "paths": {
     "archive": "data/external/archives/VisA_20220922.tar",
     "archive_provenance": "data/provenance/visa-archive.json",

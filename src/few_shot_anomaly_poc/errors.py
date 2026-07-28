@@ -40,3 +40,15 @@ class ImagePreprocessingError(Exception):
     def __init__(self, code: PreprocessingFailureCode, message: str) -> None:
         super().__init__(message)
         self.code = code
+
+
+class ECCRegistrationFailureCode(StrEnum):
+    """Stable failure codes for the v0.1 ECC registration primitive."""
+
+    ECC_OPTIMIZATION_FAILED = "ECC_OPTIMIZATION_FAILED"
+    ECC_RESULT_INVALID = "ECC_RESULT_INVALID"
+    ECC_RESULT_NONFINITE = "ECC_RESULT_NONFINITE"
+    ECC_ROTATION_LIMIT_EXCEEDED = "ECC_ROTATION_LIMIT_EXCEEDED"
+    ECC_TRANSLATION_LIMIT_EXCEEDED = "ECC_TRANSLATION_LIMIT_EXCEEDED"
+    ECC_WARP_FAILED = "ECC_WARP_FAILED"
+    ECC_VALID_AREA_TOO_SMALL = "ECC_VALID_AREA_TOO_SMALL"

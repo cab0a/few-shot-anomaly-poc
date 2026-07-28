@@ -2,12 +2,13 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 2 preprocessing foundation**
+> **Status: Milestone 3 ECC registration primitive**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
-> preprocessing are implemented. No anomaly method, dataset result, benchmark,
-> or decision is reported.
+> preprocessing are implemented, together with the bounded ECC registration
+> primitive. No complete anomaly method, dataset result, benchmark, or decision
+> is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -191,6 +192,22 @@ not retry, repair, normalize, crop, preserve aspect ratio, or convert a failure
 into a method score. Tests use generated arrays and temporary synthetic image
 files; no VisA image is read by the test suite.
 
+## ECC registration primitive
+
+The first method now has a bounded registration component that:
+
+- starts from a `2 x 3` identity warp
+- uses OpenCV ECC with the Euclidean rotation-and-translation model
+- fixes the iteration, epsilon, Gaussian-filter, interpolation, and border rules
+- rejects non-convergence and invalid or non-finite ECC results
+- enforces the preregistered `10 degree` and `64 pixel` plausibility limits
+- warps a binary validity mask and requires at least `80%` valid area
+- returns structured diagnostics and stable failure codes
+
+The implementation uses inverse-map warping to bring the moving image into
+template coordinates. It does not build a normal template, calculate a
+residual, produce an anomaly score, or use a VisA image.
+
 ## Non-goals
 
 v0.1 does not attempt to provide:
@@ -208,8 +225,8 @@ v0.1 does not attempt to provide:
 
 ## Current Project Stage
 
-The repository contains preregistered design documents, the Milestone 1 data
-foundation, and deterministic shared preprocessing:
+The repository contains preregistered design documents, the data foundation,
+deterministic shared preprocessing, and the bounded ECC registration primitive:
 
 - [Problem and requirements](docs/problem-and-requirements.md)
 - [Research and method selection](docs/research-and-method-selection.md)
@@ -221,6 +238,6 @@ foundation, and deterministic shared preprocessing:
 
 The runtime baseline is locked, while split pinning, safe acquisition, archive
 provenance, safe extraction, deterministic manifests, integrity tests, linting,
-CI, and shared image preprocessing are implemented. The repository still
-contains no VisA image, anomaly-method implementation, experiment, result
-figure, failure analysis, or final decision.
+CI, shared image preprocessing, and ECC registration are implemented. The
+repository still contains no VisA image, complete anomaly-method
+implementation, experiment, result figure, failure analysis, or final decision.

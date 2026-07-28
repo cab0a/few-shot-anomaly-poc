@@ -1,4 +1,4 @@
-"""Load the versioned data-preparation configuration."""
+"""Load the versioned v0.1 project configuration."""
 
 from __future__ import annotations
 
@@ -49,6 +49,23 @@ class PreprocessingConfig:
 
 
 @dataclass(frozen=True)
+class ECCRegistrationConfig:
+    motion_model: str
+    initial_warp: str
+    termination: str
+    max_iterations: int
+    epsilon: float
+    gaussian_filter_size: int
+    warp_interpolation: str
+    mask_interpolation: str
+    warp_border: str
+    max_abs_rotation_degrees: float
+    max_abs_horizontal_translation_pixels: float
+    max_abs_vertical_translation_pixels: float
+    min_valid_fraction: float
+
+
+@dataclass(frozen=True)
 class ProjectPaths:
     archive: Path
     archive_provenance: Path
@@ -69,6 +86,7 @@ class ProjectConfig:
     split: SplitConfig
     selection: SelectionConfig
     preprocessing: PreprocessingConfig
+    ecc_registration: ECCRegistrationConfig
     paths: ProjectPaths
     project_root: Path
 
@@ -84,6 +102,42 @@ def _string(mapping: dict[str, Any], key: str, label: str) -> str:
     if not isinstance(value, str) or not value:
         raise ConfigurationError(f"{label}.{key} must be a non-empty string")
     return value
+
+
+def _fixed_string(
+    mapping: dict[str, Any],
+    key: str,
+    label: str,
+    expected: str,
+) -> str:
+    value = _string(mapping, key, label)
+    if value != expected:
+        raise ConfigurationError(f"{label}.{key} must remain {expected}")
+    return value
+
+
+def _fixed_integer(
+    mapping: dict[str, Any],
+    key: str,
+    label: str,
+    expected: int,
+) -> int:
+    value = mapping.get(key)
+    if not isinstance(value, int) or isinstance(value, bool) or value != expected:
+        raise ConfigurationError(f"{label}.{key} must remain {expected}")
+    return value
+
+
+def _fixed_float(
+    mapping: dict[str, Any],
+    key: str,
+    label: str,
+    expected: float,
+) -> float:
+    value = mapping.get(key)
+    if not isinstance(value, (int, float)) or isinstance(value, bool) or float(value) != expected:
+        raise ConfigurationError(f"{label}.{key} must remain {expected}")
+    return float(value)
 
 
 def _https_url(value: str, label: str) -> str:
@@ -125,6 +179,7 @@ def load_config(config_path: Path) -> ProjectConfig:
     split_raw = _mapping(dataset.get("split"), "dataset.split")
     selection_raw = _mapping(root.get("selection"), "selection")
     preprocessing_raw = _mapping(root.get("preprocessing"), "preprocessing")
+    ecc_registration_raw = _mapping(root.get("ecc_registration"), "ecc_registration")
     paths_raw = _mapping(root.get("paths"), "paths")
     project_root = resolved_config.parent.parent.resolve()
 
@@ -147,36 +202,123 @@ def load_config(config_path: Path) -> ProjectConfig:
     if not isinstance(seed, int) or isinstance(seed, bool):
         raise ConfigurationError("selection.seed must be an integer")
 
-    decode_mode = _string(preprocessing_raw, "decode_mode", "preprocessing")
-    output_height = preprocessing_raw.get("output_height")
-    output_width = preprocessing_raw.get("output_width")
-    resize_interpolation = _string(
+    decode_mode = _fixed_string(
+        preprocessing_raw,
+        "decode_mode",
+        "preprocessing",
+        "grayscale_uint8_ignore_orientation",
+    )
+    output_height = _fixed_integer(
+        preprocessing_raw,
+        "output_height",
+        "preprocessing",
+        512,
+    )
+    output_width = _fixed_integer(
+        preprocessing_raw,
+        "output_width",
+        "preprocessing",
+        512,
+    )
+    resize_interpolation = _fixed_string(
         preprocessing_raw,
         "resize_interpolation",
         "preprocessing",
+        "area",
     )
-    output_dtype = _string(preprocessing_raw, "output_dtype", "preprocessing")
-    scale_divisor = preprocessing_raw.get("scale_divisor")
-    if decode_mode != "grayscale_uint8_ignore_orientation":
-        raise ConfigurationError("preprocessing.decode_mode must remain preregistered")
-    if (
-        not isinstance(output_height, int)
-        or isinstance(output_height, bool)
-        or output_height != 512
-    ):
-        raise ConfigurationError("preprocessing.output_height must remain 512")
-    if not isinstance(output_width, int) or isinstance(output_width, bool) or output_width != 512:
-        raise ConfigurationError("preprocessing.output_width must remain 512")
-    if resize_interpolation != "area":
-        raise ConfigurationError("preprocessing.resize_interpolation must remain area")
-    if output_dtype != "float32":
-        raise ConfigurationError("preprocessing.output_dtype must remain float32")
-    if (
-        not isinstance(scale_divisor, (int, float))
-        or isinstance(scale_divisor, bool)
-        or float(scale_divisor) != 255.0
-    ):
-        raise ConfigurationError("preprocessing.scale_divisor must remain 255.0")
+    output_dtype = _fixed_string(
+        preprocessing_raw,
+        "output_dtype",
+        "preprocessing",
+        "float32",
+    )
+    scale_divisor = _fixed_float(
+        preprocessing_raw,
+        "scale_divisor",
+        "preprocessing",
+        255.0,
+    )
+
+    ecc_registration = ECCRegistrationConfig(
+        motion_model=_fixed_string(
+            ecc_registration_raw,
+            "motion_model",
+            "ecc_registration",
+            "euclidean",
+        ),
+        initial_warp=_fixed_string(
+            ecc_registration_raw,
+            "initial_warp",
+            "ecc_registration",
+            "identity_2x3",
+        ),
+        termination=_fixed_string(
+            ecc_registration_raw,
+            "termination",
+            "ecc_registration",
+            "count_plus_epsilon",
+        ),
+        max_iterations=_fixed_integer(
+            ecc_registration_raw,
+            "max_iterations",
+            "ecc_registration",
+            100,
+        ),
+        epsilon=_fixed_float(
+            ecc_registration_raw,
+            "epsilon",
+            "ecc_registration",
+            1e-6,
+        ),
+        gaussian_filter_size=_fixed_integer(
+            ecc_registration_raw,
+            "gaussian_filter_size",
+            "ecc_registration",
+            5,
+        ),
+        warp_interpolation=_fixed_string(
+            ecc_registration_raw,
+            "warp_interpolation",
+            "ecc_registration",
+            "linear",
+        ),
+        mask_interpolation=_fixed_string(
+            ecc_registration_raw,
+            "mask_interpolation",
+            "ecc_registration",
+            "nearest",
+        ),
+        warp_border=_fixed_string(
+            ecc_registration_raw,
+            "warp_border",
+            "ecc_registration",
+            "constant_zero",
+        ),
+        max_abs_rotation_degrees=_fixed_float(
+            ecc_registration_raw,
+            "max_abs_rotation_degrees",
+            "ecc_registration",
+            10.0,
+        ),
+        max_abs_horizontal_translation_pixels=_fixed_float(
+            ecc_registration_raw,
+            "max_abs_horizontal_translation_pixels",
+            "ecc_registration",
+            64.0,
+        ),
+        max_abs_vertical_translation_pixels=_fixed_float(
+            ecc_registration_raw,
+            "max_abs_vertical_translation_pixels",
+            "ecc_registration",
+            64.0,
+        ),
+        min_valid_fraction=_fixed_float(
+            ecc_registration_raw,
+            "min_valid_fraction",
+            "ecc_registration",
+            0.80,
+        ),
+    )
 
     path_values = {
         key: _project_path(
@@ -237,6 +379,7 @@ def load_config(config_path: Path) -> ProjectConfig:
             output_dtype=output_dtype,
             scale_divisor=float(scale_divisor),
         ),
+        ecc_registration=ecc_registration,
         paths=ProjectPaths(**path_values),
         project_root=project_root,
     )

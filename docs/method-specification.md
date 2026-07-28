@@ -64,6 +64,23 @@ A registration succeeds only when all of the following hold:
 
 A low but finite correlation coefficient is recorded but is not, by itself, grounds for rejection. This prevents a result-dependent correlation cutoff.
 
+The registration primitive returns `status=failed` with one of these stable
+codes rather than retrying with different parameters:
+
+- `ECC_OPTIMIZATION_FAILED`
+- `ECC_RESULT_INVALID`
+- `ECC_RESULT_NONFINITE`
+- `ECC_ROTATION_LIMIT_EXCEEDED`
+- `ECC_TRANSLATION_LIMIT_EXCEEDED`
+- `ECC_WARP_FAILED`
+- `ECC_VALID_AREA_TOO_SMALL`
+
+Successful registration records the correlation, `2 x 3` warp matrix, rotation,
+horizontal and vertical translations, and valid-area fraction. It also returns
+the aligned `float32` image and binary validity mask for the later template and
+residual stages. This primitive does not fit a template or calculate an anomaly
+score.
+
 ### Template fitting
 
 1. Sort the 20 reference relative paths in ascending Unicode code-point order.

@@ -22,6 +22,15 @@ def test_repository_config_pins_official_split() -> None:
     assert config.preprocessing.resize_interpolation == "area"
     assert config.preprocessing.output_dtype == "float32"
     assert config.preprocessing.scale_divisor == 255.0
+    assert config.ecc_registration.motion_model == "euclidean"
+    assert config.ecc_registration.initial_warp == "identity_2x3"
+    assert config.ecc_registration.max_iterations == 100
+    assert config.ecc_registration.epsilon == 1e-6
+    assert config.ecc_registration.gaussian_filter_size == 5
+    assert config.ecc_registration.max_abs_rotation_degrees == 10.0
+    assert config.ecc_registration.max_abs_horizontal_translation_pixels == 64.0
+    assert config.ecc_registration.max_abs_vertical_translation_pixels == 64.0
+    assert config.ecc_registration.min_valid_fraction == 0.80
     assert config.split.revision == "2a692ab575001cbde74d402d897a7286086c6199"
     assert config.split.sha256 == "a48557e6033318cb90556f706196bc9d247a776a23ea51aecee5a80dd0332995"
 
@@ -60,4 +69,19 @@ def test_config_rejects_changed_preprocessing(
     config_path.write_text(json.dumps(raw), encoding="utf-8")
 
     with pytest.raises(ConfigurationError, match="output_width"):
+        load_config(config_path)
+
+
+@pytest.mark.parametrize("changed_rotation", [11.0, "10.0", True])
+def test_config_rejects_changed_ecc_registration(
+    tmp_path: Path,
+    changed_rotation: object,
+) -> None:
+    raw = json.loads(Path("configs/v0.1.yaml").read_text(encoding="utf-8"))
+    raw["ecc_registration"]["max_abs_rotation_degrees"] = changed_rotation
+    config_path = tmp_path / "configs/v0.1.yaml"
+    config_path.parent.mkdir()
+    config_path.write_text(json.dumps(raw), encoding="utf-8")
+
+    with pytest.raises(ConfigurationError, match="max_abs_rotation_degrees"):
         load_config(config_path)
