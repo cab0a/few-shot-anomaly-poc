@@ -2,9 +2,9 @@
 
 ## Status
 
-This document preregisters the direct v0.1 runtime baseline before dependency installation or algorithm implementation.
+This document records the locked v0.1 runtime baseline before algorithm implementation.
 
-The versions and license metadata below were reviewed from official release pages and distribution records on 2026-07-28. They have not yet been installed or smoke-tested in this repository. This document therefore records a selected baseline, not a compatibility or platform-support claim.
+The versions and license metadata below were reviewed from official release pages, distribution records, and the license files installed from the lock on 2026-07-28. The locked environment passed the bounded API smoke test described below. No anomaly-detection implementation, dataset operation, or experiment was performed.
 
 ## Selected Runtime Baseline
 
@@ -20,49 +20,81 @@ The primary environment will use the standard GIL-enabled CPython build, not the
 
 `opencv-python-headless` is selected because v0.1 has no GUI requirement. Staying on OpenCV 4.x keeps the preregistered method aligned with the reviewed OpenCV 4.x ECC API and avoids an unneeded major-version change. NumPy 2.5.1 satisfies the selected OpenCV wheel's Python 3.9-and-later requirement of NumPy 2 or later.
 
-CPython 3.13.14 is selected as a maintained, non-experimental runtime baseline for which the selected packages publish compatible wheel tags for common x86-64 environments. Actual installation and execution remain to be verified before implementation.
+CPython 3.13.14 is selected as a maintained, non-experimental runtime baseline for which the selected packages publish compatible wheel tags for common x86-64 environments. The recorded smoke test covers one Linux x86-64 environment only and is not a general platform-support claim.
 
-## Direct and Transitive Dependency Policy
+## Lock and Installation Policy
 
-Only the five components in the baseline table are selected directly for v0.1. No deep-learning framework, model downloader, plotting framework, web framework, or notebook runtime is part of this runtime baseline.
+The environment is declared in `pyproject.toml`, the exact CPython patch version is recorded in `.python-version`, and all resolved distributions are recorded in `uv.lock`. The lock includes exact package versions, source URLs, and SHA-256 hashes for source archives and available wheels.
 
-The selected packages resolve additional runtime dependencies. At minimum, the published metadata identifies:
+The lock was generated with `uv 0.11.32`. `uv` is an external environment-management tool, not a runtime dependency or vendored repository component. It is separately offered under MIT or Apache-2.0 terms at the user's option.
 
-- SciPy, joblib, Narwhals, and threadpoolctl through scikit-learn
-- SciPy, NetworkX, Pillow, ImageIO, tifffile, packaging, and lazy-loader through scikit-image
+Create or synchronize the environment without changing the lock:
 
-Those transitive packages are not yet pinned by this document. Before the first implementation commit:
+```bash
+uv sync --locked --no-dev
+```
 
-1. Resolve the environment for the recorded Python version and target platform.
-2. Commit a machine-readable lock or constraints artifact with exact versions and cryptographic hashes.
-3. Record the source and license of every resolved distribution.
-4. Verify that installation does not introduce an unreviewed dependency outside the documented runtime scope.
-5. Run an import and API smoke test without downloading VisA or executing the anomaly-detection experiment.
+Run the committed bounded verification without modifying or resynchronizing the environment:
+
+```bash
+uv run --locked --no-sync python scripts/verify_environment.py
+```
+
+Only the four packages in `pyproject.toml` are selected as direct package dependencies. No deep-learning framework, model downloader, plotting framework, web framework, or notebook runtime is part of this runtime baseline.
 
 A top-level or transitive dependency change after that lock is committed requires a documented reason and a new environment record. No dependency may be changed in response to final-test performance.
+
+## Resolved Distribution Inventory
+
+The following table covers every package resolved by `uv.lock`. "Direct" means declared in `pyproject.toml`; "transitive" means introduced by a direct dependency.
+
+| Distribution | Version | Role | Published or installed license evidence |
+| --- | --- | --- | --- |
+| [NumPy](https://pypi.org/project/numpy/2.5.1/) | `2.5.1` | Direct | `BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0` |
+| [`opencv-python-headless`](https://pypi.org/project/opencv-python-headless/4.13.0.92/) | `4.13.0.92` | Direct | Packaging scripts: MIT; OpenCV: Apache-2.0; installed wheel: separate third-party notices including FFmpeg under LGPL-2.1 |
+| [scikit-image](https://pypi.org/project/scikit-image/0.26.0/) | `0.26.0` | Direct | BSD-3-Clause main terms with identified BSD-2-Clause and MIT components |
+| [scikit-learn](https://pypi.org/project/scikit-learn/1.9.0/) | `1.9.0` | Direct | BSD-3-Clause |
+| [ImageIO](https://pypi.org/project/imageio/2.37.4/) | `2.37.4` | Transitive | BSD-2-Clause |
+| [joblib](https://pypi.org/project/joblib/1.5.3/) | `1.5.3` | Transitive | BSD-3-Clause |
+| [lazy-loader](https://pypi.org/project/lazy-loader/0.5/) | `0.5` | Transitive | BSD-3-Clause |
+| [Narwhals](https://pypi.org/project/narwhals/2.24.0/) | `2.24.0` | Transitive | MIT |
+| [NetworkX](https://pypi.org/project/networkx/3.6.1/) | `3.6.1` | Transitive | BSD-3-Clause |
+| [packaging](https://pypi.org/project/packaging/26.2/) | `26.2` | Transitive | Apache-2.0 OR BSD-2-Clause |
+| [Pillow](https://pypi.org/project/pillow/12.3.0/) | `12.3.0` | Transitive | MIT-CMU |
+| [SciPy](https://pypi.org/project/scipy/1.18.0/) | `1.18.0` | Transitive | BSD-3-Clause main terms; the installed Linux wheel also notices OpenBLAS under BSD-3-Clause, LAPACK under BSD-3-Clause-Open-MPI, GCC runtime libraries under GPL-3.0-or-later WITH GCC-exception-3.1, and libquadmath under LGPL-2.1-or-later |
+| [threadpoolctl](https://pypi.org/project/threadpoolctl/3.6.0/) | `3.6.0` | Transitive | BSD-3-Clause |
+| [tifffile](https://pypi.org/project/tifffile/2026.7.14/) | `2026.7.14` | Transitive | BSD-3-Clause |
+
+The table is an inventory of distribution metadata and installed notices, not a replacement for the controlling license files. Binary contents and notices can differ by platform. Anyone redistributing a wheel must inspect the license files inside the exact selected wheel.
 
 ## License Separation
 
 The PolyForm Noncommercial License 1.0.0 applies only to original code and documentation in this repository. It does not replace, narrow, or modify the terms of Python, the selected packages, their transitive dependencies, or bundled binary components.
 
-This repository does not vendor or redistribute Python, dependency source archives, wheels, shared libraries, or dependency license texts at the current stage. Future environment instructions may download packages from their official distribution channels, where each package remains governed by its own terms.
+This repository does not vendor or redistribute Python, dependency source archives, wheels, shared libraries, or dependency license texts. The environment command downloads packages from their recorded distribution channel, where each package remains governed by its own terms.
 
 If a future release bundles or redistributes a dependency or binary artifact, its exact distribution file and all required copyright notices, license texts, and bundled-component notices must be reviewed and included as required by that distribution. The repository's noncommercial terms must not be presented as restrictions on third-party materials.
 
 VisA is a dataset, not a runtime dependency. Its separate CC BY 4.0 boundary and attribution policy are recorded in the README, `NOTICE.md`, and the evaluation plan.
 
-## Reproducibility and Claim Boundary
+## Smoke-Test Record
 
-The eventual experiment record must include:
+The dependency-only smoke test was run on 2026-07-28 with:
 
-- exact Python and package versions from the resolved environment
-- operating system, architecture, and CPU information
-- installer and lock-file identity
-- hashes for resolved distributions
-- relevant numeric and thread environment variables
-- a smoke-test result for the APIs used by both shortlisted methods
+- `uv 0.11.32`
+- standard GIL-enabled CPython `3.13.14`
+- Linux x86-64 under WSL2
+- the committed `uv.lock`
 
-Official wheel availability and version metadata are selection evidence only. Until the locked environment is installed and the smoke test passes, the project makes no claim that the selected package combination executes correctly.
+The verification checked:
+
+- exact Python and direct distribution versions
+- OpenCV `findTransformECC` on a deterministic synthetic image
+- the preregistered 324-element HOG descriptor shape for a `64 x 64` patch
+- StandardScaler fitting and transformation
+- One-Class SVM fitting and a finite decision score
+
+The check passed. This establishes only that the selected environment imports and exposes the required API path on the recorded platform. It does not validate the anomaly methods, their accuracy, VisA compatibility, latency, or reproducibility of a future decision.
 
 ## Official Sources
 
@@ -88,5 +120,9 @@ Official wheel availability and version metadata are selection evidence only. Un
   <https://pypi.org/project/scikit-learn/1.9.0/>
 - scikit-learn 1.9.0 license:
   <https://github.com/scikit-learn/scikit-learn/blob/1.9.0/COPYING>
+- uv installation and project-management documentation:
+  <https://docs.astral.sh/uv/>
+- uv license:
+  <https://github.com/astral-sh/uv#license>
 
 This is a technical license inventory, not legal advice. The controlling texts are the licenses distributed with each exact component.

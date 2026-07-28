@@ -126,6 +126,19 @@ See [`LICENSE`](LICENSE) for the controlling terms. This section is an informati
 
 VisA and third-party dependencies are not licensed under PolyForm. Their separate licensing boundaries are recorded in [`NOTICE.md`](NOTICE.md).
 
+## Reproducible environment
+
+The v0.1 runtime uses CPython `3.13.14` and 14 locked package distributions. Exact versions, source artifacts, and SHA-256 hashes are recorded in `uv.lock`.
+
+With [`uv`](https://docs.astral.sh/uv/) installed:
+
+```bash
+uv sync --locked --no-dev
+uv run --locked --no-sync python scripts/verify_environment.py
+```
+
+The dependency-only smoke test checks exact versions and the required OpenCV ECC, scikit-image HOG, StandardScaler, and One-Class SVM API paths using synthetic arrays. Passing it is not an algorithm result, dataset result, performance result, or acceptance-gate result. Package and bundled-binary license boundaries are documented in [the dependency inventory](docs/dependencies-and-licenses.md).
+
 ## Non-goals
 
 v0.1 does not attempt to provide:
@@ -151,4 +164,4 @@ The repository currently contains design documents only:
 - [Runtime dependencies and license boundaries](docs/dependencies-and-licenses.md)
 - [Evaluation plan](docs/evaluation-plan.md)
 
-The direct runtime baseline is preregistered but has not been installed or smoke-tested. The transitive dependency lock, implementation, tests, data acquisition, experiments, result figures, failure analysis, and final decision have not started.
+The runtime baseline and complete dependency lock are committed, and the bounded environment smoke test passes on the recorded Linux x86-64 environment. Algorithm implementation, evaluation tests, data acquisition, experiments, result figures, failure analysis, and the final decision have not started.
