@@ -10,13 +10,19 @@ The values below are fixed for the first valid final-test run. They must not be 
 
 Both methods use the same deterministic input conversion:
 
-1. Decode the image as 8-bit grayscale.
+1. Decode the image as 8-bit grayscale while ignoring orientation metadata and
+   preserving the encoded pixel-array order.
 2. Reject an input that cannot be decoded into a non-empty two-dimensional array.
 3. Resize directly to `512 x 512` pixels with area interpolation.
 4. Convert to `float32` and divide by `255.0`.
 5. Reject the result if its shape is not exactly `(512, 512)` or if any value is non-finite.
 
 No aspect-ratio preservation, crop, histogram equalization, contrast normalization, denoising, augmentation, or color feature is used in v0.1.
+
+The orientation rule is fixed before implementation and before any VisA image
+content is decoded. It maps to OpenCV `IMREAD_GRAYSCALE |
+IMREAD_IGNORE_ORIENTATION` and prevents library-default metadata handling from
+changing the input array.
 
 Direct square resizing is a deliberate CPU and reproducibility tradeoff. It can distort geometry and suppress small anomalies; that limitation must remain in the final report.
 
@@ -177,6 +183,15 @@ The 12 contributing patch positions may be recorded for diagnosis, but they are 
 
 An image-level preprocessing, registration, feature, transform, or scoring failure must not be dropped or retried with different parameters.
 
+Shared preprocessing uses these stable failure codes:
+
+- `IMAGE_NOT_FOUND`
+- `IMAGE_READ_FAILED`
+- `IMAGE_DECODE_FAILED`
+- `INVALID_DECODED_IMAGE`
+- `IMAGE_RESIZE_FAILED`
+- `INVALID_PREPROCESSED_IMAGE`
+
 | Method | Fixed finite failure score |
 | --- | --- |
 | ECC residual | `1.0` |
@@ -217,6 +232,8 @@ Calibration must not change preprocessing, registration limits, template fitting
 
 ## Sources
 
+- OpenCV image decoding and orientation flags:
+  <https://docs.opencv.org/4.x/d4/da8/group__imgcodecs.html>
 - OpenCV `findTransformECC`:
   <https://docs.opencv.org/4.x/dc/d6b/group__video__track.html>
 - scikit-image `hog`:

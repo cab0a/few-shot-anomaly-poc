@@ -2,9 +2,12 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 1 data foundation**
+> **Status: Milestone 2 preprocessing foundation**
 >
-> The v0.1 problem, method shortlist, evaluation protocol, and decision gates are fixed. The reproducible data-acquisition and partition-manifest tooling is implemented. No algorithm, dataset result, benchmark, or decision is reported.
+> The v0.1 problem, method shortlist, evaluation protocol, and decision gates
+> are fixed. Reproducible data handling and deterministic shared image
+> preprocessing are implemented. No anomaly method, dataset result, benchmark,
+> or decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -173,6 +176,21 @@ class labels and pixel-mask paths. Neither command opens, displays, scores, or
 summarizes image content. See [the data preparation guide](data/README.md) for
 the exact boundary and provenance fields.
 
+## Shared input preprocessing
+
+Both shortlisted methods use one fixed implementation that:
+
+- decodes an image as 8-bit grayscale while ignoring orientation metadata
+- rejects missing, unreadable, empty, undecodable, or structurally invalid input
+- resizes directly to `512 x 512` with area interpolation
+- converts to `float32` and divides by `255.0`
+- rejects an unexpected shape, dtype, or non-finite output
+
+Failures carry stable codes for later score records. The implementation does
+not retry, repair, normalize, crop, preserve aspect ratio, or convert a failure
+into a method score. Tests use generated arrays and temporary synthetic image
+files; no VisA image is read by the test suite.
+
 ## Non-goals
 
 v0.1 does not attempt to provide:
@@ -190,8 +208,8 @@ v0.1 does not attempt to provide:
 
 ## Current Project Stage
 
-The repository contains preregistered design documents and the Milestone 1 data
-foundation:
+The repository contains preregistered design documents, the Milestone 1 data
+foundation, and deterministic shared preprocessing:
 
 - [Problem and requirements](docs/problem-and-requirements.md)
 - [Research and method selection](docs/research-and-method-selection.md)
@@ -203,5 +221,6 @@ foundation:
 
 The runtime baseline is locked, while split pinning, safe acquisition, archive
 provenance, safe extraction, deterministic manifests, integrity tests, linting,
-and CI are implemented. The repository still contains no VisA image, algorithm
-implementation, experiment, result figure, failure analysis, or final decision.
+CI, and shared image preprocessing are implemented. The repository still
+contains no VisA image, anomaly-method implementation, experiment, result
+figure, failure analysis, or final decision.

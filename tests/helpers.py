@@ -77,6 +77,14 @@ def create_config(
             "procedure_version": "sha256-path-ranking-v1",
             "namespace": "few-shot-anomaly-poc:v0.1",
         },
+        "preprocessing": {
+            "decode_mode": "grayscale_uint8_ignore_orientation",
+            "output_height": 512,
+            "output_width": 512,
+            "resize_interpolation": "area",
+            "output_dtype": "float32",
+            "scale_divisor": 255.0,
+        },
         "paths": {
             "archive": "data/external/archives/VisA_20220922.tar",
             "archive_provenance": "data/provenance/visa-archive.json",

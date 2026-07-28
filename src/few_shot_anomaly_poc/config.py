@@ -39,6 +39,16 @@ class SelectionConfig:
 
 
 @dataclass(frozen=True)
+class PreprocessingConfig:
+    decode_mode: str
+    output_height: int
+    output_width: int
+    resize_interpolation: str
+    output_dtype: str
+    scale_divisor: float
+
+
+@dataclass(frozen=True)
 class ProjectPaths:
     archive: Path
     archive_provenance: Path
@@ -58,6 +68,7 @@ class ProjectConfig:
     archive: ArchiveConfig
     split: SplitConfig
     selection: SelectionConfig
+    preprocessing: PreprocessingConfig
     paths: ProjectPaths
     project_root: Path
 
@@ -113,6 +124,7 @@ def load_config(config_path: Path) -> ProjectConfig:
     archive_raw = _mapping(dataset.get("archive"), "dataset.archive")
     split_raw = _mapping(dataset.get("split"), "dataset.split")
     selection_raw = _mapping(root.get("selection"), "selection")
+    preprocessing_raw = _mapping(root.get("preprocessing"), "preprocessing")
     paths_raw = _mapping(root.get("paths"), "paths")
     project_root = resolved_config.parent.parent.resolve()
 
@@ -134,6 +146,37 @@ def load_config(config_path: Path) -> ProjectConfig:
         raise ConfigurationError("selection.reference_count must be positive")
     if not isinstance(seed, int) or isinstance(seed, bool):
         raise ConfigurationError("selection.seed must be an integer")
+
+    decode_mode = _string(preprocessing_raw, "decode_mode", "preprocessing")
+    output_height = preprocessing_raw.get("output_height")
+    output_width = preprocessing_raw.get("output_width")
+    resize_interpolation = _string(
+        preprocessing_raw,
+        "resize_interpolation",
+        "preprocessing",
+    )
+    output_dtype = _string(preprocessing_raw, "output_dtype", "preprocessing")
+    scale_divisor = preprocessing_raw.get("scale_divisor")
+    if decode_mode != "grayscale_uint8_ignore_orientation":
+        raise ConfigurationError("preprocessing.decode_mode must remain preregistered")
+    if (
+        not isinstance(output_height, int)
+        or isinstance(output_height, bool)
+        or output_height != 512
+    ):
+        raise ConfigurationError("preprocessing.output_height must remain 512")
+    if not isinstance(output_width, int) or isinstance(output_width, bool) or output_width != 512:
+        raise ConfigurationError("preprocessing.output_width must remain 512")
+    if resize_interpolation != "area":
+        raise ConfigurationError("preprocessing.resize_interpolation must remain area")
+    if output_dtype != "float32":
+        raise ConfigurationError("preprocessing.output_dtype must remain float32")
+    if (
+        not isinstance(scale_divisor, (int, float))
+        or isinstance(scale_divisor, bool)
+        or float(scale_divisor) != 255.0
+    ):
+        raise ConfigurationError("preprocessing.scale_divisor must remain 255.0")
 
     path_values = {
         key: _project_path(
@@ -185,6 +228,14 @@ def load_config(config_path: Path) -> ProjectConfig:
                 "selection",
             ),
             namespace=_string(selection_raw, "namespace", "selection"),
+        ),
+        preprocessing=PreprocessingConfig(
+            decode_mode=decode_mode,
+            output_height=output_height,
+            output_width=output_width,
+            resize_interpolation=resize_interpolation,
+            output_dtype=output_dtype,
+            scale_divisor=float(scale_divisor),
         ),
         paths=ProjectPaths(**path_values),
         project_root=project_root,
