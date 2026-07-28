@@ -167,6 +167,12 @@ The first deferred question is:
 
 That question is not answered in v0.1.
 
+## Licensing Boundary
+
+This repository is a source-available, noncommercially licensed public portfolio project. The PolyForm Noncommercial License 1.0.0 applies only to original project code and documentation. Commercial use of those original materials requires a separate written license from the copyright holder.
+
+VisA remains separately licensed under CC BY 4.0, and this repository does not impose additional restrictions on VisA data. Third-party dependencies and model assets remain governed by their respective licenses. Dependency-license descriptions in the longlist do not replace, modify, or extend those licenses.
+
 ## Sources and License References
 
 - VisA official project and dataset notice:

@@ -6,6 +6,8 @@ Evaluate whether two CPU-only, normal-only visual anomaly detection methods just
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates are being fixed before implementation. No dataset has been downloaded, no algorithm has been implemented, and no result or decision is reported yet.
 
+This is a source-available, noncommercially licensed public portfolio project.
+
 ## Problem
 
 This repository is a public, hypothetical case study. It does not describe a real company, customer, production system, or private dataset.
@@ -101,6 +103,28 @@ Repository policy for v0.1 is stricter than the license permits:
 - The official archive version, source URL, and checksum will be recorded after the authorized data-acquisition milestone.
 - Any future result figure containing a VisA image must identify the VisA dataset, cite Zou et al., retain the Amazon copyright notice, link the official source and CC BY 4.0 license, and describe crops, resizing, annotations, or other changes.
 - No VisA image or derived result image exists in this repository at the current stage.
+
+## License and permitted use
+
+This repository is source-available under the PolyForm Noncommercial License 1.0.0.
+
+You may use, study, modify, and experiment with the original code and documentation only for permitted noncommercial purposes under that license.
+
+Commercial use is not permitted without a separate written license from the copyright holder.
+
+Commercial use includes, but is not limited to:
+
+- incorporation into a paid product or service
+- use in commercial client deliverables
+- deployment in a revenue-generating system
+- internal business use intended to support commercial operations
+- resale, sublicensing, or paid redistribution
+
+For commercial licensing inquiries, contact the copyright holder.
+
+See [`LICENSE`](LICENSE) for the controlling terms. This section is an informational summary and does not replace or override the license text. If this section conflicts with the PolyForm Noncommercial License 1.0.0, the terms in `LICENSE` control.
+
+VisA and third-party dependencies are not licensed under PolyForm. Their separate licensing boundaries are recorded in [`NOTICE.md`](NOTICE.md).
 
 ## Non-goals
 

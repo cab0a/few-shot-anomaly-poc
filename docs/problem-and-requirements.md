@@ -49,6 +49,9 @@ The answer may be negative. A reproducible rejection with documented failure con
 - Use no more than 20 normal reference images.
 - Use CPU execution only for the reported latency result.
 - Keep raw VisA data outside Git.
+- License original project code and documentation under the PolyForm Noncommercial License 1.0.0.
+- Require a separate written agreement from the copyright holder for commercial use of original project code or documentation.
+- Keep VisA and third-party dependencies under their respective licenses; the project's PolyForm license does not apply to them.
 
 ### Data and leakage control
 
@@ -160,7 +163,7 @@ CPU latency depends on hardware, thread settings, image decoding policy, image s
 
 ### License and provenance risk
 
-CC BY 4.0 permits reuse but requires attribution and change disclosure. Dataset-derived figures can become noncompliant if source, authors, license, or modifications are omitted.
+This is a source-available, noncommercially licensed public portfolio project. Its original code and documentation are licensed under the PolyForm Noncommercial License 1.0.0. VisA remains separately licensed under CC BY 4.0, and dependencies remain under their respective licenses. The project must not impose PolyForm restrictions on VisA or replace dependency terms. Dataset-derived figures can become noncompliant if source, authors, license, or modifications are omitted.
 
 ### Decision risk
 

@@ -19,6 +19,12 @@ The official sources are:
 
 No data has been downloaded at the current project stage. Raw VisA data will remain outside Git.
 
+## Licensing Boundary
+
+Original project code and documentation are source-available under the PolyForm Noncommercial License 1.0.0. Commercial use of those original materials requires a separate written license from the copyright holder.
+
+VisA data and VisA content reproduced in future evaluation artifacts remain separately licensed under CC BY 4.0. The PolyForm license does not apply to VisA, and this repository must not impose additional restrictions on VisA data. Third-party dependencies remain governed by their respective licenses.
+
 ## Dataset Split
 
 The official VisA one-class split will define the initial train and test boundary.
