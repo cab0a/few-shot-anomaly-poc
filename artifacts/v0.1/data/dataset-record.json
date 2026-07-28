@@ -1,0 +1,60 @@
+{
+  "access_date": "2026-07-28",
+  "archive": {
+    "checksum_note": "No independently published upstream SHA-256 was found; this digest identifies the acquired artifact but is not an upstream checksum assertion.",
+    "checksum_status": "observed_only",
+    "content_length_bytes": 1929840640,
+    "etag_note": "The hyphenated S3 multipart ETag is recorded as metadata and is not treated as an MD5 checksum.",
+    "http_etag": "05c830591a1172938cb714895c9e0cfb-113",
+    "http_last_modified": "2022-09-22T19:23:39Z",
+    "identifier": "VisA_20220922.tar",
+    "observed_sha256": "2eb8690c803ab37de0324772964100169ec8ba1fa3f7e94291c9ca673f40f362",
+    "raw_data_committed_to_git": false,
+    "tar_entry_count": 12122,
+    "url": "https://amazon-visual-anomaly.s3.us-west-2.amazonaws.com/VisA_20220922.tar"
+  },
+  "dataset": {
+    "category": "pcb1",
+    "citation": "Zou et al., SPot-the-Difference Self-Supervised Pre-training for Anomaly Detection and Segmentation, 2022",
+    "license": "CC BY 4.0",
+    "name": "Visual Anomaly (VisA)",
+    "official_project": "https://github.com/amazon-science/spot-diff",
+    "official_registry": "https://registry.opendata.aws/visa/"
+  },
+  "official_split": {
+    "path": "split_csv/1cls.csv",
+    "repository": "https://github.com/amazon-science/spot-diff",
+    "revision": "2a692ab575001cbde74d402d897a7286086c6199",
+    "sha256": "a48557e6033318cb90556f706196bc9d247a776a23ea51aecee5a80dd0332995"
+  },
+  "partition": {
+    "calibration_count": 884,
+    "final_test_source": "The pinned official test split; individual test records are intentionally not copied into this normal-only partition manifest.",
+    "manifest_file": "pcb1-normal-partitions.csv",
+    "manifest_sha256": "953478e04c20d74cc1994022e4a757388123b4db4020a10898fcee74b1a192a7",
+    "reference_count": 20,
+    "seed": 42,
+    "selection_namespace": "few-shot-anomaly-poc:v0.1",
+    "selection_procedure": "SHA-256 of <namespace>:<seed>:<POSIX relative path>, sorted by digest then path"
+  },
+  "pcb1_structure": {
+    "anomaly_images": 100,
+    "anomaly_masks": 100,
+    "extra_images_outside_split": 0,
+    "image_annotation_sha256": "e41a1595f07a33fcd97e978e991d324e4ff7e0c201f965368d2c2d7860a0cdf4",
+    "missing_anomaly_masks": 0,
+    "missing_split_images": 0,
+    "normal_images": 1004,
+    "official_test_anomaly": 100,
+    "official_test_normal": 100,
+    "official_train_normal": 904
+  },
+  "record_type": "dataset_acquisition_and_partition",
+  "schema_version": 1,
+  "verification_boundary": {
+    "anomaly_score_computed": false,
+    "final_test_used_for_selection": false,
+    "image_content_decoded": false,
+    "image_content_displayed": false
+  }
+}
