@@ -2,9 +2,9 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Design and preregistration**
+> **Status: Milestone 1 data foundation**
 >
-> The v0.1 problem, method shortlist, evaluation protocol, and decision gates are being fixed before implementation. No dataset has been downloaded, no algorithm has been implemented, and no result or decision is reported yet.
+> The v0.1 problem, method shortlist, evaluation protocol, and decision gates are fixed. The reproducible data-acquisition and partition-manifest tooling is implemented. No algorithm, dataset result, benchmark, or decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -100,7 +100,9 @@ CC BY 4.0 permits sharing and adaptation, including public display, when its con
 Repository policy for v0.1 is stricter than the license permits:
 
 - Raw VisA files will not be committed to Git.
-- The official archive version, source URL, and checksum will be recorded after the authorized data-acquisition milestone.
+- The official archive version, source URL, and observed checksum are fixed in [the acquisition record](docs/data-acquisition-record.md).
+- The official one-class split is pinned to repository revision `2a692ab575001cbde74d402d897a7286086c6199` and SHA-256 `a48557e6033318cb90556f706196bc9d247a776a23ea51aecee5a80dd0332995`.
+- The fixed 20-image reference and 884-image calibration partitions are recorded in [a metadata-only manifest](artifacts/v0.1/data/pcb1-normal-partitions.csv).
 - Any future result figure containing a VisA image must identify the VisA dataset, cite Zou et al., retain the Amazon copyright notice, link the official source and CC BY 4.0 license, and describe crops, resizing, annotations, or other changes.
 - No VisA image or derived result image exists in this repository at the current stage.
 
@@ -128,7 +130,9 @@ VisA and third-party dependencies are not licensed under PolyForm. Their separat
 
 ## Reproducible environment
 
-The v0.1 runtime uses CPython `3.13.14` and 14 locked package distributions. Exact versions, source artifacts, and SHA-256 hashes are recorded in `uv.lock`.
+The v0.1 runtime uses CPython `3.13.14`. Exact runtime and development
+distributions, source artifacts, and SHA-256 hashes are recorded in `uv.lock`;
+the build-backend version is pinned in `pyproject.toml`.
 
 With [`uv`](https://docs.astral.sh/uv/) installed:
 
@@ -138,6 +142,36 @@ uv run --locked --no-sync python scripts/verify_environment.py
 ```
 
 The dependency-only smoke test checks exact versions and the required OpenCV ECC, scikit-image HOG, StandardScaler, and One-Class SVM API paths using synthetic arrays. Passing it is not an algorithm result, dataset result, performance result, or acceptance-gate result. Package and bundled-binary license boundaries are documented in [the dependency inventory](docs/dependencies-and-licenses.md).
+
+## Reproducible data foundation
+
+Milestone 1 adds a small Python package and the `few-shot-data` command. Its data
+path uses only the Python standard library; the existing numerical dependencies
+remain reserved for later preregistered algorithm work.
+
+Run the workflow inside Ubuntu 24.04 on WSL:
+
+```bash
+uv sync --locked
+uv run --locked --no-sync few-shot-data fetch-split
+uv run --locked --no-sync few-shot-data download-archive
+uv run --locked --no-sync few-shot-data extract-archive
+uv run --locked --no-sync few-shot-data build-manifests
+uv run --locked --no-sync few-shot-data validate-manifests
+```
+
+The archive downloader streams to a temporary file and records provenance. The
+tar extractor validates every archive member, rejects unsafe paths and
+non-regular content before writing, and extracts only the `pcb1/` subtree.
+Manifest generation applies the fixed SHA-256 path ranking from the evaluation
+plan and verifies that reference, calibration, and final-test paths do not
+overlap.
+
+Final-test handling is metadata-only in this milestone. The generator reads the
+pinned official CSV but receives no dataset root, and final-test records omit
+class labels and pixel-mask paths. Neither command opens, displays, scores, or
+summarizes image content. See [the data preparation guide](data/README.md) for
+the exact boundary and provenance fields.
 
 ## Non-goals
 
@@ -156,12 +190,18 @@ v0.1 does not attempt to provide:
 
 ## Current Project Stage
 
-The repository currently contains design documents only:
+The repository contains preregistered design documents and the Milestone 1 data
+foundation:
 
 - [Problem and requirements](docs/problem-and-requirements.md)
 - [Research and method selection](docs/research-and-method-selection.md)
 - [v0.1 method specification](docs/method-specification.md)
 - [Runtime dependencies and license boundaries](docs/dependencies-and-licenses.md)
 - [Evaluation plan](docs/evaluation-plan.md)
+- [VisA `pcb1` acquisition and partition record](docs/data-acquisition-record.md)
+- [Data preparation and final-test boundary](data/README.md)
 
-The runtime baseline and complete dependency lock are committed, and the bounded environment smoke test passes on the recorded Linux x86-64 environment. Algorithm implementation, evaluation tests, data acquisition, experiments, result figures, failure analysis, and the final decision have not started.
+The runtime baseline is locked, while split pinning, safe acquisition, archive
+provenance, safe extraction, deterministic manifests, integrity tests, linting,
+and CI are implemented. The repository still contains no VisA image, algorithm
+implementation, experiment, result figure, failure analysis, or final decision.

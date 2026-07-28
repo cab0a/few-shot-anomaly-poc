@@ -12,7 +12,6 @@ from skimage.feature import hog
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import OneClassSVM
 
-
 EXPECTED_PYTHON = "3.13.14"
 EXPECTED_DISTRIBUTIONS = {
     "numpy": "2.5.1",

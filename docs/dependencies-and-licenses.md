@@ -44,23 +44,47 @@ Only the four packages in `pyproject.toml` are selected as direct package depend
 
 A top-level or transitive dependency change after that lock is committed requires a documented reason and a new environment record. No dependency may be changed in response to final-test performance.
 
+## Build and Development Tools
+
+The data-foundation milestone adds no runtime package dependency. Its own data
+path uses the Python standard library.
+
+The separately scoped build and development tools are:
+
+| Distribution | Fixed version | Scope | Published license |
+| --- | --- | --- | --- |
+| Hatchling | `1.31.0` | PEP 517 build backend | MIT |
+| pytest | `9.1.1` | Test runner | MIT |
+| Ruff | `0.16.0` | Linting | MIT |
+
+Hatchling is pinned in `pyproject.toml`. pytest and Ruff are direct development
+dependencies and are recorded with their resolved distributions in `uv.lock`.
+They are not runtime dependencies, are not vendored, and remain under their own
+licenses.
+
 ## Resolved Distribution Inventory
 
 The following table covers every package resolved by `uv.lock`. "Direct" means declared in `pyproject.toml`; "transitive" means introduced by a direct dependency.
 
 | Distribution | Version | Role | Published or installed license evidence |
 | --- | --- | --- | --- |
+| [Colorama](https://pypi.org/project/colorama/0.4.6/) | `0.4.6` | Development, conditional transitive dependency | BSD-3-Clause |
 | [NumPy](https://pypi.org/project/numpy/2.5.1/) | `2.5.1` | Direct | `BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0` |
 | [`opencv-python-headless`](https://pypi.org/project/opencv-python-headless/4.13.0.92/) | `4.13.0.92` | Direct | Packaging scripts: MIT; OpenCV: Apache-2.0; installed wheel: separate third-party notices including FFmpeg under LGPL-2.1 |
 | [scikit-image](https://pypi.org/project/scikit-image/0.26.0/) | `0.26.0` | Direct | BSD-3-Clause main terms with identified BSD-2-Clause and MIT components |
 | [scikit-learn](https://pypi.org/project/scikit-learn/1.9.0/) | `1.9.0` | Direct | BSD-3-Clause |
 | [ImageIO](https://pypi.org/project/imageio/2.37.4/) | `2.37.4` | Transitive | BSD-2-Clause |
+| [iniconfig](https://pypi.org/project/iniconfig/2.3.0/) | `2.3.0` | Development, transitive | MIT |
 | [joblib](https://pypi.org/project/joblib/1.5.3/) | `1.5.3` | Transitive | BSD-3-Clause |
 | [lazy-loader](https://pypi.org/project/lazy-loader/0.5/) | `0.5` | Transitive | BSD-3-Clause |
 | [Narwhals](https://pypi.org/project/narwhals/2.24.0/) | `2.24.0` | Transitive | MIT |
 | [NetworkX](https://pypi.org/project/networkx/3.6.1/) | `3.6.1` | Transitive | BSD-3-Clause |
 | [packaging](https://pypi.org/project/packaging/26.2/) | `26.2` | Transitive | Apache-2.0 OR BSD-2-Clause |
 | [Pillow](https://pypi.org/project/pillow/12.3.0/) | `12.3.0` | Transitive | MIT-CMU |
+| [pluggy](https://pypi.org/project/pluggy/1.6.0/) | `1.6.0` | Development, transitive | MIT |
+| [Pygments](https://pypi.org/project/pygments/2.20.0/) | `2.20.0` | Development, transitive | BSD-2-Clause |
+| [pytest](https://pypi.org/project/pytest/9.1.1/) | `9.1.1` | Development, direct | MIT |
+| [Ruff](https://pypi.org/project/ruff/0.16.0/) | `0.16.0` | Development, direct | MIT |
 | [SciPy](https://pypi.org/project/scipy/1.18.0/) | `1.18.0` | Transitive | BSD-3-Clause main terms; the installed Linux wheel also notices OpenBLAS under BSD-3-Clause, LAPACK under BSD-3-Clause-Open-MPI, GCC runtime libraries under GPL-3.0-or-later WITH GCC-exception-3.1, and libquadmath under LGPL-2.1-or-later |
 | [threadpoolctl](https://pypi.org/project/threadpoolctl/3.6.0/) | `3.6.0` | Transitive | BSD-3-Clause |
 | [tifffile](https://pypi.org/project/tifffile/2026.7.14/) | `2026.7.14` | Transitive | BSD-3-Clause |
@@ -124,5 +148,11 @@ The check passed. This establishes only that the selected environment imports an
   <https://docs.astral.sh/uv/>
 - uv license:
   <https://github.com/astral-sh/uv#license>
+- Hatchling 1.31.0 distribution:
+  <https://pypi.org/project/hatchling/1.31.0/>
+- pytest 9.1.1 distribution:
+  <https://pypi.org/project/pytest/9.1.1/>
+- Ruff 0.16.0 distribution:
+  <https://pypi.org/project/ruff/0.16.0/>
 
 This is a technical license inventory, not legal advice. The controlling texts are the licenses distributed with each exact component.

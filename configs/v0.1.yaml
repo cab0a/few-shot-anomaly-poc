@@ -1,0 +1,35 @@
+{
+  "schema_version": "v0.1",
+  "dataset": {
+    "name": "VisA",
+    "category": "pcb1",
+    "license": "CC BY 4.0",
+    "archive": {
+      "identifier": "VisA_20220922.tar",
+      "url": "https://amazon-visual-anomaly.s3.us-west-2.amazonaws.com/VisA_20220922.tar",
+      "expected_sha256": null
+    },
+    "split": {
+      "repository": "https://github.com/amazon-science/spot-diff",
+      "revision": "2a692ab575001cbde74d402d897a7286086c6199",
+      "path": "split_csv/1cls.csv",
+      "url": "https://raw.githubusercontent.com/amazon-science/spot-diff/2a692ab575001cbde74d402d897a7286086c6199/split_csv/1cls.csv",
+      "sha256": "a48557e6033318cb90556f706196bc9d247a776a23ea51aecee5a80dd0332995"
+    }
+  },
+  "selection": {
+    "reference_count": 20,
+    "seed": 42,
+    "procedure_version": "sha256-path-ranking-v1",
+    "namespace": "few-shot-anomaly-poc:v0.1"
+  },
+  "paths": {
+    "archive": "data/external/archives/VisA_20220922.tar",
+    "archive_provenance": "data/provenance/visa-archive.json",
+    "extracted": "data/external/visa",
+    "extraction_provenance": "data/provenance/visa-extraction.json",
+    "split_csv": "data/external/splits/visa-1cls.csv",
+    "split_provenance": "data/provenance/visa-split.json",
+    "manifest_dir": "data/manifests/v0.1"
+  }
+}

@@ -17,7 +17,10 @@ The official sources are:
 - Official archive identifier: `VisA_20220922.tar`
 - Dataset license: CC BY 4.0
 
-No data has been downloaded at the current project stage. Raw VisA data will remain outside Git.
+The official archive was acquired outside Git on 2026-07-28. Its source,
+observed identity, license boundary, and metadata-only structure checks are
+recorded in [the acquisition record](data-acquisition-record.md). Raw VisA data
+remains outside Git.
 
 ## Licensing Boundary
 
@@ -63,7 +66,12 @@ Reference selection will use a version-independent deterministic ranking:
 
 The selected reference IDs, calibration IDs, official split source, archive checksum, and selection-procedure version must be committed before final-test scoring begins.
 
-The actual IDs are not listed yet because this milestone explicitly excludes data acquisition.
+The fixed 20-image reference partition and 884-image calibration partition are
+listed in
+[`artifacts/v0.1/data/pcb1-normal-partitions.csv`](../artifacts/v0.1/data/pcb1-normal-partitions.csv).
+Their acquisition context, selection procedure, and manifest checksum are
+recorded in [the acquisition record](data-acquisition-record.md). The final-test
+paths and class labels are not copied into that normal-only partition artifact.
 
 ## Method Fitting Boundary
 
