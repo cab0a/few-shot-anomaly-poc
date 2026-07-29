@@ -118,6 +118,22 @@ threshold result and uses one of:
 - `CALIBRATION_SCORE_RECORD_INVALID`
 - `CALIBRATION_RESULT_INVALID`
 
+The fixed-threshold classification primitive accepts one relative path, one
+concrete method score, and one successful calibration result. It does not
+accept a method override, threshold override, or observed class label. The
+method and threshold come only from the validated calibration result.
+
+A successful classification record contains the method, input score status,
+source scoring failure code when present, threshold and its calibration source,
+predicted class, decision reason, and signed `score - threshold` margin.
+Invalid input produces no partial class decision and uses one of:
+
+- `CLASSIFICATION_PATH_INVALID`
+- `CLASSIFICATION_CALIBRATION_INVALID`
+- `CLASSIFICATION_SCORE_TYPE_MISMATCH`
+- `CLASSIFICATION_SCORE_RECORD_INVALID`
+- `CLASSIFICATION_RESULT_INVALID`
+
 No anomaly image and no final-test image may influence this threshold.
 
 The threshold remains fixed during final-test evaluation, even if the realized final-test normal false-positive rate exceeds 5%.

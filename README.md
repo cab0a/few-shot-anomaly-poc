@@ -2,7 +2,7 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 10 normal-only threshold calibration primitive**
+> **Status: Milestone 11 fixed-threshold image classification primitive**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
@@ -10,9 +10,9 @@ Evaluate whether two CPU-only, normal-only visual anomaly detection methods just
 > primitive, deterministic normal-template fitting, and fixed residual image
 > scoring. Fixed Patch HOG feature extraction and position-wise StandardScaler
 > fitting, One-Class SVM fitting, and image scoring are also implemented,
-> together with method-specific normal-only threshold calibration. No
-> dataset-derived threshold, dataset result, benchmark, method comparison, or
-> decision is reported.
+> together with method-specific normal-only threshold calibration and
+> label-free fixed-threshold classification. No dataset-derived threshold,
+> dataset result, benchmark, method comparison, or decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -365,6 +365,30 @@ sample count of 884. This component does not load the calibration manifest,
 score dataset images, inspect final-test data, select a method, apply acceptance
 gates, or report a dataset-derived threshold.
 
+## Fixed-threshold image classification
+
+The evaluation foundation now includes a single-score classification primitive
+that:
+
+- requires a complete, internally consistent successful calibration result
+- inherits the method and threshold from that result instead of accepting a
+  second method or threshold argument
+- rejects an ECC score paired with a Patch HOG calibration result, and vice
+  versa
+- exposes no observed class-label input
+- classifies `score_status=failed` as `anomalous` regardless of the numeric
+  comparison
+- classifies a successful score as `anomalous` only when
+  `score > threshold`; equality remains `normal`
+- records the source path, method, score status, source failure code, threshold
+  provenance, predicted class, decision reason, and signed score margin
+- produces no partial decision after an invalid path, calibration state, score
+  type, or score record
+
+Tests use generated calibration and score records only. This component does not
+load a partition, score an image, accept a ground-truth label, calculate an
+evaluation metric, inspect final-test data, or report a dataset prediction.
+
 ## Non-goals
 
 v0.1 does not attempt to provide:
@@ -386,7 +410,8 @@ The repository contains preregistered design documents, the data foundation,
 deterministic shared preprocessing, bounded ECC registration, deterministic ECC
 normal-template fitting, fixed ECC residual image scoring, and fixed Patch HOG
 feature extraction with position-wise reference scaling and One-Class SVM
-fitting and image scoring, plus normal-only threshold calibration:
+fitting and image scoring, plus normal-only threshold calibration and
+fixed-threshold classification:
 
 - [Problem and requirements](docs/problem-and-requirements.md)
 - [Research and method selection](docs/research-and-method-selection.md)
@@ -404,6 +429,7 @@ Position-wise Patch HOG StandardScaler fitting is also implemented. The
 position-wise One-Class SVM fitting and validation are implemented and tested
 with synthetic reference features. Fixed Patch HOG image scoring is implemented
 and tested with generated inputs. The normal-only threshold calibration rule is
-implemented and tested with generated score records. The repository still
-contains no VisA image, dataset-derived threshold, evaluation pipeline,
-experiment, result figure, failure analysis, or final decision.
+implemented and tested with generated score records. Fixed-threshold
+classification is also implemented and tested without observed labels. The
+repository still contains no VisA image, dataset-derived threshold, evaluation
+pipeline, experiment, result figure, failure analysis, or final decision.
