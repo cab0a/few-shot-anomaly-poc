@@ -2,37 +2,23 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: v0.1 public evaluation available — REJECT**
+> **Status: v0.1 complete — `REJECT`**
 >
-> The v0.1 problem, method shortlist, evaluation protocol, and decision gates
-> are fixed. Reproducible data handling and deterministic shared image
-> preprocessing are implemented, together with the bounded ECC registration
-> primitive, deterministic normal-template fitting, and fixed residual image
-> scoring. Fixed Patch HOG feature extraction and position-wise StandardScaler
-> fitting, One-Class SVM fitting, and image scoring are also implemented,
-> together with method-specific normal-only threshold calibration and
-> label-free fixed-threshold single-image and batch classification. A strict
-> final-test label reveal boundary and fixed image-level metric calculation are
-> also implemented, together with the preregistered CPU latency measurement
-> protocol, mechanical fixed-threshold failure-case selection, and the fixed
-> per-method hard-gate decision. The versioned JSON/CSV evaluation artifact
-> contract is also fixed, and a deterministic synthetic-record pipeline
-> connects the complete evaluation boundary. The CI-verified evaluation source,
-> data selection, dependencies, rules, and artifact contract are now frozen
-> before final-test scoring. The fixed local VisA `pcb1` asset has also passed
-> archive, extraction, split-path, and byte-level integrity checks. The
-> normal-reference fitting and normal-only calibration run is complete. Both
-> methods were fitted from the fixed 20 references, and their thresholds were
-> fixed from the 884 normal calibration images. The first fixed final-test
-> scoring run is complete: both methods scored all 200 assets with zero score
-> failures, applied the fixed thresholds, and recorded the preregistered CPU
-> latency protocol. Official final-test classes were then joined once through
-> the fixed reveal boundary. Metrics, mechanical failure cases, and ordered
-> hard-gate outcomes are now preserved. Both v0.1 methods are `REJECT`; the
-> [public evaluation report](docs/v0.1-evaluation-report.md) documents the
-> negative result, limitations, and proposed next validation.
+> Both CPU-only, normal-only baselines failed the preregistered operating-point
+> gates on VisA `pcb1`. The thresholds and gates were not changed after the
+> result, and the negative outcome remains the project evidence.
 
 This is a source-available, noncommercially licensed public portfolio project.
+
+| Method | AUROC | Normal FPR | Anomaly recall | CPU p95 | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| ECC residual | `0.8141` | `0.09` | `0.21` | `1.2470 s` | `REJECT` |
+| Patch HOG + One-Class SVM | `0.7838` | `0.10` | `0.19` | `0.5658 s` | `REJECT` |
+
+Read the [public evaluation report](docs/v0.1-evaluation-report.md) for the
+complete metrics, hard-gate rationale, limitations, and next validation. The
+[completion review](docs/v0.1-completion-review.md) records reproducibility,
+content, licensing, CI, and public-claim checks.
 
 ## Problem
 
@@ -81,9 +67,9 @@ This method describes local appearance with Histogram of Oriented Gradients feat
 
 DINOv2 patch nearest-neighbor methods are not part of v0.1. They remain a v0.2 research candidate because their CPU cost, model-asset handling, and added implementation scope must be justified first.
 
-## Planned Evaluation
+## Evaluation Evidence
 
-The preregistered primary evidence is:
+The preregistered primary evidence is reported without changing the gates:
 
 - Image-level AUROC
 - Image-level AUPRC
@@ -788,6 +774,7 @@ mechanical failure-case selection, and the per-method hard-gate decision:
 - [VisA `pcb1` acquisition and partition record](docs/data-acquisition-record.md)
 - [v0.1 public evaluation report](docs/v0.1-evaluation-report.md)
 - [Final evaluation and decision record](docs/final-evaluation-and-decision.md)
+- [v0.1 completion review](docs/v0.1-completion-review.md)
 - [Data preparation and final-test boundary](data/README.md)
 
 The runtime baseline is locked, while split pinning, safe acquisition, archive
