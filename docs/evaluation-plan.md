@@ -134,6 +134,28 @@ Invalid input produces no partial class decision and uses one of:
 - `CLASSIFICATION_SCORE_RECORD_INVALID`
 - `CLASSIFICATION_RESULT_INVALID`
 
+The label-free batch classification primitive accepts one non-empty mapping
+from relative paths to concrete score records and one successful calibration
+result. It accepts no labels, method override, or threshold override. All paths
+are validated before classification, the calibration state is validated once,
+and paths are processed in Unicode code-point order. Every score must belong to
+the calibration method and satisfy the same record contract as single-image
+classification.
+
+A successful batch contains one decision for every input path, in the
+documented order, plus normal, anomalous, and scoring-failure counts and path
+groups. A scoring failure remains an anomalous decision. If any item or
+internally produced result is invalid, the batch returns no partial decision
+collection. It records the failed path when available, the number of valid
+decisions completed before that path, and the underlying classification
+failure code. Batch failures use one of:
+
+- `BATCH_CLASSIFICATION_EMPTY`
+- `BATCH_CLASSIFICATION_PATH_INVALID`
+- `BATCH_CLASSIFICATION_CALIBRATION_INVALID`
+- `BATCH_CLASSIFICATION_ITEM_FAILED`
+- `BATCH_CLASSIFICATION_RESULT_INVALID`
+
 No anomaly image and no final-test image may influence this threshold.
 
 The threshold remains fixed during final-test evaluation, even if the realized final-test normal false-positive rate exceeds 5%.

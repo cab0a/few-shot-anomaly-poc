@@ -2,7 +2,7 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 11 fixed-threshold image classification primitive**
+> **Status: Milestone 12 label-free batch classification primitive**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
@@ -11,8 +11,9 @@ Evaluate whether two CPU-only, normal-only visual anomaly detection methods just
 > scoring. Fixed Patch HOG feature extraction and position-wise StandardScaler
 > fitting, One-Class SVM fitting, and image scoring are also implemented,
 > together with method-specific normal-only threshold calibration and
-> label-free fixed-threshold classification. No dataset-derived threshold,
-> dataset result, benchmark, method comparison, or decision is reported.
+> label-free fixed-threshold single-image and batch classification. No
+> dataset-derived threshold, dataset result, benchmark, method comparison, or
+> decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -389,6 +390,30 @@ Tests use generated calibration and score records only. This component does not
 load a partition, score an image, accept a ground-truth label, calculate an
 evaluation metric, inspect final-test data, or report a dataset prediction.
 
+## Label-free batch classification
+
+The fixed-threshold boundary now also accepts a non-empty mapping from relative
+paths to score records from one shortlisted method and:
+
+- exposes no observed class-label input
+- validates every relative path before producing a decision
+- validates the shared calibration result once for the complete batch
+- processes paths in Unicode code-point order for deterministic output
+- applies the same method, score-record, failure-score, and strict-threshold
+  rules as the single-image primitive
+- returns the complete ordered decision tuple only when every input produces a
+  valid decision
+- returns no partial decision collection if an item or internally produced
+  result is invalid
+- records normal, anomalous, and scoring-failure counts and paths after a
+  successful batch
+- records the failed path, completed-item count, and underlying classification
+  failure code when a batch fails after processing starts
+
+Tests use generated calibration and score records only. This component does not
+load a manifest or image, reveal a ground-truth label, compute a metric, inspect
+final-test data, or report a dataset prediction.
+
 ## Non-goals
 
 v0.1 does not attempt to provide:
@@ -411,7 +436,7 @@ deterministic shared preprocessing, bounded ECC registration, deterministic ECC
 normal-template fitting, fixed ECC residual image scoring, and fixed Patch HOG
 feature extraction with position-wise reference scaling and One-Class SVM
 fitting and image scoring, plus normal-only threshold calibration and
-fixed-threshold classification:
+fixed-threshold single-image and batch classification:
 
 - [Problem and requirements](docs/problem-and-requirements.md)
 - [Research and method selection](docs/research-and-method-selection.md)
@@ -430,6 +455,7 @@ position-wise One-Class SVM fitting and validation are implemented and tested
 with synthetic reference features. Fixed Patch HOG image scoring is implemented
 and tested with generated inputs. The normal-only threshold calibration rule is
 implemented and tested with generated score records. Fixed-threshold
-classification is also implemented and tested without observed labels. The
-repository still contains no VisA image, dataset-derived threshold, evaluation
-pipeline, experiment, result figure, failure analysis, or final decision.
+single-image and batch classification is also implemented and tested without
+observed labels. The repository still contains no VisA image, dataset-derived
+threshold, evaluation pipeline, experiment, result figure, failure analysis,
+or final decision.

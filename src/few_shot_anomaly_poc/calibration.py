@@ -11,6 +11,7 @@ from typing import Literal
 from few_shot_anomaly_poc.config import ProjectConfig
 from few_shot_anomaly_poc.ecc_residual import ECCResidualScoreResult
 from few_shot_anomaly_poc.errors import (
+    BatchClassificationFailureCode,
     ThresholdCalibrationFailureCode,
     ThresholdClassificationFailureCode,
 )
@@ -80,6 +81,34 @@ class FixedThresholdClassificationResult:
     @property
     def succeeded(self) -> bool:
         """Return whether one fixed-threshold decision was produced."""
+        return self.status == "ok"
+
+
+@dataclass(frozen=True)
+class FixedThresholdBatchClassificationResult:
+    """A complete deterministic label-free classification batch."""
+
+    status: Literal["ok", "BATCH_CLASSIFICATION_FAILED"]
+    failure_code: BatchClassificationFailureCode | None
+    method: CalibrationMethod | None
+    item_count: int
+    successful_item_count: int
+    classifications: tuple[FixedThresholdClassificationResult, ...] | None
+    ordered_paths: tuple[str, ...]
+    threshold: float | None
+    threshold_source_path: str | None
+    normal_count: int | None
+    normal_paths: tuple[str, ...]
+    anomalous_count: int | None
+    anomalous_paths: tuple[str, ...]
+    score_failure_count: int | None
+    score_failure_paths: tuple[str, ...]
+    failed_path: str | None
+    item_failure_code: ThresholdClassificationFailureCode | None
+
+    @property
+    def succeeded(self) -> bool:
+        """Return whether every input score received a valid decision."""
         return self.status == "ok"
 
 
@@ -252,29 +281,13 @@ def _record_is_anomalous(
     return result.score_status == "failed" or result.anomaly_score > threshold
 
 
-def classify_fixed_threshold(
+def _classify_fixed_threshold_validated(
     relative_path: str,
     score_result: object,
     *,
     calibration: NormalThresholdCalibrationResult,
     config: ProjectConfig,
 ) -> FixedThresholdClassificationResult:
-    """Classify one score without accepting an observed class label."""
-    if not _relative_path_is_valid(relative_path):
-        return _classification_failed(
-            ThresholdClassificationFailureCode.CLASSIFICATION_PATH_INVALID,
-            calibration=calibration,
-            relative_path=relative_path,
-        )
-    if not normal_threshold_calibration_result_is_valid(
-        calibration,
-        config=config,
-    ):
-        return _classification_failed(
-            ThresholdClassificationFailureCode.CLASSIFICATION_CALIBRATION_INVALID,
-            calibration=calibration,
-            relative_path=relative_path,
-        )
     assert calibration.method is not None
     assert calibration.threshold is not None
     assert calibration.threshold_source_path is not None
@@ -335,6 +348,272 @@ def classify_fixed_threshold(
         is_anomalous=is_anomalous,
         decision_reason=decision_reason,
         score_margin=score_margin,
+    )
+
+
+def _classification_result_matches_inputs(
+    result: object,
+    *,
+    relative_path: str,
+    score_result: ECCResidualScoreResult | PatchHOGScoreResult,
+    calibration: NormalThresholdCalibrationResult,
+) -> bool:
+    if (
+        not isinstance(result, FixedThresholdClassificationResult)
+        or not result.succeeded
+        or result.failure_code is not None
+        or result.method is not calibration.method
+        or result.relative_path != relative_path
+        or result.score_status != score_result.score_status
+        or result.score_failure_code
+        != (str(score_result.failure_code) if score_result.failure_code is not None else None)
+        or result.anomaly_score != score_result.anomaly_score
+        or result.threshold != calibration.threshold
+        or result.threshold_source_path != calibration.threshold_source_path
+        or result.calibration_sample_count != calibration.sample_count
+        or result.calibration_rank != calibration.rank
+        or not isinstance(result.score_margin, float)
+        or not math.isfinite(result.score_margin)
+    ):
+        return False
+
+    assert calibration.threshold is not None
+    expected_margin = score_result.anomaly_score - calibration.threshold
+    expected_is_anomalous = _record_is_anomalous(
+        score_result,
+        threshold=calibration.threshold,
+    )
+    if score_result.score_status == "failed":
+        expected_reason: ClassificationDecisionReason = "score_failure"
+    elif expected_is_anomalous:
+        expected_reason = "score_above_threshold"
+    else:
+        expected_reason = "score_at_or_below_threshold"
+
+    return (
+        result.score_margin == expected_margin
+        and result.is_anomalous is expected_is_anomalous
+        and result.predicted_class == ("anomalous" if expected_is_anomalous else "normal")
+        and result.decision_reason == expected_reason
+    )
+
+
+def classify_fixed_threshold(
+    relative_path: str,
+    score_result: object,
+    *,
+    calibration: NormalThresholdCalibrationResult,
+    config: ProjectConfig,
+) -> FixedThresholdClassificationResult:
+    """Classify one score without accepting an observed class label."""
+    if not _relative_path_is_valid(relative_path):
+        return _classification_failed(
+            ThresholdClassificationFailureCode.CLASSIFICATION_PATH_INVALID,
+            calibration=calibration,
+            relative_path=relative_path,
+        )
+    if not normal_threshold_calibration_result_is_valid(
+        calibration,
+        config=config,
+    ):
+        return _classification_failed(
+            ThresholdClassificationFailureCode.CLASSIFICATION_CALIBRATION_INVALID,
+            calibration=calibration,
+            relative_path=relative_path,
+        )
+    return _classify_fixed_threshold_validated(
+        relative_path,
+        score_result,
+        calibration=calibration,
+        config=config,
+    )
+
+
+def _batch_failed(
+    code: BatchClassificationFailureCode,
+    *,
+    calibration: object,
+    item_count: int,
+    successful_item_count: int = 0,
+    failed_path: str | None = None,
+    item_failure_code: ThresholdClassificationFailureCode | None = None,
+) -> FixedThresholdBatchClassificationResult:
+    method = (
+        calibration.method
+        if (
+            isinstance(calibration, NormalThresholdCalibrationResult)
+            and isinstance(calibration.method, CalibrationMethod)
+        )
+        else None
+    )
+    return FixedThresholdBatchClassificationResult(
+        status="BATCH_CLASSIFICATION_FAILED",
+        failure_code=code,
+        method=method,
+        item_count=item_count,
+        successful_item_count=successful_item_count,
+        classifications=None,
+        ordered_paths=(),
+        threshold=None,
+        threshold_source_path=None,
+        normal_count=None,
+        normal_paths=(),
+        anomalous_count=None,
+        anomalous_paths=(),
+        score_failure_count=None,
+        score_failure_paths=(),
+        failed_path=failed_path,
+        item_failure_code=item_failure_code,
+    )
+
+
+def classify_fixed_threshold_batch(
+    score_results: Mapping[str, object],
+    *,
+    calibration: NormalThresholdCalibrationResult,
+    config: ProjectConfig,
+) -> FixedThresholdBatchClassificationResult:
+    """Classify every path without accepting labels or returning partial output."""
+    item_count = len(score_results)
+    if item_count == 0:
+        return _batch_failed(
+            BatchClassificationFailureCode.BATCH_CLASSIFICATION_EMPTY,
+            calibration=calibration,
+            item_count=0,
+        )
+    invalid_paths = tuple(path for path in score_results if not _relative_path_is_valid(path))
+    if invalid_paths:
+        invalid_string_paths = tuple(path for path in invalid_paths if isinstance(path, str))
+        failed_path = (
+            min(invalid_string_paths) if len(invalid_string_paths) == len(invalid_paths) else None
+        )
+        return _batch_failed(
+            BatchClassificationFailureCode.BATCH_CLASSIFICATION_PATH_INVALID,
+            calibration=calibration,
+            item_count=item_count,
+            failed_path=failed_path,
+            item_failure_code=(ThresholdClassificationFailureCode.CLASSIFICATION_PATH_INVALID),
+        )
+    if not normal_threshold_calibration_result_is_valid(
+        calibration,
+        config=config,
+    ):
+        return _batch_failed(
+            BatchClassificationFailureCode.BATCH_CLASSIFICATION_CALIBRATION_INVALID,
+            calibration=calibration,
+            item_count=item_count,
+            item_failure_code=(
+                ThresholdClassificationFailureCode.CLASSIFICATION_CALIBRATION_INVALID
+            ),
+        )
+    assert calibration.threshold is not None
+    assert calibration.threshold_source_path is not None
+
+    ordered_paths = tuple(sorted(score_results))
+    classifications = []
+    for path in ordered_paths:
+        item = _classify_fixed_threshold_validated(
+            path,
+            score_results[path],
+            calibration=calibration,
+            config=config,
+        )
+        if not isinstance(item, FixedThresholdClassificationResult):
+            return _batch_failed(
+                BatchClassificationFailureCode.BATCH_CLASSIFICATION_RESULT_INVALID,
+                calibration=calibration,
+                item_count=item_count,
+                successful_item_count=len(classifications),
+                failed_path=path,
+                item_failure_code=(
+                    ThresholdClassificationFailureCode.CLASSIFICATION_RESULT_INVALID
+                ),
+            )
+        if not item.succeeded:
+            if not isinstance(item.failure_code, ThresholdClassificationFailureCode):
+                return _batch_failed(
+                    BatchClassificationFailureCode.BATCH_CLASSIFICATION_RESULT_INVALID,
+                    calibration=calibration,
+                    item_count=item_count,
+                    successful_item_count=len(classifications),
+                    failed_path=path,
+                    item_failure_code=(
+                        ThresholdClassificationFailureCode.CLASSIFICATION_RESULT_INVALID
+                    ),
+                )
+            return _batch_failed(
+                BatchClassificationFailureCode.BATCH_CLASSIFICATION_ITEM_FAILED,
+                calibration=calibration,
+                item_count=item_count,
+                successful_item_count=len(classifications),
+                failed_path=path,
+                item_failure_code=item.failure_code,
+            )
+        score_result = score_results[path]
+        assert isinstance(score_result, (ECCResidualScoreResult, PatchHOGScoreResult))
+        if not _classification_result_matches_inputs(
+            item,
+            relative_path=path,
+            score_result=score_result,
+            calibration=calibration,
+        ):
+            return _batch_failed(
+                BatchClassificationFailureCode.BATCH_CLASSIFICATION_RESULT_INVALID,
+                calibration=calibration,
+                item_count=item_count,
+                successful_item_count=len(classifications),
+                failed_path=path,
+                item_failure_code=(
+                    ThresholdClassificationFailureCode.CLASSIFICATION_RESULT_INVALID
+                ),
+            )
+        classifications.append(item)
+
+    normal_paths = tuple(
+        item.relative_path
+        for item in classifications
+        if item.predicted_class == "normal" and item.relative_path is not None
+    )
+    anomalous_paths = tuple(
+        item.relative_path
+        for item in classifications
+        if item.predicted_class == "anomalous" and item.relative_path is not None
+    )
+    score_failure_paths = tuple(
+        item.relative_path
+        for item in classifications
+        if item.score_status == "failed" and item.relative_path is not None
+    )
+    if (
+        len(classifications) != item_count
+        or len(normal_paths) + len(anomalous_paths) != item_count
+        or not set(score_failure_paths).issubset(anomalous_paths)
+    ):
+        return _batch_failed(
+            BatchClassificationFailureCode.BATCH_CLASSIFICATION_RESULT_INVALID,
+            calibration=calibration,
+            item_count=item_count,
+            successful_item_count=len(classifications),
+        )
+
+    return FixedThresholdBatchClassificationResult(
+        status="ok",
+        failure_code=None,
+        method=calibration.method,
+        item_count=item_count,
+        successful_item_count=len(classifications),
+        classifications=tuple(classifications),
+        ordered_paths=ordered_paths,
+        threshold=calibration.threshold,
+        threshold_source_path=calibration.threshold_source_path,
+        normal_count=len(normal_paths),
+        normal_paths=normal_paths,
+        anomalous_count=len(anomalous_paths),
+        anomalous_paths=anomalous_paths,
+        score_failure_count=len(score_failure_paths),
+        score_failure_paths=score_failure_paths,
+        failed_path=None,
+        item_failure_code=None,
     )
 
 
