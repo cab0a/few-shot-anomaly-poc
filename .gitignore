@@ -9,6 +9,8 @@ dist/
 
 # VisA data and transient downloads remain outside Git.
 data/external/
+data/manifests/
+data/provenance/
 *.part
 *.tar
 *.tar.gz

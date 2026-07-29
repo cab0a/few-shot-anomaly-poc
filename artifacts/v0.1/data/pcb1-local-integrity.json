@@ -1,0 +1,59 @@
+{
+  "archive": {
+    "byte_count": 1929840640,
+    "identifier": "VisA_20220922.tar",
+    "independently_published_upstream_sha256_available": false,
+    "matches_fixed_prior_observation": true,
+    "observed_sha256": "2eb8690c803ab37de0324772964100169ec8ba1fa3f7e94291c9ca673f40f362"
+  },
+  "archive_extraction_comparison": {
+    "byte_for_byte_files_compared": 1205,
+    "content_tree_sha256": "ce716f7ad476efb5b5aea630773330fc591f520db517b267509c766f10485b7a",
+    "extra_extracted_files": 0,
+    "extracted_file_count": 1205,
+    "missing_extracted_files": 0,
+    "selected_directory_count": 7,
+    "selected_file_bytes": 296989825,
+    "selected_file_count": 1205,
+    "selected_member_count": 1212,
+    "whole_archive_member_count": 12122,
+    "whole_archive_member_validation_passed": true
+  },
+  "dataset": {
+    "category": "pcb1",
+    "license": "CC BY 4.0",
+    "name": "Visual Anomaly (VisA)",
+    "raw_data_committed_to_git": false
+  },
+  "evaluation_boundary": {
+    "anomaly_score_computed": false,
+    "final_test_label_join_performed": false,
+    "image_content_decoded": false,
+    "image_content_displayed": false,
+    "metric_computed": false,
+    "per_path_final_test_label_exported": false,
+    "threshold_changed": false
+  },
+  "official_split": {
+    "matches_pinned_sha256": true,
+    "path": "split_csv/1cls.csv",
+    "revision": "2a692ab575001cbde74d402d897a7286086c6199",
+    "sha256": "a48557e6033318cb90556f706196bc9d247a776a23ea51aecee5a80dd0332995"
+  },
+  "pcb1": {
+    "anomaly_images": 100,
+    "anomaly_masks": 100,
+    "extra_images_outside_split": 0,
+    "extra_masks_outside_split": 0,
+    "image_annotation_sha256": "e41a1595f07a33fcd97e978e991d324e4ff7e0c201f965368d2c2d7860a0cdf4",
+    "missing_anomaly_masks": 0,
+    "missing_split_images": 0,
+    "normal_images": 1004,
+    "official_test_anomaly": 100,
+    "official_test_normal": 100,
+    "official_train_normal": 904
+  },
+  "record_type": "visa_pcb1_local_integrity",
+  "schema_version": 1,
+  "status": "PASS"
+}

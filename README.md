@@ -2,7 +2,7 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 20 pre-evaluation freeze**
+> **Status: Milestone 21 local VisA integrity verified**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
@@ -19,8 +19,10 @@ Evaluate whether two CPU-only, normal-only visual anomaly detection methods just
 > contract is also fixed, and a deterministic synthetic-record pipeline
 > connects the complete evaluation boundary. The CI-verified evaluation source,
 > data selection, dependencies, rules, and artifact contract are now frozen
-> before final-test scoring. No VisA-derived threshold, dataset result,
-> benchmark, method comparison, or project decision is reported.
+> before final-test scoring. The fixed local VisA `pcb1` asset has also passed
+> archive, extraction, split-path, and byte-level integrity checks. No
+> VisA-derived threshold, anomaly score, dataset metric, benchmark, method
+> comparison, or project decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -188,6 +190,29 @@ pinned official CSV but receives no dataset root, and final-test records omit
 class labels and pixel-mask paths. Neither command opens, displays, scores, or
 summarizes image content. See [the data preparation guide](data/README.md) for
 the exact boundary and provenance fields.
+
+## Local VisA `pcb1` integrity verification
+
+The fixed local asset has passed a deterministic integrity check before any
+normal-reference fitting or final-test scoring. The verifier:
+
+- matches the 1,929,840,640-byte archive to the previously recorded observed
+  SHA-256, without presenting that value as an independently published upstream
+  checksum
+- validates all 12,122 archive members with the safe-extraction rules
+- compares all 1,205 selected `pcb1` files byte-for-byte against their archive
+  members
+- requires the extracted image and mask path sets to match the pinned official
+  split exactly
+- checks the fixed counts and `image_anno.csv` identity
+- emits no image, per-path final-test label, anomaly score, metric, or threshold
+  change
+
+The aggregate record is
+[`artifacts/v0.1/data/pcb1-local-integrity.json`](artifacts/v0.1/data/pcb1-local-integrity.json).
+It contains no raw VisA bytes or machine-specific absolute path. The verifier,
+scope, and regeneration commands are documented in
+[the local integrity record](docs/local-data-integrity.md).
 
 ## Shared input preprocessing
 
