@@ -93,6 +93,30 @@ class ECCResidualScoringConfig:
 
 
 @dataclass(frozen=True)
+class PatchHOGConfig:
+    patch_height: int
+    patch_width: int
+    vertical_stride: int
+    horizontal_stride: int
+    vertical_positions: int
+    horizontal_positions: int
+    patch_count: int
+    ordering: str
+    orientations: int
+    pixels_per_cell_height: int
+    pixels_per_cell_width: int
+    cells_per_block_height: int
+    cells_per_block_width: int
+    block_norm: str
+    transform_sqrt: bool
+    visualize: bool
+    feature_vector: bool
+    channel_axis: str
+    descriptor_length: int
+    output_dtype: str
+
+
+@dataclass(frozen=True)
 class ProjectPaths:
     archive: Path
     archive_provenance: Path
@@ -116,6 +140,7 @@ class ProjectConfig:
     ecc_registration: ECCRegistrationConfig
     ecc_template: ECCTemplateConfig
     ecc_residual_scoring: ECCResidualScoringConfig
+    patch_hog: PatchHOGConfig
     paths: ProjectPaths
     project_root: Path
 
@@ -169,6 +194,18 @@ def _fixed_float(
     return float(value)
 
 
+def _fixed_boolean(
+    mapping: dict[str, Any],
+    key: str,
+    label: str,
+    expected: bool,
+) -> bool:
+    value = mapping.get(key)
+    if not isinstance(value, bool) or value is not expected:
+        raise ConfigurationError(f"{label}.{key} must remain {expected}")
+    return value
+
+
 def _https_url(value: str, label: str) -> str:
     parsed = urlparse(value)
     if parsed.scheme != "https" or not parsed.netloc:
@@ -214,6 +251,7 @@ def load_config(config_path: Path) -> ProjectConfig:
         root.get("ecc_residual_scoring"),
         "ecc_residual_scoring",
     )
+    patch_hog_raw = _mapping(root.get("patch_hog"), "patch_hog")
     paths_raw = _mapping(root.get("paths"), "paths")
     project_root = resolved_config.parent.parent.resolve()
 
@@ -471,6 +509,128 @@ def load_config(config_path: Path) -> ProjectConfig:
             1.0,
         ),
     )
+    patch_hog = PatchHOGConfig(
+        patch_height=_fixed_integer(
+            patch_hog_raw,
+            "patch_height",
+            "patch_hog",
+            64,
+        ),
+        patch_width=_fixed_integer(
+            patch_hog_raw,
+            "patch_width",
+            "patch_hog",
+            64,
+        ),
+        vertical_stride=_fixed_integer(
+            patch_hog_raw,
+            "vertical_stride",
+            "patch_hog",
+            32,
+        ),
+        horizontal_stride=_fixed_integer(
+            patch_hog_raw,
+            "horizontal_stride",
+            "patch_hog",
+            32,
+        ),
+        vertical_positions=_fixed_integer(
+            patch_hog_raw,
+            "vertical_positions",
+            "patch_hog",
+            15,
+        ),
+        horizontal_positions=_fixed_integer(
+            patch_hog_raw,
+            "horizontal_positions",
+            "patch_hog",
+            15,
+        ),
+        patch_count=_fixed_integer(
+            patch_hog_raw,
+            "patch_count",
+            "patch_hog",
+            225,
+        ),
+        ordering=_fixed_string(
+            patch_hog_raw,
+            "ordering",
+            "patch_hog",
+            "row_major",
+        ),
+        orientations=_fixed_integer(
+            patch_hog_raw,
+            "orientations",
+            "patch_hog",
+            9,
+        ),
+        pixels_per_cell_height=_fixed_integer(
+            patch_hog_raw,
+            "pixels_per_cell_height",
+            "patch_hog",
+            16,
+        ),
+        pixels_per_cell_width=_fixed_integer(
+            patch_hog_raw,
+            "pixels_per_cell_width",
+            "patch_hog",
+            16,
+        ),
+        cells_per_block_height=_fixed_integer(
+            patch_hog_raw,
+            "cells_per_block_height",
+            "patch_hog",
+            2,
+        ),
+        cells_per_block_width=_fixed_integer(
+            patch_hog_raw,
+            "cells_per_block_width",
+            "patch_hog",
+            2,
+        ),
+        block_norm=_fixed_string(
+            patch_hog_raw,
+            "block_norm",
+            "patch_hog",
+            "L2-Hys",
+        ),
+        transform_sqrt=_fixed_boolean(
+            patch_hog_raw,
+            "transform_sqrt",
+            "patch_hog",
+            True,
+        ),
+        visualize=_fixed_boolean(
+            patch_hog_raw,
+            "visualize",
+            "patch_hog",
+            False,
+        ),
+        feature_vector=_fixed_boolean(
+            patch_hog_raw,
+            "feature_vector",
+            "patch_hog",
+            True,
+        ),
+        channel_axis=_fixed_string(
+            patch_hog_raw,
+            "channel_axis",
+            "patch_hog",
+            "none",
+        ),
+        descriptor_length=_fixed_integer(
+            patch_hog_raw,
+            "descriptor_length",
+            "patch_hog",
+            324,
+        ),
+        output_dtype=_fixed_string(
+            patch_hog_raw,
+            "output_dtype",
+            "patch_hog",
+            "float32",
+        ),
+    )
 
     path_values = {
         key: _project_path(
@@ -534,6 +694,7 @@ def load_config(config_path: Path) -> ProjectConfig:
         ecc_registration=ecc_registration,
         ecc_template=ecc_template,
         ecc_residual_scoring=ecc_residual_scoring,
+        patch_hog=patch_hog,
         paths=ProjectPaths(**path_values),
         project_root=project_root,
     )

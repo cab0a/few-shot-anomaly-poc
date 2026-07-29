@@ -77,3 +77,11 @@ class ECCResidualFailureCode(StrEnum):
 
 class ECCResidualStateError(Exception):
     """Reject scoring when no valid fitted ECC method state is available."""
+
+
+class HOGFeatureFailureCode(StrEnum):
+    """Stable failure codes for patch-grid and HOG extraction."""
+
+    HOG_GRID_INVALID = "HOG_GRID_INVALID"
+    HOG_EXTRACTION_FAILED = "HOG_EXTRACTION_FAILED"
+    HOG_DESCRIPTOR_INVALID = "HOG_DESCRIPTOR_INVALID"

@@ -190,6 +190,25 @@ Each patch position has its own scaler and One-Class SVM. The 20 descriptors at 
 
 No color histogram, raw pixel value, texture descriptor, PCA, feature selection, or augmentation is appended.
 
+### Feature extraction output
+
+The shared preprocessed image is traversed in row-major patch order. Extraction
+returns one complete `float32` matrix with shape `(225, 324)`, where each row
+corresponds to the fixed patch position with the same index. No partial feature
+matrix is returned after a failed patch.
+
+Shared input failures preserve their preprocessing failure code. Failures
+introduced by the Patch HOG stage use:
+
+- `HOG_GRID_INVALID`
+- `HOG_EXTRACTION_FAILED`
+- `HOG_DESCRIPTOR_INVALID`
+
+The diagnostic state records the complete planned patch positions and the
+failed patch index when extraction reached a specific patch. Feature extraction
+does not fit or apply a scaler, fit a One-Class SVM, or produce an image anomaly
+score.
+
 ### Feature scaling
 
 Fit one standard scaler per patch position from its 20 reference descriptors:

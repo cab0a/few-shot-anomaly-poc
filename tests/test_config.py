@@ -50,6 +50,26 @@ def test_repository_config_pins_official_split() -> None:
     assert config.ecc_residual_scoring.top_fraction == 0.01
     assert config.ecc_residual_scoring.top_count_rounding == "ceil"
     assert config.ecc_residual_scoring.failure_score == 1.0
+    assert config.patch_hog.patch_height == 64
+    assert config.patch_hog.patch_width == 64
+    assert config.patch_hog.vertical_stride == 32
+    assert config.patch_hog.horizontal_stride == 32
+    assert config.patch_hog.vertical_positions == 15
+    assert config.patch_hog.horizontal_positions == 15
+    assert config.patch_hog.patch_count == 225
+    assert config.patch_hog.ordering == "row_major"
+    assert config.patch_hog.orientations == 9
+    assert config.patch_hog.pixels_per_cell_height == 16
+    assert config.patch_hog.pixels_per_cell_width == 16
+    assert config.patch_hog.cells_per_block_height == 2
+    assert config.patch_hog.cells_per_block_width == 2
+    assert config.patch_hog.block_norm == "L2-Hys"
+    assert config.patch_hog.transform_sqrt is True
+    assert config.patch_hog.visualize is False
+    assert config.patch_hog.feature_vector is True
+    assert config.patch_hog.channel_axis == "none"
+    assert config.patch_hog.descriptor_length == 324
+    assert config.patch_hog.output_dtype == "float32"
     assert config.split.revision == "2a692ab575001cbde74d402d897a7286086c6199"
     assert config.split.sha256 == "a48557e6033318cb90556f706196bc9d247a776a23ea51aecee5a80dd0332995"
 
@@ -133,4 +153,34 @@ def test_config_rejects_changed_ecc_residual_scoring(
     config_path.write_text(json.dumps(raw), encoding="utf-8")
 
     with pytest.raises(ConfigurationError, match="minimum_effective_support_fraction"):
+        load_config(config_path)
+
+
+@pytest.mark.parametrize("changed_orientations", [8, 9.0, True])
+def test_config_rejects_changed_patch_hog(
+    tmp_path: Path,
+    changed_orientations: object,
+) -> None:
+    raw = json.loads(Path("configs/v0.1.yaml").read_text(encoding="utf-8"))
+    raw["patch_hog"]["orientations"] = changed_orientations
+    config_path = tmp_path / "configs/v0.1.yaml"
+    config_path.parent.mkdir()
+    config_path.write_text(json.dumps(raw), encoding="utf-8")
+
+    with pytest.raises(ConfigurationError, match="orientations"):
+        load_config(config_path)
+
+
+@pytest.mark.parametrize("changed_transform", [False, 1, "true"])
+def test_config_rejects_changed_patch_hog_boolean(
+    tmp_path: Path,
+    changed_transform: object,
+) -> None:
+    raw = json.loads(Path("configs/v0.1.yaml").read_text(encoding="utf-8"))
+    raw["patch_hog"]["transform_sqrt"] = changed_transform
+    config_path = tmp_path / "configs/v0.1.yaml"
+    config_path.parent.mkdir()
+    config_path.write_text(json.dumps(raw), encoding="utf-8")
+
+    with pytest.raises(ConfigurationError, match="transform_sqrt"):
         load_config(config_path)

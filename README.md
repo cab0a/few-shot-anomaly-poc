@@ -2,14 +2,15 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 5 ECC residual image scoring**
+> **Status: Milestone 6 Patch HOG feature extraction**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
 > preprocessing are implemented, together with the bounded ECC registration
 > primitive, deterministic normal-template fitting, and fixed residual image
-> scoring. No calibrated threshold, dataset result, benchmark, method
-> comparison, or decision is reported.
+> scoring. Fixed Patch HOG feature extraction is also implemented, without
+> scaler or model fitting. No calibrated threshold, dataset result, benchmark,
+> method comparison, or decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -56,7 +57,7 @@ This method aligns an input to a template built from the fixed normal references
 
 ### Patch HOG + One-Class SVM
 
-This method will describe local appearance with Histogram of Oriented Gradients features and fit a one-class decision function using only the fixed normal references. It is the classical learned comparator.
+This method describes local appearance with Histogram of Oriented Gradients features and will fit a one-class decision function using only the fixed normal references. It is the classical learned comparator.
 
 DINOv2 patch nearest-neighbor methods are not part of v0.1. They remain a v0.2 research candidate because their CPU cost, model-asset handling, and added implementation scope must be justified first.
 
@@ -250,6 +251,24 @@ and remains distinguishable through `score_status=failed` and its failure code.
 The implementation does not calibrate a threshold, classify an image, measure
 latency, read a VisA image, or make a performance claim.
 
+## Patch HOG feature extraction
+
+The second shortlisted method now has a deterministic feature component that:
+
+- requires the same validated `512 x 512` preprocessed grayscale input
+- extracts `64 x 64` patches with stride 32 at the fixed `15 x 15` grid
+- preserves row-major positions from `(0, 0)` through `(448, 448)`
+- calls scikit-image HOG with the preregistered orientation, cell, block,
+  normalization, square-root transform, and channel settings
+- returns one complete `float32` matrix with shape `(225, 324)`
+- rejects wrong-shaped, wrong-dtype, or non-finite descriptors
+- records the failed patch index and returns no partial matrix after a failure
+
+Tests use generated arrays and verify the complete grid, fixed HOG call,
+repeatability, and input immutability. This component does not fit or apply a
+`StandardScaler`, fit a One-Class SVM, produce an anomaly score, read a VisA
+image, or claim method performance.
+
 ## Non-goals
 
 v0.1 does not attempt to provide:
@@ -269,7 +288,8 @@ v0.1 does not attempt to provide:
 
 The repository contains preregistered design documents, the data foundation,
 deterministic shared preprocessing, bounded ECC registration, deterministic ECC
-normal-template fitting, and fixed ECC residual image scoring:
+normal-template fitting, fixed ECC residual image scoring, and fixed Patch HOG
+feature extraction:
 
 - [Problem and requirements](docs/problem-and-requirements.md)
 - [Research and method selection](docs/research-and-method-selection.md)
@@ -282,6 +302,7 @@ normal-template fitting, and fixed ECC residual image scoring:
 The runtime baseline is locked, while split pinning, safe acquisition, archive
 provenance, safe extraction, deterministic manifests, integrity tests, linting,
 CI, shared image preprocessing, ECC registration, ECC template fitting, and ECC
-residual scoring are implemented. The repository still contains no VisA image,
-calibrated threshold, HOG method implementation, evaluation pipeline,
-experiment, result figure, failure analysis, or final decision.
+residual scoring are implemented, together with Patch HOG feature extraction.
+The repository still contains no VisA image, calibrated threshold, HOG scaler
+or One-Class SVM fitting, HOG image scoring, evaluation pipeline, experiment,
+result figure, failure analysis, or final decision.
