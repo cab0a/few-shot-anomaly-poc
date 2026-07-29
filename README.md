@@ -558,8 +558,9 @@ content, duplicate keys, and non-finite numbers. See the
 [artifact schema guide](docs/evaluation-artifact-schema.md) and its
 [machine-readable descriptor](schemas/v0.1/evaluation-artifacts.json).
 
-No empty result files or synthetic or VisA-derived evaluation bundle is created
-by this milestone.
+The schema milestone created no empty result files. The only committed
+evaluation bundle at the current stage is the explicitly synthetic fixture
+described below; no VisA-derived bundle exists.
 
 ## Synthetic end-to-end evaluation
 
@@ -587,11 +588,18 @@ produce that label from passing inputs.
 
 The generator validates every intermediate result by recomputing the chain,
 writes through a temporary directory, refuses overwrite, records every file
-digest, and has byte-for-byte reproduction tests. After this implementation is
-committed, its immutable public fixture is generated with:
+digest, and has byte-for-byte reproduction tests. The
+[committed synthetic bundle](artifacts/v0.1/evaluation/synthetic-e2e) was
+generated from source commit
+`7193a89e0cff8d543c0f7274e834d902026752d5`. Its design and claim boundary are
+documented in the [synthetic evaluation record](docs/synthetic-evaluation.md).
+
+To generate the same bundle under a separate output root:
 
 ```bash
-uv run --locked --no-sync python scripts/run_synthetic_evaluation.py
+uv run --locked --no-sync python scripts/run_synthetic_evaluation.py \
+  --output-root /tmp/few-shot-anomaly-poc-synthetic-reproduction \
+  --source-commit 7193a89e0cff8d543c0f7274e834d902026752d5
 ```
 
 This command is not a VisA experiment and cannot support a method-performance
@@ -629,6 +637,7 @@ mechanical failure-case selection, and the per-method hard-gate decision:
 - [Runtime dependencies and license boundaries](docs/dependencies-and-licenses.md)
 - [Evaluation plan](docs/evaluation-plan.md)
 - [Evaluation artifact schema](docs/evaluation-artifact-schema.md)
+- [Synthetic end-to-end evaluation record](docs/synthetic-evaluation.md)
 - [VisA `pcb1` acquisition and partition record](docs/data-acquisition-record.md)
 - [Data preparation and final-test boundary](data/README.md)
 
@@ -656,6 +665,7 @@ JSON/CSV contract now covers scores, classifications, revealed labels, metrics,
 latency, selected failures, decisions, and artifact provenance. A
 synthetic-record generator connects the full primitive chain for both methods
 and verifies deterministic, non-overwritable bundle generation in temporary
-test directories. The repository still contains no VisA image, VisA-derived
-threshold, VisA evaluation bundle, experiment result, result figure,
-image-based failure analysis, or project decision.
+test directories. The byte-reproducible `synthetic-e2e` bundle is committed and
+explicitly marked as plumbing evidence. The repository still contains no VisA
+image, VisA-derived threshold, VisA evaluation bundle, experiment result,
+result figure, image-based failure analysis, or project decision.

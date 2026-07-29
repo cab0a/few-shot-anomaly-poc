@@ -242,9 +242,9 @@ def test_manifest_covers_provenance_without_self_digest() -> None:
     assert set(manifest["file_entry_field_types"]) == set(manifest["file_entry_required_keys"])
 
 
-def test_schema_creates_no_result_bundle_or_machine_specific_path() -> None:
+def test_schema_creates_no_final_test_bundle_or_machine_specific_path() -> None:
     serialized = SCHEMA_PATH.read_text(encoding="utf-8")
 
-    assert not Path("artifacts/v0.1/evaluation").exists()
+    assert not Path("artifacts/v0.1/evaluation/first-fixed-final-test").exists()
     assert "/home/" not in serialized
     assert "\\\\wsl.localhost" not in serialized

@@ -21,7 +21,9 @@ from few_shot_anomaly_poc.synthetic_evaluation import (
 )
 
 SOURCE_COMMIT = "a" * 40
+COMMITTED_SOURCE_COMMIT = "7193a89e0cff8d543c0f7274e834d902026752d5"
 CONFIG_PATH = Path("configs/v0.1.yaml")
+COMMITTED_BUNDLE = Path("artifacts/v0.1/evaluation/synthetic-e2e")
 
 
 @pytest.fixture(scope="module")
@@ -119,6 +121,23 @@ def test_synthetic_bundle_is_byte_reproducible(
     second = _run(tmp_path / "second", project_config)
 
     assert _files(first) == _files(second)
+
+
+def test_committed_synthetic_bundle_matches_its_source_commit(
+    tmp_path: Path,
+    project_config: ProjectConfig,
+) -> None:
+    manifest = json.loads((COMMITTED_BUNDLE / "artifact-manifest.json").read_text(encoding="utf-8"))
+    regenerated = run_synthetic_evaluation(
+        output_root=tmp_path,
+        source_commit=COMMITTED_SOURCE_COMMIT,
+        config_path=CONFIG_PATH,
+        config=project_config,
+    )
+
+    assert manifest["source_commit"] == COMMITTED_SOURCE_COMMIT
+    assert manifest["run_kind"] == "synthetic"
+    assert _files(COMMITTED_BUNDLE) == _files(regenerated)
 
 
 def test_manifest_hashes_every_non_manifest_file(

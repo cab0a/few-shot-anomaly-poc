@@ -1,0 +1,124 @@
+{
+  "category": "not-applicable",
+  "config_sha256": "9a8149c0d37f86a4474089ae251bd4954071d7171f7110073e82c9796b52d917",
+  "contract_version": "evaluation-artifacts/v0.1",
+  "dataset": "synthetic-records",
+  "files": [
+    {
+      "artifact_type": "classification",
+      "method": "ecc_residual",
+      "record_count": 40,
+      "relative_path": "ecc_residual/classifications.csv",
+      "sha256": "436190bfb30fbcc3f2db9ecbf111c74978fe37e136dc524477bcb39e6b79b3d9"
+    },
+    {
+      "artifact_type": "decision",
+      "method": "ecc_residual",
+      "record_count": 1,
+      "relative_path": "ecc_residual/decision.json",
+      "sha256": "e65b8c807b9bec99925e3ae9a7382ab3f7c3c897169ee7dbe741c9040e51e91e"
+    },
+    {
+      "artifact_type": "failure",
+      "method": "ecc_residual",
+      "record_count": 3,
+      "relative_path": "ecc_residual/failure-cases.csv",
+      "sha256": "61e3529636e552e3ab5360552f737ad7c653b6d38a5924e6098f9c157e248db2"
+    },
+    {
+      "artifact_type": "latency_observations",
+      "method": "ecc_residual",
+      "record_count": 120,
+      "relative_path": "ecc_residual/latency-observations.csv",
+      "sha256": "f27feff23b2d1747e4caae76003f96a42e779c77247e7838d7fa3110dda21137"
+    },
+    {
+      "artifact_type": "latency",
+      "method": "ecc_residual",
+      "record_count": 1,
+      "relative_path": "ecc_residual/latency.json",
+      "sha256": "ad8885a9d248eadf3951bbabde1f37591526d7544320ef7d13d9be0024435f0b"
+    },
+    {
+      "artifact_type": "metrics",
+      "method": "ecc_residual",
+      "record_count": 1,
+      "relative_path": "ecc_residual/metrics.json",
+      "sha256": "3d1e0645c15efb4c3f0073d7701f18f2206adb2821fa18fa3d5ca138aac6da51"
+    },
+    {
+      "artifact_type": "label_reveal",
+      "method": "ecc_residual",
+      "record_count": 40,
+      "relative_path": "ecc_residual/revealed-labels.csv",
+      "sha256": "4c932bcbd7bd96b91c1334aedbeaa85a5bf582a3e1c7de346821de5add2425ed"
+    },
+    {
+      "artifact_type": "score",
+      "method": "ecc_residual",
+      "record_count": 60,
+      "relative_path": "ecc_residual/scores.csv",
+      "sha256": "944451b35329812ccf01772b7761d7965168baeffecd0893c26e5918b2835c20"
+    },
+    {
+      "artifact_type": "classification",
+      "method": "patch_hog_one_class_svm",
+      "record_count": 40,
+      "relative_path": "patch_hog_one_class_svm/classifications.csv",
+      "sha256": "c9f5bbb9be2101da7e91d641986fc964d989fd1010c51d1287f7d3b970d096c8"
+    },
+    {
+      "artifact_type": "decision",
+      "method": "patch_hog_one_class_svm",
+      "record_count": 1,
+      "relative_path": "patch_hog_one_class_svm/decision.json",
+      "sha256": "2850d8b987514945a3633e752c2e4324b81d1f6a71ad8aa615138ce3aad094e7"
+    },
+    {
+      "artifact_type": "failure",
+      "method": "patch_hog_one_class_svm",
+      "record_count": 3,
+      "relative_path": "patch_hog_one_class_svm/failure-cases.csv",
+      "sha256": "28fe008e57389d9ae5d02117eba19b8ae938579a1dc32704f6543ea0ad3b0e4a"
+    },
+    {
+      "artifact_type": "latency_observations",
+      "method": "patch_hog_one_class_svm",
+      "record_count": 120,
+      "relative_path": "patch_hog_one_class_svm/latency-observations.csv",
+      "sha256": "672657a14f70b1520afcc0f786dcaf818d35e47cc24d7816074ecacfa7c0d50d"
+    },
+    {
+      "artifact_type": "latency",
+      "method": "patch_hog_one_class_svm",
+      "record_count": 1,
+      "relative_path": "patch_hog_one_class_svm/latency.json",
+      "sha256": "c1627fa2c984911cd3ccef857e5cd64c04e86ff1401695690d564d103a2fd9ad"
+    },
+    {
+      "artifact_type": "metrics",
+      "method": "patch_hog_one_class_svm",
+      "record_count": 1,
+      "relative_path": "patch_hog_one_class_svm/metrics.json",
+      "sha256": "9897b405dac0049c780070cf76d2b139660132e50b465b2c021c7c09a3784279"
+    },
+    {
+      "artifact_type": "label_reveal",
+      "method": "patch_hog_one_class_svm",
+      "record_count": 40,
+      "relative_path": "patch_hog_one_class_svm/revealed-labels.csv",
+      "sha256": "b5d80663bcf9cbbac008d8633eed6b611aac68a39c08500df851f5b7ece761c6"
+    },
+    {
+      "artifact_type": "score",
+      "method": "patch_hog_one_class_svm",
+      "record_count": 60,
+      "relative_path": "patch_hog_one_class_svm/scores.csv",
+      "sha256": "3796193b3b170a2bc66bce3040ccca947ed4824a5686fb1b2fb6540f2dff0d89"
+    }
+  ],
+  "partition_manifest_sha256": "938658758f25bb622acdbdc5d8c44848cef6cfc7c79964245ac0333519b57247",
+  "run_id": "synthetic-e2e",
+  "run_kind": "synthetic",
+  "source_commit": "7193a89e0cff8d543c0f7274e834d902026752d5"
+}

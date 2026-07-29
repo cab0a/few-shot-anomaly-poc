@@ -1,0 +1,77 @@
+{
+  "contract_version": "evaluation-artifacts/v0.1",
+  "environment": {
+    "cpu_model": "Synthetic CPU record; not measured hardware",
+    "dependency_versions": [
+      [
+        "numpy",
+        "synthetic-record"
+      ],
+      [
+        "opencv-python-headless",
+        "synthetic-record"
+      ],
+      [
+        "scikit-image",
+        "synthetic-record"
+      ],
+      [
+        "scikit-learn",
+        "synthetic-record"
+      ]
+    ],
+    "logical_core_count": 8,
+    "machine": "synthetic-x86_64",
+    "opencv_thread_count": 1,
+    "operating_system": "Synthetic OS record",
+    "physical_core_count": 4,
+    "python_version": "3.13.14",
+    "ram_bytes": 17179869184,
+    "thread_environment": [
+      [
+        "OMP_NUM_THREADS",
+        null
+      ],
+      [
+        "OPENBLAS_NUM_THREADS",
+        null
+      ],
+      [
+        "BLIS_NUM_THREADS",
+        null
+      ],
+      [
+        "MKL_NUM_THREADS",
+        null
+      ],
+      [
+        "NUMEXPR_NUM_THREADS",
+        null
+      ],
+      [
+        "VECLIB_MAXIMUM_THREADS",
+        null
+      ],
+      [
+        "OPENCV_FOR_THREADS_NUM",
+        null
+      ]
+    ]
+  },
+  "item_count": 40,
+  "measurement_boundary": "decoded_grayscale_uint8_to_image_score",
+  "median_latency_ns": 70000000.0,
+  "median_latency_seconds": 0.07,
+  "method": "patch_hog_one_class_svm",
+  "p95_latency_ns": 70000000,
+  "p95_latency_seconds": 0.07,
+  "p95_rank": 114,
+  "run_id": "synthetic-e2e",
+  "run_kind": "synthetic",
+  "sample_count": 120,
+  "score_failure_paths": [],
+  "score_failure_timing_count": 0,
+  "timed_passes": 3,
+  "timer": "perf_counter_ns",
+  "warmup_passes": 1
+}

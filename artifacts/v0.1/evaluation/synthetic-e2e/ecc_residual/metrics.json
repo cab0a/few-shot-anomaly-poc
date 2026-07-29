@@ -1,0 +1,21 @@
+{
+  "anomaly_count": 20,
+  "anomaly_recall": 0.9,
+  "contract_version": "evaluation-artifacts/v0.1",
+  "false_negative_count": 2,
+  "false_positive_count": 1,
+  "image_level_auprc": 0.9725000000000001,
+  "image_level_auroc": 0.97125,
+  "item_count": 40,
+  "method": "ecc_residual",
+  "normal_count": 20,
+  "normal_false_positive_rate": 0.05,
+  "positive_class": "anomaly",
+  "run_id": "synthetic-e2e",
+  "run_kind": "synthetic",
+  "score_failure_count": 0,
+  "threshold": 0.19,
+  "threshold_source_path": "synthetic/calibration/0018.png",
+  "true_negative_count": 19,
+  "true_positive_count": 18
+}

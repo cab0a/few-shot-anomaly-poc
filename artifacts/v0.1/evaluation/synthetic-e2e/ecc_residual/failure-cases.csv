@@ -1,0 +1,4 @@
+contract_version,run_id,run_kind,method,case_type,rank,relative_path,true_class,predicted_class,anomaly_score,threshold,score_margin,score_status,score_failure_code
+evaluation-artifacts/v0.1,synthetic-e2e,synthetic,ecc_residual,false_positive,1,synthetic/final/0019.png,normal,anomalous,0.2,0.19,0.010000000000000009,ok,
+evaluation-artifacts/v0.1,synthetic-e2e,synthetic,ecc_residual,false_negative,1,synthetic/final/0020.png,anomaly,normal,0.1,0.19,-0.09,ok,
+evaluation-artifacts/v0.1,synthetic-e2e,synthetic,ecc_residual,false_negative,2,synthetic/final/0021.png,anomaly,normal,0.15,0.19,-0.04000000000000001,ok,

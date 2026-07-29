@@ -1,0 +1,64 @@
+{
+  "all_hard_gates_passed": true,
+  "condition": null,
+  "contract_version": "evaluation-artifacts/v0.1",
+  "decision": "ADOPT",
+  "decision_reason": "all_hard_gates_passed",
+  "failure_review_disposition": "no_material_boundary",
+  "failure_review_rationale": "Synthetic records exercise fixed false-positive and false-negative selection without an image-content claim.",
+  "first_failed_gate": null,
+  "gate_outcomes": [
+    {
+      "gate_id": "final_test_normal_fpr",
+      "observed_value": 0.05,
+      "operator": "less_than_or_equal",
+      "order": 1,
+      "passed": true,
+      "required_value": 0.05
+    },
+    {
+      "gate_id": "final_test_anomaly_recall",
+      "observed_value": 0.9,
+      "operator": "greater_than_or_equal",
+      "order": 2,
+      "passed": true,
+      "required_value": 0.9
+    },
+    {
+      "gate_id": "cpu_p95_scoring_latency",
+      "observed_value": 0.05,
+      "operator": "less_than_or_equal",
+      "order": 3,
+      "passed": true,
+      "required_value": 1.0
+    },
+    {
+      "gate_id": "normal_reference_count",
+      "observed_value": 20,
+      "operator": "less_than_or_equal",
+      "order": 4,
+      "passed": true,
+      "required_value": 20
+    },
+    {
+      "gate_id": "anomaly_training_labels",
+      "observed_value": false,
+      "operator": "equal",
+      "order": 5,
+      "passed": true,
+      "required_value": false
+    },
+    {
+      "gate_id": "reproducibility",
+      "observed_value": true,
+      "operator": "equal",
+      "order": 6,
+      "passed": true,
+      "required_value": true
+    }
+  ],
+  "method": "ecc_residual",
+  "run_id": "synthetic-e2e",
+  "run_kind": "synthetic",
+  "test_leakage_detected": false
+}
