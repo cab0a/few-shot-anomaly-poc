@@ -2,12 +2,36 @@
 
 ## Status
 
-The runner is implemented and covered by synthetic tests. It has not yet been
-executed on VisA at this commit.
+The fixed normal-reference fitting and normal-only threshold calibration run
+completed successfully.
 
-The implementation must pass CI before the real normal-only run. That CI-passed
-commit will then be recorded as the run source. This prevents the runner from
-being changed after its VisA thresholds are observed.
+The runner implementation was committed as
+`4fef91c1d1e339aa507cad80d51127e01046ae0b`, and GitHub Actions CI #25 passed
+before the VisA run began. That exact commit is recorded as the run source. No
+runner, method, configuration, partition, threshold rule, or acceptance gate
+was changed after the thresholds were observed.
+
+## Result
+
+| Method | Fit result | Calibration score failures | Rank | Fixed threshold | Scores above threshold |
+| --- | --- | ---: | ---: | ---: | ---: |
+| ECC residual | 20 / 20 references accepted | 0 | 840 | `0.688464437424507` | 44 / 884 |
+| Patch HOG + One-Class SVM | 225 / 225 scalers and 225 / 225 models fitted | 0 | 840 | `0.17611826509314352` | 44 / 884 |
+
+The ECC template support fraction is `0.9028167724609375`. The Patch HOG model
+collection contains 4,307 support vectors across its 225 position-wise models,
+with 13 to 20 support vectors per position.
+
+The realized normal calibration tail rate is `44 / 884 =
+0.049773755656108594` for both methods. This is a consequence of selecting the
+fixed rank and then applying a strict `score > threshold` rule. It is not the
+final-test normal FPR, does not use an anomaly label, and provides no evidence
+about anomaly recall.
+
+The threshold source paths are:
+
+- ECC residual: `pcb1/Data/Images/Normal/0691.JPG`
+- Patch HOG + One-Class SVM: `pcb1/Data/Images/Normal/0660.JPG`
 
 ## Fixed input boundary
 
@@ -60,9 +84,9 @@ The threshold is the score at zero-based index 839 after sorting by anomaly
 score and then relative path. A score is classified as anomalous only when
 scoring failed or the score is strictly greater than the threshold.
 
-## Planned artifacts
+## Generated artifacts
 
-The public, non-overwritable directory will be:
+The public, non-overwritable directory is:
 
 ```text
 artifacts/v0.1/calibration/normal-only/
@@ -73,20 +97,22 @@ artifacts/v0.1/calibration/normal-only/
     └── scores.csv
 ```
 
-The JSON checkpoint will record the source commit, frozen input hashes, fit
+The JSON checkpoint records the source commit, frozen input hashes, fit
 summaries, threshold evidence, score-artifact hashes, and evaluation-boundary
-state. Each score CSV will contain all 884 label-free normal calibration
+state. Each score CSV contains all 884 label-free normal calibration
 records and bounded method diagnostics.
 
 Fitted arrays and scikit-learn estimator objects are needed by the first fixed
-final-test run but are not suitable public Git artifacts. They will be stored
+final-test run but are not suitable public Git artifacts. They are stored
 locally at:
 
 ```text
 work/v0.1/calibration/normal-only-state.pkl
 ```
 
-The checkpoint will record its SHA-256. Loading verifies that digest before
+The checkpoint records SHA-256
+`d0056a52225d5600e5db9d0c11076a1fbd919f273b66f1e1b65cd5895e883cb4`.
+Loading verifies that digest before
 deserialization and revalidates the fitted objects and thresholds. The pickle
 is only for state generated locally by this repository; it must not be replaced
 with or loaded from an untrusted source.
@@ -108,13 +134,23 @@ uv run --locked --no-sync python scripts/run_normal_calibration.py \
   --dataset-root /path/to/extracted/VisA_20220922
 ```
 
+For the recorded run, the command used the explicit CI-passed source commit and
+pre-existing verified local asset:
+
+```bash
+uv run --locked --no-sync python scripts/run_normal_calibration.py \
+  --source-commit 4fef91c1d1e339aa507cad80d51127e01046ae0b \
+  --archive /path/to/VisA_20220922.tar \
+  --dataset-root /path/to/extracted/VisA_20220922
+```
+
 The command requires the requested source commit to equal the checked-out Git
 `HEAD`, requires a clean tree, and refuses to overwrite outputs.
 
 ## Evaluation boundary
 
-This stage may produce VisA-derived normal calibration scores and thresholds.
-It does not:
+This stage produced VisA-derived normal calibration scores and thresholds. It
+did not:
 
 - read or score a final-test image
 - read or export a per-path final-test label

@@ -1,0 +1,587 @@
+{
+  "calibration": {
+    "anomaly_labels_used": false,
+    "count": 884,
+    "final_test_paths_used": false,
+    "normal_only": true
+  },
+  "checkpoint_id": "v0.1-normal-reference-fit-and-calibration",
+  "config_sha256": "9a8149c0d37f86a4474089ae251bd4954071d7171f7110073e82c9796b52d917",
+  "contract_version": "normal-only-calibration/v0.1",
+  "dataset_integrity_record_sha256": "c71ed769dc7ab29c48e62900d8ff95c707db453b607696f22689e4d960637584",
+  "evaluation_boundary": {
+    "decision_recorded": false,
+    "final_test_image_read": false,
+    "final_test_label_join_performed": false,
+    "final_test_scoring_started": false,
+    "hard_gate_changed": false,
+    "latency_measured": false,
+    "metric_computed": false,
+    "per_path_final_test_label_read": false,
+    "threshold_rule_changed": false
+  },
+  "freeze_checkpoint_sha256": "1d73250778cd0e0200ae14b1aff42e1c779ac2650d5e93cb65bde8267c80c397",
+  "local_state": {
+    "committed_to_git": false,
+    "format": "Python pickle protocol 5",
+    "logical_path": "work/v0.1/calibration/normal-only-state.pkl",
+    "sha256": "d0056a52225d5600e5db9d0c11076a1fbd919f273b66f1e1b65cd5895e883cb4",
+    "trusted_local_generation_only": true
+  },
+  "methods": {
+    "ecc_residual": {
+      "fit": {
+        "anchor_path": "pcb1/Data/Images/Normal/0014.JPG",
+        "failed_reference_count": 0,
+        "failure_code": null,
+        "reference_count": 20,
+        "reference_diagnostics": [
+          {
+            "correlation": null,
+            "failure_code": null,
+            "is_anchor": true,
+            "relative_path": "pcb1/Data/Images/Normal/0014.JPG",
+            "rotation_degrees": 0.0,
+            "status": "ok",
+            "translation_x_pixels": 0.0,
+            "translation_y_pixels": 0.0,
+            "valid_fraction": 1.0,
+            "warp_matrix": [
+              [
+                1.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0,
+                0.0
+              ]
+            ]
+          },
+          {
+            "correlation": 0.9331096276005671,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0023.JPG",
+            "rotation_degrees": 0.006710057601093911,
+            "status": "ok",
+            "translation_x_pixels": -18.35308074951172,
+            "translation_y_pixels": 2.4998064041137695,
+            "valid_fraction": 0.9591903686523438,
+            "warp_matrix": [
+              [
+                1.0,
+                -0.00011711259867297485,
+                -18.35308074951172
+              ],
+              [
+                0.00011711259867297485,
+                1.0,
+                2.4998064041137695
+              ]
+            ]
+          },
+          {
+            "correlation": 0.9139657109270471,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0078.JPG",
+            "rotation_degrees": -0.5208085059740231,
+            "status": "ok",
+            "translation_x_pixels": -16.450759887695312,
+            "translation_y_pixels": 8.98867130279541,
+            "valid_fraction": 0.9598541259765625,
+            "warp_matrix": [
+              [
+                0.9999586939811707,
+                0.00908969808369875,
+                -16.450759887695312
+              ],
+              [
+                -0.00908969808369875,
+                0.9999586939811707,
+                8.98867130279541
+              ]
+            ]
+          },
+          {
+            "correlation": 0.8974881007248741,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0105.JPG",
+            "rotation_degrees": -0.11493707470188388,
+            "status": "ok",
+            "translation_x_pixels": -20.250591278076172,
+            "translation_y_pixels": -2.4095041751861572,
+            "valid_fraction": 0.9559326171875,
+            "warp_matrix": [
+              [
+                0.9999979734420776,
+                0.002006029011681676,
+                -20.250591278076172
+              ],
+              [
+                -0.002006029011681676,
+                0.9999979734420776,
+                -2.4095041751861572
+              ]
+            ]
+          },
+          {
+            "correlation": 0.8711487233783026,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0217.JPG",
+            "rotation_degrees": 0.814833356500619,
+            "status": "ok",
+            "translation_x_pixels": 3.037245512008667,
+            "translation_y_pixels": -4.89341402053833,
+            "valid_fraction": 0.9924697875976562,
+            "warp_matrix": [
+              [
+                0.9998988509178162,
+                -0.014221045188605785,
+                3.037245512008667
+              ],
+              [
+                0.014221045188605785,
+                0.9998988509178162,
+                -4.89341402053833
+              ]
+            ]
+          },
+          {
+            "correlation": 0.901910177481832,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0246.JPG",
+            "rotation_degrees": 0.6427753813192127,
+            "status": "ok",
+            "translation_x_pixels": -0.4540574848651886,
+            "translation_y_pixels": -1.4074785709381104,
+            "valid_fraction": 0.99005126953125,
+            "warp_matrix": [
+              [
+                0.9999370574951172,
+                -0.01121831126511097,
+                -0.4540574848651886
+              ],
+              [
+                0.01121831126511097,
+                0.9999370574951172,
+                -1.4074785709381104
+              ]
+            ]
+          },
+          {
+            "correlation": 0.9185403476444923,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0256.JPG",
+            "rotation_degrees": 0.9020363054836088,
+            "status": "ok",
+            "translation_x_pixels": -8.429389953613281,
+            "translation_y_pixels": -9.420416831970215,
+            "valid_fraction": 0.9654350280761719,
+            "warp_matrix": [
+              [
+                0.999876081943512,
+                -0.01574285328388214,
+                -8.429389953613281
+              ],
+              [
+                0.01574285328388214,
+                0.999876081943512,
+                -9.420416831970215
+              ]
+            ]
+          },
+          {
+            "correlation": 0.9211113959878922,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0307.JPG",
+            "rotation_degrees": 0.2104476573870104,
+            "status": "ok",
+            "translation_x_pixels": -11.76311206817627,
+            "translation_y_pixels": -5.264071464538574,
+            "valid_fraction": 0.9669723510742188,
+            "warp_matrix": [
+              [
+                0.9999932646751404,
+                -0.0036729963030666113,
+                -11.76311206817627
+              ],
+              [
+                0.0036729963030666113,
+                0.9999932646751404,
+                -5.264071464538574
+              ]
+            ]
+          },
+          {
+            "correlation": 0.9168340616121582,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0331.JPG",
+            "rotation_degrees": 0.13387037709135657,
+            "status": "ok",
+            "translation_x_pixels": -1.7256685495376587,
+            "translation_y_pixels": -12.061800003051758,
+            "valid_fraction": 0.9730949401855469,
+            "warp_matrix": [
+              [
+                0.9999972581863403,
+                -0.0023364766966551542,
+                -1.7256685495376587
+              ],
+              [
+                0.0023364766966551542,
+                0.9999972581863403,
+                -12.061800003051758
+              ]
+            ]
+          },
+          {
+            "correlation": 0.9138187339758295,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0420.JPG",
+            "rotation_degrees": -0.6241175033011847,
+            "status": "ok",
+            "translation_x_pixels": -14.109905242919922,
+            "translation_y_pixels": 1.046915054321289,
+            "valid_fraction": 0.9741477966308594,
+            "warp_matrix": [
+              [
+                0.9999406933784485,
+                0.010892690159380436,
+                -14.109905242919922
+              ],
+              [
+                -0.010892690159380436,
+                0.9999406933784485,
+                1.046915054321289
+              ]
+            ]
+          },
+          {
+            "correlation": 0.8535237498527576,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0440.JPG",
+            "rotation_degrees": -3.0384733788890497,
+            "status": "ok",
+            "translation_x_pixels": -18.110990524291992,
+            "translation_y_pixels": 13.260936737060547,
+            "valid_fraction": 0.9730796813964844,
+            "warp_matrix": [
+              [
+                0.9985941648483276,
+                0.05300651118159294,
+                -18.110990524291992
+              ],
+              [
+                -0.05300651118159294,
+                0.9985941648483276,
+                13.260936737060547
+              ]
+            ]
+          },
+          {
+            "correlation": 0.8592354464479729,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0546.JPG",
+            "rotation_degrees": 0.7826891924081488,
+            "status": "ok",
+            "translation_x_pixels": -16.30357551574707,
+            "translation_y_pixels": -9.193876266479492,
+            "valid_fraction": 0.9507484436035156,
+            "warp_matrix": [
+              [
+                0.9999067187309265,
+                -0.01366007886826992,
+                -16.30357551574707
+              ],
+              [
+                0.01366007886826992,
+                0.9999067187309265,
+                -9.193876266479492
+              ]
+            ]
+          },
+          {
+            "correlation": 0.8949135698926577,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0572.JPG",
+            "rotation_degrees": -0.8550238190492835,
+            "status": "ok",
+            "translation_x_pixels": -19.8363037109375,
+            "translation_y_pixels": -6.176017761230469,
+            "valid_fraction": 0.94964599609375,
+            "warp_matrix": [
+              [
+                0.9998886585235596,
+                0.014922427013516426,
+                -19.8363037109375
+              ],
+              [
+                -0.014922427013516426,
+                0.9998886585235596,
+                -6.176017761230469
+              ]
+            ]
+          },
+          {
+            "correlation": 0.31048628824467933,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0635.JPG",
+            "rotation_degrees": -0.3112522457874136,
+            "status": "ok",
+            "translation_x_pixels": -16.954601287841797,
+            "translation_y_pixels": 6.994064807891846,
+            "valid_fraction": 0.959014892578125,
+            "warp_matrix": [
+              [
+                0.9999852180480957,
+                0.005432349629700184,
+                -16.954601287841797
+              ],
+              [
+                -0.005432349629700184,
+                0.9999852180480957,
+                6.994064807891846
+              ]
+            ]
+          },
+          {
+            "correlation": 0.34332197269678694,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0704.JPG",
+            "rotation_degrees": -0.2937932911944041,
+            "status": "ok",
+            "translation_x_pixels": -15.880480766296387,
+            "translation_y_pixels": 4.576786994934082,
+            "valid_fraction": 0.9654693603515625,
+            "warp_matrix": [
+              [
+                0.9999868273735046,
+                0.005127637647092342,
+                -15.880480766296387
+              ],
+              [
+                -0.005127637647092342,
+                0.9999868273735046,
+                4.576786994934082
+              ]
+            ]
+          },
+          {
+            "correlation": 0.3287113396001668,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0795.JPG",
+            "rotation_degrees": -0.5180249948103898,
+            "status": "ok",
+            "translation_x_pixels": -4.4154582023620605,
+            "translation_y_pixels": 4.9354567527771,
+            "valid_fraction": 0.9908103942871094,
+            "warp_matrix": [
+              [
+                0.9999591112136841,
+                0.009041118435561657,
+                -4.4154582023620605
+              ],
+              [
+                -0.009041118435561657,
+                0.9999591112136841,
+                4.9354567527771
+              ]
+            ]
+          },
+          {
+            "correlation": 0.9122586574888896,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0895.JPG",
+            "rotation_degrees": 0.5858330255097907,
+            "status": "ok",
+            "translation_x_pixels": -19.698925018310547,
+            "translation_y_pixels": -2.7082645893096924,
+            "valid_fraction": 0.95416259765625,
+            "warp_matrix": [
+              [
+                0.999947726726532,
+                -0.010224536992609501,
+                -19.698925018310547
+              ],
+              [
+                0.010224536992609501,
+                0.999947726726532,
+                -2.7082645893096924
+              ]
+            ]
+          },
+          {
+            "correlation": 0.8966009335369597,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0927.JPG",
+            "rotation_degrees": -0.43440095952810154,
+            "status": "ok",
+            "translation_x_pixels": -6.057116985321045,
+            "translation_y_pixels": 1.8041226863861084,
+            "valid_fraction": 0.9900741577148438,
+            "warp_matrix": [
+              [
+                0.9999712705612183,
+                0.007581654470413923,
+                -6.057116985321045
+              ],
+              [
+                -0.007581654470413923,
+                0.9999712705612183,
+                1.8041226863861084
+              ]
+            ]
+          },
+          {
+            "correlation": 0.8865695084377371,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0961.JPG",
+            "rotation_degrees": -1.1025817936906417,
+            "status": "ok",
+            "translation_x_pixels": -13.739764213562012,
+            "translation_y_pixels": -2.4447457790374756,
+            "valid_fraction": 0.9685173034667969,
+            "warp_matrix": [
+              [
+                0.9998148679733276,
+                0.01924249529838562,
+                -13.739764213562012
+              ],
+              [
+                -0.01924249529838562,
+                0.9998148679733276,
+                -2.4447457790374756
+              ]
+            ]
+          },
+          {
+            "correlation": 0.92094460468921,
+            "failure_code": null,
+            "is_anchor": false,
+            "relative_path": "pcb1/Data/Images/Normal/0966.JPG",
+            "rotation_degrees": 2.035952235811037,
+            "status": "ok",
+            "translation_x_pixels": 3.363865375518799,
+            "translation_y_pixels": -10.517882347106934,
+            "valid_fraction": 0.9788894653320312,
+            "warp_matrix": [
+              [
+                0.9993687272071838,
+                -0.035526592284440994,
+                3.363865375518799
+              ],
+              [
+                0.035526592284440994,
+                0.9993687272071838,
+                -10.517882347106934
+              ]
+            ]
+          }
+        ],
+        "status": "ok",
+        "successful_reference_count": 20,
+        "support_fraction": 0.9028167724609375
+      },
+      "score_artifact": {
+        "record_count": 884,
+        "relative_path": "ecc_residual/scores.csv",
+        "sha256": "2140ef148517b594b6ad357434524de126cc4bcb90b63a426bf980d10a6dd555"
+      },
+      "threshold_calibration": {
+        "failed_score_count": 0,
+        "failed_score_paths": [],
+        "failure_code": null,
+        "predicted_anomalous_count": 44,
+        "prediction_rule": "failed_or_strictly_greater",
+        "quantile": 0.95,
+        "rank": 840,
+        "realized_normal_false_positive_rate": 0.049773755656108594,
+        "sample_count": 884,
+        "status": "ok",
+        "threshold": 0.688464437424507,
+        "threshold_source_path": "pcb1/Data/Images/Normal/0691.JPG"
+      }
+    },
+    "patch_hog_one_class_svm": {
+      "fit": {
+        "iteration_count_max": 39,
+        "iteration_count_min": 24,
+        "model_status": "ok",
+        "reference_count": 20,
+        "scaler_status": "ok",
+        "successful_model_position_count": 225,
+        "successful_scaler_position_count": 225,
+        "support_vector_count_max": 20,
+        "support_vector_count_min": 13,
+        "support_vector_count_total": 4307
+      },
+      "score_artifact": {
+        "record_count": 884,
+        "relative_path": "patch_hog_one_class_svm/scores.csv",
+        "sha256": "1d59a3fc684972659839308fcadb16c71ba7597460750863e523e350440f2202"
+      },
+      "threshold_calibration": {
+        "failed_score_count": 0,
+        "failed_score_paths": [],
+        "failure_code": null,
+        "predicted_anomalous_count": 44,
+        "prediction_rule": "failed_or_strictly_greater",
+        "quantile": 0.95,
+        "rank": 840,
+        "realized_normal_false_positive_rate": 0.049773755656108594,
+        "sample_count": 884,
+        "status": "ok",
+        "threshold": 0.17611826509314352,
+        "threshold_source_path": "pcb1/Data/Images/Normal/0660.JPG"
+      }
+    }
+  },
+  "normal_partition_manifest_sha256": "953478e04c20d74cc1994022e4a757388123b4db4020a10898fcee74b1a192a7",
+  "reference": {
+    "count": 20,
+    "paths": [
+      "pcb1/Data/Images/Normal/0246.JPG",
+      "pcb1/Data/Images/Normal/0704.JPG",
+      "pcb1/Data/Images/Normal/0440.JPG",
+      "pcb1/Data/Images/Normal/0927.JPG",
+      "pcb1/Data/Images/Normal/0546.JPG",
+      "pcb1/Data/Images/Normal/0966.JPG",
+      "pcb1/Data/Images/Normal/0420.JPG",
+      "pcb1/Data/Images/Normal/0014.JPG",
+      "pcb1/Data/Images/Normal/0331.JPG",
+      "pcb1/Data/Images/Normal/0795.JPG",
+      "pcb1/Data/Images/Normal/0635.JPG",
+      "pcb1/Data/Images/Normal/0217.JPG",
+      "pcb1/Data/Images/Normal/0572.JPG",
+      "pcb1/Data/Images/Normal/0895.JPG",
+      "pcb1/Data/Images/Normal/0256.JPG",
+      "pcb1/Data/Images/Normal/0023.JPG",
+      "pcb1/Data/Images/Normal/0961.JPG",
+      "pcb1/Data/Images/Normal/0307.JPG",
+      "pcb1/Data/Images/Normal/0078.JPG",
+      "pcb1/Data/Images/Normal/0105.JPG"
+    ]
+  },
+  "schema_version": 1,
+  "source_commit": "4fef91c1d1e339aa507cad80d51127e01046ae0b",
+  "status": "THRESHOLDS_FIXED_BEFORE_FINAL_TEST"
+}
