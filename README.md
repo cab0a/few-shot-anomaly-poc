@@ -2,7 +2,7 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 18 evaluation artifact schema**
+> **Status: Milestone 19 synthetic end-to-end evaluation**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
@@ -16,8 +16,10 @@ Evaluate whether two CPU-only, normal-only visual anomaly detection methods just
 > also implemented, together with the preregistered CPU latency measurement
 > protocol, mechanical fixed-threshold failure-case selection, and the fixed
 > per-method hard-gate decision. The versioned JSON/CSV evaluation artifact
-> contract is also fixed. No dataset-derived threshold, dataset result,
-> benchmark, method comparison, or project decision is reported.
+> contract is also fixed, and a deterministic synthetic-record pipeline
+> connects the complete evaluation boundary. No VisA-derived threshold,
+> dataset result, benchmark, method comparison, or project decision is
+> reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -559,6 +561,42 @@ content, duplicate keys, and non-finite numbers. See the
 No empty result files or synthetic or VisA-derived evaluation bundle is created
 by this milestone.
 
+## Synthetic end-to-end evaluation
+
+The synthetic integration path connects both method-specific score types
+through:
+
+```text
+normal-only calibration scores
+    -> fixed threshold
+    -> label-free final scores
+    -> fixed-threshold batch classification
+    -> exact-path label reveal
+    -> image-level metrics
+    -> mechanical failure selection
+    -> fixed hard-gate decision
+    -> immutable JSON/CSV bundle
+```
+
+All inputs are generated records. No image is opened, no VisA path or label is
+used, and the latency records describe a synthetic timer fixture rather than a
+measurement. Each method intentionally produces one false positive and two
+false negatives, exercising the exact 5% normal-FPR and 90% anomaly-recall gate
+boundaries. A synthetic `ADOPT` proves only that the preregistered plumbing can
+produce that label from passing inputs.
+
+The generator validates every intermediate result by recomputing the chain,
+writes through a temporary directory, refuses overwrite, records every file
+digest, and has byte-for-byte reproduction tests. After this implementation is
+committed, its immutable public fixture is generated with:
+
+```bash
+uv run --locked --no-sync python scripts/run_synthetic_evaluation.py
+```
+
+This command is not a VisA experiment and cannot support a method-performance
+claim.
+
 ## Non-goals
 
 v0.1 does not attempt to provide:
@@ -615,6 +653,9 @@ and tested with generated labeled records without image access. The repository
 also applies every preregistered hard gate in fixed order and tests all three
 allowed decision labels with synthetic evidence. A versioned, deterministic
 JSON/CSV contract now covers scores, classifications, revealed labels, metrics,
-latency, selected failures, decisions, and artifact provenance. The repository
-still contains no VisA image, dataset-derived threshold, evaluation bundle,
-experiment, result figure, image-based failure analysis, or project decision.
+latency, selected failures, decisions, and artifact provenance. A
+synthetic-record generator connects the full primitive chain for both methods
+and verifies deterministic, non-overwritable bundle generation in temporary
+test directories. The repository still contains no VisA image, VisA-derived
+threshold, VisA evaluation bundle, experiment result, result figure,
+image-based failure analysis, or project decision.

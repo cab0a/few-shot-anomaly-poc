@@ -206,3 +206,7 @@ class HardGateDecisionFailureCode(StrEnum):
     DECISION_METHOD_MISMATCH = "DECISION_METHOD_MISMATCH"
     DECISION_PROCESS_EVIDENCE_INVALID = "DECISION_PROCESS_EVIDENCE_INVALID"
     DECISION_RESULT_INVALID = "DECISION_RESULT_INVALID"
+
+
+class EvaluationArtifactError(Exception):
+    """Reject an invalid or non-immutable evaluation artifact bundle."""

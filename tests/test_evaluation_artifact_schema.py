@@ -4,6 +4,14 @@ import json
 import re
 from pathlib import Path
 
+from few_shot_anomaly_poc.evaluation_artifacts import (
+    CLASSIFICATION_COLUMNS,
+    FAILURE_COLUMNS,
+    LABEL_COLUMNS,
+    LATENCY_OBSERVATION_COLUMNS,
+    SCORE_COLUMNS,
+)
+
 SCHEMA_PATH = Path("schemas/v0.1/evaluation-artifacts.json")
 CONTRACT_VERSION = "evaluation-artifacts/v0.1"
 REQUIRED_CONTRACTS = {
@@ -111,6 +119,22 @@ def test_every_csv_contract_has_unique_columns_and_key_columns() -> None:
                 for key in csv_spec["sort_key"]
             )
             assert all(isinstance(column["nullable"], bool) for column in csv_spec["columns"])
+
+
+def test_writer_headers_match_the_machine_readable_contract() -> None:
+    contracts = _schema()["contracts"]
+
+    assert tuple(column["name"] for column in contracts["score"]["columns"]) == SCORE_COLUMNS
+    assert (
+        tuple(column["name"] for column in contracts["classification"]["columns"])
+        == CLASSIFICATION_COLUMNS
+    )
+    assert tuple(column["name"] for column in contracts["label_reveal"]["columns"]) == LABEL_COLUMNS
+    assert (
+        tuple(column["name"] for column in contracts["latency"]["files"]["observations"]["columns"])
+        == LATENCY_OBSERVATION_COLUMNS
+    )
+    assert tuple(column["name"] for column in contracts["failure"]["columns"]) == FAILURE_COLUMNS
 
 
 def test_label_free_contracts_do_not_contain_true_class() -> None:

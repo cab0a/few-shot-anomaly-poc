@@ -509,6 +509,23 @@ all timed observations, and records SHA-256 identities for every generated
 artifact in a non-self-referential bundle manifest. Existing bundles cannot be
 silently overwritten.
 
+## Synthetic Integration Check
+
+Before any final-test run, generated records connect normal-only threshold
+calibration, label-free classification, exact-path label reveal, image-level
+metrics, failure-case selection, hard gates, and artifact serialization for
+both shortlisted score types.
+
+The fixture deliberately includes one false positive among 20 synthetic normal
+records and two false negatives among 20 synthetic anomaly records. It
+therefore tests the exact 5% normal-FPR and 90% anomaly-recall pass boundaries.
+Its fixed latency values and CPU environment are synthetic records, not
+measurements.
+
+Any `ADOPT`, AUROC, AUPRC, FPR, recall, or latency value in a
+`run_kind=synthetic` bundle is plumbing evidence only. It must not be presented
+as VisA performance, a method comparison, or the project decision.
+
 ## Known Limitations
 
 - Only VisA `pcb1` is evaluated.
