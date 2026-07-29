@@ -149,6 +149,18 @@ class PatchHOGScoringConfig:
 
 
 @dataclass(frozen=True)
+class ThresholdCalibrationConfig:
+    source_partition: str
+    normal_only: bool
+    method_scope: str
+    score_order: str
+    quantile: float
+    rank_rounding: str
+    threshold_index: str
+    prediction_rule: str
+
+
+@dataclass(frozen=True)
 class ProjectPaths:
     archive: Path
     archive_provenance: Path
@@ -176,6 +188,7 @@ class ProjectConfig:
     patch_hog_scaler: PatchHOGScalerConfig
     patch_hog_one_class_svm: PatchHOGOneClassSVMConfig
     patch_hog_scoring: PatchHOGScoringConfig
+    threshold_calibration: ThresholdCalibrationConfig
     paths: ProjectPaths
     project_root: Path
 
@@ -298,6 +311,10 @@ def load_config(config_path: Path) -> ProjectConfig:
     patch_hog_scoring_raw = _mapping(
         root.get("patch_hog_scoring"),
         "patch_hog_scoring",
+    )
+    threshold_calibration_raw = _mapping(
+        root.get("threshold_calibration"),
+        "threshold_calibration",
     )
     paths_raw = _mapping(root.get("paths"), "paths")
     project_root = resolved_config.parent.parent.resolve()
@@ -804,6 +821,56 @@ def load_config(config_path: Path) -> ProjectConfig:
             1e12,
         ),
     )
+    threshold_calibration = ThresholdCalibrationConfig(
+        source_partition=_fixed_string(
+            threshold_calibration_raw,
+            "source_partition",
+            "threshold_calibration",
+            "calibration",
+        ),
+        normal_only=_fixed_boolean(
+            threshold_calibration_raw,
+            "normal_only",
+            "threshold_calibration",
+            True,
+        ),
+        method_scope=_fixed_string(
+            threshold_calibration_raw,
+            "method_scope",
+            "threshold_calibration",
+            "per_method",
+        ),
+        score_order=_fixed_string(
+            threshold_calibration_raw,
+            "score_order",
+            "threshold_calibration",
+            "ascending",
+        ),
+        quantile=_fixed_float(
+            threshold_calibration_raw,
+            "quantile",
+            "threshold_calibration",
+            0.95,
+        ),
+        rank_rounding=_fixed_string(
+            threshold_calibration_raw,
+            "rank_rounding",
+            "threshold_calibration",
+            "ceil",
+        ),
+        threshold_index=_fixed_string(
+            threshold_calibration_raw,
+            "threshold_index",
+            "threshold_calibration",
+            "rank_minus_one",
+        ),
+        prediction_rule=_fixed_string(
+            threshold_calibration_raw,
+            "prediction_rule",
+            "threshold_calibration",
+            "failed_or_strictly_greater",
+        ),
+    )
 
     path_values = {
         key: _project_path(
@@ -871,6 +938,7 @@ def load_config(config_path: Path) -> ProjectConfig:
         patch_hog_scaler=patch_hog_scaler,
         patch_hog_one_class_svm=patch_hog_one_class_svm,
         patch_hog_scoring=patch_hog_scoring,
+        threshold_calibration=threshold_calibration,
         paths=ProjectPaths(**path_values),
         project_root=project_root,
     )

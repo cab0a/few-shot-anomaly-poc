@@ -123,3 +123,14 @@ class HOGScoringFailureCode(StrEnum):
 
 class HOGScoringStateError(Exception):
     """Reject scoring when no valid fitted Patch HOG state is available."""
+
+
+class ThresholdCalibrationFailureCode(StrEnum):
+    """Stable failure codes for normal-only threshold calibration."""
+
+    CALIBRATION_METHOD_INVALID = "CALIBRATION_METHOD_INVALID"
+    CALIBRATION_EMPTY = "CALIBRATION_EMPTY"
+    CALIBRATION_PATH_INVALID = "CALIBRATION_PATH_INVALID"
+    CALIBRATION_SCORE_TYPE_MISMATCH = "CALIBRATION_SCORE_TYPE_MISMATCH"
+    CALIBRATION_SCORE_RECORD_INVALID = "CALIBRATION_SCORE_RECORD_INVALID"
+    CALIBRATION_RESULT_INVALID = "CALIBRATION_RESULT_INVALID"

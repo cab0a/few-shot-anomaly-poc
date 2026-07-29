@@ -90,6 +90,14 @@ def test_repository_config_pins_official_split() -> None:
     assert config.patch_hog_scoring.top_fraction == 0.05
     assert config.patch_hog_scoring.top_count_rounding == "ceil"
     assert config.patch_hog_scoring.failure_score == 1e12
+    assert config.threshold_calibration.source_partition == "calibration"
+    assert config.threshold_calibration.normal_only is True
+    assert config.threshold_calibration.method_scope == "per_method"
+    assert config.threshold_calibration.score_order == "ascending"
+    assert config.threshold_calibration.quantile == 0.95
+    assert config.threshold_calibration.rank_rounding == "ceil"
+    assert config.threshold_calibration.threshold_index == "rank_minus_one"
+    assert config.threshold_calibration.prediction_rule == "failed_or_strictly_greater"
     assert config.split.revision == "2a692ab575001cbde74d402d897a7286086c6199"
     assert config.split.sha256 == "a48557e6033318cb90556f706196bc9d247a776a23ea51aecee5a80dd0332995"
 
@@ -248,4 +256,19 @@ def test_config_rejects_changed_patch_hog_scoring(
     config_path.write_text(json.dumps(raw), encoding="utf-8")
 
     with pytest.raises(ConfigurationError, match="top_fraction"):
+        load_config(config_path)
+
+
+@pytest.mark.parametrize("changed_quantile", [0.9, "0.95", True])
+def test_config_rejects_changed_threshold_calibration(
+    tmp_path: Path,
+    changed_quantile: object,
+) -> None:
+    raw = json.loads(Path("configs/v0.1.yaml").read_text(encoding="utf-8"))
+    raw["threshold_calibration"]["quantile"] = changed_quantile
+    config_path = tmp_path / "configs/v0.1.yaml"
+    config_path.parent.mkdir()
+    config_path.write_text(json.dumps(raw), encoding="utf-8")
+
+    with pytest.raises(ConfigurationError, match="quantile"):
         load_config(config_path)

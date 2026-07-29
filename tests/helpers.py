@@ -171,6 +171,16 @@ def create_config(
             "top_count_rounding": "ceil",
             "failure_score": 1000000000000.0,
         },
+        "threshold_calibration": {
+            "source_partition": "calibration",
+            "normal_only": True,
+            "method_scope": "per_method",
+            "score_order": "ascending",
+            "quantile": 0.95,
+            "rank_rounding": "ceil",
+            "threshold_index": "rank_minus_one",
+            "prediction_rule": "failed_or_strictly_greater",
+        },
         "paths": {
             "archive": "data/external/archives/VisA_20220922.tar",
             "archive_provenance": "data/provenance/visa-archive.json",

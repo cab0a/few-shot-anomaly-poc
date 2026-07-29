@@ -2,15 +2,16 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 9 Patch HOG image scoring primitive**
+> **Status: Milestone 10 normal-only threshold calibration primitive**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
 > preprocessing are implemented, together with the bounded ECC registration
 > primitive, deterministic normal-template fitting, and fixed residual image
 > scoring. Fixed Patch HOG feature extraction and position-wise StandardScaler
-> fitting, One-Class SVM fitting, and image scoring are also implemented. No
-> calibrated threshold, dataset result, benchmark, method comparison, or
+> fitting, One-Class SVM fitting, and image scoring are also implemented,
+> together with method-specific normal-only threshold calibration. No
+> dataset-derived threshold, dataset result, benchmark, method comparison, or
 > decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
@@ -340,6 +341,30 @@ localization result. Tests use generated images and generated normal reference
 features. This component does not select a threshold, use anomaly labels, read
 a VisA image, or claim method performance.
 
+## Normal-only threshold calibration
+
+The evaluation foundation now includes a method-specific calibration primitive
+that:
+
+- accepts a non-empty mapping from relative calibration paths to concrete score
+  results from exactly one shortlisted method
+- exposes no class-label input and therefore cannot consume anomaly labels
+- validates each method's successful score range and fixed failure score
+- retains failed score records and always predicts them as anomalous
+- sorts by anomaly score ascending and relative path ascending for deterministic
+  ties
+- selects `rank = ceil(0.95 * n)` and
+  `threshold = sorted_scores[rank - 1]`
+- classifies a successful score as anomalous only when it is strictly greater
+  than the threshold
+- records the threshold source, ordered paths, failure paths, predicted
+  anomalous paths, and realized calibration false-positive rate
+
+Tests use generated score records only, including the fixed v0.1 calibration
+sample count of 884. This component does not load the calibration manifest,
+score dataset images, inspect final-test data, select a method, apply acceptance
+gates, or report a dataset-derived threshold.
+
 ## Non-goals
 
 v0.1 does not attempt to provide:
@@ -361,7 +386,7 @@ The repository contains preregistered design documents, the data foundation,
 deterministic shared preprocessing, bounded ECC registration, deterministic ECC
 normal-template fitting, fixed ECC residual image scoring, and fixed Patch HOG
 feature extraction with position-wise reference scaling and One-Class SVM
-fitting and image scoring:
+fitting and image scoring, plus normal-only threshold calibration:
 
 - [Problem and requirements](docs/problem-and-requirements.md)
 - [Research and method selection](docs/research-and-method-selection.md)
@@ -378,6 +403,7 @@ residual scoring are implemented, together with Patch HOG feature extraction.
 Position-wise Patch HOG StandardScaler fitting is also implemented. The
 position-wise One-Class SVM fitting and validation are implemented and tested
 with synthetic reference features. Fixed Patch HOG image scoring is implemented
-and tested with generated inputs. The repository still contains no VisA image,
-calibrated threshold, evaluation pipeline, experiment, result figure, failure
-analysis, or final decision.
+and tested with generated inputs. The normal-only threshold calibration rule is
+implemented and tested with generated score records. The repository still
+contains no VisA image, dataset-derived threshold, evaluation pipeline,
+experiment, result figure, failure analysis, or final decision.

@@ -93,11 +93,30 @@ Higher scores must consistently mean "more anomalous."
 For `n` calibration scores from one method:
 
 1. Score every normal calibration image.
-2. Sort all preregistered finite scores, including fixed failure scores, in ascending order.
+2. Sort all preregistered finite scores, including fixed failure scores, by
+   score ascending and relative path ascending for deterministic ties.
 3. Set `rank = ceil(0.95 * n)`.
 4. Choose `sorted_scores[rank - 1]` as the threshold.
 5. Classify an image as anomalous when its score status is `failed` or its score is strictly greater than the threshold.
 6. Record the calibration sample count, threshold, number classified as anomalous, and realized calibration false-positive rate.
+
+The calibration primitive accepts one method identifier and one non-empty
+mapping from relative paths to that method's concrete image-score records. ECC
+residual and Patch HOG score record types cannot be mixed. The interface accepts
+no class labels. It validates successful score bounds, exact fixed failure
+scores, and score status before selecting a threshold.
+
+Successful calibration output records the nearest rank, threshold, threshold
+source path, full score order, failed-score paths, predicted-anomalous paths,
+and realized normal false-positive rate. Invalid input produces no partial
+threshold result and uses one of:
+
+- `CALIBRATION_METHOD_INVALID`
+- `CALIBRATION_EMPTY`
+- `CALIBRATION_PATH_INVALID`
+- `CALIBRATION_SCORE_TYPE_MISMATCH`
+- `CALIBRATION_SCORE_RECORD_INVALID`
+- `CALIBRATION_RESULT_INVALID`
 
 No anomaly image and no final-test image may influence this threshold.
 
