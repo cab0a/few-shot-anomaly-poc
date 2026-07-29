@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import subprocess
 from copy import deepcopy
 from pathlib import Path
 
@@ -25,13 +26,21 @@ COMMITTED_RECORD = PROJECT_ROOT / "artifacts/v0.1/freeze/pre-evaluation-freeze.j
 
 
 def _record() -> dict:
-    return build_pre_evaluation_freeze(
+    return read_and_verify_pre_evaluation_freeze(
+        COMMITTED_RECORD,
         project_root=PROJECT_ROOT,
-        source_commit=SOURCE_COMMIT,
-        ci_run_id=CI_RUN_ID,
-        ci_run_url=CI_RUN_URL,
-        config=load_config(CONFIG_PATH),
     )
+
+
+def _checked_out_commit() -> str:
+    completed = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=PROJECT_ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return completed.stdout.strip()
 
 
 def test_freeze_records_fixed_source_ci_references_and_gates() -> None:
@@ -104,11 +113,19 @@ def test_freeze_verifier_rejects_tampered_digest() -> None:
         verify_pre_evaluation_freeze(record, project_root=PROJECT_ROOT)
 
 
-def test_committed_freeze_matches_generated_record() -> None:
+def test_committed_freeze_matches_record_generated_from_current_checkout() -> None:
     committed = read_and_verify_pre_evaluation_freeze(
         COMMITTED_RECORD,
         project_root=PROJECT_ROOT,
     )
+    generated = build_pre_evaluation_freeze(
+        project_root=PROJECT_ROOT,
+        source_commit=_checked_out_commit(),
+        ci_run_id=CI_RUN_ID,
+        ci_run_url=CI_RUN_URL,
+        config=load_config(CONFIG_PATH),
+    )
+    generated["evaluation_source_commit"] = SOURCE_COMMIT
 
-    assert committed == _record()
+    assert committed == generated
     assert json.loads(COMMITTED_RECORD.read_text(encoding="utf-8")) == committed
