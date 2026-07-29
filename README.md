@@ -2,7 +2,7 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 21 local VisA integrity verified**
+> **Status: Milestone 22 normal-only calibration runner ready**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
@@ -20,9 +20,11 @@ Evaluate whether two CPU-only, normal-only visual anomaly detection methods just
 > connects the complete evaluation boundary. The CI-verified evaluation source,
 > data selection, dependencies, rules, and artifact contract are now frozen
 > before final-test scoring. The fixed local VisA `pcb1` asset has also passed
-> archive, extraction, split-path, and byte-level integrity checks. No
-> VisA-derived threshold, anomaly score, dataset metric, benchmark, method
-> comparison, or project decision is reported.
+> archive, extraction, split-path, and byte-level integrity checks. The
+> normal-reference fitting and normal-only calibration runner is implemented
+> and tested but has not yet been executed on VisA. No VisA-derived threshold,
+> anomaly score, dataset metric, benchmark, method comparison, or project
+> decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -213,6 +215,26 @@ The aggregate record is
 It contains no raw VisA bytes or machine-specific absolute path. The verifier,
 scope, and regeneration commands are documented in
 [the local integrity record](docs/local-data-integrity.md).
+
+## Normal-reference fitting and calibration runner
+
+The next fixed stage is implemented without changing any frozen method,
+configuration, partition, threshold, or gate file. After its implementation
+commit passes CI, the runner will:
+
+- revalidate the pre-evaluation freeze and current local dataset identity
+- preprocess exactly the fixed 20 normal references
+- fit the ECC template and all 225 Patch HOG scaler/model positions
+- score exactly the 884 normal calibration images with both methods
+- select each method's nearest-rank 95th-percentile threshold
+- write label-free calibration scores and threshold evidence
+- preserve hash-checked fitted state outside Git for the first final-test run
+
+The runner refuses a dirty source tree and refuses to overwrite either its
+public checkpoint or local fitted state. Its procedure, boundaries, and command
+are documented in
+[the normal-only calibration checkpoint](docs/normal-only-calibration.md).
+No VisA calibration result exists at this implementation-only stage.
 
 ## Shared input preprocessing
 
