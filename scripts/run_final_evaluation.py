@@ -86,6 +86,18 @@ def _parser() -> argparse.ArgumentParser:
     return parser
 
 
+def _method_summary(method_dir: Path, method: str) -> str:
+    metrics = json.loads((method_dir / "metrics.json").read_text(encoding="utf-8"))
+    decision = json.loads((method_dir / "decision.json").read_text(encoding="utf-8"))
+    return (
+        f"  {method}: AUROC={metrics['image_level_auroc']}, "
+        f"AUPRC={metrics['image_level_auprc']}, "
+        f"normal_FPR={metrics['normal_false_positive_rate']}, "
+        f"anomaly_recall={metrics['anomaly_recall']}, "
+        f"decision={decision['decision']}"
+    )
+
+
 def main() -> int:
     args = _parser().parse_args()
     config = load_config(DEFAULT_CONFIG)
@@ -119,16 +131,7 @@ def main() -> int:
 
     print(f"final evaluation written: {output}")
     for method in ("ecc_residual", "patch_hog_one_class_svm"):
-        method_dir = output / method
-        metrics = json.loads((method_dir / "metrics.json").read_text(encoding="utf-8"))
-        decision = json.loads((method_dir / "decision.json").read_text(encoding="utf-8"))
-        print(
-            f"  {method}: AUROC={metrics['auroc']}, "
-            f"AUPRC={metrics['auprc']}, "
-            f"normal_FPR={metrics['normal_false_positive_rate']}, "
-            f"anomaly_recall={metrics['anomaly_recall']}, "
-            f"decision={decision['decision']}"
-        )
+        print(_method_summary(output / method, method))
     print(f"Run ID: {FINAL_EVALUATION_RUN_ID}")
     return 0
 

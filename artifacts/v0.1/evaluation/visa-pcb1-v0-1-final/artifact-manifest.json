@@ -1,0 +1,124 @@
+{
+  "category": "pcb1",
+  "config_sha256": "9a8149c0d37f86a4474089ae251bd4954071d7171f7110073e82c9796b52d917",
+  "contract_version": "evaluation-artifacts/v0.1",
+  "dataset": "VisA",
+  "files": [
+    {
+      "artifact_type": "classification",
+      "method": "ecc_residual",
+      "record_count": 200,
+      "relative_path": "ecc_residual/classifications.csv",
+      "sha256": "c9b2cfd18a88ebed1e12bae317cf3065fbce5b28d451ff6bf43413f8995e6ce7"
+    },
+    {
+      "artifact_type": "decision",
+      "method": "ecc_residual",
+      "record_count": 1,
+      "relative_path": "ecc_residual/decision.json",
+      "sha256": "7323859ae2c2ab011b127be128f552eb0815a5b1e0f42f208e8244d5c860c075"
+    },
+    {
+      "artifact_type": "failure",
+      "method": "ecc_residual",
+      "record_count": 10,
+      "relative_path": "ecc_residual/failure-cases.csv",
+      "sha256": "98469d86c978aea699d36a1e8a8d983ff8d794f6d510606b2f3f1261f361bc75"
+    },
+    {
+      "artifact_type": "latency_observations",
+      "method": "ecc_residual",
+      "record_count": 600,
+      "relative_path": "ecc_residual/latency-observations.csv",
+      "sha256": "fe91ed9e345bb34302e0bad32c834c1bad9bb2da3860a9de6e4c9155bdce2277"
+    },
+    {
+      "artifact_type": "latency",
+      "method": "ecc_residual",
+      "record_count": 1,
+      "relative_path": "ecc_residual/latency.json",
+      "sha256": "3d52d7fdb48fc589c51e0b67b353152f1545719e1463338caf2491af52fdb29e"
+    },
+    {
+      "artifact_type": "metrics",
+      "method": "ecc_residual",
+      "record_count": 1,
+      "relative_path": "ecc_residual/metrics.json",
+      "sha256": "17927566e8ac9b68440d97fa71ea31c08210a1bae108a9ecae46ca3f4f0c49ad"
+    },
+    {
+      "artifact_type": "label_reveal",
+      "method": "ecc_residual",
+      "record_count": 200,
+      "relative_path": "ecc_residual/revealed-labels.csv",
+      "sha256": "f3234b6e70a2f4d7f2dde7237188e69ea0bc36c4ee8a4c6c9498d97cc5a646cb"
+    },
+    {
+      "artifact_type": "score",
+      "method": "ecc_residual",
+      "record_count": 1084,
+      "relative_path": "ecc_residual/scores.csv",
+      "sha256": "761534728051dcd95034a6e76fbdd9d1d367581051c2cafc13ea8644cab271ba"
+    },
+    {
+      "artifact_type": "classification",
+      "method": "patch_hog_one_class_svm",
+      "record_count": 200,
+      "relative_path": "patch_hog_one_class_svm/classifications.csv",
+      "sha256": "ba671a1350a1dfc24f0f85cf4674ec08a5082ab86728eb2861318ed6b5731e8a"
+    },
+    {
+      "artifact_type": "decision",
+      "method": "patch_hog_one_class_svm",
+      "record_count": 1,
+      "relative_path": "patch_hog_one_class_svm/decision.json",
+      "sha256": "410e08ca3e5d085df2e4ae13da8ae43c69e08ff859dcc50a99ea5af379452b81"
+    },
+    {
+      "artifact_type": "failure",
+      "method": "patch_hog_one_class_svm",
+      "record_count": 10,
+      "relative_path": "patch_hog_one_class_svm/failure-cases.csv",
+      "sha256": "acbed2dfce9f412ff1782efa5039a66a62324700431693e8b7b79724f3176fc4"
+    },
+    {
+      "artifact_type": "latency_observations",
+      "method": "patch_hog_one_class_svm",
+      "record_count": 600,
+      "relative_path": "patch_hog_one_class_svm/latency-observations.csv",
+      "sha256": "4cc1f38cdee149ea71b230df807b8ea02d5de0224fb6f8d40791e03279ede9aa"
+    },
+    {
+      "artifact_type": "latency",
+      "method": "patch_hog_one_class_svm",
+      "record_count": 1,
+      "relative_path": "patch_hog_one_class_svm/latency.json",
+      "sha256": "86e7f778d478f13ca033bb47a62bdfa6c22821bad419a26b6df3af65309db18f"
+    },
+    {
+      "artifact_type": "metrics",
+      "method": "patch_hog_one_class_svm",
+      "record_count": 1,
+      "relative_path": "patch_hog_one_class_svm/metrics.json",
+      "sha256": "5c450937eea86c3ce49da29eede8c02425b73ea51be7c80f1686a13d597c924f"
+    },
+    {
+      "artifact_type": "label_reveal",
+      "method": "patch_hog_one_class_svm",
+      "record_count": 200,
+      "relative_path": "patch_hog_one_class_svm/revealed-labels.csv",
+      "sha256": "2e1e077a63d43540cb0db57a714652f950e793004603e18f70b2e7127a9b533a"
+    },
+    {
+      "artifact_type": "score",
+      "method": "patch_hog_one_class_svm",
+      "record_count": 1084,
+      "relative_path": "patch_hog_one_class_svm/scores.csv",
+      "sha256": "811bd88a9e41938ad4d5123968e6aff5e13be8603f1431833e93bc7aaa1fa29b"
+    }
+  ],
+  "partition_manifest_sha256": "cde057e93700b90d473f52df680840ad9bc96668f6e6a8d476e712589dfa9f00",
+  "run_id": "visa-pcb1-v0-1-final",
+  "run_kind": "final_test",
+  "source_commit": "c6b4e5e164cc8788ff0428361406ada3e116543b"
+}

@@ -1,0 +1,11 @@
+contract_version,run_id,run_kind,method,case_type,rank,relative_path,true_class,predicted_class,anomaly_score,threshold,score_margin,score_status,score_failure_code
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,ecc_residual,false_positive,1,pcb1/Data/Images/Normal/0648.JPG,normal,anomalous,0.7048115037397535,0.688464437424507,0.016347066315246517,ok,
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,ecc_residual,false_positive,2,pcb1/Data/Images/Normal/0725.JPG,normal,anomalous,0.7023987393616925,0.688464437424507,0.013934301937185478,ok,
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,ecc_residual,false_positive,3,pcb1/Data/Images/Normal/0657.JPG,normal,anomalous,0.6968589529886351,0.688464437424507,0.008394515564128069,ok,
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,ecc_residual,false_positive,4,pcb1/Data/Images/Normal/0764.JPG,normal,anomalous,0.692748630813334,0.688464437424507,0.004284193388827018,ok,
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,ecc_residual,false_positive,5,pcb1/Data/Images/Normal/0694.JPG,normal,anomalous,0.6920121208911246,0.688464437424507,0.0035476834666176016,ok,
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,ecc_residual,false_negative,1,pcb1/Data/Images/Anomaly/086.JPG,anomaly,normal,0.2745692885760572,0.688464437424507,-0.4138951488484498,ok,
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,ecc_residual,false_negative,2,pcb1/Data/Images/Anomaly/082.JPG,anomaly,normal,0.5196543957520297,0.688464437424507,-0.16881004167247737,ok,
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,ecc_residual,false_negative,3,pcb1/Data/Images/Anomaly/083.JPG,anomaly,normal,0.5430932354086,0.688464437424507,-0.14537120201590703,ok,
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,ecc_residual,false_negative,4,pcb1/Data/Images/Anomaly/049.JPG,anomaly,normal,0.5842430274096255,0.688464437424507,-0.1042214100148815,ok,
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,ecc_residual,false_negative,5,pcb1/Data/Images/Anomaly/084.JPG,anomaly,normal,0.5998110300033064,0.688464437424507,-0.08865340742120065,ok,

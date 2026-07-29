@@ -23,6 +23,7 @@ from few_shot_anomaly_poc.synthetic_evaluation import (
     SYNTHETIC_REFERENCE_PATHS,
     build_synthetic_evaluation_bundle,
 )
+from scripts.run_final_evaluation import _method_summary
 from tests.helpers import create_config, final_test_row, normal_train
 
 
@@ -173,3 +174,28 @@ def test_final_bundle_rejects_invalid_source_commit(
             class_records=class_records,
             config=project_config,
         )
+
+
+def test_cli_summary_uses_written_artifact_metric_keys(tmp_path: Path) -> None:
+    method_dir = tmp_path / "ecc_residual"
+    method_dir.mkdir()
+    (method_dir / "metrics.json").write_text(
+        json.dumps(
+            {
+                "image_level_auroc": 0.8,
+                "image_level_auprc": 0.7,
+                "normal_false_positive_rate": 0.1,
+                "anomaly_recall": 0.2,
+            }
+        ),
+        encoding="utf-8",
+    )
+    (method_dir / "decision.json").write_text(
+        json.dumps({"decision": "REJECT"}),
+        encoding="utf-8",
+    )
+
+    assert _method_summary(method_dir, "ecc_residual") == (
+        "  ecc_residual: AUROC=0.8, AUPRC=0.7, normal_FPR=0.1, "
+        "anomaly_recall=0.2, decision=REJECT"
+    )

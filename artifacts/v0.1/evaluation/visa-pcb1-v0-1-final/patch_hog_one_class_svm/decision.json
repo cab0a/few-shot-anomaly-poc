@@ -1,0 +1,64 @@
+{
+  "all_hard_gates_passed": false,
+  "condition": null,
+  "contract_version": "evaluation-artifacts/v0.1",
+  "decision": "REJECT",
+  "decision_reason": "hard_gate_failed",
+  "failure_review_disposition": "guardrail_required",
+  "failure_review_rationale": "Mechanical false-positive and false-negative selection is complete, but image content has not been reviewed at this decision stage; causal or intended-use boundary claims would be premature.",
+  "first_failed_gate": "final_test_normal_fpr",
+  "gate_outcomes": [
+    {
+      "gate_id": "final_test_normal_fpr",
+      "observed_value": 0.1,
+      "operator": "less_than_or_equal",
+      "order": 1,
+      "passed": false,
+      "required_value": 0.05
+    },
+    {
+      "gate_id": "final_test_anomaly_recall",
+      "observed_value": 0.19,
+      "operator": "greater_than_or_equal",
+      "order": 2,
+      "passed": false,
+      "required_value": 0.9
+    },
+    {
+      "gate_id": "cpu_p95_scoring_latency",
+      "observed_value": 0.565766242,
+      "operator": "less_than_or_equal",
+      "order": 3,
+      "passed": true,
+      "required_value": 1.0
+    },
+    {
+      "gate_id": "normal_reference_count",
+      "observed_value": 20,
+      "operator": "less_than_or_equal",
+      "order": 4,
+      "passed": true,
+      "required_value": 20
+    },
+    {
+      "gate_id": "anomaly_training_labels",
+      "observed_value": false,
+      "operator": "equal",
+      "order": 5,
+      "passed": true,
+      "required_value": false
+    },
+    {
+      "gate_id": "reproducibility",
+      "observed_value": true,
+      "operator": "equal",
+      "order": 6,
+      "passed": true,
+      "required_value": true
+    }
+  ],
+  "method": "patch_hog_one_class_svm",
+  "run_id": "visa-pcb1-v0-1-final",
+  "run_kind": "final_test",
+  "test_leakage_detected": false
+}

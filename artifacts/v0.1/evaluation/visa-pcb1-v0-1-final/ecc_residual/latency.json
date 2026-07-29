@@ -1,0 +1,77 @@
+{
+  "contract_version": "evaluation-artifacts/v0.1",
+  "environment": {
+    "cpu_model": "Intel(R) Core(TM) i7-3630QM CPU @ 2.40GHz",
+    "dependency_versions": [
+      [
+        "numpy",
+        "2.5.1"
+      ],
+      [
+        "opencv-python-headless",
+        "4.13.0.92"
+      ],
+      [
+        "scikit-image",
+        "0.26.0"
+      ],
+      [
+        "scikit-learn",
+        "1.9.0"
+      ]
+    ],
+    "logical_core_count": 8,
+    "machine": "x86_64",
+    "opencv_thread_count": 8,
+    "operating_system": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "physical_core_count": 4,
+    "python_version": "3.13.14",
+    "ram_bytes": 4045017088,
+    "thread_environment": [
+      [
+        "OMP_NUM_THREADS",
+        null
+      ],
+      [
+        "OPENBLAS_NUM_THREADS",
+        null
+      ],
+      [
+        "BLIS_NUM_THREADS",
+        null
+      ],
+      [
+        "MKL_NUM_THREADS",
+        null
+      ],
+      [
+        "NUMEXPR_NUM_THREADS",
+        null
+      ],
+      [
+        "VECLIB_MAXIMUM_THREADS",
+        null
+      ],
+      [
+        "OPENCV_FOR_THREADS_NUM",
+        null
+      ]
+    ]
+  },
+  "item_count": 200,
+  "measurement_boundary": "decoded_grayscale_uint8_to_image_score",
+  "median_latency_ns": 436950500.0,
+  "median_latency_seconds": 0.4369505,
+  "method": "ecc_residual",
+  "p95_latency_ns": 1246995590,
+  "p95_latency_seconds": 1.24699559,
+  "p95_rank": 570,
+  "run_id": "visa-pcb1-v0-1-final",
+  "run_kind": "final_test",
+  "sample_count": 600,
+  "score_failure_paths": [],
+  "score_failure_timing_count": 0,
+  "timed_passes": 3,
+  "timer": "perf_counter_ns",
+  "warmup_passes": 1
+}

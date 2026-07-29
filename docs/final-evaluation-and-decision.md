@@ -2,12 +2,32 @@
 
 ## Status
 
-The final evaluator is implemented and covered by synthetic tests. It has not
-yet revealed VisA final-test classes or produced a VisA metric, failure-case
-selection, or adoption decision at this commit.
+The fixed final evaluation is complete. Official final-test classes were
+joined only after the first fixed scores, classifications, and latency evidence
+had been preserved.
 
-The implementation must pass CI before class reveal. The exact CI-passed source
-commit will then be supplied to the non-overwritable evaluator.
+The evaluator implementation was committed as
+`c6b4e5e164cc8788ff0428361406ada3e116543b`, and GitHub Actions CI #29 passed
+before class reveal. That exact commit is recorded in the artifact manifest.
+
+## Result
+
+| Method | AUROC | AUPRC | Normal FPR | Anomaly recall | FP | FN | CPU p95 | Decision |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| ECC residual | `0.8141` | `0.751334028468922` | `0.09` | `0.21` | 9 | 79 | `1.24699559 s` | `REJECT` |
+| Patch HOG + One-Class SVM | `0.7837999999999999` | `0.7241747321517565` | `0.10` | `0.19` | 10 | 81 | `0.565766242 s` | `REJECT` |
+
+The final test contains 100 normal and 100 anomaly images. Neither method had a
+score-generation failure.
+
+The ranking metrics are descriptive and do not override the operating-point
+gates. Both methods failed the normal-FPR and anomaly-recall gates. ECC also
+failed the CPU p95 gate. The reference-count, anomaly-training-label, and
+reproducibility gates passed for both methods.
+
+The first failed gate is `final_test_normal_fpr` for both methods because gates
+are applied in their preregistered order. No weighted aggregate score or waiver
+was used.
 
 ## Fixed lineage
 
@@ -59,9 +79,9 @@ Condition if every hard gate passes:
 This disposition cannot rescue a failed hard gate. Any hard-gate failure still
 produces `REJECT`.
 
-## Planned output
+## Generated output
 
-The fixed evaluation-artifact contract will create:
+The fixed evaluation-artifact contract created:
 
 ```text
 artifacts/v0.1/evaluation/visa-pcb1-v0-1-final/
@@ -83,13 +103,23 @@ The writer re-derives calibration, classification, class reveal, metrics,
 failure selection, and decision from the preserved primitive objects before
 atomically creating the non-overwritable directory.
 
-## Planned command
-
-After the evaluator commit passes CI:
+## Recorded command
 
 ```bash
 uv run --locked --no-sync python scripts/run_final_evaluation.py \
-  --source-commit <full-ci-passed-commit>
+  --source-commit c6b4e5e164cc8788ff0428361406ada3e116543b
 ```
 
 No raw VisA image or pixel mask will be copied into the evaluation bundle.
+
+## Post-write CLI summary defect
+
+The non-overwritable evaluation bundle was successfully validated and
+atomically written. The CLI then exited with an error while printing its
+human-readable summary because it requested `auroc` and `auprc` instead of the
+artifact keys `image_level_auroc` and `image_level_auprc`.
+
+This defect occurred after artifact creation. It did not alter class reveal,
+metrics, failure selection, hard gates, decisions, or any bundle byte. The
+original bundle remains the only fixed final evaluation. The CLI key names were
+corrected without rerunning scoring or replacing the bundle.

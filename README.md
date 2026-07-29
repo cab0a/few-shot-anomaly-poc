@@ -2,7 +2,7 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 24 final evaluator ready before class reveal**
+> **Status: Milestone 24 final evaluation complete — REJECT**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
@@ -26,9 +26,9 @@ Evaluate whether two CPU-only, normal-only visual anomaly detection methods just
 > fixed from the 884 normal calibration images. The first fixed final-test
 > scoring run is complete: both methods scored all 200 assets with zero score
 > failures, applied the fixed thresholds, and recorded the preregistered CPU
-> latency protocol. The final evaluator is implemented and tested but has not
-> yet revealed VisA final-test classes. No dataset metric, failure-case
-> selection, method decision, or project decision is reported.
+> latency protocol. Official final-test classes were then joined once through
+> the fixed reveal boundary. Metrics, mechanical failure cases, and ordered
+> hard-gate outcomes are now preserved. Both v0.1 methods are `REJECT`.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -275,25 +275,35 @@ The input boundary, artifact layout, local-state policy, and recorded command
 are documented in
 [the first fixed final-test scoring record](docs/first-fixed-final-test-scoring.md).
 
-## Final evaluator before class reveal
+## Final evaluation and decision
 
-The next fixed stage is implemented without changing scores, thresholds,
-latency observations, metrics, or hard gates. After this implementation commit
-passes CI, the evaluator will:
+The evaluator was committed and passed CI before class reveal. Source commit
+`c6b4e5e164cc8788ff0428361406ada3e116543b`:
 
-- verify the complete freeze, calibration, scoring, manifest, and split lineage
-- reveal official per-path final-test classes for the first time
-- calculate image-level AUROC, AUPRC, normal FPR, anomaly recall, FP, and FN
-- select the fixed high-confidence false positives and low-confidence false
+- verified the complete freeze, calibration, scoring, manifest, and split lineage
+- revealed official per-path final-test classes for the first time
+- calculated image-level AUROC, AUPRC, normal FPR, anomaly recall, FP, and FN
+- selected the fixed high-confidence false positives and low-confidence false
   negatives
-- apply all six hard gates in their preregistered order
-- write the non-overwritable final evaluation bundle
+- applied all six hard gates in their preregistered order
+- wrote the non-overwritable final evaluation bundle
+
+| Method | AUROC | AUPRC | Normal FPR | Anomaly recall | CPU p95 | Decision |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| ECC residual | `0.8141` | `0.7513` | `0.09` | `0.21` | `1.2470 s` | `REJECT` |
+| Patch HOG + One-Class SVM | `0.7838` | `0.7242` | `0.10` | `0.19` | `0.5658 s` | `REJECT` |
+
+Both methods failed the fixed normal-FPR and anomaly-recall gates. ECC also
+failed the CPU p95 gate. Ranking metrics do not override those failures.
 
 The failure-review disposition is fixed as `guardrail_required` before class
-reveal because the mechanically selected cases will not yet have an
-image-content review. It cannot waive a failed hard gate. The exact boundary,
-rationale, condition, sequence, and planned artifacts are documented in
+reveal because the mechanically selected cases do not yet have an
+image-content review. It did not waive the failed hard gates. The exact
+boundary, metrics, gate outcomes, CLI-summary defect record, and artifacts are
+documented in
 [the final evaluation and decision record](docs/final-evaluation-and-decision.md).
+The complete machine-readable bundle is in
+[`artifacts/v0.1/evaluation/visa-pcb1-v0-1-final/`](artifacts/v0.1/evaluation/visa-pcb1-v0-1-final/).
 
 ## Shared input preprocessing
 

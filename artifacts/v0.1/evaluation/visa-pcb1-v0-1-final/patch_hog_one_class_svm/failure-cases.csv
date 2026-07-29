@@ -1,0 +1,11 @@
+contract_version,run_id,run_kind,method,case_type,rank,relative_path,true_class,predicted_class,anomaly_score,threshold,score_margin,score_status,score_failure_code
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,patch_hog_one_class_svm,false_positive,1,pcb1/Data/Images/Normal/0615.JPG,normal,anomalous,0.19165101782452187,0.17611826509314352,0.015532752731378358,ok,
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,patch_hog_one_class_svm,false_positive,2,pcb1/Data/Images/Normal/0013.JPG,normal,anomalous,0.18524581717985222,0.17611826509314352,0.009127552086708707,ok,
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,patch_hog_one_class_svm,false_positive,3,pcb1/Data/Images/Normal/0619.JPG,normal,anomalous,0.18285000691050535,0.17611826509314352,0.00673174181736183,ok,
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,patch_hog_one_class_svm,false_positive,4,pcb1/Data/Images/Normal/0400.JPG,normal,anomalous,0.18102078625311238,0.17611826509314352,0.0049025211599688645,ok,
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,patch_hog_one_class_svm,false_positive,5,pcb1/Data/Images/Normal/0648.JPG,normal,anomalous,0.17884773149832064,0.17611826509314352,0.002729466405177128,ok,
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,patch_hog_one_class_svm,false_negative,1,pcb1/Data/Images/Anomaly/083.JPG,anomaly,normal,0.10150807319839171,0.17611826509314352,-0.0746101918947518,ok,
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,patch_hog_one_class_svm,false_negative,2,pcb1/Data/Images/Anomaly/062.JPG,anomaly,normal,0.11155587245894544,0.17611826509314352,-0.06456239263419808,ok,
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,patch_hog_one_class_svm,false_negative,3,pcb1/Data/Images/Anomaly/082.JPG,anomaly,normal,0.11713958082937248,0.17611826509314352,-0.058978684263771036,ok,
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,patch_hog_one_class_svm,false_negative,4,pcb1/Data/Images/Anomaly/019.JPG,anomaly,normal,0.11741442536292047,0.17611826509314352,-0.05870383973022304,ok,
+evaluation-artifacts/v0.1,visa-pcb1-v0-1-final,final_test,patch_hog_one_class_svm,false_negative,5,pcb1/Data/Images/Anomaly/017.JPG,anomaly,normal,0.12344945896883024,0.17611826509314352,-0.05266880612431328,ok,
