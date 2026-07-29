@@ -11,11 +11,8 @@ import numpy as np
 from numpy.typing import NDArray
 
 from few_shot_anomaly_poc.config import ECCRegistrationConfig, PreprocessingConfig
-from few_shot_anomaly_poc.errors import (
-    ECCRegistrationFailureCode,
-    ImagePreprocessingError,
-    PreprocessingFailureCode,
-)
+from few_shot_anomaly_poc.errors import ECCRegistrationFailureCode
+from few_shot_anomaly_poc.preprocessing import validate_preprocessed_image
 
 
 @dataclass(frozen=True)
@@ -37,27 +34,6 @@ class ECCRegistrationResult:
     def succeeded(self) -> bool:
         """Return whether every preregistered registration gate passed."""
         return self.status == "ok"
-
-
-def _validate_preprocessed_image(
-    image: NDArray[np.generic],
-    *,
-    label: str,
-    config: PreprocessingConfig,
-) -> None:
-    expected_shape = (config.output_height, config.output_width)
-    if (
-        not isinstance(image, np.ndarray)
-        or image.shape != expected_shape
-        or image.dtype != np.float32
-        or not np.isfinite(image).all()
-        or np.any(image < 0.0)
-        or np.any(image > 1.0)
-    ):
-        raise ImagePreprocessingError(
-            PreprocessingFailureCode.INVALID_PREPROCESSED_IMAGE,
-            f"{label} must be a finite float32 array in [0, 1] with shape {expected_shape}",
-        )
 
 
 def _failed(
@@ -92,8 +68,8 @@ def register_ecc(
     registration: ECCRegistrationConfig,
 ) -> ECCRegistrationResult:
     """Register one preprocessed moving image to a preprocessed template."""
-    _validate_preprocessed_image(template, label="template", config=preprocessing)
-    _validate_preprocessed_image(moving, label="moving image", config=preprocessing)
+    validate_preprocessed_image(template, label="template", config=preprocessing)
+    validate_preprocessed_image(moving, label="moving image", config=preprocessing)
 
     initial_warp = np.eye(2, 3, dtype=np.float32)
     criteria = (

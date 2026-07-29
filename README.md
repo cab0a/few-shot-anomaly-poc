@@ -2,13 +2,13 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 3 ECC registration primitive**
+> **Status: Milestone 4 ECC normal-template fitting**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
 > preprocessing are implemented, together with the bounded ECC registration
-> primitive. No complete anomaly method, dataset result, benchmark, or decision
-> is reported.
+> primitive and deterministic normal-template fitting. No complete anomaly
+> method, dataset result, benchmark, or decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -205,8 +205,26 @@ The first method now has a bounded registration component that:
 - returns structured diagnostics and stable failure codes
 
 The implementation uses inverse-map warping to bring the moving image into
-template coordinates. It does not build a normal template, calculate a
-residual, produce an anomaly score, or use a VisA image.
+template coordinates. It does not calculate a residual, produce an anomaly
+score, or use a VisA image.
+
+## ECC normal-template fitting
+
+The ECC method now has a deterministic fitting component that:
+
+- requires exactly the fixed 20 normal references
+- sorts reference paths and uses the first path as the identity anchor
+- registers the remaining references with the fixed ECC primitive
+- records every accepted and rejected reference with bounded diagnostics
+- requires at least 16 successfully aligned references, including the anchor
+- intersects their validity masks and applies the fixed `5 x 5` erosion
+- requires the eroded support to cover at least `75%` of the resized image
+- computes a full-size pixel-wise median from valid aligned values
+
+The output retains the fitted template, residual-scoring support mask, support
+fraction, reference counts, and stable method-level failure status. Tests use
+only generated arrays. This component does not use calibration images, score an
+input image, select a threshold, or read a VisA image.
 
 ## Non-goals
 
@@ -226,7 +244,8 @@ v0.1 does not attempt to provide:
 ## Current Project Stage
 
 The repository contains preregistered design documents, the data foundation,
-deterministic shared preprocessing, and the bounded ECC registration primitive:
+deterministic shared preprocessing, bounded ECC registration, and deterministic
+ECC normal-template fitting:
 
 - [Problem and requirements](docs/problem-and-requirements.md)
 - [Research and method selection](docs/research-and-method-selection.md)
@@ -238,6 +257,7 @@ deterministic shared preprocessing, and the bounded ECC registration primitive:
 
 The runtime baseline is locked, while split pinning, safe acquisition, archive
 provenance, safe extraction, deterministic manifests, integrity tests, linting,
-CI, shared image preprocessing, and ECC registration are implemented. The
-repository still contains no VisA image, complete anomaly-method
-implementation, experiment, result figure, failure analysis, or final decision.
+CI, shared image preprocessing, ECC registration, and ECC template fitting are
+implemented. The repository still contains no VisA image, complete
+anomaly-method implementation, experiment, result figure, failure analysis, or
+final decision.

@@ -46,6 +46,16 @@
     "max_abs_vertical_translation_pixels": 64.0,
     "min_valid_fraction": 0.80
   },
+  "ecc_template": {
+    "anchor_selection": "first_unicode_path",
+    "minimum_successful_references": 16,
+    "support_mask": "intersection",
+    "support_erosion_kernel_size": 5,
+    "support_erosion_iterations": 1,
+    "support_erosion_border": "constant_zero",
+    "minimum_support_fraction": 0.75,
+    "aggregation": "pixelwise_median_valid_values"
+  },
   "paths": {
     "archive": "data/external/archives/VisA_20220922.tar",
     "archive_provenance": "data/provenance/visa-archive.json",

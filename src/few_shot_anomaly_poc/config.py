@@ -66,6 +66,18 @@ class ECCRegistrationConfig:
 
 
 @dataclass(frozen=True)
+class ECCTemplateConfig:
+    anchor_selection: str
+    minimum_successful_references: int
+    support_mask: str
+    support_erosion_kernel_size: int
+    support_erosion_iterations: int
+    support_erosion_border: str
+    minimum_support_fraction: float
+    aggregation: str
+
+
+@dataclass(frozen=True)
 class ProjectPaths:
     archive: Path
     archive_provenance: Path
@@ -87,6 +99,7 @@ class ProjectConfig:
     selection: SelectionConfig
     preprocessing: PreprocessingConfig
     ecc_registration: ECCRegistrationConfig
+    ecc_template: ECCTemplateConfig
     paths: ProjectPaths
     project_root: Path
 
@@ -180,6 +193,7 @@ def load_config(config_path: Path) -> ProjectConfig:
     selection_raw = _mapping(root.get("selection"), "selection")
     preprocessing_raw = _mapping(root.get("preprocessing"), "preprocessing")
     ecc_registration_raw = _mapping(root.get("ecc_registration"), "ecc_registration")
+    ecc_template_raw = _mapping(root.get("ecc_template"), "ecc_template")
     paths_raw = _mapping(root.get("paths"), "paths")
     project_root = resolved_config.parent.parent.resolve()
 
@@ -319,6 +333,56 @@ def load_config(config_path: Path) -> ProjectConfig:
             0.80,
         ),
     )
+    ecc_template = ECCTemplateConfig(
+        anchor_selection=_fixed_string(
+            ecc_template_raw,
+            "anchor_selection",
+            "ecc_template",
+            "first_unicode_path",
+        ),
+        minimum_successful_references=_fixed_integer(
+            ecc_template_raw,
+            "minimum_successful_references",
+            "ecc_template",
+            16,
+        ),
+        support_mask=_fixed_string(
+            ecc_template_raw,
+            "support_mask",
+            "ecc_template",
+            "intersection",
+        ),
+        support_erosion_kernel_size=_fixed_integer(
+            ecc_template_raw,
+            "support_erosion_kernel_size",
+            "ecc_template",
+            5,
+        ),
+        support_erosion_iterations=_fixed_integer(
+            ecc_template_raw,
+            "support_erosion_iterations",
+            "ecc_template",
+            1,
+        ),
+        support_erosion_border=_fixed_string(
+            ecc_template_raw,
+            "support_erosion_border",
+            "ecc_template",
+            "constant_zero",
+        ),
+        minimum_support_fraction=_fixed_float(
+            ecc_template_raw,
+            "minimum_support_fraction",
+            "ecc_template",
+            0.75,
+        ),
+        aggregation=_fixed_string(
+            ecc_template_raw,
+            "aggregation",
+            "ecc_template",
+            "pixelwise_median_valid_values",
+        ),
+    )
 
     path_values = {
         key: _project_path(
@@ -380,6 +444,7 @@ def load_config(config_path: Path) -> ProjectConfig:
             scale_divisor=float(scale_divisor),
         ),
         ecc_registration=ecc_registration,
+        ecc_template=ecc_template,
         paths=ProjectPaths(**path_values),
         project_root=project_root,
     )

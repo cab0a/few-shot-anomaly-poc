@@ -31,6 +31,14 @@ def test_repository_config_pins_official_split() -> None:
     assert config.ecc_registration.max_abs_horizontal_translation_pixels == 64.0
     assert config.ecc_registration.max_abs_vertical_translation_pixels == 64.0
     assert config.ecc_registration.min_valid_fraction == 0.80
+    assert config.ecc_template.anchor_selection == "first_unicode_path"
+    assert config.ecc_template.minimum_successful_references == 16
+    assert config.ecc_template.support_mask == "intersection"
+    assert config.ecc_template.support_erosion_kernel_size == 5
+    assert config.ecc_template.support_erosion_iterations == 1
+    assert config.ecc_template.support_erosion_border == "constant_zero"
+    assert config.ecc_template.minimum_support_fraction == 0.75
+    assert config.ecc_template.aggregation == "pixelwise_median_valid_values"
     assert config.split.revision == "2a692ab575001cbde74d402d897a7286086c6199"
     assert config.split.sha256 == "a48557e6033318cb90556f706196bc9d247a776a23ea51aecee5a80dd0332995"
 
@@ -84,4 +92,19 @@ def test_config_rejects_changed_ecc_registration(
     config_path.write_text(json.dumps(raw), encoding="utf-8")
 
     with pytest.raises(ConfigurationError, match="max_abs_rotation_degrees"):
+        load_config(config_path)
+
+
+@pytest.mark.parametrize("changed_minimum", [15, 16.0, True])
+def test_config_rejects_changed_ecc_template(
+    tmp_path: Path,
+    changed_minimum: object,
+) -> None:
+    raw = json.loads(Path("configs/v0.1.yaml").read_text(encoding="utf-8"))
+    raw["ecc_template"]["minimum_successful_references"] = changed_minimum
+    config_path = tmp_path / "configs/v0.1.yaml"
+    config_path.parent.mkdir()
+    config_path.write_text(json.dumps(raw), encoding="utf-8")
+
+    with pytest.raises(ConfigurationError, match="minimum_successful_references"):
         load_config(config_path)

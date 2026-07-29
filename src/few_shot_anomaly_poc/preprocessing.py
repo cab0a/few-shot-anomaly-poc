@@ -17,6 +17,28 @@ from few_shot_anomaly_poc.errors import (
 DECODE_FLAGS = cv2.IMREAD_GRAYSCALE | cv2.IMREAD_IGNORE_ORIENTATION
 
 
+def validate_preprocessed_image(
+    image: object,
+    *,
+    label: str,
+    config: PreprocessingConfig,
+) -> None:
+    """Require the fixed shape, dtype, finite state, and numeric range."""
+    expected_shape = (config.output_height, config.output_width)
+    if (
+        not isinstance(image, np.ndarray)
+        or image.shape != expected_shape
+        or image.dtype != np.float32
+        or not np.isfinite(image).all()
+        or np.any(image < 0.0)
+        or np.any(image > 1.0)
+    ):
+        raise ImagePreprocessingError(
+            PreprocessingFailureCode.INVALID_PREPROCESSED_IMAGE,
+            f"{label} must be a finite float32 array in [0, 1] with shape {expected_shape}",
+        )
+
+
 def preprocess_decoded_image(
     image: NDArray[np.generic] | None,
     config: PreprocessingConfig,
@@ -46,16 +68,7 @@ def preprocess_decoded_image(
         ) from error
 
     output = resized.astype(np.float32) / np.float32(config.scale_divisor)
-    expected_shape = (config.output_height, config.output_width)
-    if (
-        output.shape != expected_shape
-        or output.dtype != np.float32
-        or not np.isfinite(output).all()
-    ):
-        raise ImagePreprocessingError(
-            PreprocessingFailureCode.INVALID_PREPROCESSED_IMAGE,
-            "preprocessed image has an invalid shape, dtype, or finite-value state",
-        )
+    validate_preprocessed_image(output, label="preprocessed image", config=config)
     return output
 
 

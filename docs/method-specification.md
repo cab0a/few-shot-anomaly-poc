@@ -2,7 +2,7 @@
 
 ## Status and Change Control
 
-This document preregisters the v0.1 method definitions before data download, implementation, or result inspection.
+This document preregistered the v0.1 method definitions before data download, implementation, or result inspection. Later implementation-status notes do not change the fixed method choices.
 
 The values below are fixed for the first valid final-test run. They must not be tuned with anomaly labels, final-test labels, final-test scores, or failure examples. A change required by an implementation defect or an unavailable API must be documented and committed before another final-test run.
 
@@ -92,6 +92,22 @@ score.
 7. Erode the support mask once with a `5 x 5` square kernel.
 8. Require the eroded support to cover at least `75%` of the resized image. Otherwise, record `FIT_FAILED`.
 9. Calculate a full-size pixel-wise median from the valid successfully aligned reference values at each pixel. Retain the eroded intersection only as the residual-scoring support mask.
+
+The erosion uses one iteration and a constant-zero border. Template fitting
+returns `FIT_FAILED` with one stable method-level code:
+
+- `FIT_REFERENCE_COUNT_INVALID`
+- `FIT_REFERENCE_SET_INVALID`
+- `FIT_ANCHOR_PREPROCESSING_FAILED`
+- `FIT_INSUFFICIENT_REFERENCES`
+- `FIT_SUPPORT_EROSION_FAILED`
+- `FIT_SUPPORT_TOO_SMALL`
+- `FIT_TEMPLATE_INVALID`
+
+A successful fit records the anchor path, sorted per-reference diagnostics,
+successful and failed reference counts, eroded support fraction, full-size
+template, and residual-scoring support mask. No incomplete fitted state is
+returned after a method-level failure.
 
 No calibration image may influence the anchor, accepted reference set, support mask, or template.
 
