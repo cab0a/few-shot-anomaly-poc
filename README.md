@@ -2,7 +2,7 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 23 first fixed final-test scores and latency fixed**
+> **Status: Milestone 24 final evaluator ready before class reveal**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
@@ -26,7 +26,8 @@ Evaluate whether two CPU-only, normal-only visual anomaly detection methods just
 > fixed from the 884 normal calibration images. The first fixed final-test
 > scoring run is complete: both methods scored all 200 assets with zero score
 > failures, applied the fixed thresholds, and recorded the preregistered CPU
-> latency protocol. No per-path final-test label, dataset metric, failure-case
+> latency protocol. The final evaluator is implemented and tested but has not
+> yet revealed VisA final-test classes. No dataset metric, failure-case
 > selection, method decision, or project decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
@@ -273,6 +274,26 @@ The public score, classification, and latency artifacts are in
 The input boundary, artifact layout, local-state policy, and recorded command
 are documented in
 [the first fixed final-test scoring record](docs/first-fixed-final-test-scoring.md).
+
+## Final evaluator before class reveal
+
+The next fixed stage is implemented without changing scores, thresholds,
+latency observations, metrics, or hard gates. After this implementation commit
+passes CI, the evaluator will:
+
+- verify the complete freeze, calibration, scoring, manifest, and split lineage
+- reveal official per-path final-test classes for the first time
+- calculate image-level AUROC, AUPRC, normal FPR, anomaly recall, FP, and FN
+- select the fixed high-confidence false positives and low-confidence false
+  negatives
+- apply all six hard gates in their preregistered order
+- write the non-overwritable final evaluation bundle
+
+The failure-review disposition is fixed as `guardrail_required` before class
+reveal because the mechanically selected cases will not yet have an
+image-content review. It cannot waive a failed hard gate. The exact boundary,
+rationale, condition, sequence, and planned artifacts are documented in
+[the final evaluation and decision record](docs/final-evaluation-and-decision.md).
 
 ## Shared input preprocessing
 
