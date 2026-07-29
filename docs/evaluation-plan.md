@@ -314,6 +314,32 @@ Measurement requirements:
 7. Keep failed or exceptionally slow cases in the latency sample when a timing exists.
 8. Do not run unrelated benchmark workloads concurrently.
 
+The machine-readable settings in `configs/v0.1.yaml` fix the boundary, timer,
+warm-up and timed pass counts, Unicode path order, all-pass summary sample,
+median rule, p95 quantile and nearest-rank rule, failed-score inclusion, and
+nanosecond base unit.
+
+The latency primitive accepts decoded-image objects, one scoring callback, one
+shortlisted method identifier, and the fixed project configuration. It accepts
+no class label, threshold, metric, gate, or decision input. A valid failed score
+is timed and retained; an exception or malformed score record invalidates the
+complete run.
+
+A successful result contains every per-pass path and nanosecond duration,
+failed-score timing count and paths, median and nearest-rank p95 in nanoseconds
+and seconds, and the recorded execution environment. Failed runs return no
+partial observation collection and use one of:
+
+- `LATENCY_METHOD_INVALID`
+- `LATENCY_INPUT_EMPTY`
+- `LATENCY_PATH_INVALID`
+- `LATENCY_SCORER_INVALID`
+- `LATENCY_ENVIRONMENT_CAPTURE_FAILED`
+- `LATENCY_SCORE_CALL_FAILED`
+- `LATENCY_SCORE_RECORD_INVALID`
+- `LATENCY_TIMER_INVALID`
+- `LATENCY_RESULT_INVALID`
+
 The one-second p95 gate applies to this defined scoring boundary. End-to-end latency including file I/O may be reported separately but cannot replace it.
 
 ## Failure Case Selection

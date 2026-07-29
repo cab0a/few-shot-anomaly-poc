@@ -98,6 +98,17 @@ def test_repository_config_pins_official_split() -> None:
     assert config.threshold_calibration.rank_rounding == "ceil"
     assert config.threshold_calibration.threshold_index == "rank_minus_one"
     assert config.threshold_calibration.prediction_rule == "failed_or_strictly_greater"
+    assert config.latency_measurement.boundary == "decoded_grayscale_uint8_to_image_score"
+    assert config.latency_measurement.timer == "perf_counter_ns"
+    assert config.latency_measurement.warmup_passes == 1
+    assert config.latency_measurement.timed_passes == 3
+    assert config.latency_measurement.path_order == "unicode_code_point_ascending"
+    assert config.latency_measurement.summary_sample == "all_images_all_timed_passes"
+    assert config.latency_measurement.median_rule == "mean_of_middle_pair_when_even"
+    assert config.latency_measurement.p95_quantile == 0.95
+    assert config.latency_measurement.p95_rule == "nearest_rank"
+    assert config.latency_measurement.include_failed_score_timings is True
+    assert config.latency_measurement.duration_unit == "nanoseconds"
     assert config.split.revision == "2a692ab575001cbde74d402d897a7286086c6199"
     assert config.split.sha256 == "a48557e6033318cb90556f706196bc9d247a776a23ea51aecee5a80dd0332995"
 
@@ -121,6 +132,21 @@ def test_config_rejects_unpinned_split_checksum(tmp_path: Path) -> None:
     config_path.write_text(json.dumps(raw), encoding="utf-8")
 
     with pytest.raises(ConfigurationError, match="SHA-256"):
+        load_config(config_path)
+
+
+@pytest.mark.parametrize("changed_passes", [2, 3.0, True])
+def test_config_rejects_changed_latency_measurement(
+    tmp_path: Path,
+    changed_passes: object,
+) -> None:
+    raw = json.loads(Path("configs/v0.1.yaml").read_text(encoding="utf-8"))
+    raw["latency_measurement"]["warmup_passes"] = changed_passes
+    config_path = tmp_path / "configs/v0.1.yaml"
+    config_path.parent.mkdir()
+    config_path.write_text(json.dumps(raw), encoding="utf-8")
+
+    with pytest.raises(ConfigurationError, match="warmup_passes"):
         load_config(config_path)
 
 

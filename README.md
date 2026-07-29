@@ -2,7 +2,7 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 14 image-level metrics primitive**
+> **Status: Milestone 15 CPU latency measurement primitive**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
@@ -13,8 +13,9 @@ Evaluate whether two CPU-only, normal-only visual anomaly detection methods just
 > together with method-specific normal-only threshold calibration and
 > label-free fixed-threshold single-image and batch classification. A strict
 > final-test label reveal boundary and fixed image-level metric calculation are
-> also implemented. No dataset-derived threshold, dataset result, benchmark,
-> method comparison, or decision is reported.
+> also implemented, together with the preregistered CPU latency measurement
+> protocol. No dataset-derived threshold, dataset result, benchmark, method
+> comparison, or decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -459,6 +460,33 @@ component does not read final-test files, choose or change a threshold, measure
 latency, apply hard gates, select failure examples, compare methods, or make an
 adoption decision.
 
+## CPU latency measurement
+
+The evaluation foundation now implements the fixed preprocessing-and-scoring
+latency protocol:
+
+- starts from a decoded grayscale `uint8` image and times the callback that
+  performs fixed preprocessing and method scoring
+- processes paths in Unicode code-point order
+- performs one complete untimed warm-up pass
+- performs three complete timed passes with `time.perf_counter_ns`
+- retains one timing for every image in every timed pass
+- includes valid `score_status=failed` invocations in the latency sample and
+  records their paths and source failure codes
+- reports the standard median and nearest-rank p95 over all timed observations
+- records the CPU model, logical and physical cores, RAM, OS, architecture,
+  Python version, dependency versions, OpenCV thread count, and relevant thread
+  environment variables
+- rejects invalid paths, method-score mismatches, scorer exceptions, malformed
+  scores, invalid timers, and invalid summaries without returning partial
+  observations
+
+The protocol is pinned in `configs/v0.1.yaml`. Tests use generated inputs,
+generated method score records, and deterministic synthetic timers. No VisA
+image is read, and no measured result in this milestone is project performance
+evidence. This component does not apply the one-second hard gate or make an
+adoption decision.
+
 ## Non-goals
 
 v0.1 does not attempt to provide:
@@ -482,7 +510,8 @@ normal-template fitting, fixed ECC residual image scoring, and fixed Patch HOG
 feature extraction with position-wise reference scaling and One-Class SVM
 fitting and image scoring, plus normal-only threshold calibration and
 fixed-threshold single-image and batch classification, followed by the
-final-test label reveal boundary and image-level metrics:
+final-test label reveal boundary, image-level metrics, and CPU latency
+measurement:
 
 - [Problem and requirements](docs/problem-and-requirements.md)
 - [Research and method selection](docs/research-and-method-selection.md)
@@ -505,6 +534,8 @@ single-image and batch classification is also implemented and tested without
 observed labels. The final-test label reveal boundary is implemented and tested
 with generated inputs. Image-level AUROC, AUPRC, fixed-threshold confusion
 counts, normal FPR, anomaly recall, and score-failure counting are implemented
-and tested with generated records. The repository still contains no VisA image,
-dataset-derived threshold, evaluation pipeline, experiment, result figure,
-failure analysis, or final decision.
+and tested with generated records. The fixed CPU warm-up, three-pass timing,
+environment capture, median, and nearest-rank p95 protocol is implemented and
+tested with generated inputs and synthetic clocks. The repository still
+contains no VisA image, dataset-derived threshold, evaluation pipeline,
+experiment, result figure, failure analysis, or final decision.

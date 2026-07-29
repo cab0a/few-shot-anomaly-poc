@@ -161,6 +161,21 @@ class ThresholdCalibrationConfig:
 
 
 @dataclass(frozen=True)
+class LatencyMeasurementConfig:
+    boundary: str
+    timer: str
+    warmup_passes: int
+    timed_passes: int
+    path_order: str
+    summary_sample: str
+    median_rule: str
+    p95_quantile: float
+    p95_rule: str
+    include_failed_score_timings: bool
+    duration_unit: str
+
+
+@dataclass(frozen=True)
 class ProjectPaths:
     archive: Path
     archive_provenance: Path
@@ -189,6 +204,7 @@ class ProjectConfig:
     patch_hog_one_class_svm: PatchHOGOneClassSVMConfig
     patch_hog_scoring: PatchHOGScoringConfig
     threshold_calibration: ThresholdCalibrationConfig
+    latency_measurement: LatencyMeasurementConfig
     paths: ProjectPaths
     project_root: Path
 
@@ -315,6 +331,10 @@ def load_config(config_path: Path) -> ProjectConfig:
     threshold_calibration_raw = _mapping(
         root.get("threshold_calibration"),
         "threshold_calibration",
+    )
+    latency_measurement_raw = _mapping(
+        root.get("latency_measurement"),
+        "latency_measurement",
     )
     paths_raw = _mapping(root.get("paths"), "paths")
     project_root = resolved_config.parent.parent.resolve()
@@ -871,6 +891,74 @@ def load_config(config_path: Path) -> ProjectConfig:
             "failed_or_strictly_greater",
         ),
     )
+    latency_measurement = LatencyMeasurementConfig(
+        boundary=_fixed_string(
+            latency_measurement_raw,
+            "boundary",
+            "latency_measurement",
+            "decoded_grayscale_uint8_to_image_score",
+        ),
+        timer=_fixed_string(
+            latency_measurement_raw,
+            "timer",
+            "latency_measurement",
+            "perf_counter_ns",
+        ),
+        warmup_passes=_fixed_integer(
+            latency_measurement_raw,
+            "warmup_passes",
+            "latency_measurement",
+            1,
+        ),
+        timed_passes=_fixed_integer(
+            latency_measurement_raw,
+            "timed_passes",
+            "latency_measurement",
+            3,
+        ),
+        path_order=_fixed_string(
+            latency_measurement_raw,
+            "path_order",
+            "latency_measurement",
+            "unicode_code_point_ascending",
+        ),
+        summary_sample=_fixed_string(
+            latency_measurement_raw,
+            "summary_sample",
+            "latency_measurement",
+            "all_images_all_timed_passes",
+        ),
+        median_rule=_fixed_string(
+            latency_measurement_raw,
+            "median_rule",
+            "latency_measurement",
+            "mean_of_middle_pair_when_even",
+        ),
+        p95_quantile=_fixed_float(
+            latency_measurement_raw,
+            "p95_quantile",
+            "latency_measurement",
+            0.95,
+        ),
+        p95_rule=_fixed_string(
+            latency_measurement_raw,
+            "p95_rule",
+            "latency_measurement",
+            "nearest_rank",
+        ),
+        include_failed_score_timings=_fixed_boolean(
+            latency_measurement_raw,
+            "include_failed_score_timings",
+            "latency_measurement",
+            True,
+        ),
+        duration_unit=_fixed_string(
+            latency_measurement_raw,
+            "duration_unit",
+            "latency_measurement",
+            "nanoseconds",
+        ),
+    )
 
     path_values = {
         key: _project_path(
@@ -939,6 +1027,7 @@ def load_config(config_path: Path) -> ProjectConfig:
         patch_hog_one_class_svm=patch_hog_one_class_svm,
         patch_hog_scoring=patch_hog_scoring,
         threshold_calibration=threshold_calibration,
+        latency_measurement=latency_measurement,
         paths=ProjectPaths(**path_values),
         project_root=project_root,
     )
