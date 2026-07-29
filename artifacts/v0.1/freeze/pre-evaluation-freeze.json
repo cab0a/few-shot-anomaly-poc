@@ -1,0 +1,284 @@
+{
+  "boundary_state": {
+    "final_test_decision_recorded": false,
+    "final_test_label_join_performed": false,
+    "final_test_metrics_computed": false,
+    "final_test_scoring_started": false
+  },
+  "change_policy": {
+    "final_test_result_cannot_change_gate_or_threshold_rules": true,
+    "frozen_file_change_invalidates_checkpoint": true,
+    "implementation_defect_requires_documented_new_checkpoint": true,
+    "post_freeze_result_and_report_files_may_be_added": true
+  },
+  "checkpoint_id": "v0.1-pre-evaluation-freeze",
+  "ci": {
+    "conclusion": "success",
+    "provider": "GitHub Actions",
+    "run_id": 30434900673,
+    "run_url": "https://github.com/cab0a/few-shot-anomaly-poc/actions/runs/30434900673",
+    "workflow": "CI"
+  },
+  "dataset_scope": {
+    "category": "pcb1",
+    "dataset_record_sha256": "dcb9bdc7c70b1b3f9b502683a9cfed178327a574f8dbee22e26ab8000ed0ec3e",
+    "license": "CC BY 4.0",
+    "name": "VisA",
+    "raw_data_committed_to_git": false
+  },
+  "dependencies": {
+    "direct_development_dependencies": [
+      "pytest==9.1.1",
+      "ruff==0.16.0"
+    ],
+    "direct_runtime_dependencies": [
+      "numpy==2.5.1",
+      "opencv-python-headless==4.13.0.92",
+      "scikit-image==0.26.0",
+      "scikit-learn==1.9.0"
+    ],
+    "pyproject_sha256": "6567100212397d6e067b0e03690cb9e4487c7e6722acaf91986d02d1f02d95c5",
+    "python_requirement": "==3.13.14",
+    "uv_lock_sha256": "770d3655ea925007f33d5a22988943d09184b222c7cb7e886fd73623bf9039d4",
+    "uv_required_version": "==0.11.32"
+  },
+  "evaluation_rules": {
+    "artifact_contract": "evaluation-artifacts/v0.1",
+    "artifact_contract_sha256": "513b6cc956f9824e68eb2794550b5a525a574bca513e8fd33ee5ac06e92e3182",
+    "failure_case_selection": {
+      "false_negative_order": "anomaly_score_ascending",
+      "false_positive_order": "anomaly_score_descending",
+      "image_access": false,
+      "max_cases_per_type": 5,
+      "tie_breaker": "relative_path_ascending"
+    },
+    "hard_gate_decision": {
+      "anomaly_recall_min": 0.9,
+      "anomaly_training_labels_used": false,
+      "cpu_p95_latency_seconds_max": 1.0,
+      "gate_order": [
+        "final_test_normal_fpr",
+        "final_test_anomaly_recall",
+        "cpu_p95_scoring_latency",
+        "normal_reference_count",
+        "anomaly_training_labels",
+        "reproducibility"
+      ],
+      "hard_gate_waiver_allowed": false,
+      "normal_fpr_max": 0.05,
+      "normal_reference_count_max": 20,
+      "reproducibility_required": true,
+      "weighted_score_allowed": false
+    },
+    "hard_gate_waiver_allowed": false,
+    "latency_measurement": {
+      "boundary": "decoded_grayscale_uint8_to_image_score",
+      "duration_unit": "nanoseconds",
+      "include_failed_score_timings": true,
+      "median_rule": "mean_of_middle_pair_when_even",
+      "p95_quantile": 0.95,
+      "p95_rule": "nearest_rank",
+      "path_order": "unicode_code_point_ascending",
+      "summary_sample": "all_images_all_timed_passes",
+      "timed_passes": 3,
+      "timer": "perf_counter_ns",
+      "warmup_passes": 1
+    },
+    "threshold_calibration": {
+      "method_scope": "per_method",
+      "normal_only": true,
+      "prediction_rule": "failed_or_strictly_greater",
+      "quantile": 0.95,
+      "rank_rounding": "ceil",
+      "score_order": "ascending",
+      "source_partition": "calibration",
+      "threshold_index": "rank_minus_one"
+    },
+    "weighted_aggregate_score_allowed": false
+  },
+  "evaluation_source_commit": "fd9857acb29903fadb570680ecb5d4d8ebf5a5aa",
+  "freeze_date": "2026-07-29",
+  "frozen_files": [
+    {
+      "relative_path": ".github/workflows/ci.yml",
+      "sha256": "5c854f8bd7a7470c832165656ab5d1b2e6bd4d966e4bc5d60cf0f9559bd170c6"
+    },
+    {
+      "relative_path": "LICENSE",
+      "sha256": "c0ea4a896d2c8c394b29f9427589996db826cd501c512279ff0ed3ef48fabbe5"
+    },
+    {
+      "relative_path": "NOTICE.md",
+      "sha256": "a723d77b1877578c058a0a34725f1fd8ec28756616e503dd3a28c706e599a36f"
+    },
+    {
+      "relative_path": "artifacts/v0.1/data/dataset-record.json",
+      "sha256": "dcb9bdc7c70b1b3f9b502683a9cfed178327a574f8dbee22e26ab8000ed0ec3e"
+    },
+    {
+      "relative_path": "artifacts/v0.1/data/pcb1-normal-partitions.csv",
+      "sha256": "953478e04c20d74cc1994022e4a757388123b4db4020a10898fcee74b1a192a7"
+    },
+    {
+      "relative_path": "configs/v0.1.yaml",
+      "sha256": "9a8149c0d37f86a4474089ae251bd4954071d7171f7110073e82c9796b52d917"
+    },
+    {
+      "relative_path": "docs/data-acquisition-record.md",
+      "sha256": "91a7e288fba6eb4e837f49c5040e343fb5eaf7e4400e40c38972931bf47c3871"
+    },
+    {
+      "relative_path": "docs/dependencies-and-licenses.md",
+      "sha256": "6ac818c31c8cfe08661a3af7190bc433904e15bb90cbac3afed5d3243dd35cca"
+    },
+    {
+      "relative_path": "docs/evaluation-artifact-schema.md",
+      "sha256": "cc022a5a617dc686cfb10b498c044b31b0ca44dec3f79bc62a67a49ba8d55573"
+    },
+    {
+      "relative_path": "docs/evaluation-plan.md",
+      "sha256": "44d6d474d845437d7611d47149e04ca654f9ea0072e979b11e940fec963088b8"
+    },
+    {
+      "relative_path": "docs/method-specification.md",
+      "sha256": "7c0259a8c5751c5bfd888c81258ed8dcb29154fc74ba1c16fb7545d6f0341c8c"
+    },
+    {
+      "relative_path": "docs/problem-and-requirements.md",
+      "sha256": "4f563f2406bf6f0be221c25d13ab5159242995ca8da772f988567a65c35797f5"
+    },
+    {
+      "relative_path": "docs/research-and-method-selection.md",
+      "sha256": "83be3049dc88c761e76c7e60cbb4746109d536b0b41f39f1efed21e46ba8f2ad"
+    },
+    {
+      "relative_path": "pyproject.toml",
+      "sha256": "6567100212397d6e067b0e03690cb9e4487c7e6722acaf91986d02d1f02d95c5"
+    },
+    {
+      "relative_path": "schemas/v0.1/evaluation-artifacts.json",
+      "sha256": "513b6cc956f9824e68eb2794550b5a525a574bca513e8fd33ee5ac06e92e3182"
+    },
+    {
+      "relative_path": "src/few_shot_anomaly_poc/calibration.py",
+      "sha256": "bf5e5fe494d5390b55d68270cdaf68008a1dab7989cb3858c1497d4426e77ad7"
+    },
+    {
+      "relative_path": "src/few_shot_anomaly_poc/config.py",
+      "sha256": "09b5477a6f8769ce4bca422b1ff254c34cbadbb2e3025e325a5e38dd51e3c7fe"
+    },
+    {
+      "relative_path": "src/few_shot_anomaly_poc/cpu_latency.py",
+      "sha256": "2b155ef4af5165b1190ff89a87124e135dd1a6210ded52cb9a47ff897188c5df"
+    },
+    {
+      "relative_path": "src/few_shot_anomaly_poc/ecc_residual.py",
+      "sha256": "145ffe65f068b2fc0502bc07c9ac998e48ba8d99148f708530681535bf6a0fda"
+    },
+    {
+      "relative_path": "src/few_shot_anomaly_poc/ecc_template.py",
+      "sha256": "d9a916e5ca0f901e86e667bdc8541a65108fffbb80462fc1193cdc85a47d297a"
+    },
+    {
+      "relative_path": "src/few_shot_anomaly_poc/evaluation_artifacts.py",
+      "sha256": "8a75ea935840837692e82766ec2277fbf0b022df4d849463ed4d80a0ee42262a"
+    },
+    {
+      "relative_path": "src/few_shot_anomaly_poc/errors.py",
+      "sha256": "a08f8f00543314ec824fbf13200f9f9a4d976e2d41eabecd9bc8c977c3efc01f"
+    },
+    {
+      "relative_path": "src/few_shot_anomaly_poc/failure_cases.py",
+      "sha256": "86395f8cb66cf76830f9b93501f0eb40fb7cec0ad64d07b1789d20c5946a3f88"
+    },
+    {
+      "relative_path": "src/few_shot_anomaly_poc/hard_gate_decision.py",
+      "sha256": "c25550b35c6f0322b9538154c44f73636fe134c9294d5234bbdca7d0364734ed"
+    },
+    {
+      "relative_path": "src/few_shot_anomaly_poc/hog_features.py",
+      "sha256": "3fe47279427f0fdbf784ef63ce592d1b363a07e1c9695882ca2844a8f2c34904"
+    },
+    {
+      "relative_path": "src/few_shot_anomaly_poc/hog_models.py",
+      "sha256": "e12ad83c1405026234b96e8d9c76585395873db5f2f06a69342d262a0ac11fc8"
+    },
+    {
+      "relative_path": "src/few_shot_anomaly_poc/hog_scalers.py",
+      "sha256": "47463c8113224c9e6427e0a9eaed236f0f8a7abb12f9f6b38e7f2cef53046050"
+    },
+    {
+      "relative_path": "src/few_shot_anomaly_poc/hog_scoring.py",
+      "sha256": "e4102ca55d9c6c797c52f9db066412eca4e2353febcd31ae49ec133814daa106"
+    },
+    {
+      "relative_path": "src/few_shot_anomaly_poc/image_metrics.py",
+      "sha256": "f8236eea1cf4859b3084eeb2aaeca124e677c984ea6d1cb683cdc2d10aad4b87"
+    },
+    {
+      "relative_path": "src/few_shot_anomaly_poc/label_reveal.py",
+      "sha256": "662f4455c1b1d64e4a381f0f214864faa85fc9f07ff46a2f8edb2f633701f7a0"
+    },
+    {
+      "relative_path": "src/few_shot_anomaly_poc/manifests.py",
+      "sha256": "dc3acd1e57160a15351db060e6e47365f53473fa6fa2676ed804d21d99e0bd8b"
+    },
+    {
+      "relative_path": "src/few_shot_anomaly_poc/preprocessing.py",
+      "sha256": "b9eb3afb7c87546624f29713cfeb7cac5d463e2e6d28f53f0fb98149bf274a12"
+    },
+    {
+      "relative_path": "src/few_shot_anomaly_poc/registration.py",
+      "sha256": "3bf2d24ea23682effbe18efc44f21fa0f304a7e166f0ce6132431be1801f5099"
+    },
+    {
+      "relative_path": "uv.lock",
+      "sha256": "770d3655ea925007f33d5a22988943d09184b222c7cb7e886fd73623bf9039d4"
+    }
+  ],
+  "frozen_tree_sha256": "cf9460eb919025417c988771926e00d06641ea63b242c397be466dd7823970f9",
+  "methods": [
+    "ecc_residual",
+    "patch_hog_one_class_svm"
+  ],
+  "partitions": {
+    "calibration_count": 884,
+    "final_test_source": "pinned_official_one_class_test_split",
+    "normal_partition_manifest": "artifacts/v0.1/data/pcb1-normal-partitions.csv",
+    "normal_partition_manifest_sha256": "953478e04c20d74cc1994022e4a757388123b4db4020a10898fcee74b1a192a7",
+    "official_split_revision": "2a692ab575001cbde74d402d897a7286086c6199",
+    "official_split_sha256": "a48557e6033318cb90556f706196bc9d247a776a23ea51aecee5a80dd0332995",
+    "overlap_allowed": false,
+    "reference_count": 20
+  },
+  "schema_version": 1,
+  "selection": {
+    "namespace": "few-shot-anomaly-poc:v0.1",
+    "procedure_version": "sha256-path-ranking-v1",
+    "reference_count": 20,
+    "reference_ids": [
+      "pcb1/Data/Images/Normal/0246.JPG",
+      "pcb1/Data/Images/Normal/0704.JPG",
+      "pcb1/Data/Images/Normal/0440.JPG",
+      "pcb1/Data/Images/Normal/0927.JPG",
+      "pcb1/Data/Images/Normal/0546.JPG",
+      "pcb1/Data/Images/Normal/0966.JPG",
+      "pcb1/Data/Images/Normal/0420.JPG",
+      "pcb1/Data/Images/Normal/0014.JPG",
+      "pcb1/Data/Images/Normal/0331.JPG",
+      "pcb1/Data/Images/Normal/0795.JPG",
+      "pcb1/Data/Images/Normal/0635.JPG",
+      "pcb1/Data/Images/Normal/0217.JPG",
+      "pcb1/Data/Images/Normal/0572.JPG",
+      "pcb1/Data/Images/Normal/0895.JPG",
+      "pcb1/Data/Images/Normal/0256.JPG",
+      "pcb1/Data/Images/Normal/0023.JPG",
+      "pcb1/Data/Images/Normal/0961.JPG",
+      "pcb1/Data/Images/Normal/0307.JPG",
+      "pcb1/Data/Images/Normal/0078.JPG",
+      "pcb1/Data/Images/Normal/0105.JPG"
+    ],
+    "seed": 42
+  },
+  "status": "FROZEN_BEFORE_FINAL_TEST"
+}

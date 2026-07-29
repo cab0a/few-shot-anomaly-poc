@@ -2,7 +2,7 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 19 synthetic end-to-end evaluation**
+> **Status: Milestone 20 pre-evaluation freeze**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
@@ -17,9 +17,10 @@ Evaluate whether two CPU-only, normal-only visual anomaly detection methods just
 > protocol, mechanical fixed-threshold failure-case selection, and the fixed
 > per-method hard-gate decision. The versioned JSON/CSV evaluation artifact
 > contract is also fixed, and a deterministic synthetic-record pipeline
-> connects the complete evaluation boundary. No VisA-derived threshold,
-> dataset result, benchmark, method comparison, or project decision is
-> reported.
+> connects the complete evaluation boundary. The CI-verified evaluation source,
+> data selection, dependencies, rules, and artifact contract are now frozen
+> before final-test scoring. No VisA-derived threshold, dataset result,
+> benchmark, method comparison, or project decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -605,6 +606,30 @@ uv run --locked --no-sync python scripts/run_synthetic_evaluation.py \
 This command is not a VisA experiment and cannot support a method-performance
 claim.
 
+## Pre-evaluation freeze
+
+The machine-readable
+[pre-evaluation freeze record](artifacts/v0.1/freeze/pre-evaluation-freeze.json)
+fixes the v0.1 evaluation source before final-test use:
+
+- evaluation source commit
+  `fd9857acb29903fadb570680ecb5d4d8ebf5a5aa`
+- successful
+  [GitHub Actions run #21](https://github.com/cab0a/few-shot-anomaly-poc/actions/runs/30434900673)
+- config, dependency lock, CI, license boundary, data records, method
+  specification, evaluation plan, artifact schema, and evaluation code hashes
+- seed `42`, the exact 20 reference IDs, and 884 normal calibration IDs
+- official split revision and checksum
+- threshold, latency, failure-selection, and six ordered hard-gate rules
+- a boundary state confirming that final-test scoring, label join, metrics, and
+  decision have not started
+
+The aggregate frozen-tree SHA-256 is
+`cf9460eb919025417c988771926e00d06641ea63b242c397be466dd7823970f9`.
+Tests recompute every frozen file identity. A frozen-file change invalidates
+the checkpoint and cannot be justified by a later result. See the
+[freeze rationale and change policy](docs/pre-evaluation-freeze.md).
+
 ## Non-goals
 
 v0.1 does not attempt to provide:
@@ -638,6 +663,7 @@ mechanical failure-case selection, and the per-method hard-gate decision:
 - [Evaluation plan](docs/evaluation-plan.md)
 - [Evaluation artifact schema](docs/evaluation-artifact-schema.md)
 - [Synthetic end-to-end evaluation record](docs/synthetic-evaluation.md)
+- [Pre-evaluation freeze record](docs/pre-evaluation-freeze.md)
 - [VisA `pcb1` acquisition and partition record](docs/data-acquisition-record.md)
 - [Data preparation and final-test boundary](data/README.md)
 
@@ -666,6 +692,9 @@ latency, selected failures, decisions, and artifact provenance. A
 synthetic-record generator connects the full primitive chain for both methods
 and verifies deterministic, non-overwritable bundle generation in temporary
 test directories. The byte-reproducible `synthetic-e2e` bundle is committed and
-explicitly marked as plumbing evidence. The repository still contains no VisA
-image, VisA-derived threshold, VisA evaluation bundle, experiment result,
-result figure, image-based failure analysis, or project decision.
+explicitly marked as plumbing evidence. The evaluation source, reference IDs,
+normal calibration partition, dependencies, evaluation rules, and artifact
+contract are frozen with file-level hashes and successful CI evidence. The
+repository still contains no VisA image, VisA-derived threshold, VisA
+evaluation bundle, experiment result, result figure, image-based failure
+analysis, or project decision.
