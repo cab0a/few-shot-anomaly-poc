@@ -2,7 +2,7 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 24 final evaluation complete — REJECT**
+> **Status: v0.1 public evaluation available — REJECT**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
@@ -28,7 +28,9 @@ Evaluate whether two CPU-only, normal-only visual anomaly detection methods just
 > failures, applied the fixed thresholds, and recorded the preregistered CPU
 > latency protocol. Official final-test classes were then joined once through
 > the fixed reveal boundary. Metrics, mechanical failure cases, and ordered
-> hard-gate outcomes are now preserved. Both v0.1 methods are `REJECT`.
+> hard-gate outcomes are now preserved. Both v0.1 methods are `REJECT`; the
+> [public evaluation report](docs/v0.1-evaluation-report.md) documents the
+> negative result, limitations, and proposed next validation.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -304,6 +306,9 @@ documented in
 [the final evaluation and decision record](docs/final-evaluation-and-decision.md).
 The complete machine-readable bundle is in
 [`artifacts/v0.1/evaluation/visa-pcb1-v0-1-final/`](artifacts/v0.1/evaluation/visa-pcb1-v0-1-final/).
+The [v0.1 public evaluation report](docs/v0.1-evaluation-report.md) explains
+the decision, claim boundaries, known limitations, and next validation without
+reproducing VisA images.
 
 ## Shared input preprocessing
 
@@ -781,6 +786,8 @@ mechanical failure-case selection, and the per-method hard-gate decision:
 - [Synthetic end-to-end evaluation record](docs/synthetic-evaluation.md)
 - [Pre-evaluation freeze record](docs/pre-evaluation-freeze.md)
 - [VisA `pcb1` acquisition and partition record](docs/data-acquisition-record.md)
+- [v0.1 public evaluation report](docs/v0.1-evaluation-report.md)
+- [Final evaluation and decision record](docs/final-evaluation-and-decision.md)
 - [Data preparation and final-test boundary](data/README.md)
 
 The runtime baseline is locked, while split pinning, safe acquisition, archive
@@ -810,7 +817,10 @@ and verifies deterministic, non-overwritable bundle generation in temporary
 test directories. The byte-reproducible `synthetic-e2e` bundle is committed and
 explicitly marked as plumbing evidence. The evaluation source, reference IDs,
 normal calibration partition, dependencies, evaluation rules, and artifact
-contract are frozen with file-level hashes and successful CI evidence. The
-repository still contains no VisA image, VisA-derived threshold, VisA
-evaluation bundle, experiment result, result figure, image-based failure
-analysis, or project decision.
+contract were frozen with file-level hashes and successful CI evidence before
+final-test scoring. The normal-only calibration, first fixed label-free
+final-test scoring, one-time class reveal, metrics, mechanical failure
+selection, and ordered hard-gate decision are complete. Both methods are
+`REJECT`, and the negative result is documented in the public evaluation
+report. The repository contains no raw VisA image, mask, result figure, or
+image-based causal failure analysis.
