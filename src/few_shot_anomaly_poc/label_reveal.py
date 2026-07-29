@@ -294,6 +294,92 @@ def _failed(
     )
 
 
+def final_test_label_reveal_result_is_valid(
+    result: object,
+    *,
+    config: ProjectConfig,
+) -> bool:
+    """Return whether a revealed result can enter final-test evaluation."""
+    if (
+        not isinstance(result, FinalTestLabelRevealResult)
+        or not result.succeeded
+        or result.failure_code is not None
+        or not isinstance(result.method, CalibrationMethod)
+        or not isinstance(result.batch_item_count, int)
+        or isinstance(result.batch_item_count, bool)
+        or result.batch_item_count < 1
+        or not isinstance(result.label_record_count, int)
+        or isinstance(result.label_record_count, bool)
+        or result.label_record_count != result.batch_item_count
+        or not isinstance(result.records, tuple)
+        or len(result.records) != result.batch_item_count
+        or not isinstance(result.ordered_paths, tuple)
+        or len(result.ordered_paths) != result.batch_item_count
+        or any(not _relative_path_is_valid(path) for path in result.ordered_paths)
+        or tuple(sorted(result.ordered_paths)) != result.ordered_paths
+        or len(set(result.ordered_paths)) != result.batch_item_count
+        or result.missing_paths != ()
+        or result.extra_paths != ()
+        or result.duplicate_path is not None
+        or result.invalid_label_index is not None
+        or result.order_mismatch_index is not None
+        or result.expected_path is not None
+        or result.observed_path is not None
+        or any(not isinstance(record, LabeledFinalTestClassification) for record in result.records)
+    ):
+        return False
+
+    first_classification = result.records[0].classification
+    if (
+        not isinstance(first_classification, FixedThresholdClassificationResult)
+        or not isinstance(first_classification.threshold, float)
+        or not math.isfinite(first_classification.threshold)
+        or not _relative_path_is_valid(first_classification.threshold_source_path)
+        or not isinstance(first_classification.calibration_sample_count, int)
+        or isinstance(first_classification.calibration_sample_count, bool)
+        or first_classification.calibration_sample_count < 1
+        or not isinstance(first_classification.calibration_rank, int)
+        or isinstance(first_classification.calibration_rank, bool)
+        or first_classification.calibration_rank
+        != math.ceil(
+            config.threshold_calibration.quantile * first_classification.calibration_sample_count
+        )
+    ):
+        return False
+
+    if result.method is CalibrationMethod.ECC_RESIDUAL:
+        threshold_is_valid = (
+            0.0 <= first_classification.threshold <= config.ecc_residual_scoring.failure_score
+        )
+    else:
+        limit = config.patch_hog_scoring.maximum_absolute_patch_score_exclusive
+        threshold_is_valid = (
+            -limit < first_classification.threshold <= config.patch_hog_scoring.failure_score
+        )
+    if not threshold_is_valid:
+        return False
+
+    return all(
+        record.relative_path == path
+        and record.label in ("normal", "anomaly")
+        and _classification_is_valid(
+            record.classification,
+            method=result.method,
+            relative_path=path,
+            threshold=first_classification.threshold,
+            threshold_source_path=first_classification.threshold_source_path,
+            sample_count=first_classification.calibration_sample_count,
+            rank=first_classification.calibration_rank,
+            config=config,
+        )
+        for path, record in zip(
+            result.ordered_paths,
+            result.records,
+            strict=True,
+        )
+    )
+
+
 def reveal_final_test_labels(
     batch: FixedThresholdBatchClassificationResult,
     label_records: Sequence[FinalTestLabelRecord],

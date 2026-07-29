@@ -221,6 +221,30 @@ acceptance gates, or change an existing classification.
 
 Anomaly is the positive class.
 
+The image-level metrics primitive accepts only a complete, validated final-test
+label reveal result and the fixed project configuration. It accepts no method,
+score, threshold, prediction, gate, or decision override. The existing anomaly
+score is the ranking score, and the existing fixed-threshold prediction is the
+class decision.
+
+Both normal and anomaly support must be non-zero. Every revealed record,
+including a score-generation failure with its fixed finite failure score,
+remains in the ranking metrics, confusion counts, fixed-threshold rates, and
+reported item count.
+
+The implementation uses scikit-learn `roc_auc_score` and
+`average_precision_score`. Invalid revealed input, missing class support,
+expected library computation failure, or invalid metric output returns no
+partial metric set and uses one of:
+
+- `METRICS_LABEL_REVEAL_INVALID`
+- `METRICS_CLASS_SUPPORT_INVALID`
+- `METRICS_COMPUTATION_FAILED`
+- `METRICS_RESULT_INVALID`
+
+This primitive does not apply an acceptance gate, combine metrics into a score,
+select a method, or make an adoption decision.
+
 ### Image-level AUROC
 
 AUROC summarizes score ranking across all final-test normal and anomaly images. It is descriptive and threshold-independent. It is not an acceptance gate.

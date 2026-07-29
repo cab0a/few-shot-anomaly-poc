@@ -2,7 +2,7 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 13 final-test label reveal boundary primitive**
+> **Status: Milestone 14 image-level metrics primitive**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
@@ -12,9 +12,9 @@ Evaluate whether two CPU-only, normal-only visual anomaly detection methods just
 > fitting, One-Class SVM fitting, and image scoring are also implemented,
 > together with method-specific normal-only threshold calibration and
 > label-free fixed-threshold single-image and batch classification. A strict
-> final-test label reveal boundary is also implemented without metric
-> calculation. No dataset-derived threshold, dataset result, benchmark, method
-> comparison, or decision is reported.
+> final-test label reveal boundary and fixed image-level metric calculation are
+> also implemented. No dataset-derived threshold, dataset result, benchmark,
+> method comparison, or decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -437,6 +437,28 @@ Tests use generated batches and labels only. This boundary does not read the
 official split, load a VisA image, calculate AUROC, AUPRC, false-positive or
 false-negative counts, apply an acceptance gate, or make a decision.
 
+## Image-level metrics
+
+The evaluation foundation now calculates the preregistered metrics from a
+complete, validated label reveal result:
+
+- anomaly is fixed as the positive class
+- the existing image anomaly score is used for ranking without transformation
+- image-level AUROC uses scikit-learn `roc_auc_score`
+- image-level AUPRC uses scikit-learn `average_precision_score`
+- TP, FN, TN, and FP counts use the existing fixed-threshold decisions
+- normal FPR is `FP / final-test normal count`
+- anomaly recall is `TP / final-test anomaly count`
+- score-generation failures remain in ranking metrics, fixed-threshold counts,
+  and denominators
+- an absent normal or anomaly class, invalid revealed input, expected metric
+  library failure, or invalid output produces no partial metric result
+
+Tests use generated labeled records with known expected measurements. This
+component does not read final-test files, choose or change a threshold, measure
+latency, apply hard gates, select failure examples, compare methods, or make an
+adoption decision.
+
 ## Non-goals
 
 v0.1 does not attempt to provide:
@@ -460,7 +482,7 @@ normal-template fitting, fixed ECC residual image scoring, and fixed Patch HOG
 feature extraction with position-wise reference scaling and One-Class SVM
 fitting and image scoring, plus normal-only threshold calibration and
 fixed-threshold single-image and batch classification, followed by the
-final-test label reveal boundary:
+final-test label reveal boundary and image-level metrics:
 
 - [Problem and requirements](docs/problem-and-requirements.md)
 - [Research and method selection](docs/research-and-method-selection.md)
@@ -481,6 +503,8 @@ and tested with generated inputs. The normal-only threshold calibration rule is
 implemented and tested with generated score records. Fixed-threshold
 single-image and batch classification is also implemented and tested without
 observed labels. The final-test label reveal boundary is implemented and tested
-with generated inputs without calculating metrics. The repository still
-contains no VisA image, dataset-derived threshold, evaluation pipeline,
-experiment, result figure, failure analysis, or final decision.
+with generated inputs. Image-level AUROC, AUPRC, fixed-threshold confusion
+counts, normal FPR, anomaly recall, and score-failure counting are implemented
+and tested with generated records. The repository still contains no VisA image,
+dataset-derived threshold, evaluation pipeline, experiment, result figure,
+failure analysis, or final decision.
