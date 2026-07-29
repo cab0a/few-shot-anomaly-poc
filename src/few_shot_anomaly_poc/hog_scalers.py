@@ -66,6 +66,9 @@ def position_scaler_state_is_valid(
     *,
     config: ProjectConfig,
 ) -> bool:
+    if not isinstance(scaler, StandardScaler):
+        return False
+
     descriptor_length = config.patch_hog.descriptor_length
     expected_shape = (descriptor_length,)
     arrays = (

@@ -163,6 +163,14 @@ def create_config(
             "max_iterations": -1,
             "verbose": False,
         },
+        "patch_hog_scoring": {
+            "patch_score": "negative_decision_function",
+            "maximum_absolute_patch_score_exclusive": 1000000000000.0,
+            "aggregation": "mean_top_fraction",
+            "top_fraction": 0.05,
+            "top_count_rounding": "ceil",
+            "failure_score": 1000000000000.0,
+        },
         "paths": {
             "archive": "data/external/archives/VisA_20220922.tar",
             "archive_provenance": "data/provenance/visa-archive.json",

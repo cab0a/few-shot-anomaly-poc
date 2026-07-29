@@ -282,15 +282,39 @@ does not calculate decision-function values for image scoring.
 
 ### Image scoring
 
+Scoring requires complete, validated scaler and model collections fitted from
+the same 20 reference paths. An invalid or inconsistent fitted state is a
+method-state error and must be rejected before feature extraction.
+
 1. Extract the 225 HOG descriptors in row-major patch order.
 2. Transform each descriptor with the scaler for that position.
 3. Calculate the One-Class SVM decision function for that position.
 4. Negate the decision function so that higher values mean more anomalous.
-5. Reject any non-finite patch score or any absolute patch score greater than or equal to `1e12`.
+5. Reject any non-finite patch score or any absolute patch score greater than
+   or equal to `1e12`.
 6. Set `k = ceil(0.05 * 225) = 12`.
-7. The image anomaly score is the arithmetic mean of the 12 largest patch anomaly scores.
+7. Sort patch scores by score descending, then patch index ascending to resolve
+   ties deterministically.
+8. The image anomaly score is the arithmetic mean of the 12 largest patch
+   anomaly scores.
 
-The 12 contributing patch positions may be recorded for diagnosis, but they are not a pixel-level prediction and must not be evaluated as localization.
+Successful records contain all 225 patch anomaly scores and the 12 contributing
+patch indices. The contributing positions are diagnostic evidence, not a
+pixel-level prediction, and must not be evaluated as localization.
+
+No partial patch-score collection is returned after a feature, transform,
+decision-function, patch-value, or aggregation failure. Patch HOG scoring
+failures use:
+
+- `HOG_SCORE_FEATURE_RESULT_INVALID`
+- `HOG_SCORE_TRANSFORM_FAILED`
+- `HOG_SCORE_TRANSFORM_INVALID`
+- `HOG_SCORE_DECISION_FAILED`
+- `HOG_SCORE_PATCH_INVALID`
+- `HOG_SCORE_AGGREGATION_INVALID`
+
+Expected preprocessing and HOG extraction failures retain their source failure
+code. This component does not select or apply a calibration threshold.
 
 ## Failure-Score Policy
 

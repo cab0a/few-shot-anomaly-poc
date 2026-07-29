@@ -2,16 +2,16 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 8 position-wise Patch HOG One-Class SVM fitting**
+> **Status: Milestone 9 Patch HOG image scoring primitive**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
 > preprocessing are implemented, together with the bounded ECC registration
 > primitive, deterministic normal-template fitting, and fixed residual image
 > scoring. Fixed Patch HOG feature extraction and position-wise StandardScaler
-> fitting and One-Class SVM fitting are also implemented, without HOG image
-> scoring. No calibrated threshold, dataset result, benchmark, method
-> comparison, or decision is reported.
+> fitting, One-Class SVM fitting, and image scoring are also implemented. No
+> calibrated threshold, dataset result, benchmark, method comparison, or
+> decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -316,6 +316,30 @@ This component does not use calibration features or anomaly labels, calculate
 decision-function values for scoring images, aggregate patch scores, read a
 VisA image, or claim method performance.
 
+## Patch HOG image scoring
+
+The second method now has a deterministic single-image scoring component that:
+
+- requires complete, validated scaler and model collections fitted from the
+  same 20 normal reference paths
+- extracts the fixed 225 descriptors and applies only the scaler and model for
+  each corresponding patch position
+- negates each One-Class SVM decision value so that a higher patch score means
+  more anomalous
+- rejects non-finite patch scores and scores whose absolute value is at least
+  `1e12`
+- averages the 12 highest patch scores, with patch index ascending as the
+  deterministic tie-breaker
+- returns all 225 patch scores and the 12 contributing patch indices after a
+  successful score
+- converts image-level feature, transform, decision, and aggregation failures
+  to the fixed `1e12` failure score without returning partial patch scores
+
+The contributing patch indices are diagnostic evidence, not a pixel-level
+localization result. Tests use generated images and generated normal reference
+features. This component does not select a threshold, use anomaly labels, read
+a VisA image, or claim method performance.
+
 ## Non-goals
 
 v0.1 does not attempt to provide:
@@ -337,7 +361,7 @@ The repository contains preregistered design documents, the data foundation,
 deterministic shared preprocessing, bounded ECC registration, deterministic ECC
 normal-template fitting, fixed ECC residual image scoring, and fixed Patch HOG
 feature extraction with position-wise reference scaling and One-Class SVM
-fitting:
+fitting and image scoring:
 
 - [Problem and requirements](docs/problem-and-requirements.md)
 - [Research and method selection](docs/research-and-method-selection.md)
@@ -353,6 +377,7 @@ CI, shared image preprocessing, ECC registration, ECC template fitting, and ECC
 residual scoring are implemented, together with Patch HOG feature extraction.
 Position-wise Patch HOG StandardScaler fitting is also implemented. The
 position-wise One-Class SVM fitting and validation are implemented and tested
-with synthetic reference features. The repository still contains no VisA
-image, calibrated threshold, HOG image scoring, evaluation pipeline,
-experiment, result figure, failure analysis, or final decision.
+with synthetic reference features. Fixed Patch HOG image scoring is implemented
+and tested with generated inputs. The repository still contains no VisA image,
+calibrated threshold, evaluation pipeline, experiment, result figure, failure
+analysis, or final decision.

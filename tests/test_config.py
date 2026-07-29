@@ -84,6 +84,12 @@ def test_repository_config_pins_official_split() -> None:
     assert config.patch_hog_one_class_svm.cache_size_mb == 200.0
     assert config.patch_hog_one_class_svm.max_iterations == -1
     assert config.patch_hog_one_class_svm.verbose is False
+    assert config.patch_hog_scoring.patch_score == "negative_decision_function"
+    assert config.patch_hog_scoring.maximum_absolute_patch_score_exclusive == 1e12
+    assert config.patch_hog_scoring.aggregation == "mean_top_fraction"
+    assert config.patch_hog_scoring.top_fraction == 0.05
+    assert config.patch_hog_scoring.top_count_rounding == "ceil"
+    assert config.patch_hog_scoring.failure_score == 1e12
     assert config.split.revision == "2a692ab575001cbde74d402d897a7286086c6199"
     assert config.split.sha256 == "a48557e6033318cb90556f706196bc9d247a776a23ea51aecee5a80dd0332995"
 
@@ -227,4 +233,19 @@ def test_config_rejects_changed_patch_hog_one_class_svm(
     config_path.write_text(json.dumps(raw), encoding="utf-8")
 
     with pytest.raises(ConfigurationError, match="nu"):
+        load_config(config_path)
+
+
+@pytest.mark.parametrize("changed_top_fraction", [0.1, "0.05", True])
+def test_config_rejects_changed_patch_hog_scoring(
+    tmp_path: Path,
+    changed_top_fraction: object,
+) -> None:
+    raw = json.loads(Path("configs/v0.1.yaml").read_text(encoding="utf-8"))
+    raw["patch_hog_scoring"]["top_fraction"] = changed_top_fraction
+    config_path = tmp_path / "configs/v0.1.yaml"
+    config_path.parent.mkdir()
+    config_path.write_text(json.dumps(raw), encoding="utf-8")
+
+    with pytest.raises(ConfigurationError, match="top_fraction"):
         load_config(config_path)

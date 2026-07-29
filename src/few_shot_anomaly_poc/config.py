@@ -139,6 +139,16 @@ class PatchHOGOneClassSVMConfig:
 
 
 @dataclass(frozen=True)
+class PatchHOGScoringConfig:
+    patch_score: str
+    maximum_absolute_patch_score_exclusive: float
+    aggregation: str
+    top_fraction: float
+    top_count_rounding: str
+    failure_score: float
+
+
+@dataclass(frozen=True)
 class ProjectPaths:
     archive: Path
     archive_provenance: Path
@@ -165,6 +175,7 @@ class ProjectConfig:
     patch_hog: PatchHOGConfig
     patch_hog_scaler: PatchHOGScalerConfig
     patch_hog_one_class_svm: PatchHOGOneClassSVMConfig
+    patch_hog_scoring: PatchHOGScoringConfig
     paths: ProjectPaths
     project_root: Path
 
@@ -283,6 +294,10 @@ def load_config(config_path: Path) -> ProjectConfig:
     patch_hog_one_class_svm_raw = _mapping(
         root.get("patch_hog_one_class_svm"),
         "patch_hog_one_class_svm",
+    )
+    patch_hog_scoring_raw = _mapping(
+        root.get("patch_hog_scoring"),
+        "patch_hog_scoring",
     )
     paths_raw = _mapping(root.get("paths"), "paths")
     project_root = resolved_config.parent.parent.resolve()
@@ -751,6 +766,44 @@ def load_config(config_path: Path) -> ProjectConfig:
             False,
         ),
     )
+    patch_hog_scoring = PatchHOGScoringConfig(
+        patch_score=_fixed_string(
+            patch_hog_scoring_raw,
+            "patch_score",
+            "patch_hog_scoring",
+            "negative_decision_function",
+        ),
+        maximum_absolute_patch_score_exclusive=_fixed_float(
+            patch_hog_scoring_raw,
+            "maximum_absolute_patch_score_exclusive",
+            "patch_hog_scoring",
+            1e12,
+        ),
+        aggregation=_fixed_string(
+            patch_hog_scoring_raw,
+            "aggregation",
+            "patch_hog_scoring",
+            "mean_top_fraction",
+        ),
+        top_fraction=_fixed_float(
+            patch_hog_scoring_raw,
+            "top_fraction",
+            "patch_hog_scoring",
+            0.05,
+        ),
+        top_count_rounding=_fixed_string(
+            patch_hog_scoring_raw,
+            "top_count_rounding",
+            "patch_hog_scoring",
+            "ceil",
+        ),
+        failure_score=_fixed_float(
+            patch_hog_scoring_raw,
+            "failure_score",
+            "patch_hog_scoring",
+            1e12,
+        ),
+    )
 
     path_values = {
         key: _project_path(
@@ -817,6 +870,7 @@ def load_config(config_path: Path) -> ProjectConfig:
         patch_hog=patch_hog,
         patch_hog_scaler=patch_hog_scaler,
         patch_hog_one_class_svm=patch_hog_one_class_svm,
+        patch_hog_scoring=patch_hog_scoring,
         paths=ProjectPaths(**path_values),
         project_root=project_root,
     )
