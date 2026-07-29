@@ -1,0 +1,23 @@
+name: Markdown
+
+on:
+  push:
+    paths:
+      - "**/*.md"
+      - ".github/workflows/markdown.yml"
+  pull_request:
+    paths:
+      - "**/*.md"
+      - ".github/workflows/markdown.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: markdown-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    uses: cab0a/cab0a/.github/workflows/project-markdown.yml@main
