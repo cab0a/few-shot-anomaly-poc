@@ -91,7 +91,8 @@ def _failed(
     )
 
 
-def _result_is_valid(result: ImageLevelMetricsResult) -> bool:
+def image_level_metrics_result_is_valid(result: ImageLevelMetricsResult) -> bool:
+    """Return whether a successful metric result is internally consistent."""
     counts = (
         result.normal_count,
         result.anomaly_count,
@@ -231,7 +232,7 @@ def calculate_image_level_metrics(
         threshold=first_classification.threshold,
         threshold_source_path=first_classification.threshold_source_path,
     )
-    if not _result_is_valid(result):
+    if not image_level_metrics_result_is_valid(result):
         return _failed(
             ImageMetricsFailureCode.METRICS_RESULT_INVALID,
             revealed=revealed,

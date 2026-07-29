@@ -185,6 +185,19 @@ class FailureCaseSelectionConfig:
 
 
 @dataclass(frozen=True)
+class HardGateDecisionConfig:
+    gate_order: tuple[str, ...]
+    normal_fpr_max: float
+    anomaly_recall_min: float
+    cpu_p95_latency_seconds_max: float
+    normal_reference_count_max: int
+    anomaly_training_labels_used: bool
+    reproducibility_required: bool
+    weighted_score_allowed: bool
+    hard_gate_waiver_allowed: bool
+
+
+@dataclass(frozen=True)
 class ProjectPaths:
     archive: Path
     archive_provenance: Path
@@ -215,6 +228,7 @@ class ProjectConfig:
     threshold_calibration: ThresholdCalibrationConfig
     latency_measurement: LatencyMeasurementConfig
     failure_case_selection: FailureCaseSelectionConfig
+    hard_gate_decision: HardGateDecisionConfig
     paths: ProjectPaths
     project_root: Path
 
@@ -278,6 +292,22 @@ def _fixed_boolean(
     if not isinstance(value, bool) or value is not expected:
         raise ConfigurationError(f"{label}.{key} must remain {expected}")
     return value
+
+
+def _fixed_string_tuple(
+    mapping: dict[str, Any],
+    key: str,
+    label: str,
+    expected: tuple[str, ...],
+) -> tuple[str, ...]:
+    value = mapping.get(key)
+    if (
+        not isinstance(value, list)
+        or any(not isinstance(item, str) or not item for item in value)
+        or tuple(value) != expected
+    ):
+        raise ConfigurationError(f"{label}.{key} must remain {list(expected)}")
+    return tuple(value)
 
 
 def _https_url(value: str, label: str) -> str:
@@ -349,6 +379,10 @@ def load_config(config_path: Path) -> ProjectConfig:
     failure_case_selection_raw = _mapping(
         root.get("failure_case_selection"),
         "failure_case_selection",
+    )
+    hard_gate_decision_raw = _mapping(
+        root.get("hard_gate_decision"),
+        "hard_gate_decision",
     )
     paths_raw = _mapping(root.get("paths"), "paths")
     project_root = resolved_config.parent.parent.resolve()
@@ -1005,6 +1039,69 @@ def load_config(config_path: Path) -> ProjectConfig:
             False,
         ),
     )
+    hard_gate_decision = HardGateDecisionConfig(
+        gate_order=_fixed_string_tuple(
+            hard_gate_decision_raw,
+            "gate_order",
+            "hard_gate_decision",
+            (
+                "final_test_normal_fpr",
+                "final_test_anomaly_recall",
+                "cpu_p95_scoring_latency",
+                "normal_reference_count",
+                "anomaly_training_labels",
+                "reproducibility",
+            ),
+        ),
+        normal_fpr_max=_fixed_float(
+            hard_gate_decision_raw,
+            "normal_fpr_max",
+            "hard_gate_decision",
+            0.05,
+        ),
+        anomaly_recall_min=_fixed_float(
+            hard_gate_decision_raw,
+            "anomaly_recall_min",
+            "hard_gate_decision",
+            0.90,
+        ),
+        cpu_p95_latency_seconds_max=_fixed_float(
+            hard_gate_decision_raw,
+            "cpu_p95_latency_seconds_max",
+            "hard_gate_decision",
+            1.0,
+        ),
+        normal_reference_count_max=_fixed_integer(
+            hard_gate_decision_raw,
+            "normal_reference_count_max",
+            "hard_gate_decision",
+            20,
+        ),
+        anomaly_training_labels_used=_fixed_boolean(
+            hard_gate_decision_raw,
+            "anomaly_training_labels_used",
+            "hard_gate_decision",
+            False,
+        ),
+        reproducibility_required=_fixed_boolean(
+            hard_gate_decision_raw,
+            "reproducibility_required",
+            "hard_gate_decision",
+            True,
+        ),
+        weighted_score_allowed=_fixed_boolean(
+            hard_gate_decision_raw,
+            "weighted_score_allowed",
+            "hard_gate_decision",
+            False,
+        ),
+        hard_gate_waiver_allowed=_fixed_boolean(
+            hard_gate_decision_raw,
+            "hard_gate_waiver_allowed",
+            "hard_gate_decision",
+            False,
+        ),
+    )
 
     path_values = {
         key: _project_path(
@@ -1075,6 +1172,7 @@ def load_config(config_path: Path) -> ProjectConfig:
         threshold_calibration=threshold_calibration,
         latency_measurement=latency_measurement,
         failure_case_selection=failure_case_selection,
+        hard_gate_decision=hard_gate_decision,
         paths=ProjectPaths(**path_values),
         project_root=project_root,
     )

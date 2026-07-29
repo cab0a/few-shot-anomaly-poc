@@ -408,9 +408,41 @@ A method passes only when every method-level and process-level gate passes.
 
 The gates are hypothetical case-study assumptions. They are not production requirements or general recommendations.
 
+The machine-readable `hard_gate_decision` section in `configs/v0.1.yaml`
+fixes the table limits and the evaluation order shown above. It also fixes
+weighted-score use and hard-gate waivers as disallowed.
+
 ## Decision Rules
 
 Hard gates are applied before method comparison. No weighted aggregate score is allowed.
+
+The per-method decision primitive accepts only a valid image-level metric
+result, a valid CPU latency result for the same method and final-test item
+count, explicit process evidence, and the fixed configuration. Process
+evidence records the actual reference count, whether anomaly training labels
+were used, whether reproducibility was verified, whether test leakage was
+detected, and one bounded failure-review disposition:
+
+- `no_material_boundary`
+- `guardrail_required`
+- `intended_use_contradicted`
+
+A non-empty condition is required only for `guardrail_required`. The
+qualitative disposition and rationale remain explicit review evidence; they
+are not inferred from a composite score. The primitive evaluates all six gates
+in fixed order and records each observed value, requirement, operator, and
+outcome. Invalid input returns no partial gate sequence or decision and uses
+one of:
+
+- `DECISION_METRICS_INVALID`
+- `DECISION_LATENCY_INVALID`
+- `DECISION_METHOD_MISMATCH`
+- `DECISION_PROCESS_EVIDENCE_INVALID`
+- `DECISION_RESULT_INVALID`
+
+This primitive produces one method-level decision. The later final evaluation
+applies the cross-method recommendation order below to produce the single
+project decision.
 
 ### ADOPT
 
@@ -432,6 +464,9 @@ Record `ADOPT WITH CONDITIONS` only when at least one method passes every hard g
 
 This decision may narrow intended use but may not waive a failed hard gate.
 
+The condition must be recorded explicitly. It is omitted from `ADOPT` and
+`REJECT` results.
+
 ### REJECT
 
 Record `REJECT` when:
@@ -439,6 +474,10 @@ Record `REJECT` when:
 - Neither method passes every hard gate, or
 - Test leakage invalidates the evaluation, or
 - Required assets or configuration cannot reproduce the decision evidence.
+
+The per-method primitive also records `REJECT` when test leakage is detected or
+when an otherwise gate-passing failure review records
+`intended_use_contradicted`.
 
 A rejection must still identify the first next validation that could reduce the observed uncertainty. DINOv2 may be proposed for v0.2, but a v0.1 rejection does not automatically authorize its implementation.
 

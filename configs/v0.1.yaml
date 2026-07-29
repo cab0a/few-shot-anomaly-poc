@@ -147,6 +147,24 @@
     "tie_breaker": "relative_path_ascending",
     "image_access": false
   },
+  "hard_gate_decision": {
+    "gate_order": [
+      "final_test_normal_fpr",
+      "final_test_anomaly_recall",
+      "cpu_p95_scoring_latency",
+      "normal_reference_count",
+      "anomaly_training_labels",
+      "reproducibility"
+    ],
+    "normal_fpr_max": 0.05,
+    "anomaly_recall_min": 0.90,
+    "cpu_p95_latency_seconds_max": 1.0,
+    "normal_reference_count_max": 20,
+    "anomaly_training_labels_used": false,
+    "reproducibility_required": true,
+    "weighted_score_allowed": false,
+    "hard_gate_waiver_allowed": false
+  },
   "paths": {
     "archive": "data/external/archives/VisA_20220922.tar",
     "archive_provenance": "data/provenance/visa-archive.json",

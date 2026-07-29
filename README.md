@@ -2,7 +2,7 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 16 failure case selection primitive**
+> **Status: Milestone 17 hard-gate decision primitive**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
@@ -14,9 +14,9 @@ Evaluate whether two CPU-only, normal-only visual anomaly detection methods just
 > label-free fixed-threshold single-image and batch classification. A strict
 > final-test label reveal boundary and fixed image-level metric calculation are
 > also implemented, together with the preregistered CPU latency measurement
-> protocol and mechanical fixed-threshold failure-case selection. No
-> dataset-derived threshold, dataset result, benchmark, method comparison, or
-> decision is reported.
+> protocol, mechanical fixed-threshold failure-case selection, and the fixed
+> per-method hard-gate decision. No dataset-derived threshold, dataset result,
+> benchmark, method comparison, or project decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -510,6 +510,30 @@ recalculate metrics, apply hard gates, or make an adoption decision. Any later
 technical observation or public image must remain a separate, attributed
 reporting step and cannot alter this selection.
 
+## Hard-gate decision
+
+The evaluation foundation now implements the fixed per-method decision rule:
+
+- evaluates final-test normal FPR, anomaly recall, CPU p95 scoring latency,
+  normal reference count, anomaly-training-label use, and reproducibility in
+  the preregistered order
+- records each observed value, required value, comparison operator, and
+  pass/fail outcome without creating a weighted score
+- rejects a method when any hard gate fails
+- rejects an otherwise passing evaluation when test leakage is recorded
+- allows `ADOPT WITH CONDITIONS` only when every hard gate passes and the
+  explicit failure review requires a documented guardrail
+- does not allow a failure-review condition to waive a failed hard gate
+- returns `REJECT` when an otherwise passing failure review contradicts the
+  intended use
+
+The limits, order, no-weighted-score rule, and no-waiver rule are fixed in
+`configs/v0.1.yaml`. Invalid metric, latency, process, or cross-method evidence
+produces no partial decision. This primitive evaluates one method at a time;
+the preregistered cross-method recommendation rule remains part of the later
+final evaluation. Tests use synthetic records only, so no project adoption
+decision exists yet.
+
 ## Non-goals
 
 v0.1 does not attempt to provide:
@@ -534,7 +558,7 @@ feature extraction with position-wise reference scaling and One-Class SVM
 fitting and image scoring, plus normal-only threshold calibration and
 fixed-threshold single-image and batch classification, followed by the
 final-test label reveal boundary, image-level metrics, CPU latency measurement,
-and mechanical failure-case selection:
+mechanical failure-case selection, and the per-method hard-gate decision:
 
 - [Problem and requirements](docs/problem-and-requirements.md)
 - [Research and method selection](docs/research-and-method-selection.md)
@@ -562,5 +586,7 @@ environment capture, median, and nearest-rank p95 protocol is implemented and
 tested with generated inputs and synthetic clocks. The fixed highest-score
 false-positive and lowest-score false-negative selection rule is implemented
 and tested with generated labeled records without image access. The repository
-still contains no VisA image, dataset-derived threshold, evaluation pipeline,
-experiment, result figure, image-based failure analysis, or final decision.
+also applies every preregistered hard gate in fixed order and tests all three
+allowed decision labels with synthetic evidence. The repository still contains
+no VisA image, dataset-derived threshold, evaluation pipeline, experiment,
+result figure, image-based failure analysis, or project decision.

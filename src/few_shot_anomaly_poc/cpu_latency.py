@@ -315,11 +315,12 @@ def _failed(
     )
 
 
-def _result_is_valid(
+def cpu_latency_result_is_valid(
     result: CPULatencyResult,
     *,
     config: ProjectConfig,
 ) -> bool:
+    """Return whether a successful latency result matches the fixed protocol."""
     if (
         not result.succeeded
         or result.failure_code is not None
@@ -645,7 +646,7 @@ def measure_cpu_latency(
         failed_path=None,
         failed_pass_index=None,
     )
-    if not _result_is_valid(result, config=config):
+    if not cpu_latency_result_is_valid(result, config=config):
         return _failed(
             CPULatencyFailureCode.LATENCY_RESULT_INVALID,
             config=config,

@@ -114,6 +114,22 @@ def test_repository_config_pins_official_split() -> None:
     assert config.failure_case_selection.false_negative_order == "anomaly_score_ascending"
     assert config.failure_case_selection.tie_breaker == "relative_path_ascending"
     assert config.failure_case_selection.image_access is False
+    assert config.hard_gate_decision.gate_order == (
+        "final_test_normal_fpr",
+        "final_test_anomaly_recall",
+        "cpu_p95_scoring_latency",
+        "normal_reference_count",
+        "anomaly_training_labels",
+        "reproducibility",
+    )
+    assert config.hard_gate_decision.normal_fpr_max == 0.05
+    assert config.hard_gate_decision.anomaly_recall_min == 0.90
+    assert config.hard_gate_decision.cpu_p95_latency_seconds_max == 1.0
+    assert config.hard_gate_decision.normal_reference_count_max == 20
+    assert config.hard_gate_decision.anomaly_training_labels_used is False
+    assert config.hard_gate_decision.reproducibility_required is True
+    assert config.hard_gate_decision.weighted_score_allowed is False
+    assert config.hard_gate_decision.hard_gate_waiver_allowed is False
     assert config.split.revision == "2a692ab575001cbde74d402d897a7286086c6199"
     assert config.split.sha256 == "a48557e6033318cb90556f706196bc9d247a776a23ea51aecee5a80dd0332995"
 
@@ -167,6 +183,47 @@ def test_config_rejects_changed_failure_case_limit(
     config_path.write_text(json.dumps(raw), encoding="utf-8")
 
     with pytest.raises(ConfigurationError, match="max_cases_per_type"):
+        load_config(config_path)
+
+
+@pytest.mark.parametrize(
+    ("key", "changed_value"),
+    [
+        ("normal_fpr_max", 0.06),
+        ("anomaly_recall_min", 0.89),
+        ("cpu_p95_latency_seconds_max", 1.01),
+        ("normal_reference_count_max", 21),
+        ("anomaly_training_labels_used", True),
+        ("reproducibility_required", False),
+        ("weighted_score_allowed", True),
+        ("hard_gate_waiver_allowed", True),
+    ],
+)
+def test_config_rejects_changed_hard_gate_rule(
+    tmp_path: Path,
+    key: str,
+    changed_value: object,
+) -> None:
+    raw = json.loads(Path("configs/v0.1.yaml").read_text(encoding="utf-8"))
+    raw["hard_gate_decision"][key] = changed_value
+    config_path = tmp_path / "configs/v0.1.yaml"
+    config_path.parent.mkdir()
+    config_path.write_text(json.dumps(raw), encoding="utf-8")
+
+    with pytest.raises(ConfigurationError, match=key):
+        load_config(config_path)
+
+
+def test_config_rejects_changed_hard_gate_order(tmp_path: Path) -> None:
+    raw = json.loads(Path("configs/v0.1.yaml").read_text(encoding="utf-8"))
+    raw["hard_gate_decision"]["gate_order"] = list(
+        reversed(raw["hard_gate_decision"]["gate_order"])
+    )
+    config_path = tmp_path / "configs/v0.1.yaml"
+    config_path.parent.mkdir()
+    config_path.write_text(json.dumps(raw), encoding="utf-8")
+
+    with pytest.raises(ConfigurationError, match="gate_order"):
         load_config(config_path)
 
 
