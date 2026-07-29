@@ -49,10 +49,12 @@
       "primary_key": [
         "run_id",
         "method",
+        "partition",
         "relative_path"
       ],
       "sort_key": [
         "method",
+        "partition_fixed_calibration_first",
         "relative_path"
       ],
       "columns": [
@@ -83,6 +85,15 @@
           "enum": [
             "ecc_residual",
             "patch_hog_one_class_svm"
+          ]
+        },
+        {
+          "name": "partition",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "calibration",
+            "final_test"
           ]
         },
         {

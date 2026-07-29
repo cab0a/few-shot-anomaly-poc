@@ -102,7 +102,12 @@ def test_every_csv_contract_has_unique_columns_and_key_columns() -> None:
             assert {"run_id", "run_kind"} <= set(columns)
             assert set(csv_spec["primary_key"]) <= set(columns)
             assert all(
-                key in columns or key == "case_type_fixed_false_positive_first"
+                key in columns
+                or key
+                in {
+                    "case_type_fixed_false_positive_first",
+                    "partition_fixed_calibration_first",
+                }
                 for key in csv_spec["sort_key"]
             )
             assert all(isinstance(column["nullable"], bool) for column in csv_spec["columns"])
@@ -115,6 +120,7 @@ def test_label_free_contracts_do_not_contain_true_class() -> None:
     reveal_columns = {column["name"] for column in contracts["label_reveal"]["columns"]}
 
     assert "true_class" not in score_columns
+    assert "partition" in score_columns
     assert "true_class" not in classification_columns
     assert "true_class" in reveal_columns
     assert "anomaly_score" not in reveal_columns
