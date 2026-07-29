@@ -39,6 +39,17 @@ def test_repository_config_pins_official_split() -> None:
     assert config.ecc_template.support_erosion_border == "constant_zero"
     assert config.ecc_template.minimum_support_fraction == 0.75
     assert config.ecc_template.aggregation == "pixelwise_median_valid_values"
+    assert config.ecc_residual_scoring.validity_erosion_kernel_size == 5
+    assert config.ecc_residual_scoring.validity_erosion_iterations == 1
+    assert config.ecc_residual_scoring.validity_erosion_border == "constant_zero"
+    assert config.ecc_residual_scoring.minimum_effective_support_fraction == 0.95
+    assert config.ecc_residual_scoring.residual == "absolute_grayscale"
+    assert config.ecc_residual_scoring.gaussian_kernel_size == 5
+    assert config.ecc_residual_scoring.gaussian_sigma == 0.0
+    assert config.ecc_residual_scoring.gaussian_border == "constant_zero"
+    assert config.ecc_residual_scoring.top_fraction == 0.01
+    assert config.ecc_residual_scoring.top_count_rounding == "ceil"
+    assert config.ecc_residual_scoring.failure_score == 1.0
     assert config.split.revision == "2a692ab575001cbde74d402d897a7286086c6199"
     assert config.split.sha256 == "a48557e6033318cb90556f706196bc9d247a776a23ea51aecee5a80dd0332995"
 
@@ -107,4 +118,19 @@ def test_config_rejects_changed_ecc_template(
     config_path.write_text(json.dumps(raw), encoding="utf-8")
 
     with pytest.raises(ConfigurationError, match="minimum_successful_references"):
+        load_config(config_path)
+
+
+@pytest.mark.parametrize("changed_fraction", [0.94, "0.95", True])
+def test_config_rejects_changed_ecc_residual_scoring(
+    tmp_path: Path,
+    changed_fraction: object,
+) -> None:
+    raw = json.loads(Path("configs/v0.1.yaml").read_text(encoding="utf-8"))
+    raw["ecc_residual_scoring"]["minimum_effective_support_fraction"] = changed_fraction
+    config_path = tmp_path / "configs/v0.1.yaml"
+    config_path.parent.mkdir()
+    config_path.write_text(json.dumps(raw), encoding="utf-8")
+
+    with pytest.raises(ConfigurationError, match="minimum_effective_support_fraction"):
         load_config(config_path)

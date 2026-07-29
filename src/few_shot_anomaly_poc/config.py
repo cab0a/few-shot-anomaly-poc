@@ -78,6 +78,21 @@ class ECCTemplateConfig:
 
 
 @dataclass(frozen=True)
+class ECCResidualScoringConfig:
+    validity_erosion_kernel_size: int
+    validity_erosion_iterations: int
+    validity_erosion_border: str
+    minimum_effective_support_fraction: float
+    residual: str
+    gaussian_kernel_size: int
+    gaussian_sigma: float
+    gaussian_border: str
+    top_fraction: float
+    top_count_rounding: str
+    failure_score: float
+
+
+@dataclass(frozen=True)
 class ProjectPaths:
     archive: Path
     archive_provenance: Path
@@ -100,6 +115,7 @@ class ProjectConfig:
     preprocessing: PreprocessingConfig
     ecc_registration: ECCRegistrationConfig
     ecc_template: ECCTemplateConfig
+    ecc_residual_scoring: ECCResidualScoringConfig
     paths: ProjectPaths
     project_root: Path
 
@@ -194,6 +210,10 @@ def load_config(config_path: Path) -> ProjectConfig:
     preprocessing_raw = _mapping(root.get("preprocessing"), "preprocessing")
     ecc_registration_raw = _mapping(root.get("ecc_registration"), "ecc_registration")
     ecc_template_raw = _mapping(root.get("ecc_template"), "ecc_template")
+    ecc_residual_scoring_raw = _mapping(
+        root.get("ecc_residual_scoring"),
+        "ecc_residual_scoring",
+    )
     paths_raw = _mapping(root.get("paths"), "paths")
     project_root = resolved_config.parent.parent.resolve()
 
@@ -383,6 +403,74 @@ def load_config(config_path: Path) -> ProjectConfig:
             "pixelwise_median_valid_values",
         ),
     )
+    ecc_residual_scoring = ECCResidualScoringConfig(
+        validity_erosion_kernel_size=_fixed_integer(
+            ecc_residual_scoring_raw,
+            "validity_erosion_kernel_size",
+            "ecc_residual_scoring",
+            5,
+        ),
+        validity_erosion_iterations=_fixed_integer(
+            ecc_residual_scoring_raw,
+            "validity_erosion_iterations",
+            "ecc_residual_scoring",
+            1,
+        ),
+        validity_erosion_border=_fixed_string(
+            ecc_residual_scoring_raw,
+            "validity_erosion_border",
+            "ecc_residual_scoring",
+            "constant_zero",
+        ),
+        minimum_effective_support_fraction=_fixed_float(
+            ecc_residual_scoring_raw,
+            "minimum_effective_support_fraction",
+            "ecc_residual_scoring",
+            0.95,
+        ),
+        residual=_fixed_string(
+            ecc_residual_scoring_raw,
+            "residual",
+            "ecc_residual_scoring",
+            "absolute_grayscale",
+        ),
+        gaussian_kernel_size=_fixed_integer(
+            ecc_residual_scoring_raw,
+            "gaussian_kernel_size",
+            "ecc_residual_scoring",
+            5,
+        ),
+        gaussian_sigma=_fixed_float(
+            ecc_residual_scoring_raw,
+            "gaussian_sigma",
+            "ecc_residual_scoring",
+            0.0,
+        ),
+        gaussian_border=_fixed_string(
+            ecc_residual_scoring_raw,
+            "gaussian_border",
+            "ecc_residual_scoring",
+            "constant_zero",
+        ),
+        top_fraction=_fixed_float(
+            ecc_residual_scoring_raw,
+            "top_fraction",
+            "ecc_residual_scoring",
+            0.01,
+        ),
+        top_count_rounding=_fixed_string(
+            ecc_residual_scoring_raw,
+            "top_count_rounding",
+            "ecc_residual_scoring",
+            "ceil",
+        ),
+        failure_score=_fixed_float(
+            ecc_residual_scoring_raw,
+            "failure_score",
+            "ecc_residual_scoring",
+            1.0,
+        ),
+    )
 
     path_values = {
         key: _project_path(
@@ -445,6 +533,7 @@ def load_config(config_path: Path) -> ProjectConfig:
         ),
         ecc_registration=ecc_registration,
         ecc_template=ecc_template,
+        ecc_residual_scoring=ecc_residual_scoring,
         paths=ProjectPaths(**path_values),
         project_root=project_root,
     )

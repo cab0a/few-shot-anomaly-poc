@@ -64,3 +64,16 @@ class ECCTemplateFailureCode(StrEnum):
     FIT_SUPPORT_EROSION_FAILED = "FIT_SUPPORT_EROSION_FAILED"
     FIT_SUPPORT_TOO_SMALL = "FIT_SUPPORT_TOO_SMALL"
     FIT_TEMPLATE_INVALID = "FIT_TEMPLATE_INVALID"
+
+
+class ECCResidualFailureCode(StrEnum):
+    """Stable image-level failure codes for ECC residual scoring."""
+
+    SCORE_MASK_EROSION_FAILED = "SCORE_MASK_EROSION_FAILED"
+    SCORE_EFFECTIVE_SUPPORT_TOO_SMALL = "SCORE_EFFECTIVE_SUPPORT_TOO_SMALL"
+    SCORE_RESIDUAL_FILTER_FAILED = "SCORE_RESIDUAL_FILTER_FAILED"
+    SCORE_RESULT_INVALID = "SCORE_RESULT_INVALID"
+
+
+class ECCResidualStateError(Exception):
+    """Reject scoring when no valid fitted ECC method state is available."""

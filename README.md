@@ -2,13 +2,14 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 4 ECC normal-template fitting**
+> **Status: Milestone 5 ECC residual image scoring**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
 > preprocessing are implemented, together with the bounded ECC registration
-> primitive and deterministic normal-template fitting. No complete anomaly
-> method, dataset result, benchmark, or decision is reported.
+> primitive, deterministic normal-template fitting, and fixed residual image
+> scoring. No calibrated threshold, dataset result, benchmark, method
+> comparison, or decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -51,7 +52,7 @@ The final v0.1 decision must be one of:
 
 ### ECC-aligned normal-template residual
 
-This method will align an input to a template built from the fixed normal references and derive an image-level anomaly score from the residual. It is the low-complexity, interpretable baseline.
+This method aligns an input to a template built from the fixed normal references and derives an image-level anomaly score from the residual. It is the low-complexity, interpretable baseline.
 
 ### Patch HOG + One-Class SVM
 
@@ -204,9 +205,9 @@ The first method now has a bounded registration component that:
 - warps a binary validity mask and requires at least `80%` valid area
 - returns structured diagnostics and stable failure codes
 
-The implementation uses inverse-map warping to bring the moving image into
-template coordinates. It does not calculate a residual, produce an anomaly
-score, or use a VisA image.
+The registration primitive uses inverse-map warping to bring the moving image
+into template coordinates. By itself, it does not calculate a residual, produce
+an anomaly score, or use a VisA image.
 
 ## ECC normal-template fitting
 
@@ -226,6 +227,29 @@ fraction, reference counts, and stable method-level failure status. Tests use
 only generated arrays. This component does not use calibration images, score an
 input image, select a threshold, or read a VisA image.
 
+## ECC residual image scoring
+
+The first shortlisted method now has a fixed image-level scoring component
+that:
+
+- requires a successful fitted template state instead of converting
+  method-level `FIT_FAILED` into an image score
+- registers one preprocessed image with the bounded ECC primitive
+- erodes the warped validity mask once with a constant-zero `5 x 5` kernel
+- intersects it with the fitted template support
+- requires at least `95%` of template-support pixels to remain effective
+- applies a constant-zero `5 x 5` Gaussian filter with automatic sigma to the
+  absolute grayscale residual
+- averages the largest `max(1, ceil(0.01 * N))` effective residual values
+- preserves registration diagnostics, support counts, score status, and stable
+  failure codes
+
+A valid score is in `[0, 1]`, with higher values indicating greater anomaly
+evidence. An image-level failure receives the preregistered finite score `1.0`
+and remains distinguishable through `score_status=failed` and its failure code.
+The implementation does not calibrate a threshold, classify an image, measure
+latency, read a VisA image, or make a performance claim.
+
 ## Non-goals
 
 v0.1 does not attempt to provide:
@@ -244,8 +268,8 @@ v0.1 does not attempt to provide:
 ## Current Project Stage
 
 The repository contains preregistered design documents, the data foundation,
-deterministic shared preprocessing, bounded ECC registration, and deterministic
-ECC normal-template fitting:
+deterministic shared preprocessing, bounded ECC registration, deterministic ECC
+normal-template fitting, and fixed ECC residual image scoring:
 
 - [Problem and requirements](docs/problem-and-requirements.md)
 - [Research and method selection](docs/research-and-method-selection.md)
@@ -257,7 +281,7 @@ ECC normal-template fitting:
 
 The runtime baseline is locked, while split pinning, safe acquisition, archive
 provenance, safe extraction, deterministic manifests, integrity tests, linting,
-CI, shared image preprocessing, ECC registration, and ECC template fitting are
-implemented. The repository still contains no VisA image, complete
-anomaly-method implementation, experiment, result figure, failure analysis, or
-final decision.
+CI, shared image preprocessing, ECC registration, ECC template fitting, and ECC
+residual scoring are implemented. The repository still contains no VisA image,
+calibrated threshold, HOG method implementation, evaluation pipeline,
+experiment, result figure, failure analysis, or final decision.

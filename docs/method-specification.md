@@ -122,7 +122,25 @@ No calibration image may influence the anchor, accepted reference set, support m
 7. Let `N` be the number of effective pixels and set `k = max(1, ceil(0.01 * N))`.
 8. The image anomaly score is the arithmetic mean of the `k` largest residual values.
 
+The warped validity-mask erosion uses one iteration and a constant-zero border.
+The Gaussian filter uses sigma `0.0` and a constant-zero border. It is applied
+to the full absolute residual, while only values inside the effective mask may
+enter the top-`k` aggregation. The two fixed erosions ensure that every selected
+pixel has the required `5 x 5` valid neighborhood.
+
 Higher scores mean more anomalous. A valid score lies in `[0, 1]`.
+
+Scoring requires a successful fitted method state. A method-level `FIT_FAILED`
+state is rejected before image registration and is not converted into the
+finite image-level failure score.
+
+An image-level scoring failure preserves any shared-preprocessing or ECC
+registration failure code. Failures introduced by the residual stage use:
+
+- `SCORE_MASK_EROSION_FAILED`
+- `SCORE_EFFECTIVE_SUPPORT_TOO_SMALL`
+- `SCORE_RESIDUAL_FILTER_FAILED`
+- `SCORE_RESULT_INVALID`
 
 ### Required diagnostic record
 
@@ -132,6 +150,7 @@ For each scored image, record:
 - Warp matrix
 - Rotation and translations
 - Effective valid-area fraction
+- Effective pixel count and top-`k` pixel count
 - Anomaly score
 - Failure code when applicable
 

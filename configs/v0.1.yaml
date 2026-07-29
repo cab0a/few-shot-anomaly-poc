@@ -56,6 +56,19 @@
     "minimum_support_fraction": 0.75,
     "aggregation": "pixelwise_median_valid_values"
   },
+  "ecc_residual_scoring": {
+    "validity_erosion_kernel_size": 5,
+    "validity_erosion_iterations": 1,
+    "validity_erosion_border": "constant_zero",
+    "minimum_effective_support_fraction": 0.95,
+    "residual": "absolute_grayscale",
+    "gaussian_kernel_size": 5,
+    "gaussian_sigma": 0.0,
+    "gaussian_border": "constant_zero",
+    "top_fraction": 0.01,
+    "top_count_rounding": "ceil",
+    "failure_score": 1.0
+  },
   "paths": {
     "archive": "data/external/archives/VisA_20220922.tar",
     "archive_provenance": "data/provenance/visa-archive.json",
