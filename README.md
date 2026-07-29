@@ -2,7 +2,7 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 12 label-free batch classification primitive**
+> **Status: Milestone 13 final-test label reveal boundary primitive**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
@@ -11,9 +11,10 @@ Evaluate whether two CPU-only, normal-only visual anomaly detection methods just
 > scoring. Fixed Patch HOG feature extraction and position-wise StandardScaler
 > fitting, One-Class SVM fitting, and image scoring are also implemented,
 > together with method-specific normal-only threshold calibration and
-> label-free fixed-threshold single-image and batch classification. No
-> dataset-derived threshold, dataset result, benchmark, method comparison, or
-> decision is reported.
+> label-free fixed-threshold single-image and batch classification. A strict
+> final-test label reveal boundary is also implemented without metric
+> calculation. No dataset-derived threshold, dataset result, benchmark, method
+> comparison, or decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -414,6 +415,28 @@ Tests use generated calibration and score records only. This component does not
 load a manifest or image, reveal a ground-truth label, compute a metric, inspect
 final-test data, or report a dataset prediction.
 
+## Final-test label reveal boundary
+
+The evaluation foundation now includes a one-way boundary that pairs labels
+with an already completed label-free classification batch. It:
+
+- accepts only a successful, internally consistent batch, an ordered label
+  sequence, and the fixed project configuration
+- permits only `normal` and `anomaly` final-test labels
+- validates batch paths, threshold provenance, per-image decisions, failure
+  handling, and batch summaries before revealing labels
+- requires exactly one label for every classified path
+- rejects malformed label records, duplicate paths, missing paths, extra paths,
+  and order mismatches with stable failure codes
+- reports the first order mismatch and complete missing and extra path
+  diagnostics without returning partial labeled records
+- retains each original classification object unchanged inside the paired
+  record
+
+Tests use generated batches and labels only. This boundary does not read the
+official split, load a VisA image, calculate AUROC, AUPRC, false-positive or
+false-negative counts, apply an acceptance gate, or make a decision.
+
 ## Non-goals
 
 v0.1 does not attempt to provide:
@@ -436,7 +459,8 @@ deterministic shared preprocessing, bounded ECC registration, deterministic ECC
 normal-template fitting, fixed ECC residual image scoring, and fixed Patch HOG
 feature extraction with position-wise reference scaling and One-Class SVM
 fitting and image scoring, plus normal-only threshold calibration and
-fixed-threshold single-image and batch classification:
+fixed-threshold single-image and batch classification, followed by the
+final-test label reveal boundary:
 
 - [Problem and requirements](docs/problem-and-requirements.md)
 - [Research and method selection](docs/research-and-method-selection.md)
@@ -456,6 +480,7 @@ with synthetic reference features. Fixed Patch HOG image scoring is implemented
 and tested with generated inputs. The normal-only threshold calibration rule is
 implemented and tested with generated score records. Fixed-threshold
 single-image and batch classification is also implemented and tested without
-observed labels. The repository still contains no VisA image, dataset-derived
-threshold, evaluation pipeline, experiment, result figure, failure analysis,
-or final decision.
+observed labels. The final-test label reveal boundary is implemented and tested
+with generated inputs without calculating metrics. The repository still
+contains no VisA image, dataset-derived threshold, evaluation pipeline,
+experiment, result figure, failure analysis, or final decision.

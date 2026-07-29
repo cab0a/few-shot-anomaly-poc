@@ -185,6 +185,38 @@ The following controls are mandatory:
 
 Anomaly labels and image-level class labels are revealed to the evaluation code only to compute the final metrics and failure analysis.
 
+### Final-test label reveal boundary
+
+Final-test scoring and fixed-threshold batch classification must complete
+before labels enter the evaluation boundary. The boundary accepts the complete
+label-free batch, the ordered final-test label records, and the fixed project
+configuration. It does not accept a replacement method, threshold, score, or
+prediction.
+
+Before pairing any record, the boundary revalidates the complete batch,
+including path order, threshold provenance, per-image decision consistency,
+fixed failure-score handling, and batch summaries. Label records must:
+
+- use only `normal` or `anomaly`
+- contain one valid relative path each
+- cover every batch path exactly once
+- contain no path outside the batch
+- appear in the same Unicode code-point path order as the batch
+
+The complete paired record sequence is returned only after all checks pass.
+Failure returns no partial paired sequence and uses one of:
+
+- `LABEL_REVEAL_BATCH_INVALID`
+- `LABEL_REVEAL_LABELS_EMPTY`
+- `LABEL_REVEAL_LABEL_RECORD_INVALID`
+- `LABEL_REVEAL_LABEL_DUPLICATE_PATH`
+- `LABEL_REVEAL_PATH_MISSING`
+- `LABEL_REVEAL_PATH_EXTRA`
+- `LABEL_REVEAL_ORDER_MISMATCH`
+
+This boundary does not calculate metrics, select failure cases, apply
+acceptance gates, or change an existing classification.
+
 ## Metrics
 
 Anomaly is the positive class.
