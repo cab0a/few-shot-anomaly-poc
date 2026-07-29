@@ -502,6 +502,13 @@ Before v0.1 completion, the repository must record:
 
 Raw VisA files remain external and are not committed.
 
+The exact JSON/CSV output contract is frozen separately in the
+[evaluation artifact schema](evaluation-artifact-schema.md). It keeps
+label-free scores and classifications separate from revealed labels, preserves
+all timed observations, and records SHA-256 identities for every generated
+artifact in a non-self-referential bundle manifest. Existing bundles cannot be
+silently overwritten.
+
 ## Known Limitations
 
 - Only VisA `pcb1` is evaluated.

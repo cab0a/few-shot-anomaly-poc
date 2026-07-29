@@ -1,0 +1,657 @@
+{
+  "contract_version": "evaluation-artifacts/v0.1",
+  "status": "frozen_before_final_test",
+  "artifact_root_template": "artifacts/v0.1/evaluation/{run_id}",
+  "run_id_pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+  "allowed_run_kinds": [
+    "synthetic",
+    "final_test"
+  ],
+  "allowed_methods": [
+    "ecc_residual",
+    "patch_hog_one_class_svm"
+  ],
+  "serialization": {
+    "text_encoding": "UTF-8",
+    "line_ending": "LF",
+    "final_newline": true,
+    "json": {
+      "indent": 2,
+      "sort_keys": true,
+      "ensure_ascii": false,
+      "allow_nan": false
+    },
+    "csv": {
+      "dialect": "RFC 4180",
+      "delimiter": ",",
+      "header": true,
+      "quoting": "minimal",
+      "null": "",
+      "boolean_true": "true",
+      "boolean_false": "false",
+      "finite_float": "CPython 3.13 shortest round-trip decimal"
+    }
+  },
+  "common_rules": {
+    "relative_paths_only": true,
+    "absolute_paths_forbidden": true,
+    "timestamps_forbidden": true,
+    "non_finite_numbers_forbidden": true,
+    "row_order_must_match_sort_key": true,
+    "duplicate_primary_keys_forbidden": true,
+    "overwrite_forbidden": true,
+    "raw_dataset_content_forbidden": true
+  },
+  "contracts": {
+    "score": {
+      "format": "csv",
+      "path_template": "{method}/scores.csv",
+      "primary_key": [
+        "run_id",
+        "method",
+        "relative_path"
+      ],
+      "sort_key": [
+        "method",
+        "relative_path"
+      ],
+      "columns": [
+        {
+          "name": "contract_version",
+          "type": "string",
+          "nullable": false,
+          "fixed": "evaluation-artifacts/v0.1"
+        },
+        {
+          "name": "run_id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "run_kind",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "synthetic",
+            "final_test"
+          ]
+        },
+        {
+          "name": "method",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "ecc_residual",
+            "patch_hog_one_class_svm"
+          ]
+        },
+        {
+          "name": "relative_path",
+          "type": "relative_path",
+          "nullable": false
+        },
+        {
+          "name": "score_status",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "ok",
+            "failed"
+          ]
+        },
+        {
+          "name": "score_failure_code",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "anomaly_score",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "name": "diagnostics_json",
+          "type": "canonical_json_object",
+          "nullable": false
+        }
+      ]
+    },
+    "classification": {
+      "format": "csv",
+      "path_template": "{method}/classifications.csv",
+      "primary_key": [
+        "run_id",
+        "method",
+        "relative_path"
+      ],
+      "sort_key": [
+        "method",
+        "relative_path"
+      ],
+      "columns": [
+        {
+          "name": "contract_version",
+          "type": "string",
+          "nullable": false,
+          "fixed": "evaluation-artifacts/v0.1"
+        },
+        {
+          "name": "run_id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "run_kind",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "synthetic",
+            "final_test"
+          ]
+        },
+        {
+          "name": "method",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "relative_path",
+          "type": "relative_path",
+          "nullable": false
+        },
+        {
+          "name": "score_status",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "score_failure_code",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "anomaly_score",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "name": "threshold",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "name": "threshold_source_path",
+          "type": "relative_path",
+          "nullable": false
+        },
+        {
+          "name": "calibration_sample_count",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "calibration_rank",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "predicted_class",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "normal",
+            "anomalous"
+          ]
+        },
+        {
+          "name": "is_anomalous",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "decision_reason",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "score_margin",
+          "type": "number",
+          "nullable": false
+        }
+      ]
+    },
+    "label_reveal": {
+      "format": "csv",
+      "path_template": "{method}/revealed-labels.csv",
+      "primary_key": [
+        "run_id",
+        "method",
+        "relative_path"
+      ],
+      "sort_key": [
+        "method",
+        "relative_path"
+      ],
+      "columns": [
+        {
+          "name": "contract_version",
+          "type": "string",
+          "nullable": false,
+          "fixed": "evaluation-artifacts/v0.1"
+        },
+        {
+          "name": "run_id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "run_kind",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "method",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "relative_path",
+          "type": "relative_path",
+          "nullable": false
+        },
+        {
+          "name": "true_class",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "normal",
+            "anomaly"
+          ]
+        }
+      ]
+    },
+    "metrics": {
+      "format": "json",
+      "path_template": "{method}/metrics.json",
+      "required_keys": [
+        "contract_version",
+        "run_id",
+        "run_kind",
+        "method",
+        "positive_class",
+        "item_count",
+        "normal_count",
+        "anomaly_count",
+        "true_positive_count",
+        "false_negative_count",
+        "true_negative_count",
+        "false_positive_count",
+        "score_failure_count",
+        "image_level_auroc",
+        "image_level_auprc",
+        "normal_false_positive_rate",
+        "anomaly_recall",
+        "threshold",
+        "threshold_source_path"
+      ],
+      "field_types": {
+        "contract_version": "string",
+        "run_id": "string",
+        "run_kind": "string",
+        "method": "string",
+        "positive_class": "string",
+        "item_count": "integer",
+        "normal_count": "integer",
+        "anomaly_count": "integer",
+        "true_positive_count": "integer",
+        "false_negative_count": "integer",
+        "true_negative_count": "integer",
+        "false_positive_count": "integer",
+        "score_failure_count": "integer",
+        "image_level_auroc": "number",
+        "image_level_auprc": "number",
+        "normal_false_positive_rate": "number",
+        "anomaly_recall": "number",
+        "threshold": "number",
+        "threshold_source_path": "relative_path"
+      },
+      "additional_keys_allowed": false
+    },
+    "latency": {
+      "format": "json_and_csv",
+      "files": {
+        "summary": {
+          "format": "json",
+          "path_template": "{method}/latency.json",
+          "required_keys": [
+            "contract_version",
+            "run_id",
+            "run_kind",
+            "method",
+            "measurement_boundary",
+            "timer",
+            "warmup_passes",
+            "timed_passes",
+            "item_count",
+            "sample_count",
+            "score_failure_timing_count",
+            "score_failure_paths",
+            "median_latency_ns",
+            "p95_latency_ns",
+            "median_latency_seconds",
+            "p95_latency_seconds",
+            "p95_rank",
+            "environment"
+          ],
+          "field_types": {
+            "contract_version": "string",
+            "run_id": "string",
+            "run_kind": "string",
+            "method": "string",
+            "measurement_boundary": "string",
+            "timer": "string",
+            "warmup_passes": "integer",
+            "timed_passes": "integer",
+            "item_count": "integer",
+            "sample_count": "integer",
+            "score_failure_timing_count": "integer",
+            "score_failure_paths": "relative_path_array",
+            "median_latency_ns": "number",
+            "p95_latency_ns": "integer",
+            "median_latency_seconds": "number",
+            "p95_latency_seconds": "number",
+            "p95_rank": "integer",
+            "environment": "object"
+          },
+          "environment_required_keys": [
+            "cpu_model",
+            "logical_core_count",
+            "physical_core_count",
+            "ram_bytes",
+            "operating_system",
+            "machine",
+            "python_version",
+            "opencv_thread_count",
+            "dependency_versions",
+            "thread_environment"
+          ],
+          "environment_field_types": {
+            "cpu_model": "nullable_string",
+            "logical_core_count": "nullable_integer",
+            "physical_core_count": "nullable_integer",
+            "ram_bytes": "nullable_integer",
+            "operating_system": "string",
+            "machine": "string",
+            "python_version": "string",
+            "opencv_thread_count": "nullable_integer",
+            "dependency_versions": "string_pair_array",
+            "thread_environment": "nullable_string_pair_array"
+          },
+          "additional_keys_allowed": false
+        },
+        "observations": {
+          "format": "csv",
+          "path_template": "{method}/latency-observations.csv",
+          "primary_key": [
+            "run_id",
+            "method",
+            "pass_index",
+            "relative_path"
+          ],
+          "sort_key": [
+            "method",
+            "pass_index",
+            "relative_path"
+          ],
+          "columns": [
+            {
+              "name": "contract_version",
+              "type": "string",
+              "nullable": false,
+              "fixed": "evaluation-artifacts/v0.1"
+            },
+            {
+              "name": "run_id",
+              "type": "string",
+              "nullable": false
+            },
+            {
+              "name": "run_kind",
+              "type": "string",
+              "nullable": false
+            },
+            {
+              "name": "method",
+              "type": "string",
+              "nullable": false
+            },
+            {
+              "name": "pass_index",
+              "type": "integer",
+              "nullable": false
+            },
+            {
+              "name": "relative_path",
+              "type": "relative_path",
+              "nullable": false
+            },
+            {
+              "name": "duration_ns",
+              "type": "integer",
+              "nullable": false
+            },
+            {
+              "name": "score_status",
+              "type": "string",
+              "nullable": false
+            },
+            {
+              "name": "score_failure_code",
+              "type": "string",
+              "nullable": true
+            }
+          ]
+        }
+      }
+    },
+    "failure": {
+      "format": "csv",
+      "path_template": "{method}/failure-cases.csv",
+      "primary_key": [
+        "run_id",
+        "method",
+        "case_type",
+        "rank"
+      ],
+      "sort_key": [
+        "method",
+        "case_type_fixed_false_positive_first",
+        "rank"
+      ],
+      "columns": [
+        {
+          "name": "contract_version",
+          "type": "string",
+          "nullable": false,
+          "fixed": "evaluation-artifacts/v0.1"
+        },
+        {
+          "name": "run_id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "run_kind",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "method",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "case_type",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "false_positive",
+            "false_negative"
+          ]
+        },
+        {
+          "name": "rank",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "relative_path",
+          "type": "relative_path",
+          "nullable": false
+        },
+        {
+          "name": "true_class",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "predicted_class",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "anomaly_score",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "name": "threshold",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "name": "score_margin",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "name": "score_status",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "score_failure_code",
+          "type": "string",
+          "nullable": true
+        }
+      ]
+    },
+    "decision": {
+      "format": "json",
+      "path_template": "{method}/decision.json",
+      "required_keys": [
+        "contract_version",
+        "run_id",
+        "run_kind",
+        "method",
+        "decision",
+        "gate_outcomes",
+        "all_hard_gates_passed",
+        "first_failed_gate",
+        "test_leakage_detected",
+        "failure_review_disposition",
+        "failure_review_rationale",
+        "condition",
+        "decision_reason"
+      ],
+      "field_types": {
+        "contract_version": "string",
+        "run_id": "string",
+        "run_kind": "string",
+        "method": "string",
+        "decision": "string",
+        "gate_outcomes": "object_array",
+        "all_hard_gates_passed": "boolean",
+        "first_failed_gate": "nullable_string",
+        "test_leakage_detected": "boolean",
+        "failure_review_disposition": "string",
+        "failure_review_rationale": "string",
+        "condition": "nullable_string",
+        "decision_reason": "string"
+      },
+      "field_enums": {
+        "decision": [
+          "ADOPT",
+          "ADOPT WITH CONDITIONS",
+          "REJECT"
+        ],
+        "failure_review_disposition": [
+          "no_material_boundary",
+          "guardrail_required",
+          "intended_use_contradicted"
+        ]
+      },
+      "gate_outcome_required_keys": [
+        "gate_id",
+        "order",
+        "operator",
+        "required_value",
+        "observed_value",
+        "passed"
+      ],
+      "gate_outcome_field_types": {
+        "gate_id": "string",
+        "order": "integer",
+        "operator": "string",
+        "required_value": "number_integer_or_boolean",
+        "observed_value": "number_integer_or_boolean",
+        "passed": "boolean"
+      },
+      "additional_keys_allowed": false
+    },
+    "bundle_manifest": {
+      "format": "json",
+      "path_template": "artifact-manifest.json",
+      "required_keys": [
+        "contract_version",
+        "run_id",
+        "run_kind",
+        "dataset",
+        "category",
+        "source_commit",
+        "config_sha256",
+        "partition_manifest_sha256",
+        "files"
+      ],
+      "field_types": {
+        "contract_version": "string",
+        "run_id": "string",
+        "run_kind": "string",
+        "dataset": "string",
+        "category": "string",
+        "source_commit": "git_commit_sha",
+        "config_sha256": "sha256",
+        "partition_manifest_sha256": "sha256",
+        "files": "object_array"
+      },
+      "file_entry_required_keys": [
+        "artifact_type",
+        "method",
+        "relative_path",
+        "sha256",
+        "record_count"
+      ],
+      "file_entry_field_types": {
+        "artifact_type": "string",
+        "method": "nullable_string",
+        "relative_path": "relative_path",
+        "sha256": "sha256",
+        "record_count": "integer"
+      },
+      "file_sort_key": [
+        "relative_path"
+      ],
+      "additional_keys_allowed": false
+    }
+  }
+}

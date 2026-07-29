@@ -2,7 +2,7 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 17 hard-gate decision primitive**
+> **Status: Milestone 18 evaluation artifact schema**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
@@ -15,7 +15,8 @@ Evaluate whether two CPU-only, normal-only visual anomaly detection methods just
 > final-test label reveal boundary and fixed image-level metric calculation are
 > also implemented, together with the preregistered CPU latency measurement
 > protocol, mechanical fixed-threshold failure-case selection, and the fixed
-> per-method hard-gate decision. No dataset-derived threshold, dataset result,
+> per-method hard-gate decision. The versioned JSON/CSV evaluation artifact
+> contract is also fixed. No dataset-derived threshold, dataset result,
 > benchmark, method comparison, or project decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
@@ -534,6 +535,30 @@ the preregistered cross-method recommendation rule remains part of the later
 final evaluation. Tests use synthetic records only, so no project adoption
 decision exists yet.
 
+## Evaluation artifact schema
+
+The versioned `evaluation-artifacts/v0.1` contract defines the reproducible
+output boundary before final-test scoring:
+
+- label-free score and fixed-threshold classification CSV files
+- a separate post-boundary revealed-label CSV
+- image-level metrics JSON
+- CPU latency summary JSON and every timed observation in CSV
+- mechanically selected failure-case CSV
+- ordered hard-gate decision JSON
+- one bundle manifest with Git/config/partition provenance, record counts, and
+  SHA-256 file identities
+
+The contract fixes headers, required JSON keys and types, primary keys, sort
+orders, null encoding, finite-number handling, UTF-8/LF serialization, and
+non-overwrite behavior. It forbids timestamps, absolute paths, raw dataset
+content, duplicate keys, and non-finite numbers. See the
+[artifact schema guide](docs/evaluation-artifact-schema.md) and its
+[machine-readable descriptor](schemas/v0.1/evaluation-artifacts.json).
+
+No empty result files or synthetic or VisA-derived evaluation bundle is created
+by this milestone.
+
 ## Non-goals
 
 v0.1 does not attempt to provide:
@@ -565,6 +590,7 @@ mechanical failure-case selection, and the per-method hard-gate decision:
 - [v0.1 method specification](docs/method-specification.md)
 - [Runtime dependencies and license boundaries](docs/dependencies-and-licenses.md)
 - [Evaluation plan](docs/evaluation-plan.md)
+- [Evaluation artifact schema](docs/evaluation-artifact-schema.md)
 - [VisA `pcb1` acquisition and partition record](docs/data-acquisition-record.md)
 - [Data preparation and final-test boundary](data/README.md)
 
@@ -587,6 +613,8 @@ tested with generated inputs and synthetic clocks. The fixed highest-score
 false-positive and lowest-score false-negative selection rule is implemented
 and tested with generated labeled records without image access. The repository
 also applies every preregistered hard gate in fixed order and tests all three
-allowed decision labels with synthetic evidence. The repository still contains
-no VisA image, dataset-derived threshold, evaluation pipeline, experiment,
-result figure, image-based failure analysis, or project decision.
+allowed decision labels with synthetic evidence. A versioned, deterministic
+JSON/CSV contract now covers scores, classifications, revealed labels, metrics,
+latency, selected failures, decisions, and artifact provenance. The repository
+still contains no VisA image, dataset-derived threshold, evaluation bundle,
+experiment, result figure, image-based failure analysis, or project decision.
