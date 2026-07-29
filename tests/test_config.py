@@ -75,6 +75,15 @@ def test_repository_config_pins_official_split() -> None:
     assert config.patch_hog_scaler.copy is True
     assert config.patch_hog_scaler.with_mean is True
     assert config.patch_hog_scaler.with_std is True
+    assert config.patch_hog_one_class_svm.fitting_scope == "per_patch_position"
+    assert config.patch_hog_one_class_svm.kernel == "rbf"
+    assert config.patch_hog_one_class_svm.gamma == "scale"
+    assert config.patch_hog_one_class_svm.nu == 0.05
+    assert config.patch_hog_one_class_svm.tolerance == 0.001
+    assert config.patch_hog_one_class_svm.shrinking is True
+    assert config.patch_hog_one_class_svm.cache_size_mb == 200.0
+    assert config.patch_hog_one_class_svm.max_iterations == -1
+    assert config.patch_hog_one_class_svm.verbose is False
     assert config.split.revision == "2a692ab575001cbde74d402d897a7286086c6199"
     assert config.split.sha256 == "a48557e6033318cb90556f706196bc9d247a776a23ea51aecee5a80dd0332995"
 
@@ -203,4 +212,19 @@ def test_config_rejects_changed_patch_hog_scaler(
     config_path.write_text(json.dumps(raw), encoding="utf-8")
 
     with pytest.raises(ConfigurationError, match="fitting_scope"):
+        load_config(config_path)
+
+
+@pytest.mark.parametrize("changed_nu", [0.1, "0.05", True])
+def test_config_rejects_changed_patch_hog_one_class_svm(
+    tmp_path: Path,
+    changed_nu: object,
+) -> None:
+    raw = json.loads(Path("configs/v0.1.yaml").read_text(encoding="utf-8"))
+    raw["patch_hog_one_class_svm"]["nu"] = changed_nu
+    config_path = tmp_path / "configs/v0.1.yaml"
+    config_path.parent.mkdir()
+    config_path.write_text(json.dumps(raw), encoding="utf-8")
+
+    with pytest.raises(ConfigurationError, match="nu"):
         load_config(config_path)

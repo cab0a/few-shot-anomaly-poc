@@ -126,6 +126,19 @@ class PatchHOGScalerConfig:
 
 
 @dataclass(frozen=True)
+class PatchHOGOneClassSVMConfig:
+    fitting_scope: str
+    kernel: str
+    gamma: str
+    nu: float
+    tolerance: float
+    shrinking: bool
+    cache_size_mb: float
+    max_iterations: int
+    verbose: bool
+
+
+@dataclass(frozen=True)
 class ProjectPaths:
     archive: Path
     archive_provenance: Path
@@ -151,6 +164,7 @@ class ProjectConfig:
     ecc_residual_scoring: ECCResidualScoringConfig
     patch_hog: PatchHOGConfig
     patch_hog_scaler: PatchHOGScalerConfig
+    patch_hog_one_class_svm: PatchHOGOneClassSVMConfig
     paths: ProjectPaths
     project_root: Path
 
@@ -265,6 +279,10 @@ def load_config(config_path: Path) -> ProjectConfig:
     patch_hog_scaler_raw = _mapping(
         root.get("patch_hog_scaler"),
         "patch_hog_scaler",
+    )
+    patch_hog_one_class_svm_raw = _mapping(
+        root.get("patch_hog_one_class_svm"),
+        "patch_hog_one_class_svm",
     )
     paths_raw = _mapping(root.get("paths"), "paths")
     project_root = resolved_config.parent.parent.resolve()
@@ -677,6 +695,62 @@ def load_config(config_path: Path) -> ProjectConfig:
             True,
         ),
     )
+    patch_hog_one_class_svm = PatchHOGOneClassSVMConfig(
+        fitting_scope=_fixed_string(
+            patch_hog_one_class_svm_raw,
+            "fitting_scope",
+            "patch_hog_one_class_svm",
+            "per_patch_position",
+        ),
+        kernel=_fixed_string(
+            patch_hog_one_class_svm_raw,
+            "kernel",
+            "patch_hog_one_class_svm",
+            "rbf",
+        ),
+        gamma=_fixed_string(
+            patch_hog_one_class_svm_raw,
+            "gamma",
+            "patch_hog_one_class_svm",
+            "scale",
+        ),
+        nu=_fixed_float(
+            patch_hog_one_class_svm_raw,
+            "nu",
+            "patch_hog_one_class_svm",
+            0.05,
+        ),
+        tolerance=_fixed_float(
+            patch_hog_one_class_svm_raw,
+            "tolerance",
+            "patch_hog_one_class_svm",
+            0.001,
+        ),
+        shrinking=_fixed_boolean(
+            patch_hog_one_class_svm_raw,
+            "shrinking",
+            "patch_hog_one_class_svm",
+            True,
+        ),
+        cache_size_mb=_fixed_float(
+            patch_hog_one_class_svm_raw,
+            "cache_size_mb",
+            "patch_hog_one_class_svm",
+            200.0,
+        ),
+        max_iterations=_fixed_integer(
+            patch_hog_one_class_svm_raw,
+            "max_iterations",
+            "patch_hog_one_class_svm",
+            -1,
+        ),
+        verbose=_fixed_boolean(
+            patch_hog_one_class_svm_raw,
+            "verbose",
+            "patch_hog_one_class_svm",
+            False,
+        ),
+    )
 
     path_values = {
         key: _project_path(
@@ -742,6 +816,7 @@ def load_config(config_path: Path) -> ProjectConfig:
         ecc_residual_scoring=ecc_residual_scoring,
         patch_hog=patch_hog,
         patch_hog_scaler=patch_hog_scaler,
+        patch_hog_one_class_svm=patch_hog_one_class_svm,
         paths=ProjectPaths(**path_values),
         project_root=project_root,
     )

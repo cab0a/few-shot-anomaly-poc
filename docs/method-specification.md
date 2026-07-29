@@ -255,7 +255,30 @@ Fit one model per patch position with:
 | Maximum iterations | unlimited |
 | Verbose output | disabled |
 
-Every model must finish with a successful fit status and finite fitted state. Otherwise, record `FIT_FAILED` for the method.
+Each patch position transforms only its `(20, 324)` reference sample matrix with
+the already fitted scaler for that same position. Transforming must not update
+the scaler. The transformed matrix must remain finite `float32` with shape
+`(20, 324)` before model fitting.
+
+Every model must finish with a successful fit status and finite fitted state.
+The validated state includes the fixed fit shape and feature count, non-empty
+in-range support indices, finite support vectors, dual coefficients, intercept,
+offset, and a finite positive fitted gamma.
+
+No partial model collection is returned after a failed reference, scaler,
+transform, patch fit, or fitted-state check. Model fitting failures use:
+
+- `HOG_MODEL_REFERENCE_COUNT_INVALID`
+- `HOG_MODEL_REFERENCE_SET_INVALID`
+- `HOG_MODEL_REFERENCE_FEATURES_INVALID`
+- `HOG_MODEL_SCALER_STATE_INVALID`
+- `HOG_MODEL_TRANSFORM_FAILED`
+- `HOG_MODEL_TRANSFORM_INVALID`
+- `HOG_MODEL_FIT_FAILED`
+- `HOG_MODEL_STATE_INVALID`
+
+This fitting component does not use calibration features or anomaly labels and
+does not calculate decision-function values for image scoring.
 
 ### Image scoring
 

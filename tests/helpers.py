@@ -152,6 +152,17 @@ def create_config(
             "with_mean": True,
             "with_std": True,
         },
+        "patch_hog_one_class_svm": {
+            "fitting_scope": "per_patch_position",
+            "kernel": "rbf",
+            "gamma": "scale",
+            "nu": 0.05,
+            "tolerance": 0.001,
+            "shrinking": True,
+            "cache_size_mb": 200.0,
+            "max_iterations": -1,
+            "verbose": False,
+        },
         "paths": {
             "archive": "data/external/archives/VisA_20220922.tar",
             "archive_provenance": "data/provenance/visa-archive.json",

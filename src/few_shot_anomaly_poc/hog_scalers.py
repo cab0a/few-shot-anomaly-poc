@@ -14,7 +14,7 @@ from few_shot_anomaly_poc.errors import HOGScalerFailureCode
 from few_shot_anomaly_poc.hog_features import (
     PatchHOGFailureCode,
     PatchHOGFeatureResult,
-    fixed_patch_positions,
+    patch_hog_feature_result_is_valid,
 )
 
 
@@ -61,33 +61,7 @@ def _fit_failed(
     )
 
 
-def _feature_result_is_valid(
-    result: object,
-    *,
-    config: ProjectConfig,
-) -> bool:
-    expected_positions = fixed_patch_positions(config)
-    if (
-        expected_positions is None
-        or not isinstance(result, PatchHOGFeatureResult)
-        or not result.succeeded
-        or result.failure_code is not None
-        or result.features is None
-        or result.failed_patch_index is not None
-        or result.positions != expected_positions
-    ):
-        return False
-
-    features = result.features
-    return (
-        isinstance(features, np.ndarray)
-        and features.shape == (config.patch_hog.patch_count, config.patch_hog.descriptor_length)
-        and features.dtype == np.float32
-        and np.isfinite(features).all()
-    )
-
-
-def _scaler_state_is_valid(
+def position_scaler_state_is_valid(
     scaler: StandardScaler,
     *,
     config: ProjectConfig,
@@ -151,7 +125,7 @@ def fit_position_scalers(
     feature_matrices = []
     for relative_path in reference_paths:
         result = reference_features[relative_path]
-        if not _feature_result_is_valid(result, config=config):
+        if not patch_hog_feature_result_is_valid(result, config=config):
             source_code = result.failure_code if isinstance(result, PatchHOGFeatureResult) else None
             return _fit_failed(
                 HOGScalerFailureCode.HOG_FIT_REFERENCE_FEATURES_INVALID,
@@ -198,7 +172,7 @@ def fit_position_scalers(
                 successful_position_count=len(scalers),
                 failed_position_index=position_index,
             )
-        if not _scaler_state_is_valid(scaler, config=config):
+        if not position_scaler_state_is_valid(scaler, config=config):
             return _fit_failed(
                 HOGScalerFailureCode.HOG_FIT_SCALER_STATE_INVALID,
                 reference_paths=reference_paths,

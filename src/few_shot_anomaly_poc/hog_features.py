@@ -106,6 +106,33 @@ def fixed_patch_positions(config: ProjectConfig) -> tuple[PatchPosition, ...] | 
     return positions
 
 
+def patch_hog_feature_result_is_valid(
+    result: object,
+    *,
+    config: ProjectConfig,
+) -> bool:
+    """Return whether a complete result matches the fixed feature contract."""
+    expected_positions = fixed_patch_positions(config)
+    if (
+        expected_positions is None
+        or not isinstance(result, PatchHOGFeatureResult)
+        or not result.succeeded
+        or result.failure_code is not None
+        or result.features is None
+        or result.failed_patch_index is not None
+        or result.positions != expected_positions
+    ):
+        return False
+
+    features = result.features
+    return (
+        isinstance(features, np.ndarray)
+        and features.shape == (config.patch_hog.patch_count, config.patch_hog.descriptor_length)
+        and features.dtype == np.float32
+        and np.isfinite(features).all()
+    )
+
+
 def extract_patch_hog_features(
     image: NDArray[np.float32],
     *,
