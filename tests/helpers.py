@@ -145,6 +145,13 @@ def create_config(
             "descriptor_length": 324,
             "output_dtype": "float32",
         },
+        "patch_hog_scaler": {
+            "reference_order": "unicode_path",
+            "fitting_scope": "per_patch_position",
+            "copy": True,
+            "with_mean": True,
+            "with_std": True,
+        },
         "paths": {
             "archive": "data/external/archives/VisA_20220922.tar",
             "archive_provenance": "data/provenance/visa-archive.json",

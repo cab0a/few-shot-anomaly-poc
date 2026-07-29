@@ -2,15 +2,16 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 6 Patch HOG feature extraction**
+> **Status: Milestone 7 position-wise Patch HOG scaling**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
 > preprocessing are implemented, together with the bounded ECC registration
 > primitive, deterministic normal-template fitting, and fixed residual image
-> scoring. Fixed Patch HOG feature extraction is also implemented, without
-> scaler or model fitting. No calibrated threshold, dataset result, benchmark,
-> method comparison, or decision is reported.
+> scoring. Fixed Patch HOG feature extraction and position-wise StandardScaler
+> fitting are also implemented, without One-Class SVM fitting. No calibrated
+> threshold, dataset result, benchmark, method comparison, or decision is
+> reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -269,6 +270,29 @@ repeatability, and input immutability. This component does not fit or apply a
 `StandardScaler`, fit a One-Class SVM, produce an anomaly score, read a VisA
 image, or claim method performance.
 
+## Position-wise Patch HOG scaling
+
+The second method now has a deterministic reference-only scaling component
+that:
+
+- requires exactly 20 complete Patch HOG reference results
+- sorts reference paths in ascending Unicode code-point order
+- rejects incomplete, mismatched, wrong-shaped, wrong-dtype, or non-finite
+  reference features before fitting
+- fits one `StandardScaler` per row-major patch position from its `(20, 324)`
+  reference sample matrix
+- uses the fixed `copy=True`, `with_mean=True`, and `with_std=True` settings
+- validates every fitted mean, variance, scale, feature count, and sample count
+- accepts constant feature dimensions only when their fitted variance is zero
+  and their scaler-provided scale is one
+- preserves the failed reference or position and returns no partial scaler
+  collection after a failure
+
+Tests use generated feature matrices and one generated-image HOG extraction.
+This component does not use calibration features, transform scoring images, fit
+a One-Class SVM, produce an anomaly score, read a VisA image, or claim method
+performance.
+
 ## Non-goals
 
 v0.1 does not attempt to provide:
@@ -289,7 +313,7 @@ v0.1 does not attempt to provide:
 The repository contains preregistered design documents, the data foundation,
 deterministic shared preprocessing, bounded ECC registration, deterministic ECC
 normal-template fitting, fixed ECC residual image scoring, and fixed Patch HOG
-feature extraction:
+feature extraction with position-wise reference scaling:
 
 - [Problem and requirements](docs/problem-and-requirements.md)
 - [Research and method selection](docs/research-and-method-selection.md)
@@ -303,6 +327,7 @@ The runtime baseline is locked, while split pinning, safe acquisition, archive
 provenance, safe extraction, deterministic manifests, integrity tests, linting,
 CI, shared image preprocessing, ECC registration, ECC template fitting, and ECC
 residual scoring are implemented, together with Patch HOG feature extraction.
-The repository still contains no VisA image, calibrated threshold, HOG scaler
-or One-Class SVM fitting, HOG image scoring, evaluation pipeline, experiment,
-result figure, failure analysis, or final decision.
+Position-wise Patch HOG StandardScaler fitting is also implemented. The
+repository still contains no VisA image, calibrated threshold, One-Class SVM
+fitting, HOG image scoring, evaluation pipeline, experiment, result figure,
+failure analysis, or final decision.

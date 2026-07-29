@@ -62,7 +62,8 @@ def _failed(
     )
 
 
-def _fixed_positions(config: ProjectConfig) -> tuple[PatchPosition, ...] | None:
+def fixed_patch_positions(config: ProjectConfig) -> tuple[PatchPosition, ...] | None:
+    """Return the fixed row-major grid or None for inconsistent configuration."""
     preprocessing = config.preprocessing
     patch_hog = config.patch_hog
     vertical_starts = tuple(
@@ -120,7 +121,7 @@ def extract_patch_hog_features(
     except ImagePreprocessingError as error:
         return _failed(error.code)
 
-    positions = _fixed_positions(config)
+    positions = fixed_patch_positions(config)
     if positions is None:
         return _failed(HOGFeatureFailureCode.HOG_GRID_INVALID)
 

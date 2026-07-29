@@ -117,6 +117,15 @@ class PatchHOGConfig:
 
 
 @dataclass(frozen=True)
+class PatchHOGScalerConfig:
+    reference_order: str
+    fitting_scope: str
+    copy: bool
+    with_mean: bool
+    with_std: bool
+
+
+@dataclass(frozen=True)
 class ProjectPaths:
     archive: Path
     archive_provenance: Path
@@ -141,6 +150,7 @@ class ProjectConfig:
     ecc_template: ECCTemplateConfig
     ecc_residual_scoring: ECCResidualScoringConfig
     patch_hog: PatchHOGConfig
+    patch_hog_scaler: PatchHOGScalerConfig
     paths: ProjectPaths
     project_root: Path
 
@@ -252,6 +262,10 @@ def load_config(config_path: Path) -> ProjectConfig:
         "ecc_residual_scoring",
     )
     patch_hog_raw = _mapping(root.get("patch_hog"), "patch_hog")
+    patch_hog_scaler_raw = _mapping(
+        root.get("patch_hog_scaler"),
+        "patch_hog_scaler",
+    )
     paths_raw = _mapping(root.get("paths"), "paths")
     project_root = resolved_config.parent.parent.resolve()
 
@@ -631,6 +645,38 @@ def load_config(config_path: Path) -> ProjectConfig:
             "float32",
         ),
     )
+    patch_hog_scaler = PatchHOGScalerConfig(
+        reference_order=_fixed_string(
+            patch_hog_scaler_raw,
+            "reference_order",
+            "patch_hog_scaler",
+            "unicode_path",
+        ),
+        fitting_scope=_fixed_string(
+            patch_hog_scaler_raw,
+            "fitting_scope",
+            "patch_hog_scaler",
+            "per_patch_position",
+        ),
+        copy=_fixed_boolean(
+            patch_hog_scaler_raw,
+            "copy",
+            "patch_hog_scaler",
+            True,
+        ),
+        with_mean=_fixed_boolean(
+            patch_hog_scaler_raw,
+            "with_mean",
+            "patch_hog_scaler",
+            True,
+        ),
+        with_std=_fixed_boolean(
+            patch_hog_scaler_raw,
+            "with_std",
+            "patch_hog_scaler",
+            True,
+        ),
+    )
 
     path_values = {
         key: _project_path(
@@ -695,6 +741,7 @@ def load_config(config_path: Path) -> ProjectConfig:
         ecc_template=ecc_template,
         ecc_residual_scoring=ecc_residual_scoring,
         patch_hog=patch_hog,
+        patch_hog_scaler=patch_hog_scaler,
         paths=ProjectPaths(**path_values),
         project_root=project_root,
     )

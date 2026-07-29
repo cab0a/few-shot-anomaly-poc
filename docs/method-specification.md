@@ -219,6 +219,25 @@ Fit one standard scaler per patch position from its 20 reference descriptors:
 | Scale to unit variance | enabled |
 | Copy input | enabled |
 
+Scaler fitting requires exactly 20 complete reference feature matrices. Paths
+are sorted in ascending Unicode code-point order, and patch position `p` uses
+only the 20 descriptors at row `p`, producing 225 independent fitted scalers.
+Each fit input therefore has shape `(20, 324)`.
+
+Every fitted scaler must record 324 finite means, variances, and scales, with
+non-negative variance, strictly positive scale, `n_features_in_ = 324`, and
+`n_samples_seen_ = 20`. A constant feature dimension is valid: scikit-learn
+records variance zero and scale one for that dimension.
+
+No partial scaler collection is returned after a failed reference or patch
+position. Fitting failures use:
+
+- `HOG_FIT_REFERENCE_COUNT_INVALID`
+- `HOG_FIT_REFERENCE_SET_INVALID`
+- `HOG_FIT_REFERENCE_FEATURES_INVALID`
+- `HOG_FIT_SCALER_FAILED`
+- `HOG_FIT_SCALER_STATE_INVALID`
+
 The scaler may use only reference descriptors. Calibration descriptors must be transformed with the fitted scaler and must not update it.
 
 ### One-Class SVM parameters
