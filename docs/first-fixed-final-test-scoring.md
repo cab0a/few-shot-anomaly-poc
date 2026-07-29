@@ -1,5 +1,15 @@
 # First Fixed Final-Test Scoring
 
+## 日本語概要
+
+本書は、正解クラスを処理へ渡さずに実施した最初の最終評価スコアリングを記録します。両手法の固定閾値による分類、CPU処理時間、上書きできない成果物、使用した入力と実行コマンド、ラベル開示前の境界の詳細は以下の英語本文を参照してください。
+
+---
+
+## English Summary
+
+This checkpoint preserves the first fixed final-test scores, classifications, and CPU latency evidence before per-path classes were joined. It records the exact inputs, source, command, output protections, and evaluation boundary.
+
 ## Status
 
 The first fixed final-test scoring run completed successfully. It produced

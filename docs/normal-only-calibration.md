@@ -1,5 +1,15 @@
 # Normal-Reference Fitting and Threshold Calibration
 
+## 日本語概要
+
+本書は、正常参照画像だけで両手法を学習し、正常校正画像だけから固定閾値を算出した実行記録です。入力境界、閾値、校正時の誤検知率、学習済み状態と成果物の識別情報、実行コマンド、最終評価を未使用とした範囲の詳細は以下の英語本文を参照してください。
+
+---
+
+## English Summary
+
+This record preserves normal-reference fitting and normal-only threshold calibration for both methods. It fixes inputs, thresholds, calibration outcomes, fitted-state identities, generated artifacts, command lineage, and the boundary that excluded final-test information.
+
 ## Status
 
 The fixed normal-reference fitting and normal-only threshold calibration run

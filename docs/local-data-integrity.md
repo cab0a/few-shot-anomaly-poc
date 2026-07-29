@@ -1,5 +1,15 @@
 # Local VisA `pcb1` Integrity Verification
 
+## 日本語概要
+
+本書は、評価に使用したローカルのVisA `pcb1`が、固定したアーカイブ、公式分割、ファイル構成、件数、チェックサムと一致することを確認した記録です。正常参照の学習や最終評価より前に行った検証手順と、入力確認に限定される主張範囲の詳細は以下の英語本文を参照してください。
+
+---
+
+## English Summary
+
+This checkpoint verifies that the local VisA `pcb1` asset matches the fixed archive observation, official split, structure, counts, manifests, and checksums before fitting or scoring. It is input-integrity evidence, not performance evidence.
+
 ## Status
 
 The fixed local VisA `pcb1` asset passed this checkpoint before

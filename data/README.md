@@ -1,5 +1,11 @@
 # Data Preparation
 
+## 日本語概要
+
+本書は、VisAの取得、検証、安全な展開、正常参照・校正・最終評価への決定的な分割手順を記録します。生データをGit管理外に保ち、チェックサム、出所、重複なしの分割、最終評価ラベルの境界を確認するコマンドと制約の詳細は以下の英語本文を参照してください。
+
+---
+
 This directory stores only documentation and, after an authorized local run,
 small provenance and manifest records. Raw VisA files stay outside Git under
 `data/external/`, which is ignored.

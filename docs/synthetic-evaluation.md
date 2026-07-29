@@ -1,5 +1,15 @@
 # Synthetic End-to-End Evaluation
 
+## 日本語概要
+
+本書は、画像やVisAの評価値を使わず、生成した記録だけで校正からスコア、分類、ラベル結合、指標、失敗例、採否判定、成果物出力までを接続する統合試験を説明します。意図した合否結果、完全性、再生成方法、性能を主張できない境界の詳細は以下の英語本文を参照してください。
+
+---
+
+## English Summary
+
+This document explains the deterministic synthetic fixture that connects calibration, scoring, classification, label reveal, metrics, failure selection, gate decisions, and immutable artifact output. It is plumbing evidence and makes no VisA performance claim.
+
 ## Status
 
 This is a deterministic integration fixture made only from generated records.

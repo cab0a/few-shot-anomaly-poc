@@ -1,5 +1,15 @@
 # Pre-Evaluation Freeze
 
+## 日本語概要
+
+本書は、最終評価を始める前に、使用するソース、設定、依存関係、データ分割、参照画像、閾値規則、処理時間計測、失敗例抽出、採否判定を固定した記録です。ファイル単位のチェックサム、成功したCI、変更時の扱いの詳細は以下の英語本文を参照してください。
+
+---
+
+## English Summary
+
+This freeze record fixes the source, configuration, dependencies, data selection, reference IDs, evaluation rules, artifact schema, and boundary state before final scoring. File hashes and successful CI evidence make later protocol changes visible.
+
 ## Status
 
 The v0.1 evaluation definition is frozen before any final-test scoring, label

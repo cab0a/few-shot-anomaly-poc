@@ -1,5 +1,15 @@
 # Final Evaluation and Decision
 
+## 日本語概要
+
+本書は、保存済みの最終スコアへ一度だけ正解ラベルを結合し、指標、誤検知・見逃し、処理時間、固定順の合否判定を生成した経緯を記録します。入力の系譜、成果物、実行コマンド、書込み後に判明した表示処理の不具合の詳細は以下の英語本文を参照してください。
+
+---
+
+## English Summary
+
+This record documents the one-time class reveal, metric reconstruction, failure selection, ordered gate evaluation, and immutable final bundle. It preserves source lineage and the post-write CLI summary defect without rerunning final scoring.
+
 ## Status
 
 The fixed final evaluation is complete. Official final-test classes were
