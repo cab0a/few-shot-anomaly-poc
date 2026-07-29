@@ -2,7 +2,7 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 22 normal-only thresholds fixed**
+> **Status: Milestone 23 first fixed final-test runner ready**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
@@ -23,9 +23,11 @@ Evaluate whether two CPU-only, normal-only visual anomaly detection methods just
 > archive, extraction, split-path, and byte-level integrity checks. The
 > normal-reference fitting and normal-only calibration run is complete. Both
 > methods were fitted from the fixed 20 references, and their thresholds were
-> fixed from the 884 normal calibration images. No final-test image, per-path
-> final-test label, dataset metric, benchmark, method comparison, or project
-> decision is reported.
+> fixed from the 884 normal calibration images. The first fixed final-test
+> scoring runner is implemented and tested but has not yet been executed on
+> VisA. No final-test score, latency measurement, per-path final-test label,
+> dataset metric, benchmark, method comparison, or project decision is
+> reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -244,6 +246,25 @@ The public checkpoint and all label-free calibration scores are in
 The procedure, fitted-state boundary, exact results, and regeneration command
 are documented in
 [the normal-only calibration record](docs/normal-only-calibration.md).
+
+## First fixed final-test scoring runner
+
+The next stage is implemented without changing a frozen method, threshold,
+partition rule, metric, or acceptance gate. After this implementation commit
+passes CI, the non-overwritable runner will:
+
+- accept only a hash-bound final-test manifest with no class or mask fields
+- decode and score exactly 200 final-test assets with both fitted methods
+- apply the already fixed per-method thresholds
+- run the fixed CPU warm-up and three-pass timing protocol
+- preserve score, classification, and latency records for final evaluation
+- reject class metadata and omit metrics, failure cases, and decisions
+
+Its input boundary, artifact layout, local-state policy, and planned command
+are documented in
+[the first fixed final-test scoring record](docs/first-fixed-final-test-scoring.md).
+No VisA final-test image has been decoded by this runner at this
+implementation-only stage.
 
 ## Shared input preprocessing
 
