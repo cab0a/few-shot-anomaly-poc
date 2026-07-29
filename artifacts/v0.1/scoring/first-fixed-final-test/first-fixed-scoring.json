@@ -1,0 +1,96 @@
+{
+  "config_sha256": "9a8149c0d37f86a4474089ae251bd4954071d7171f7110073e82c9796b52d917",
+  "contract_version": "first-fixed-final-test-scoring/v0.1",
+  "dataset_integrity_record_sha256": "c71ed769dc7ab29c48e62900d8ff95c707db453b607696f22689e4d960637584",
+  "evaluation_boundary": {
+    "cpu_latency_measured": true,
+    "decision_recorded": false,
+    "failure_case_selected": false,
+    "final_test_class_join_performed": false,
+    "final_test_images_decoded": true,
+    "final_test_scoring_completed": true,
+    "fixed_threshold_classification_completed": true,
+    "hard_gate_changed": false,
+    "image_displayed": false,
+    "metric_computed": false,
+    "per_path_final_test_class_read": false,
+    "threshold_rule_changed": false
+  },
+  "final_test_item_count": 200,
+  "final_test_manifest_sha256": "04a5d9fbf1f0526f42a3705319cbcac2d37015525471b19b75f53482cc33c285",
+  "freeze_checkpoint_sha256": "1d73250778cd0e0200ae14b1aff42e1c779ac2650d5e93cb65bde8267c80c397",
+  "local_state": {
+    "committed_to_git": false,
+    "format": "Python pickle protocol 5",
+    "logical_path": "work/v0.1/final-test/first-fixed-scoring-state.pkl",
+    "sha256": "159bc7eeb61f95c5008e1af8f4bb316d102a4f25a1b022cfd7852a7fb029e88b",
+    "trusted_local_generation_only": true
+  },
+  "manifest_set_sha256": "cde057e93700b90d473f52df680840ad9bc96668f6e6a8d476e712589dfa9f00",
+  "methods": {
+    "ecc_residual": {
+      "artifacts": {
+        "classification": {
+          "record_count": 200,
+          "relative_path": "ecc_residual/classifications.csv",
+          "sha256": "77462b4a88e1238ddf2bb0f9c6cd102ee7b0e91c65f5893f6e9d2e7d7d93fd1e"
+        },
+        "latency": {
+          "observation_record_count": 600,
+          "observation_relative_path": "ecc_residual/latency-observations.csv",
+          "observation_sha256": "a7bcf16fe8174e3ba4728f69d4bb46db90e8315ac0fbbbc6ea68b12b950fa7aa",
+          "relative_path": "ecc_residual/latency.json",
+          "sha256": "a8134926a406a8a5f87c6280454c84e743991a1a7e81c8ae85a68c19c2ee8210"
+        },
+        "score": {
+          "record_count": 200,
+          "relative_path": "ecc_residual/scores.csv",
+          "sha256": "bc9ac14bd56fae124853cade5f47bba2ca76a27707e878f7b0a8cc6a8f8aa222"
+        }
+      },
+      "item_count": 200,
+      "median_latency_seconds": 0.4369505,
+      "p95_latency_seconds": 1.24699559,
+      "predicted_anomalous_count": 30,
+      "predicted_normal_count": 170,
+      "score_failure_count": 0,
+      "threshold": 0.688464437424507,
+      "threshold_source_path": "pcb1/Data/Images/Normal/0691.JPG"
+    },
+    "patch_hog_one_class_svm": {
+      "artifacts": {
+        "classification": {
+          "record_count": 200,
+          "relative_path": "patch_hog_one_class_svm/classifications.csv",
+          "sha256": "dc34fa563ca86051fc372ea1a7907e8067fa70bf63703605f12329c4bc50980b"
+        },
+        "latency": {
+          "observation_record_count": 600,
+          "observation_relative_path": "patch_hog_one_class_svm/latency-observations.csv",
+          "observation_sha256": "c5ca8ec6847556ca6fe8377ea5d45d2a80467c17be20438f68a96c3eb18ee2a9",
+          "relative_path": "patch_hog_one_class_svm/latency.json",
+          "sha256": "4ee70b45e699f193863ebea4f7c2a0f38ca5150f1deff74bb85f64813b6b3f07"
+        },
+        "score": {
+          "record_count": 200,
+          "relative_path": "patch_hog_one_class_svm/scores.csv",
+          "sha256": "83806232e5115c0b06f75c706b64cac6fc5afcd337c379760c92179e3ef55abf"
+        }
+      },
+      "item_count": 200,
+      "median_latency_seconds": 0.4326800675,
+      "p95_latency_seconds": 0.565766242,
+      "predicted_anomalous_count": 29,
+      "predicted_normal_count": 171,
+      "score_failure_count": 0,
+      "threshold": 0.17611826509314352,
+      "threshold_source_path": "pcb1/Data/Images/Normal/0660.JPG"
+    }
+  },
+  "normal_calibration_checkpoint_sha256": "964ca6678dd28d0e87e399fc5509d1e64a1249ab31707b119519bc0b471a8e62",
+  "normal_calibration_state_sha256": "d0056a52225d5600e5db9d0c11076a1fbd919f273b66f1e1b65cd5895e883cb4",
+  "run_id": "visa-pcb1-v0-1-first-fixed",
+  "schema_version": 1,
+  "source_commit": "5b142f31c974334545ca2bb63bb7b2c6c514828a",
+  "status": "SCORES_CLASSIFICATIONS_AND_LATENCY_FIXED"
+}

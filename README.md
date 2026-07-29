@@ -2,7 +2,7 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 23 first fixed final-test runner ready**
+> **Status: Milestone 23 first fixed final-test scores and latency fixed**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
@@ -24,10 +24,10 @@ Evaluate whether two CPU-only, normal-only visual anomaly detection methods just
 > normal-reference fitting and normal-only calibration run is complete. Both
 > methods were fitted from the fixed 20 references, and their thresholds were
 > fixed from the 884 normal calibration images. The first fixed final-test
-> scoring runner is implemented and tested but has not yet been executed on
-> VisA. No final-test score, latency measurement, per-path final-test label,
-> dataset metric, benchmark, method comparison, or project decision is
-> reported.
+> scoring run is complete: both methods scored all 200 assets with zero score
+> failures, applied the fixed thresholds, and recorded the preregistered CPU
+> latency protocol. No per-path final-test label, dataset metric, failure-case
+> selection, method decision, or project decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -247,24 +247,32 @@ The procedure, fitted-state boundary, exact results, and regeneration command
 are documented in
 [the normal-only calibration record](docs/normal-only-calibration.md).
 
-## First fixed final-test scoring runner
+## First fixed final-test scoring
 
-The next stage is implemented without changing a frozen method, threshold,
-partition rule, metric, or acceptance gate. After this implementation commit
-passes CI, the non-overwritable runner will:
+The runner was committed and passed CI before its single fixed run. Source
+commit `5b142f31c974334545ca2bb63bb7b2c6c514828a`:
 
-- accept only a hash-bound final-test manifest with no class or mask fields
-- decode and score exactly 200 final-test assets with both fitted methods
-- apply the already fixed per-method thresholds
-- run the fixed CPU warm-up and three-pass timing protocol
-- preserve score, classification, and latency records for final evaluation
-- reject class metadata and omit metrics, failure cases, and decisions
+- accepted only a hash-bound final-test manifest with no class or mask fields
+- decoded and scored exactly 200 final-test assets with both fitted methods
+- applied the already fixed per-method thresholds
+- ran the fixed CPU warm-up and three-pass timing protocol
+- preserved score, classification, and latency records for final evaluation
+- produced zero score failures for either method
 
-Its input boundary, artifact layout, local-state policy, and planned command
+| Method | Predicted anomalous | CPU median | CPU p95 |
+| --- | ---: | ---: | ---: |
+| ECC residual | `30 / 200` | `0.4369505 s` | `1.24699559 s` |
+| Patch HOG + One-Class SVM | `29 / 200` | `0.4326800675 s` | `0.565766242 s` |
+
+The ECC p95 exceeds the preregistered one-second latency ceiling. This is not
+yet the complete hard-gate decision because final-test classes and image-level
+metrics remain outside this scoring stage.
+
+The public score, classification, and latency artifacts are in
+[`artifacts/v0.1/scoring/first-fixed-final-test/`](artifacts/v0.1/scoring/first-fixed-final-test/).
+The input boundary, artifact layout, local-state policy, and recorded command
 are documented in
 [the first fixed final-test scoring record](docs/first-fixed-final-test-scoring.md).
-No VisA final-test image has been decoded by this runner at this
-implementation-only stage.
 
 ## Shared input preprocessing
 

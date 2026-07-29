@@ -2,11 +2,27 @@
 
 ## Status
 
-The scoring runner is implemented and covered by synthetic tests. It has not
-yet been executed on VisA at this commit.
+The first fixed final-test scoring run completed successfully. It produced
+scores, fixed-threshold classifications, and CPU latency evidence for both
+methods without joining per-path final-test classes.
 
-The implementation must pass CI before the first final-test run. The exact
-CI-passed source commit will then be supplied to the non-overwritable runner.
+The runner implementation was committed as
+`5b142f31c974334545ca2bb63bb7b2c6c514828a`, and GitHub Actions CI #27 passed
+before scoring began. That exact commit is recorded as the run source.
+
+## Result
+
+| Method | Items | Score failures | Predicted normal | Predicted anomalous | CPU median | CPU p95 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| ECC residual | 200 | 0 | 170 | 30 | `0.4369505 s` | `1.24699559 s` |
+| Patch HOG + One-Class SVM | 200 | 0 | 171 | 29 | `0.4326800675 s` | `0.565766242 s` |
+
+The latency values use all 600 timed observations per method: three passes over
+the 200 final-test images after one complete warm-up pass. The ECC p95 is above
+the preregistered one-second latency ceiling. This is a fixed observation, not
+yet a complete method decision: per-path final-test classes, image-level
+metrics, failure cases, and the ordered hard-gate result have not been
+generated at this stage.
 
 ## Input boundary
 
@@ -45,7 +61,7 @@ threshold.
 
 ## Non-overwritable outputs
 
-The public directory will be:
+The public directory is:
 
 ```text
 artifacts/v0.1/scoring/first-fixed-final-test/
@@ -63,25 +79,25 @@ artifacts/v0.1/scoring/first-fixed-final-test/
 ```
 
 The exact Python score, classification, and latency objects needed by the next
-evaluation stage will be stored outside Git at:
+evaluation stage are stored outside Git at:
 
 ```text
 work/v0.1/final-test/first-fixed-scoring-state.pkl
 ```
 
-The public checkpoint will record that local state's SHA-256. Loading verifies
+The public checkpoint records local-state SHA-256
+`159bc7eeb61f95c5008e1af8f4bb316d102a4f25a1b022cfd7852a7fb029e88b`.
+Loading verifies
 the digest before deserialization and revalidates the complete score,
 classification, path-order, threshold, and latency contracts. The pickle is
 only for trusted state generated locally by this repository.
 
-## Planned command
-
-After the implementation commit passes CI:
+## Recorded command
 
 ```bash
 uv run --locked --no-sync python \
   scripts/run_first_fixed_final_test_scoring.py \
-  --source-commit <full-ci-passed-commit> \
+  --source-commit 5b142f31c974334545ca2bb63bb7b2c6c514828a \
   --dataset-root /path/to/extracted/VisA_20220922
 ```
 
@@ -90,7 +106,7 @@ overwrite its public checkpoint or local state.
 
 ## Evaluation boundary
 
-This stage may read and score final-test image content. It must not:
+This stage read and scored final-test image content. It did not:
 
 - read or join a per-path final-test class
 - calculate AUROC, AUPRC, normal FPR, or anomaly recall
