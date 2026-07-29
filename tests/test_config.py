@@ -109,6 +109,11 @@ def test_repository_config_pins_official_split() -> None:
     assert config.latency_measurement.p95_rule == "nearest_rank"
     assert config.latency_measurement.include_failed_score_timings is True
     assert config.latency_measurement.duration_unit == "nanoseconds"
+    assert config.failure_case_selection.max_cases_per_type == 5
+    assert config.failure_case_selection.false_positive_order == "anomaly_score_descending"
+    assert config.failure_case_selection.false_negative_order == "anomaly_score_ascending"
+    assert config.failure_case_selection.tie_breaker == "relative_path_ascending"
+    assert config.failure_case_selection.image_access is False
     assert config.split.revision == "2a692ab575001cbde74d402d897a7286086c6199"
     assert config.split.sha256 == "a48557e6033318cb90556f706196bc9d247a776a23ea51aecee5a80dd0332995"
 
@@ -147,6 +152,21 @@ def test_config_rejects_changed_latency_measurement(
     config_path.write_text(json.dumps(raw), encoding="utf-8")
 
     with pytest.raises(ConfigurationError, match="warmup_passes"):
+        load_config(config_path)
+
+
+@pytest.mark.parametrize("changed_limit", [4, 5.0, True])
+def test_config_rejects_changed_failure_case_limit(
+    tmp_path: Path,
+    changed_limit: object,
+) -> None:
+    raw = json.loads(Path("configs/v0.1.yaml").read_text(encoding="utf-8"))
+    raw["failure_case_selection"]["max_cases_per_type"] = changed_limit
+    config_path = tmp_path / "configs/v0.1.yaml"
+    config_path.parent.mkdir()
+    config_path.write_text(json.dumps(raw), encoding="utf-8")
+
+    with pytest.raises(ConfigurationError, match="max_cases_per_type"):
         load_config(config_path)
 
 

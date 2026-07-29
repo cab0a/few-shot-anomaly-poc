@@ -2,7 +2,7 @@
 
 Evaluate whether two CPU-only, normal-only visual anomaly detection methods justify a follow-up prototype for one VisA category.
 
-> **Status: Milestone 15 CPU latency measurement primitive**
+> **Status: Milestone 16 failure case selection primitive**
 >
 > The v0.1 problem, method shortlist, evaluation protocol, and decision gates
 > are fixed. Reproducible data handling and deterministic shared image
@@ -14,8 +14,9 @@ Evaluate whether two CPU-only, normal-only visual anomaly detection methods just
 > label-free fixed-threshold single-image and batch classification. A strict
 > final-test label reveal boundary and fixed image-level metric calculation are
 > also implemented, together with the preregistered CPU latency measurement
-> protocol. No dataset-derived threshold, dataset result, benchmark, method
-> comparison, or decision is reported.
+> protocol and mechanical fixed-threshold failure-case selection. No
+> dataset-derived threshold, dataset result, benchmark, method comparison, or
+> decision is reported.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -487,6 +488,28 @@ image is read, and no measured result in this milestone is project performance
 evidence. This component does not apply the one-second hard gate or make an
 adoption decision.
 
+## Failure case selection
+
+The evaluation foundation now implements the preregistered mechanical
+failure-case selection rule:
+
+- accepts only a complete, valid final-test label reveal result
+- selects false positives by anomaly score descending, then relative path
+  ascending
+- selects false negatives by anomaly score ascending, then relative path
+  ascending
+- returns at most five cases of each type, as fixed in `configs/v0.1.yaml`
+- retains score-generation failures and their source failure codes
+- records the fixed-threshold score, threshold, signed margin, true class,
+  predicted class, and deterministic rank for each selected case
+- rejects invalid revealed input or an invalid produced selection without
+  returning a partial selection
+
+This primitive does not open or display images, add subjective observations,
+recalculate metrics, apply hard gates, or make an adoption decision. Any later
+technical observation or public image must remain a separate, attributed
+reporting step and cannot alter this selection.
+
 ## Non-goals
 
 v0.1 does not attempt to provide:
@@ -510,8 +533,8 @@ normal-template fitting, fixed ECC residual image scoring, and fixed Patch HOG
 feature extraction with position-wise reference scaling and One-Class SVM
 fitting and image scoring, plus normal-only threshold calibration and
 fixed-threshold single-image and batch classification, followed by the
-final-test label reveal boundary, image-level metrics, and CPU latency
-measurement:
+final-test label reveal boundary, image-level metrics, CPU latency measurement,
+and mechanical failure-case selection:
 
 - [Problem and requirements](docs/problem-and-requirements.md)
 - [Research and method selection](docs/research-and-method-selection.md)
@@ -536,6 +559,8 @@ with generated inputs. Image-level AUROC, AUPRC, fixed-threshold confusion
 counts, normal FPR, anomaly recall, and score-failure counting are implemented
 and tested with generated records. The fixed CPU warm-up, three-pass timing,
 environment capture, median, and nearest-rank p95 protocol is implemented and
-tested with generated inputs and synthetic clocks. The repository still
-contains no VisA image, dataset-derived threshold, evaluation pipeline,
-experiment, result figure, failure analysis, or final decision.
+tested with generated inputs and synthetic clocks. The fixed highest-score
+false-positive and lowest-score false-negative selection rule is implemented
+and tested with generated labeled records without image access. The repository
+still contains no VisA image, dataset-derived threshold, evaluation pipeline,
+experiment, result figure, image-based failure analysis, or final decision.

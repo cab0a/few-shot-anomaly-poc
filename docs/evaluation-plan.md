@@ -346,6 +346,13 @@ The one-second p95 gate applies to this defined scoring boundary. End-to-end lat
 
 Failure cases are selected mechanically at the fixed threshold.
 
+The machine-readable rule in `configs/v0.1.yaml` fixes five as the maximum
+number of cases per error type, the two score orders below, relative-path
+ascending as the tie-breaker, and no image access during selection. The
+selection primitive accepts only a complete, validated final-test label reveal
+result. It accepts no method, threshold, limit, metric, image, observation,
+gate, or decision override.
+
 ### Highest-scoring false positives
 
 - Filter final-test normal images predicted as anomalous.
@@ -369,7 +376,20 @@ For each selected case, record:
 - Registration status when applicable
 - A bounded technical observation
 
-Observations must describe visible or measured conditions without claiming an unverified cause.
+The primitive records the relative path, true and predicted classes, anomaly
+score, fixed threshold, signed score margin, score status, source scoring
+failure code, and deterministic rank. It does not read or display image
+content. Registration status and bounded technical observations are added only
+in the later reporting stage without changing the selected paths.
+
+Invalid revealed input or an invalid produced selection returns no partial
+selection and uses one of:
+
+- `FAILURE_SELECTION_REVEAL_INVALID`
+- `FAILURE_SELECTION_RESULT_INVALID`
+
+Later observations must describe visible or measured conditions without
+claiming an unverified cause. They cannot change the mechanical selection.
 
 If VisA images appear in a public failure figure, the caption or adjacent attribution must identify the VisA dataset, cite Zou et al., retain the Amazon copyright notice, link the official source and CC BY 4.0 license, and state all crops, resizing, overlays, or annotations.
 

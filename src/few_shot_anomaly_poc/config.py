@@ -176,6 +176,15 @@ class LatencyMeasurementConfig:
 
 
 @dataclass(frozen=True)
+class FailureCaseSelectionConfig:
+    max_cases_per_type: int
+    false_positive_order: str
+    false_negative_order: str
+    tie_breaker: str
+    image_access: bool
+
+
+@dataclass(frozen=True)
 class ProjectPaths:
     archive: Path
     archive_provenance: Path
@@ -205,6 +214,7 @@ class ProjectConfig:
     patch_hog_scoring: PatchHOGScoringConfig
     threshold_calibration: ThresholdCalibrationConfig
     latency_measurement: LatencyMeasurementConfig
+    failure_case_selection: FailureCaseSelectionConfig
     paths: ProjectPaths
     project_root: Path
 
@@ -335,6 +345,10 @@ def load_config(config_path: Path) -> ProjectConfig:
     latency_measurement_raw = _mapping(
         root.get("latency_measurement"),
         "latency_measurement",
+    )
+    failure_case_selection_raw = _mapping(
+        root.get("failure_case_selection"),
+        "failure_case_selection",
     )
     paths_raw = _mapping(root.get("paths"), "paths")
     project_root = resolved_config.parent.parent.resolve()
@@ -959,6 +973,38 @@ def load_config(config_path: Path) -> ProjectConfig:
             "nanoseconds",
         ),
     )
+    failure_case_selection = FailureCaseSelectionConfig(
+        max_cases_per_type=_fixed_integer(
+            failure_case_selection_raw,
+            "max_cases_per_type",
+            "failure_case_selection",
+            5,
+        ),
+        false_positive_order=_fixed_string(
+            failure_case_selection_raw,
+            "false_positive_order",
+            "failure_case_selection",
+            "anomaly_score_descending",
+        ),
+        false_negative_order=_fixed_string(
+            failure_case_selection_raw,
+            "false_negative_order",
+            "failure_case_selection",
+            "anomaly_score_ascending",
+        ),
+        tie_breaker=_fixed_string(
+            failure_case_selection_raw,
+            "tie_breaker",
+            "failure_case_selection",
+            "relative_path_ascending",
+        ),
+        image_access=_fixed_boolean(
+            failure_case_selection_raw,
+            "image_access",
+            "failure_case_selection",
+            False,
+        ),
+    )
 
     path_values = {
         key: _project_path(
@@ -1028,6 +1074,7 @@ def load_config(config_path: Path) -> ProjectConfig:
         patch_hog_scoring=patch_hog_scoring,
         threshold_calibration=threshold_calibration,
         latency_measurement=latency_measurement,
+        failure_case_selection=failure_case_selection,
         paths=ProjectPaths(**path_values),
         project_root=project_root,
     )

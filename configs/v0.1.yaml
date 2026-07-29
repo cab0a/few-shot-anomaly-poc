@@ -140,6 +140,13 @@
     "include_failed_score_timings": true,
     "duration_unit": "nanoseconds"
   },
+  "failure_case_selection": {
+    "max_cases_per_type": 5,
+    "false_positive_order": "anomaly_score_descending",
+    "false_negative_order": "anomaly_score_ascending",
+    "tie_breaker": "relative_path_ascending",
+    "image_access": false
+  },
   "paths": {
     "archive": "data/external/archives/VisA_20220922.tar",
     "archive_provenance": "data/provenance/visa-archive.json",
