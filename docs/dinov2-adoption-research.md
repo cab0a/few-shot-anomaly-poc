@@ -4,7 +4,7 @@
 
 本調査は、DINOv2のpatch特徴量と正常参照画像のnearest-neighbor距離を用いる方式を、v0.1の次候補として検証する価値があるかを判定した記録です。公式モデル情報、AnomalyDINO論文と公開実装、ライセンス、CPU負荷、モデル資産、依存関係、評価リークのリスクを確認しました。
 
-結論は`PROCEED WITH CONDITIONS`です。独立して事前登録するv0.2のCPU実行可能性検証には進めますが、手法そのものは未採用です。現在の1秒以内というCPU条件、再現可能なモデル取得、分離した依存環境、未使用の評価境界を満たせない場合は実評価へ進みません。DINOv2のコード、重み、依存関係、データ、実験結果は本調査では追加していません。根拠、条件、停止規則の詳細は以下の英語本文を参照してください。
+結論は`PROCEED WITH CONDITIONS`です。独立したv0.2のCPU実行可能性検証には進めますが、手法そのものは未採用です。現在の1秒以内というCPU条件、再現可能なモデル取得、分離した依存環境、未使用の評価境界を満たせない場合は実評価へ進みません。次段階のモデル、計測、依存環境、資産検証、停止条件、評価境界は別の事前登録文書へ固定しました。DINOv2のコード、重み、依存関係、データ、実験結果は本調査では追加していません。根拠、条件、停止規則の詳細は以下の英語本文を参照してください。
 
 ---
 
@@ -25,6 +25,8 @@ This record asks whether a frozen DINOv2 patch-nearest-neighbor method deserves 
 `PROCEED WITH CONDITIONS` means that the evidence is strong enough to justify a bounded experiment but insufficient to select the method. No local DINOv2 timing, anomaly score, VisA metric, or comparison result exists at this stage.
 
 The v0.1 `REJECT` decision remains unchanged. DINOv2 is a new research candidate, not a retrospective exception to a failed v0.1 gate.
+
+The authorized experiment is now fixed in the [v0.2 preflight preregistration](v0.2-preflight-preregistration.md). That document does not constitute implementation or model adoption.
 
 ## Question
 
@@ -166,7 +168,7 @@ Before any model download, the implementation milestone must record:
 
 Loading mutable `main` through an unpinned `torch.hub.load` call is not an acceptable final reproduction path. Domain-specific DINO derivatives in the evolving upstream repository must not be substituted for the standard Apache-2.0 ViT-S/14 asset.
 
-`NOTICE.md` and the dependency inventory should be updated only if DINOv2 assets or dependencies are actually introduced. This research-only milestone introduces neither.
+The v0.1 `NOTICE.md` and dependency inventory are freeze-listed historical files. If DINOv2 assets or dependencies are introduced, their exact terms and notices must be recorded in a new v0.2-specific inventory and linked from the README without rewriting the v0.1 records. This research-only milestone introduces neither.
 
 ## Conditions to Proceed
 
