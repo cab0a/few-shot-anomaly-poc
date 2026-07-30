@@ -177,7 +177,9 @@ uv run --locked --no-sync ruff check .
 uv run --locked --no-sync pytest
 ```
 
-GitHub Actions runs the same locked lint and test commands on Ubuntu 24.04 with CPython `3.13.14`. A separate shared workflow checks every Markdown file for the Japanese and English summary contract, local links, encoding problems, merge markers, machine-specific paths, and README structure.
+GitHub Actions runs the same locked lint and test commands on Ubuntu 24.04 with CPython `3.13.14`. It also executes the README Quick Start, checks the synthetic manifest and per-method metrics, regenerates the representative SVG, and requires an empty figure diff.
+
+A separate shared workflow checks every Markdown file for the Japanese and English summary contract, local links, encoding problems, merge markers, machine-specific paths, and README structure.
 
 ## Compatibility
 
