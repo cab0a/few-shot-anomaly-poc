@@ -8,6 +8,8 @@ ECCによる位置合わせ残差法と、局所勾配特徴量を用いた一�
 
 正常データだけによる閾値校正、一度だけの最終評価、誤検知・見逃し一覧、処理時間、判定根拠、チェックサム付き成果物を保存しています。再現手順、評価値、制約の詳細は以下の英語本文を参照してください。
 
+次候補のDINOv2 patch nearest neighborは、独立して事前登録するv0.2のCPU実行可能性検証に限って条件付きで進行します。これは手法の採用判断ではなく、DINOv2のコード、重み、依存関係、性能結果はまだ追加していません。
+
 ---
 
 A preregistered CPU-only evaluation that turns two normal-only visual anomaly methods into an auditable go/no-go decision.
@@ -17,6 +19,10 @@ This is a source-available, noncommercially licensed public portfolio project.
 > **Status: v0.1 complete — `REJECT`**
 >
 > Neither method passed every fixed operating-point gate. The thresholds and gates were not revised after the result.
+
+> **Next research decision: DINOv2 — `PROCEED WITH CONDITIONS`**
+>
+> This authorizes only a separately preregistered v0.2 CPU feasibility spike. It does not change the v0.1 decision, and no DINOv2 code, model asset, dependency, or performance result is included. See the [adoption research record](docs/dinov2-adoption-research.md).
 
 ## Representative Result
 
@@ -204,6 +210,7 @@ See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md)
 | --- | --- |
 | [Problem and Requirements](docs/problem-and-requirements.md) | Hypothetical case, acceptance gates, risks, and non-goals |
 | [Research and Method Selection](docs/research-and-method-selection.md) | Longlist, shortlist, deferrals, and sources |
+| [DINOv2 Adoption Research](docs/dinov2-adoption-research.md) | Evidence, risks, conditions, and the bounded v0.2 research decision |
 | [Method Specification](docs/method-specification.md) | Fixed preprocessing, parameters, scoring, and failure rules |
 | [Evaluation Plan](docs/evaluation-plan.md) | Partitions, metrics, latency, error selection, and decision logic |
 | [Evaluation Artifact Schema](docs/evaluation-artifact-schema.md) | JSON/CSV contract, deterministic serialization, and integrity |
