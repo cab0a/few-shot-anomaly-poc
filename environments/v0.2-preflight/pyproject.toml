@@ -1,0 +1,35 @@
+[project]
+name = "few-shot-anomaly-poc-v0-2-preflight"
+version = "0.0.0"
+description = "Isolated dependency lock for the preregistered DINOv2 CPU preflight."
+requires-python = "==3.13.14"
+dependencies = [
+    "numpy==2.5.1",
+    "torch==2.13.0+cpu",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==9.1.1",
+    "ruff==0.16.0",
+]
+
+[tool.uv]
+required-version = "==0.11.32"
+package = false
+environments = [
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+]
+required-environments = [
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+]
+no-build = true
+prerelease = "disallow"
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true

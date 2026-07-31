@@ -8,7 +8,7 @@ ECCによる位置合わせ残差法と、局所勾配特徴量を用いた一�
 
 正常データだけによる閾値校正、一度だけの最終評価、誤検知・見逃し一覧、処理時間、判定根拠、チェックサム付き成果物を保存しています。再現手順、評価値、制約の詳細は以下の英語本文を参照してください。
 
-DINOv2候補はv0.2 CPU preflightに限定し、方式、計測、資産検証、未使用評価境界を事前登録しました。公式metadataも確認済みですが、コード、重み、wheel、依存関係、性能結果は未追加です。
+DINOv2候補はv0.2 CPU preflightに限定し、方式、計測、資産検証、未使用評価境界を事前登録しました。公式metadata、分離した依存lock、直接・推移依存17件の予備license inventoryを確認済みですが、package、DINOv2 source、checkpoint、性能結果は未追加です。
 
 ---
 
@@ -20,9 +20,9 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > Neither method passed every fixed operating-point gate. The thresholds and gates were not revised after the result.
 
-> **v0.2 status: distribution metadata verified — `PROCEED WITH CONDITIONS`**
+> **v0.2 status: isolated lock and preliminary license inventory complete — `PROCEED WITH CONDITIONS`**
 >
-> This authorizes preparation of the isolated dependency lock and license inventory before controlled acquisition. It does not change the v0.1 decision, and no DINOv2 source archive, checkpoint, wheel, dependency, or performance result is included. See the [metadata verification record](docs/v0.2-model-and-dependency-metadata.md).
+> This authorizes controlled acquisition of the locked wheels for checksum and internal-license inspection only. It does not authorize installation or execution, does not change the v0.1 decision, and includes no DINOv2 source, checkpoint, package artifact, or performance result. See the [lock and preliminary license inventory](docs/v0.2-dependencies-and-licenses.md).
 
 ## Representative Result
 
@@ -202,7 +202,7 @@ Original code and documentation are source-available under the PolyForm Noncomme
 
 VisA is not included in the repository and remains separately licensed under CC BY 4.0. The numeric SVG contains no VisA image pixels. Third-party dependencies remain governed by their respective licenses.
 
-See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md) and [Runtime Dependencies and License Boundaries](docs/dependencies-and-licenses.md) for separate rights and attribution.
+See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md), [Runtime Dependencies and License Boundaries](docs/dependencies-and-licenses.md), and the [v0.2 Preliminary License Inventory](docs/v0.2-dependencies-and-licenses.md) for separate rights and attribution.
 
 ## Documentation
 
@@ -213,6 +213,7 @@ See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md)
 | [DINOv2 Adoption Research](docs/dinov2-adoption-research.md) | Evidence, risks, conditions, and the bounded v0.2 research decision |
 | [v0.2 Preflight Preregistration](docs/v0.2-preflight-preregistration.md) | Fixed model, environment, CPU protocol, asset checks, stop rules, and untouched boundary |
 | [v0.2 Model and Dependency Metadata](docs/v0.2-model-and-dependency-metadata.md) | Official URLs, HTTP metadata, published hashes, license expressions, and acquisition controls |
+| [v0.2 Dependency Lock and Preliminary License Inventory](docs/v0.2-dependencies-and-licenses.md) | Isolated lock, exact transitive resolution, published hashes, license evidence, and the next acquisition boundary |
 | [Method Specification](docs/method-specification.md) | Fixed preprocessing, parameters, scoring, and failure rules |
 | [Evaluation Plan](docs/evaluation-plan.md) | Partitions, metrics, latency, error selection, and decision logic |
 | [Evaluation Artifact Schema](docs/evaluation-artifact-schema.md) | JSON/CSV contract, deterministic serialization, and integrity |
