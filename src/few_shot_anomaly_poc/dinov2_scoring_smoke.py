@@ -103,6 +103,19 @@ def _validate_execution_identity(
         raise DINOv2ScoringSmokeError("worktree must be clean before the smoke run")
 
 
+def _resolve_project_path(
+    path: Path,
+    *,
+    project_root: Path,
+    field: str,
+) -> Path:
+    candidate = path if path.is_absolute() else project_root / path
+    resolved = candidate.resolve()
+    if not resolved.is_relative_to(project_root):
+        raise DINOv2ScoringSmokeError(f"{field} must remain within project_root")
+    return resolved
+
+
 def generate_fixed_synthetic_images() -> tuple[np.ndarray, np.ndarray]:
     """Return deterministic reference and query RGB arrays without a dataset."""
     y_coordinates, x_coordinates = np.indices(INPUT_SHAPE[:2], dtype=np.uint16)
@@ -266,9 +279,44 @@ def run_dinov2_scoring_smoke(
     output_path: Path,
 ) -> dict[str, Any]:
     """Run two-resolution inference without data, labels, or timing."""
+    project_root = project_root.resolve()
+    acquisition_path = _resolve_project_path(
+        acquisition_path,
+        project_root=project_root,
+        field="acquisition_path",
+    )
+    import_smoke_path = _resolve_project_path(
+        import_smoke_path,
+        project_root=project_root,
+        field="import_smoke_path",
+    )
+    strict_load_path = _resolve_project_path(
+        strict_load_path,
+        project_root=project_root,
+        field="strict_load_path",
+    )
+    artifact_dir = _resolve_project_path(
+        artifact_dir,
+        project_root=project_root,
+        field="artifact_dir",
+    )
+    source_root = _resolve_project_path(
+        source_root,
+        project_root=project_root,
+        field="source_root",
+    )
+    environment_root = _resolve_project_path(
+        environment_root,
+        project_root=project_root,
+        field="environment_root",
+    )
+    output_path = _resolve_project_path(
+        output_path,
+        project_root=project_root,
+        field="output_path",
+    )
     if output_path.exists():
         raise FileExistsError(f"refusing to overwrite {output_path}")
-    project_root = project_root.resolve()
     _validate_execution_identity(
         project_root=project_root,
         execution_commit=execution_commit,

@@ -1,11 +1,15 @@
 from __future__ import annotations
 
 import hashlib
+from pathlib import Path
 
 import numpy as np
+import pytest
 
 from few_shot_anomaly_poc.dinov2_scoring_smoke import (
+    DINOv2ScoringSmokeError,
     _independent_numpy_result,
+    _resolve_project_path,
     generate_fixed_synthetic_images,
 )
 
@@ -44,3 +48,25 @@ def test_independent_numpy_check_uses_exact_cosine_distance_and_top_fraction() -
         np.asarray([0.0] * 99 + [1.0], dtype=np.float32),
     )
     assert score == 1.0
+
+
+def test_project_paths_are_resolved_against_root_and_cannot_escape(
+    tmp_path: Path,
+) -> None:
+    project_root = tmp_path / "project"
+    project_root.mkdir()
+    expected = project_root / "artifacts/output.json"
+
+    result = _resolve_project_path(
+        Path("artifacts/output.json"),
+        project_root=project_root,
+        field="output",
+    )
+
+    assert result == expected
+    with pytest.raises(DINOv2ScoringSmokeError, match="within project_root"):
+        _resolve_project_path(
+            Path("../outside.json"),
+            project_root=project_root,
+            field="output",
+        )
