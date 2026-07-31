@@ -1,0 +1,2169 @@
+{
+  "boundary": {
+    "accelerator_runtime_probe_performed": false,
+    "checkpoint_deserialized": true,
+    "checkpoint_pickle_executed_by_weights_only_loader": true,
+    "checkpoint_tensor_values_inspected": true,
+    "dataset_access": false,
+    "feature_extraction_performed": false,
+    "latency_measurement_performed": false,
+    "model_constructed": true,
+    "model_inference_performed": false,
+    "network_access": false,
+    "source_executed": true,
+    "source_extracted": true,
+    "synthetic_workload_generated": false,
+    "tensor_operations_performed": true
+  },
+  "checkpoint": {
+    "identity": {
+      "byte_count": 88283115,
+      "sha256": "b938bf1bc15cd2ec0feacfe3a1bb553fe8ea9ca46a7e1d8d00217f29aef60cd9",
+      "verification": "pass"
+    },
+    "load": {
+      "map_location": "cpu",
+      "mmap": true,
+      "system_byteorder": "little",
+      "weights_only": true
+    },
+    "state_dictionary": {
+      "device_counts": {
+        "cpu": 175
+      },
+      "dtype_counts": {
+        "float32": 175
+      },
+      "finite_tensor_count": 175,
+      "key_count": 175,
+      "root_type": "builtins.dict",
+      "state_key_manifest_sha256": "21dec8566e545b724414a5881a72aa9590525cb81b8b38d416d21e7952eff0f1",
+      "tensor_count": 175,
+      "tensors": [
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.0.attn.proj.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 589824,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.0.attn.proj.weight",
+          "numel": 147456,
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "byte_count": 4608,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.0.attn.qkv.bias",
+          "numel": 1152,
+          "shape": [
+            1152
+          ]
+        },
+        {
+          "byte_count": 1769472,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.0.attn.qkv.weight",
+          "numel": 442368,
+          "shape": [
+            1152,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.0.ls1.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.0.ls2.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 6144,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.0.mlp.fc1.bias",
+          "numel": 1536,
+          "shape": [
+            1536
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.0.mlp.fc1.weight",
+          "numel": 589824,
+          "shape": [
+            1536,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.0.mlp.fc2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.0.mlp.fc2.weight",
+          "numel": 589824,
+          "shape": [
+            384,
+            1536
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.0.norm1.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.0.norm1.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.0.norm2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.0.norm2.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.1.attn.proj.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 589824,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.1.attn.proj.weight",
+          "numel": 147456,
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "byte_count": 4608,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.1.attn.qkv.bias",
+          "numel": 1152,
+          "shape": [
+            1152
+          ]
+        },
+        {
+          "byte_count": 1769472,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.1.attn.qkv.weight",
+          "numel": 442368,
+          "shape": [
+            1152,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.1.ls1.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.1.ls2.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 6144,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.1.mlp.fc1.bias",
+          "numel": 1536,
+          "shape": [
+            1536
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.1.mlp.fc1.weight",
+          "numel": 589824,
+          "shape": [
+            1536,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.1.mlp.fc2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.1.mlp.fc2.weight",
+          "numel": 589824,
+          "shape": [
+            384,
+            1536
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.1.norm1.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.1.norm1.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.1.norm2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.1.norm2.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.10.attn.proj.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 589824,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.10.attn.proj.weight",
+          "numel": 147456,
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "byte_count": 4608,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.10.attn.qkv.bias",
+          "numel": 1152,
+          "shape": [
+            1152
+          ]
+        },
+        {
+          "byte_count": 1769472,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.10.attn.qkv.weight",
+          "numel": 442368,
+          "shape": [
+            1152,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.10.ls1.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.10.ls2.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 6144,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.10.mlp.fc1.bias",
+          "numel": 1536,
+          "shape": [
+            1536
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.10.mlp.fc1.weight",
+          "numel": 589824,
+          "shape": [
+            1536,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.10.mlp.fc2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.10.mlp.fc2.weight",
+          "numel": 589824,
+          "shape": [
+            384,
+            1536
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.10.norm1.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.10.norm1.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.10.norm2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.10.norm2.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.11.attn.proj.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 589824,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.11.attn.proj.weight",
+          "numel": 147456,
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "byte_count": 4608,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.11.attn.qkv.bias",
+          "numel": 1152,
+          "shape": [
+            1152
+          ]
+        },
+        {
+          "byte_count": 1769472,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.11.attn.qkv.weight",
+          "numel": 442368,
+          "shape": [
+            1152,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.11.ls1.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.11.ls2.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 6144,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.11.mlp.fc1.bias",
+          "numel": 1536,
+          "shape": [
+            1536
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.11.mlp.fc1.weight",
+          "numel": 589824,
+          "shape": [
+            1536,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.11.mlp.fc2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.11.mlp.fc2.weight",
+          "numel": 589824,
+          "shape": [
+            384,
+            1536
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.11.norm1.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.11.norm1.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.11.norm2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.11.norm2.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.2.attn.proj.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 589824,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.2.attn.proj.weight",
+          "numel": 147456,
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "byte_count": 4608,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.2.attn.qkv.bias",
+          "numel": 1152,
+          "shape": [
+            1152
+          ]
+        },
+        {
+          "byte_count": 1769472,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.2.attn.qkv.weight",
+          "numel": 442368,
+          "shape": [
+            1152,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.2.ls1.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.2.ls2.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 6144,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.2.mlp.fc1.bias",
+          "numel": 1536,
+          "shape": [
+            1536
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.2.mlp.fc1.weight",
+          "numel": 589824,
+          "shape": [
+            1536,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.2.mlp.fc2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.2.mlp.fc2.weight",
+          "numel": 589824,
+          "shape": [
+            384,
+            1536
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.2.norm1.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.2.norm1.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.2.norm2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.2.norm2.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.3.attn.proj.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 589824,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.3.attn.proj.weight",
+          "numel": 147456,
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "byte_count": 4608,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.3.attn.qkv.bias",
+          "numel": 1152,
+          "shape": [
+            1152
+          ]
+        },
+        {
+          "byte_count": 1769472,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.3.attn.qkv.weight",
+          "numel": 442368,
+          "shape": [
+            1152,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.3.ls1.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.3.ls2.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 6144,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.3.mlp.fc1.bias",
+          "numel": 1536,
+          "shape": [
+            1536
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.3.mlp.fc1.weight",
+          "numel": 589824,
+          "shape": [
+            1536,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.3.mlp.fc2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.3.mlp.fc2.weight",
+          "numel": 589824,
+          "shape": [
+            384,
+            1536
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.3.norm1.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.3.norm1.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.3.norm2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.3.norm2.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.4.attn.proj.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 589824,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.4.attn.proj.weight",
+          "numel": 147456,
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "byte_count": 4608,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.4.attn.qkv.bias",
+          "numel": 1152,
+          "shape": [
+            1152
+          ]
+        },
+        {
+          "byte_count": 1769472,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.4.attn.qkv.weight",
+          "numel": 442368,
+          "shape": [
+            1152,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.4.ls1.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.4.ls2.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 6144,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.4.mlp.fc1.bias",
+          "numel": 1536,
+          "shape": [
+            1536
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.4.mlp.fc1.weight",
+          "numel": 589824,
+          "shape": [
+            1536,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.4.mlp.fc2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.4.mlp.fc2.weight",
+          "numel": 589824,
+          "shape": [
+            384,
+            1536
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.4.norm1.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.4.norm1.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.4.norm2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.4.norm2.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.5.attn.proj.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 589824,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.5.attn.proj.weight",
+          "numel": 147456,
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "byte_count": 4608,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.5.attn.qkv.bias",
+          "numel": 1152,
+          "shape": [
+            1152
+          ]
+        },
+        {
+          "byte_count": 1769472,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.5.attn.qkv.weight",
+          "numel": 442368,
+          "shape": [
+            1152,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.5.ls1.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.5.ls2.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 6144,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.5.mlp.fc1.bias",
+          "numel": 1536,
+          "shape": [
+            1536
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.5.mlp.fc1.weight",
+          "numel": 589824,
+          "shape": [
+            1536,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.5.mlp.fc2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.5.mlp.fc2.weight",
+          "numel": 589824,
+          "shape": [
+            384,
+            1536
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.5.norm1.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.5.norm1.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.5.norm2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.5.norm2.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.6.attn.proj.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 589824,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.6.attn.proj.weight",
+          "numel": 147456,
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "byte_count": 4608,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.6.attn.qkv.bias",
+          "numel": 1152,
+          "shape": [
+            1152
+          ]
+        },
+        {
+          "byte_count": 1769472,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.6.attn.qkv.weight",
+          "numel": 442368,
+          "shape": [
+            1152,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.6.ls1.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.6.ls2.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 6144,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.6.mlp.fc1.bias",
+          "numel": 1536,
+          "shape": [
+            1536
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.6.mlp.fc1.weight",
+          "numel": 589824,
+          "shape": [
+            1536,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.6.mlp.fc2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.6.mlp.fc2.weight",
+          "numel": 589824,
+          "shape": [
+            384,
+            1536
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.6.norm1.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.6.norm1.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.6.norm2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.6.norm2.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.7.attn.proj.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 589824,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.7.attn.proj.weight",
+          "numel": 147456,
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "byte_count": 4608,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.7.attn.qkv.bias",
+          "numel": 1152,
+          "shape": [
+            1152
+          ]
+        },
+        {
+          "byte_count": 1769472,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.7.attn.qkv.weight",
+          "numel": 442368,
+          "shape": [
+            1152,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.7.ls1.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.7.ls2.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 6144,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.7.mlp.fc1.bias",
+          "numel": 1536,
+          "shape": [
+            1536
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.7.mlp.fc1.weight",
+          "numel": 589824,
+          "shape": [
+            1536,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.7.mlp.fc2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.7.mlp.fc2.weight",
+          "numel": 589824,
+          "shape": [
+            384,
+            1536
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.7.norm1.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.7.norm1.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.7.norm2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.7.norm2.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.8.attn.proj.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 589824,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.8.attn.proj.weight",
+          "numel": 147456,
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "byte_count": 4608,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.8.attn.qkv.bias",
+          "numel": 1152,
+          "shape": [
+            1152
+          ]
+        },
+        {
+          "byte_count": 1769472,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.8.attn.qkv.weight",
+          "numel": 442368,
+          "shape": [
+            1152,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.8.ls1.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.8.ls2.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 6144,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.8.mlp.fc1.bias",
+          "numel": 1536,
+          "shape": [
+            1536
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.8.mlp.fc1.weight",
+          "numel": 589824,
+          "shape": [
+            1536,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.8.mlp.fc2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.8.mlp.fc2.weight",
+          "numel": 589824,
+          "shape": [
+            384,
+            1536
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.8.norm1.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.8.norm1.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.8.norm2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.8.norm2.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.9.attn.proj.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 589824,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.9.attn.proj.weight",
+          "numel": 147456,
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "byte_count": 4608,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.9.attn.qkv.bias",
+          "numel": 1152,
+          "shape": [
+            1152
+          ]
+        },
+        {
+          "byte_count": 1769472,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.9.attn.qkv.weight",
+          "numel": 442368,
+          "shape": [
+            1152,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.9.ls1.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.9.ls2.gamma",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 6144,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.9.mlp.fc1.bias",
+          "numel": 1536,
+          "shape": [
+            1536
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.9.mlp.fc1.weight",
+          "numel": 589824,
+          "shape": [
+            1536,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.9.mlp.fc2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 2359296,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.9.mlp.fc2.weight",
+          "numel": 589824,
+          "shape": [
+            384,
+            1536
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.9.norm1.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.9.norm1.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.9.norm2.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "blocks.9.norm2.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "cls_token",
+          "numel": 384,
+          "shape": [
+            1,
+            1,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "mask_token",
+          "numel": 384,
+          "shape": [
+            1,
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "norm.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "norm.weight",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 1536,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "patch_embed.proj.bias",
+          "numel": 384,
+          "shape": [
+            384
+          ]
+        },
+        {
+          "byte_count": 903168,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "patch_embed.proj.weight",
+          "numel": 225792,
+          "shape": [
+            384,
+            3,
+            14,
+            14
+          ]
+        },
+        {
+          "byte_count": 2104320,
+          "device": "cpu",
+          "dtype": "float32",
+          "finite": true,
+          "key": "pos_embed",
+          "numel": 526080,
+          "shape": [
+            1,
+            1370,
+            384
+          ]
+        }
+      ],
+      "total_tensor_bytes": 88226304,
+      "total_tensor_elements": 22056576
+    }
+  },
+  "decision": {
+    "next_step": "PROCEED_TO_FIXED_DINOV2_SCORING_PATH_IMPLEMENTATION",
+    "reason": "The fixed checkpoint passed weights-only CPU loading, finite tensor inventory, and exact strict loading into the fixed local non-register ViT-S/14 architecture."
+  },
+  "environment": {
+    "accelerator_distribution_count": 0,
+    "cuda_build_version": null,
+    "environment_path": "environments/v0.2-preflight/.venv",
+    "hip_build_version": null,
+    "implementation": "CPython",
+    "interop_threads": 1,
+    "intraop_threads": 4,
+    "isolated_mode": true,
+    "platform": "linux-x86_64",
+    "python_version": "3.13.14",
+    "required_process_environment": {
+      "CUDA_VISIBLE_DEVICES": "",
+      "MKL_NUM_THREADS": "4",
+      "OMP_NUM_THREADS": "4",
+      "OPENBLAS_NUM_THREADS": "4",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTHONNOUSERSITE": "1",
+      "XFORMERS_DISABLED": "1"
+    },
+    "system_byteorder": "little",
+    "torch_version": "2.13.0+cpu",
+    "user_site_enabled": false,
+    "xformers_imported": false
+  },
+  "execution": {
+    "execution_commit": "37d45145de18b8f9d98d6bfe18b98978b10c0c1c",
+    "verification_date": "2026-07-31"
+  },
+  "inputs": {
+    "acquisition_record": "artifacts/v0.2/model-assets/acquisition.json",
+    "acquisition_record_sha256": "ba976ed08369fd80423d241129b8a86b05fcef650a39befa4ee67c8314233dac",
+    "import_smoke_record": "artifacts/v0.2/environment/import-smoke.json",
+    "import_smoke_record_sha256": "b0f38afb103f7084a0e5e09e8fd00e4cf2e0e5825d7a3fe8d5e3b48afd7b1f74",
+    "preregistration_id": "v0.2-dinov2-cpu-preflight-1"
+  },
+  "model": {
+    "buffer_element_count": 0,
+    "class": "dinov2.models.vision_transformer.DinoVisionTransformer",
+    "embedding_dimension": 384,
+    "entry_point": "dinov2.hub.backbones.dinov2_vits14",
+    "eval_mode": true,
+    "exact_value_match_count": 175,
+    "missing_keys": [],
+    "num_heads": 6,
+    "num_register_tokens": 0,
+    "parameter_count": 22056576,
+    "patch_size": 14,
+    "register_tokens_is_none": true,
+    "state_key_count": 175,
+    "strict_load": "pass",
+    "trainable_parameter_count": 22056576,
+    "transformer_block_count": 12,
+    "unexpected_keys": []
+  },
+  "schema_version": "v0.2-weights-only-strict-load-v1",
+  "source": {
+    "extraction": {
+      "archive_sha256": "c27dcdaf50e9fb5bbdf2bb529da357716372e19c6afab17d5350f3f0094aed4b",
+      "directory_count": 68,
+      "file_count": 203,
+      "import_root": "dinov2-7764ea0f912e53c92e82eb78a2a1631e92725fc8",
+      "safe_extraction": "pass",
+      "tree_manifest_sha256": "c49e1f0ff377e5f591cd4a9e87e47ea6e75b921545f24c8312216948566494b6"
+    },
+    "identity": {
+      "byte_count": 2869642,
+      "revision": "7764ea0f912e53c92e82eb78a2a1631e92725fc8",
+      "sha256": "c27dcdaf50e9fb5bbdf2bb529da357716372e19c6afab17d5350f3f0094aed4b",
+      "verification": "pass"
+    },
+    "module_import_count": 15,
+    "module_origins": [
+      {
+        "module": "dinov2",
+        "origin": "dinov2/__init__.py"
+      },
+      {
+        "module": "dinov2.hub",
+        "origin": "dinov2/hub/__init__.py"
+      },
+      {
+        "module": "dinov2.hub.backbones",
+        "origin": "dinov2/hub/backbones.py"
+      },
+      {
+        "module": "dinov2.hub.utils",
+        "origin": "dinov2/hub/utils.py"
+      },
+      {
+        "module": "dinov2.layers",
+        "origin": "dinov2/layers/__init__.py"
+      },
+      {
+        "module": "dinov2.layers.attention",
+        "origin": "dinov2/layers/attention.py"
+      },
+      {
+        "module": "dinov2.layers.block",
+        "origin": "dinov2/layers/block.py"
+      },
+      {
+        "module": "dinov2.layers.dino_head",
+        "origin": "dinov2/layers/dino_head.py"
+      },
+      {
+        "module": "dinov2.layers.drop_path",
+        "origin": "dinov2/layers/drop_path.py"
+      },
+      {
+        "module": "dinov2.layers.layer_scale",
+        "origin": "dinov2/layers/layer_scale.py"
+      },
+      {
+        "module": "dinov2.layers.mlp",
+        "origin": "dinov2/layers/mlp.py"
+      },
+      {
+        "module": "dinov2.layers.patch_embed",
+        "origin": "dinov2/layers/patch_embed.py"
+      },
+      {
+        "module": "dinov2.layers.swiglu_ffn",
+        "origin": "dinov2/layers/swiglu_ffn.py"
+      },
+      {
+        "module": "dinov2.models",
+        "origin": "dinov2/models/__init__.py"
+      },
+      {
+        "module": "dinov2.models.vision_transformer",
+        "origin": "dinov2/models/vision_transformer.py"
+      }
+    ],
+    "source_import_root": "data/external/v0.2/model-assets/dinov2-source-sha256-c27dcdaf50e9fb5bbdf2bb529da357716372e19c6afab17d5350f3f0094aed4b/dinov2-7764ea0f912e53c92e82eb78a2a1631e92725fc8"
+  }
+}
