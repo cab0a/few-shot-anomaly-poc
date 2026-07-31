@@ -335,6 +335,7 @@ def run_dinov2_scoring_smoke(
                 raise DINOv2ScoringSmokeError("PyTorch is not the fixed CPU build")
             torch.set_num_threads(4)
             torch.set_num_interop_threads(1)
+            torch.use_deterministic_algorithms(True)
             state = torch.load(
                 checkpoint_path,
                 map_location="cpu",
@@ -390,6 +391,7 @@ def run_dinov2_scoring_smoke(
             **environment,
             "accelerator_distribution_count": 0,
             "cuda_build_version": None,
+            "deterministic_algorithms": torch.are_deterministic_algorithms_enabled(),
             "hip_build_version": None,
             "interop_threads": torch.get_num_interop_threads(),
             "intraop_threads": torch.get_num_threads(),
