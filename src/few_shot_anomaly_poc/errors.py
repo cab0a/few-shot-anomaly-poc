@@ -125,6 +125,35 @@ class HOGScoringStateError(Exception):
     """Reject scoring when no valid fitted Patch HOG state is available."""
 
 
+class DINOv2ScoringFailureCode(StrEnum):
+    """Stable failure codes for the fixed v0.2 DINOv2 scoring path."""
+
+    DINO_RESOLUTION_INVALID = "DINO_RESOLUTION_INVALID"
+    DINO_IMAGE_TYPE_INVALID = "DINO_IMAGE_TYPE_INVALID"
+    DINO_IMAGE_SHAPE_INVALID = "DINO_IMAGE_SHAPE_INVALID"
+    DINO_IMAGE_DTYPE_INVALID = "DINO_IMAGE_DTYPE_INVALID"
+    DINO_IMAGE_CONTIGUITY_INVALID = "DINO_IMAGE_CONTIGUITY_INVALID"
+    DINO_TORCH_UNAVAILABLE = "DINO_TORCH_UNAVAILABLE"
+    DINO_MODEL_STATE_INVALID = "DINO_MODEL_STATE_INVALID"
+    DINO_PREPROCESSING_FAILED = "DINO_PREPROCESSING_FAILED"
+    DINO_PREPROCESSING_RESULT_INVALID = "DINO_PREPROCESSING_RESULT_INVALID"
+    DINO_FEATURE_EXTRACTION_FAILED = "DINO_FEATURE_EXTRACTION_FAILED"
+    DINO_FEATURE_RESULT_INVALID = "DINO_FEATURE_RESULT_INVALID"
+    DINO_REFERENCE_COUNT_INVALID = "DINO_REFERENCE_COUNT_INVALID"
+    DINO_MEMORY_BANK_INVALID = "DINO_MEMORY_BANK_INVALID"
+    DINO_DISTANCE_COMPUTATION_FAILED = "DINO_DISTANCE_COMPUTATION_FAILED"
+    DINO_DISTANCE_RESULT_INVALID = "DINO_DISTANCE_RESULT_INVALID"
+    DINO_SCORE_INVALID = "DINO_SCORE_INVALID"
+
+
+class DINOv2ScoringError(Exception):
+    """Carry a stable failure code for a rejected v0.2 scoring operation."""
+
+    def __init__(self, code: DINOv2ScoringFailureCode, message: str) -> None:
+        super().__init__(message)
+        self.code = code
+
+
 class ThresholdCalibrationFailureCode(StrEnum):
     """Stable failure codes for normal-only threshold calibration."""
 
