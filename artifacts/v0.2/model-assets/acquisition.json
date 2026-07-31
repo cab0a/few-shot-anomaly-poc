@@ -1,0 +1,241 @@
+{
+  "acquisition": {
+    "acquisition_base_commit": "64a1634056ce452a4080848f9a4cc0177f4d0a69",
+    "acquisition_date": "2026-07-31",
+    "external_cache": "data/external/v0.2/model-assets",
+    "preregistration_commit": "e9330be10742947e4227ced4c99acafe4d098566",
+    "preregistration_document": "docs/v0.2-preflight-preregistration.md",
+    "preregistration_document_sha256": "19d4cf4079c6df7c9042be464859ccf98d41108656ba0259c8940ace740ebf42",
+    "preregistration_id": "v0.2-dinov2-cpu-preflight-1"
+  },
+  "boundary": {
+    "checkpoint_acquired": true,
+    "checkpoint_deserialized": false,
+    "checkpoint_pickle_executed": false,
+    "checkpoint_tensor_values_inspected": false,
+    "dataset_access": false,
+    "model_constructed": false,
+    "model_inference_performed": false,
+    "source_acquired": true,
+    "source_executed": false,
+    "source_extracted": false,
+    "tensor_operation_performed": false
+  },
+  "checkpoint": {
+    "artifact": {
+      "byte_count": 88283115,
+      "checksum_status": "observed_only",
+      "filename": "dinov2_vits14_pretrain-sha256-b938bf1bc15cd2ec0feacfe3a1bb553fe8ea9ca46a7e1d8d00217f29aef60cd9.pth",
+      "observed_sha256": "b938bf1bc15cd2ec0feacfe3a1bb553fe8ea9ca46a7e1d8d00217f29aef60cd9",
+      "published_sha256": null,
+      "storage": "outside_git"
+    },
+    "identity": {
+      "architecture": "ViT-S/14",
+      "model_identifier": "dinov2_vits14",
+      "pretraining_identity": "LVD142M",
+      "register_tokens": false
+    },
+    "inspection": {
+      "all_members_validated": true,
+      "archive_format": "pytorch_zip",
+      "byteorder_member_present": false,
+      "crc_verification": "pass",
+      "data_member_count": 175,
+      "directory_count": 0,
+      "file_count": 177,
+      "member_count": 177,
+      "pickle": {
+        "candidate_state_key_count": 175,
+        "candidate_state_key_manifest_sha256": "21dec8566e545b724414a5881a72aa9590525cb81b8b38d416d21e7952eff0f1",
+        "global_references": [
+          "collections OrderedDict",
+          "torch FloatStorage",
+          "torch Tensor",
+          "torch._tensor _rebuild_from_type_v2",
+          "torch._utils _rebuild_tensor_v2"
+        ],
+        "opcode_count": 7128,
+        "pickle_deserialized": false,
+        "protocol": 2,
+        "required_state_key_markers": [
+          "blocks.0.attn.proj.weight",
+          "blocks.0.attn.qkv.weight",
+          "cls_token",
+          "mask_token",
+          "norm.weight",
+          "patch_embed.proj.weight",
+          "pos_embed"
+        ]
+      },
+      "safe_structure": "pass",
+      "top_level_directory": "vits14_pretrain",
+      "total_file_bytes": 88248135,
+      "version_member_present": true
+    },
+    "license": {
+      "identifier": "Apache-2.0",
+      "source_license_path": "LICENSE",
+      "weight_license_statement_path": "README.md"
+    },
+    "transport": {
+      "download": {
+        "accept_ranges": "bytes",
+        "byte_count": 88283115,
+        "content_length": 88283115,
+        "content_type": "binary/octet-stream",
+        "etag": "\"0bd1417efc23bdb1d69200156f5a22bc-11\"",
+        "last_modified": "Thu, 13 Apr 2023 22:01:20 GMT",
+        "observed_sha256": "b938bf1bc15cd2ec0feacfe3a1bb553fe8ea9ca46a7e1d8d00217f29aef60cd9",
+        "redirect_chain": [],
+        "resolved_url": "https://dl.fbaipublicfiles.com/dinov2/dinov2_vits14/dinov2_vits14_pretrain.pth",
+        "status": 200
+      },
+      "head": {
+        "accept_ranges": "bytes",
+        "content_length": 88283115,
+        "content_type": "binary/octet-stream",
+        "etag": "\"0bd1417efc23bdb1d69200156f5a22bc-11\"",
+        "last_modified": "Thu, 13 Apr 2023 22:01:20 GMT",
+        "redirect_chain": [],
+        "resolved_url": "https://dl.fbaipublicfiles.com/dinov2/dinov2_vits14/dinov2_vits14_pretrain.pth",
+        "status": 200
+      },
+      "requested_url": "https://dl.fbaipublicfiles.com/dinov2/dinov2_vits14/dinov2_vits14_pretrain.pth"
+    }
+  },
+  "decision": {
+    "next_step": "PROCEED_TO_WEIGHTS_ONLY_STRICT_LOAD_VERIFICATION",
+    "reason": "The fixed source and checkpoint were acquired outside Git, their transport and observed identities were recorded, and their containers passed non-executing structural checks."
+  },
+  "schema_version": "v0.2-model-asset-acquisition-v1",
+  "source": {
+    "artifact": {
+      "byte_count": 2869642,
+      "checksum_status": "observed_only",
+      "filename": "dinov2-source-7764ea0f912e53c92e82eb78a2a1631e92725fc8-sha256-c27dcdaf50e9fb5bbdf2bb529da357716372e19c6afab17d5350f3f0094aed4b.tar.gz",
+      "observed_sha256": "c27dcdaf50e9fb5bbdf2bb529da357716372e19c6afab17d5350f3f0094aed4b",
+      "published_sha256": null,
+      "storage": "outside_git"
+    },
+    "identity": {
+      "project": "facebookresearch/dinov2",
+      "revision": "7764ea0f912e53c92e82eb78a2a1631e92725fc8"
+    },
+    "inspection": {
+      "all_members_validated": true,
+      "archive_format": "tar.gz",
+      "directory_count": 68,
+      "file_count": 203,
+      "license_material": [
+        {
+          "byte_count": 11359,
+          "path": "LICENSE",
+          "sha256": "600cc67cc4cb2f5ea317dcfc687ad1c74dc4bec8782bbe9db0afd83513b935b7"
+        },
+        {
+          "byte_count": 18655,
+          "path": "LICENSE_CELL_DINO_CODE",
+          "sha256": "fe7b4ce83b8381cc5b216bbb4af73c570688d1b819c73bbaed8ca401f4677cd6"
+        },
+        {
+          "byte_count": 11487,
+          "path": "LICENSE_CELL_DINO_MODELS",
+          "sha256": "d779b47a4ef8bbfc6c90d14768fe6a0a2c1c08bbc3712084496058bfd83cef4f"
+        },
+        {
+          "byte_count": 9878,
+          "path": "LICENSE_XRAY_DINO_MODEL",
+          "sha256": "ce9efad90c86b5697e1783e56e3c936f6bd23c568c1166ecf07805b65d0891ad"
+        },
+        {
+          "byte_count": 1063,
+          "path": "dinov2/thirdparty/CLIP/LICENSE",
+          "sha256": "893951b3bf94db8df1b13e05da5cdeb499400960e4d44a3962a8b33ed0b4f28e"
+        }
+      ],
+      "member_count": 271,
+      "required_files": [
+        {
+          "byte_count": 11359,
+          "path": "LICENSE",
+          "sha256": "600cc67cc4cb2f5ea317dcfc687ad1c74dc4bec8782bbe9db0afd83513b935b7"
+        },
+        {
+          "byte_count": 9152,
+          "path": "MODEL_CARD.md",
+          "sha256": "70ca59606bee0a5fbb1baec80e7e29a93cd7cfbe26ca1910c52a852c4aab09d0"
+        },
+        {
+          "byte_count": 32799,
+          "path": "README.md",
+          "sha256": "d1bc2e9686522bbd66ed6123dc81eb36b3a98e8ea9a2ca97778f54a1c641c9e1"
+        },
+        {
+          "byte_count": 5586,
+          "path": "dinov2/hub/backbones.py",
+          "sha256": "871fca671b12a9ff02e810654baf509e97ccf461bf8196ce5ddeefff2fd87d3e"
+        },
+        {
+          "byte_count": 1126,
+          "path": "hubconf.py",
+          "sha256": "c1f5090e78ff940b72c076d2bf9c0310d1707c946b3d10e2d6f2b0bdf56a6f64"
+        }
+      ],
+      "safe_structure": "pass",
+      "top_level_directory": "dinov2-7764ea0f912e53c92e82eb78a2a1631e92725fc8",
+      "total_file_bytes": 3956490
+    },
+    "license": {
+      "identifier": "Apache-2.0",
+      "root_license_path": "LICENSE",
+      "standard_model_weight_statement_path": "README.md"
+    },
+    "transport": {
+      "download": {
+        "accept_ranges": null,
+        "byte_count": 2869642,
+        "content_length": 2869642,
+        "content_type": "application/x-gzip",
+        "etag": "\"b1909d144eb88f43f786f5056c607bed744ca0396aaf1fcbb774ceb9f00aed75\"",
+        "last_modified": null,
+        "observed_sha256": "c27dcdaf50e9fb5bbdf2bb529da357716372e19c6afab17d5350f3f0094aed4b",
+        "redirect_chain": [
+          {
+            "from_url": "https://github.com/facebookresearch/dinov2/archive/7764ea0f912e53c92e82eb78a2a1631e92725fc8.tar.gz",
+            "status": 302,
+            "to_url": "https://codeload.github.com/facebookresearch/dinov2/tar.gz/7764ea0f912e53c92e82eb78a2a1631e92725fc8"
+          }
+        ],
+        "resolved_url": "https://codeload.github.com/facebookresearch/dinov2/tar.gz/7764ea0f912e53c92e82eb78a2a1631e92725fc8",
+        "status": 200
+      },
+      "head": {
+        "accept_ranges": null,
+        "content_length": null,
+        "content_type": "application/x-gzip",
+        "etag": "\"b1909d144eb88f43f786f5056c607bed744ca0396aaf1fcbb774ceb9f00aed75\"",
+        "last_modified": null,
+        "redirect_chain": [
+          {
+            "from_url": "https://github.com/facebookresearch/dinov2/archive/7764ea0f912e53c92e82eb78a2a1631e92725fc8.tar.gz",
+            "status": 302,
+            "to_url": "https://codeload.github.com/facebookresearch/dinov2/tar.gz/7764ea0f912e53c92e82eb78a2a1631e92725fc8"
+          }
+        ],
+        "resolved_url": "https://codeload.github.com/facebookresearch/dinov2/tar.gz/7764ea0f912e53c92e82eb78a2a1631e92725fc8",
+        "status": 200
+      },
+      "requested_url": "https://github.com/facebookresearch/dinov2/archive/7764ea0f912e53c92e82eb78a2a1631e92725fc8.tar.gz"
+    }
+  },
+  "summary": {
+    "asset_count": 2,
+    "checkpoint_archive_safe": true,
+    "checkpoint_byte_count": 88283115,
+    "checkpoint_checksum_status": "observed_only",
+    "source_archive_safe": true,
+    "source_byte_count": 2869642,
+    "source_checksum_status": "observed_only"
+  }
+}
