@@ -1,0 +1,256 @@
+{
+  "boundary": {
+    "accelerator_runtime_probe_performed": false,
+    "dataset_access": false,
+    "formal_latency_measurement_performed": false,
+    "labels_accessed": false,
+    "model_inference_performed": true,
+    "network_access": false,
+    "performance_claim": false,
+    "synthetic_inputs_only": true,
+    "threshold_calibration_performed": false
+  },
+  "decision": {
+    "next_step": "PROCEED_TO_PREREGISTERED_CPU_TIMING_WORKLOAD",
+    "reason": "The fixed scoring path completed for both resolutions and matched an independent exact NumPy calculation within tolerance.",
+    "status": "PASS"
+  },
+  "environment": {
+    "accelerator_distribution_count": 0,
+    "cuda_build_version": null,
+    "deterministic_algorithms": true,
+    "environment_path": "environments/v0.2-preflight/.venv",
+    "hip_build_version": null,
+    "implementation": "CPython",
+    "interop_threads": 1,
+    "intraop_threads": 4,
+    "isolated_mode": true,
+    "numpy_version": "2.5.1",
+    "platform": "linux-x86_64",
+    "python_version": "3.13.14",
+    "system_byteorder": "little",
+    "torch_version": "2.13.0+cpu",
+    "user_site_enabled": false,
+    "xformers_imported": false
+  },
+  "execution": {
+    "execution_commit": "d88a0339b7da7370d95fcf05865f1646b205cb95",
+    "verification_date": "2026-07-31"
+  },
+  "fixed_contract": {
+    "allowed_resolutions": [
+      224,
+      448
+    ],
+    "embedding_dimension": 384,
+    "l2_epsilon": 1e-12,
+    "memory_block_size": 2048,
+    "model_entry_point": "dinov2.hub.backbones.dinov2_vits14",
+    "reference_count": 20,
+    "top_fraction": 0.01
+  },
+  "inputs": {
+    "acquisition_record": "artifacts/v0.2/model-assets/acquisition.json",
+    "acquisition_record_sha256": "ba976ed08369fd80423d241129b8a86b05fcef650a39befa4ee67c8314233dac",
+    "import_smoke_record": "artifacts/v0.2/environment/import-smoke.json",
+    "import_smoke_record_sha256": "b0f38afb103f7084a0e5e09e8fd00e4cf2e0e5825d7a3fe8d5e3b48afd7b1f74",
+    "preregistration_id": "v0.2-dinov2-cpu-preflight-1",
+    "strict_load_record": "artifacts/v0.2/model-compatibility/strict-load.json",
+    "strict_load_record_sha256": "4491f2fb472df813642d296d92d396e62476a2fd257d6b9da431c3a90b6aa604",
+    "synthetic_generator": "fixed coordinate formulas, deterministic roll, and fixed rectangle edit",
+    "synthetic_query": {
+      "byte_count": 786432,
+      "c_contiguous": true,
+      "dtype": "uint8",
+      "sha256": "ea629e99f050dea9639f24dfc11e9c74f2f329f4c4fbee332cc268a201e5e8d2",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    "synthetic_reference": {
+      "byte_count": 786432,
+      "c_contiguous": true,
+      "dtype": "uint8",
+      "sha256": "2177c217fa47c84eac86530410e60ebbf9e7c8ea35c9ffed8ce36d2ce172a550",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    }
+  },
+  "model": {
+    "embedding_dimension": 384,
+    "entry_point": "dinov2.hub.backbones.dinov2_vits14",
+    "eval_mode": true,
+    "num_register_tokens": 0,
+    "parameter_count": 22056576,
+    "patch_size": 14,
+    "strict_load": "pass"
+  },
+  "resolutions": [
+    {
+      "embedding_dimension": 384,
+      "finite": {
+        "patch_distances": true,
+        "query_features": true,
+        "reference_features": true,
+        "score": true
+      },
+      "independent_numpy_check": {
+        "maximum_absolute_patch_distance_difference": 7.748603820800781e-07,
+        "patch_distance_difference_is_gating": false,
+        "score": 0.4834078550338745,
+        "score_absolute_difference": 5.960464477539063e-08,
+        "score_tolerance": 1e-06,
+        "score_verification": "pass"
+      },
+      "memory_bank": {
+        "construction": "one synthetic reference embedding repeated twenty times for implementation smoke only",
+        "patch_count": 5120,
+        "reference_count_contract": 20,
+        "unique_reference_image_count": 1
+      },
+      "patch_count": 256,
+      "patch_distance_range": {
+        "maximum": 0.4855620861053467,
+        "minimum": 0.02782672643661499
+      },
+      "query_feature_norm_range": {
+        "maximum": 1.0000001192092896,
+        "minimum": 0.9999998211860657
+      },
+      "reference_feature_norm_range": {
+        "maximum": 1.0000001192092896,
+        "minimum": 0.9999998807907104
+      },
+      "resolution": 224,
+      "score": 0.4834079146385193,
+      "top_patch_count": 2
+    },
+    {
+      "embedding_dimension": 384,
+      "finite": {
+        "patch_distances": true,
+        "query_features": true,
+        "reference_features": true,
+        "score": true
+      },
+      "independent_numpy_check": {
+        "maximum_absolute_patch_distance_difference": 1.1920928955078125e-06,
+        "patch_distance_difference_is_gating": false,
+        "score": 0.10851237922906876,
+        "score_absolute_difference": 8.195638656616211e-08,
+        "score_tolerance": 1e-06,
+        "score_verification": "pass"
+      },
+      "memory_bank": {
+        "construction": "one synthetic reference embedding repeated twenty times for implementation smoke only",
+        "patch_count": 20480,
+        "reference_count_contract": 20,
+        "unique_reference_image_count": 1
+      },
+      "patch_count": 1024,
+      "patch_distance_range": {
+        "maximum": 0.12052226066589355,
+        "minimum": 0.008434712886810303
+      },
+      "query_feature_norm_range": {
+        "maximum": 1.0000001192092896,
+        "minimum": 0.9999998211860657
+      },
+      "reference_feature_norm_range": {
+        "maximum": 1.0000001192092896,
+        "minimum": 0.9999998807907104
+      },
+      "resolution": 448,
+      "score": 0.10851246118545532,
+      "top_patch_count": 10
+    }
+  ],
+  "schema_version": "v0.2-fixed-dinov2-scoring-smoke-v1",
+  "source": {
+    "checkpoint_identity": {
+      "byte_count": 88283115,
+      "sha256": "b938bf1bc15cd2ec0feacfe3a1bb553fe8ea9ca46a7e1d8d00217f29aef60cd9",
+      "verification": "pass"
+    },
+    "module_import_count": 15,
+    "module_origins": [
+      {
+        "module": "dinov2",
+        "origin": "dinov2/__init__.py"
+      },
+      {
+        "module": "dinov2.hub",
+        "origin": "dinov2/hub/__init__.py"
+      },
+      {
+        "module": "dinov2.hub.backbones",
+        "origin": "dinov2/hub/backbones.py"
+      },
+      {
+        "module": "dinov2.hub.utils",
+        "origin": "dinov2/hub/utils.py"
+      },
+      {
+        "module": "dinov2.layers",
+        "origin": "dinov2/layers/__init__.py"
+      },
+      {
+        "module": "dinov2.layers.attention",
+        "origin": "dinov2/layers/attention.py"
+      },
+      {
+        "module": "dinov2.layers.block",
+        "origin": "dinov2/layers/block.py"
+      },
+      {
+        "module": "dinov2.layers.dino_head",
+        "origin": "dinov2/layers/dino_head.py"
+      },
+      {
+        "module": "dinov2.layers.drop_path",
+        "origin": "dinov2/layers/drop_path.py"
+      },
+      {
+        "module": "dinov2.layers.layer_scale",
+        "origin": "dinov2/layers/layer_scale.py"
+      },
+      {
+        "module": "dinov2.layers.mlp",
+        "origin": "dinov2/layers/mlp.py"
+      },
+      {
+        "module": "dinov2.layers.patch_embed",
+        "origin": "dinov2/layers/patch_embed.py"
+      },
+      {
+        "module": "dinov2.layers.swiglu_ffn",
+        "origin": "dinov2/layers/swiglu_ffn.py"
+      },
+      {
+        "module": "dinov2.models",
+        "origin": "dinov2/models/__init__.py"
+      },
+      {
+        "module": "dinov2.models.vision_transformer",
+        "origin": "dinov2/models/vision_transformer.py"
+      }
+    ],
+    "source_identity": {
+      "byte_count": 2869642,
+      "sha256": "c27dcdaf50e9fb5bbdf2bb529da357716372e19c6afab17d5350f3f0094aed4b",
+      "verification": "pass"
+    },
+    "state_key_count": 175
+  },
+  "system": {
+    "machine": "x86_64",
+    "platform": "linux",
+    "python_hash_seed": "42",
+    "python_version": "3.13.14"
+  }
+}
