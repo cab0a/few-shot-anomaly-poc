@@ -8,7 +8,7 @@ ECCによる位置合わせ残差法と、局所勾配特徴量を用いた一�
 
 正常データだけによる閾値校正、一度だけの最終評価、誤検知・見逃し一覧、処理時間、判定根拠、チェックサム付き成果物を保存しています。再現手順、評価値、制約の詳細は以下の英語本文を参照してください。
 
-v0.2では検査済みwheel 17件を分離環境へoffline installし、全version、16 module import、PyTorch CPU-only identity、accelerator distribution不在を確認しました。DINOv2 source／checkpoint、tensor／model実行、性能結果は未追加です。
+v0.2ではDINOv2 sourceと標準ViT-S/14 checkpointをGit管理外へ取得し、SHA-256、archive安全性、checkpoint構造、license境界を非実行で確認しました。deserialize、tensor検査、model構築、推論、性能評価は未実施です。
 
 ---
 
@@ -20,9 +20,9 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > Neither method passed every fixed operating-point gate. The thresholds and gates were not revised after the result.
 
-> **v0.2 status: isolated import smoke complete — `PROCEED TO CONTROLLED MODEL ASSET ACQUISITION`**
+> **v0.2 status: controlled model-asset acquisition complete — `PROCEED TO WEIGHTS-ONLY STRICT LOAD VERIFICATION`**
 >
-> All 17 exact distributions are installed in the isolated local environment; 16 Python modules import successfully, Ruff metadata is exact, and PyTorch reports `2.13.0+cpu` with no CUDA or HIP build version. No DINOv2 source, checkpoint, tensor operation, model execution, or performance result is present. See the [isolated installation and import smoke record](docs/v0.2-isolated-installation-and-import-smoke.md).
+> The fixed source archive and standard `dinov2_vits14` checkpoint were acquired into an ignored external cache. Both have observed SHA-256 identities and passed non-executing container checks. Neither upstream asset publishes an independent SHA-256, so both identities remain `observed_only`. No checkpoint deserialization, model construction, tensor operation, inference, or performance result is present. See the [controlled model-asset acquisition record](docs/v0.2-model-asset-acquisition.md).
 
 ## Representative Result
 
@@ -61,6 +61,7 @@ uv run --locked --no-sync python scripts/render_v0_1_summary.py
 
 | Evidence | Location | What it preserves |
 | --- | --- | --- |
+| v0.2 model-asset acquisition | [`artifacts/v0.2/model-assets/acquisition.json`](artifacts/v0.2/model-assets/acquisition.json) | Source and checkpoint transport metadata, observed hashes, archive and pickle structure, license separation, and the non-execution boundary |
 | v0.2 import smoke | [`artifacts/v0.2/environment/import-smoke.json`](artifacts/v0.2/environment/import-smoke.json) | Exact installed versions, isolated import origins, CPU-only PyTorch identity, non-execution boundary, and the next-step decision |
 | v0.2 wheel inspection | [`artifacts/v0.2/dependencies/wheel-inspection.json`](artifacts/v0.2/dependencies/wheel-inspection.json) | Locked URLs and hashes, safe-ZIP and RECORD checks, internal license material, native files, and the isolated-install decision |
 | Final evaluation bundle | [`artifacts/v0.1/evaluation/visa-pcb1-v0-1-final/`](artifacts/v0.1/evaluation/visa-pcb1-v0-1-final/) | Per-image scores and classifications, revealed labels, metrics, latency observations, selected errors, decisions, and a SHA-256 manifest |
@@ -202,9 +203,9 @@ Other Python, operating-system, CPU, or dependency combinations are not claimed 
 
 Original code and documentation are source-available under the PolyForm Noncommercial License 1.0.0. This public portfolio repository is not offered for commercial reuse under those terms. Commercial licensing may be available through a separate written agreement.
 
-VisA is not included in the repository and remains separately licensed under CC BY 4.0. The numeric SVG contains no VisA image pixels. Third-party dependencies remain governed by their respective licenses.
+VisA is not included in the repository and remains separately licensed under CC BY 4.0. The numeric SVG contains no VisA image pixels. DINOv2 source and checkpoint bytes are also excluded from Git and remain separately governed by their upstream terms. Third-party dependencies remain governed by their respective licenses.
 
-See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md), [Runtime Dependencies and License Boundaries](docs/dependencies-and-licenses.md), the [v0.2 Preliminary License Inventory](docs/v0.2-dependencies-and-licenses.md), and the [v0.2 Internal License Inspection](docs/v0.2-dependency-artifact-inspection.md) for separate rights and attribution.
+See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md), [Runtime Dependencies and License Boundaries](docs/dependencies-and-licenses.md), the [v0.2 Preliminary License Inventory](docs/v0.2-dependencies-and-licenses.md), the [v0.2 Internal License Inspection](docs/v0.2-dependency-artifact-inspection.md), and the [v0.2 Model-Asset Acquisition Record](docs/v0.2-model-asset-acquisition.md) for separate rights and attribution.
 
 ## Documentation
 
@@ -218,6 +219,7 @@ See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md)
 | [v0.2 Dependency Lock and Preliminary License Inventory](docs/v0.2-dependencies-and-licenses.md) | Isolated lock, exact transitive resolution, published hashes, license evidence, and the next acquisition boundary |
 | [v0.2 Dependency Artifact and Internal License Inspection](docs/v0.2-dependency-artifact-inspection.md) | Whole-wheel and RECORD verification, bundled license evidence, native-file inventory, and the isolated-install decision |
 | [v0.2 Isolated Installation and Import Smoke](docs/v0.2-isolated-installation-and-import-smoke.md) | Offline exact-wheel installation, import origins, CPU-only PyTorch evidence, stopped sync attempt, and the next-step boundary |
+| [v0.2 Controlled Model-Asset Acquisition](docs/v0.2-model-asset-acquisition.md) | Fixed source and checkpoint hashes, safe container inspection, license separation, stopped attempts, and the strict-load boundary |
 | [Method Specification](docs/method-specification.md) | Fixed preprocessing, parameters, scoring, and failure rules |
 | [Evaluation Plan](docs/evaluation-plan.md) | Partitions, metrics, latency, error selection, and decision logic |
 | [Evaluation Artifact Schema](docs/evaluation-artifact-schema.md) | JSON/CSV contract, deterministic serialization, and integrity |
