@@ -8,7 +8,7 @@ ECCによる位置合わせ残差法と、局所勾配特徴量を用いた一�
 
 正常データだけによる閾値校正、一度だけの最終評価、誤検知・見逃し一覧、処理時間、判定根拠、チェックサム付き成果物を保存しています。再現手順、評価値、制約の詳細は以下の英語本文を参照してください。
 
-v0.2ではDINOv2 sourceと標準ViT-S/14 checkpointをGit管理外へ取得し、SHA-256、archive安全性、checkpoint構造、license境界を非実行で確認しました。deserialize、tensor検査、model構築、推論、性能評価は未実施です。
+v0.2では標準DINOv2 ViT-S/14 checkpointをCPUでweights-only loadし、175 tensorのfinite値とidentity、非register modelへのstrict loadを確認しました。推論、feature抽出、latency計測、VisA評価は未実施です。
 
 ---
 
@@ -20,9 +20,9 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > Neither method passed every fixed operating-point gate. The thresholds and gates were not revised after the result.
 
-> **v0.2 status: controlled model-asset acquisition complete — `PROCEED TO WEIGHTS-ONLY STRICT LOAD VERIFICATION`**
+> **v0.2 status: weights-only strict load complete — `PROCEED TO FIXED DINOV2 SCORING-PATH IMPLEMENTATION`**
 >
-> The fixed source archive and standard `dinov2_vits14` checkpoint were acquired into an ignored external cache. Both have observed SHA-256 identities and passed non-executing container checks. Neither upstream asset publishes an independent SHA-256, so both identities remain `observed_only`. No checkpoint deserialization, model construction, tensor operation, inference, or performance result is present. See the [controlled model-asset acquisition record](docs/v0.2-model-asset-acquisition.md).
+> The fixed checkpoint passed weights-only CPU loading, a complete 175-tensor finite-value inventory, and an exact strict load into the fixed local non-register `dinov2_vits14`. All 175 loaded model tensors match the checkpoint. No forward pass, feature extraction, latency measurement, VisA access, or anomaly-performance result is present. See the [weights-only strict-load record](docs/v0.2-weights-only-strict-load.md).
 
 ## Representative Result
 
@@ -61,6 +61,7 @@ uv run --locked --no-sync python scripts/render_v0_1_summary.py
 
 | Evidence | Location | What it preserves |
 | --- | --- | --- |
+| v0.2 weights-only strict load | [`artifacts/v0.2/model-compatibility/strict-load.json`](artifacts/v0.2/model-compatibility/strict-load.json) | Exact source origins, tensor inventory, finite-value checks, architecture identity, strict-load result, and the non-inference boundary |
 | v0.2 model-asset acquisition | [`artifacts/v0.2/model-assets/acquisition.json`](artifacts/v0.2/model-assets/acquisition.json) | Source and checkpoint transport metadata, observed hashes, archive and pickle structure, license separation, and the non-execution boundary |
 | v0.2 import smoke | [`artifacts/v0.2/environment/import-smoke.json`](artifacts/v0.2/environment/import-smoke.json) | Exact installed versions, isolated import origins, CPU-only PyTorch identity, non-execution boundary, and the next-step decision |
 | v0.2 wheel inspection | [`artifacts/v0.2/dependencies/wheel-inspection.json`](artifacts/v0.2/dependencies/wheel-inspection.json) | Locked URLs and hashes, safe-ZIP and RECORD checks, internal license material, native files, and the isolated-install decision |
@@ -220,6 +221,7 @@ See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md)
 | [v0.2 Dependency Artifact and Internal License Inspection](docs/v0.2-dependency-artifact-inspection.md) | Whole-wheel and RECORD verification, bundled license evidence, native-file inventory, and the isolated-install decision |
 | [v0.2 Isolated Installation and Import Smoke](docs/v0.2-isolated-installation-and-import-smoke.md) | Offline exact-wheel installation, import origins, CPU-only PyTorch evidence, stopped sync attempt, and the next-step boundary |
 | [v0.2 Controlled Model-Asset Acquisition](docs/v0.2-model-asset-acquisition.md) | Fixed source and checkpoint hashes, safe container inspection, license separation, stopped attempts, and the strict-load boundary |
+| [v0.2 Weights-Only Strict Load](docs/v0.2-weights-only-strict-load.md) | Safe source extraction, complete tensor inventory, fixed architecture identity, exact strict load, and the non-inference boundary |
 | [Method Specification](docs/method-specification.md) | Fixed preprocessing, parameters, scoring, and failure rules |
 | [Evaluation Plan](docs/evaluation-plan.md) | Partitions, metrics, latency, error selection, and decision logic |
 | [Evaluation Artifact Schema](docs/evaluation-artifact-schema.md) | JSON/CSV contract, deterministic serialization, and integrity |
