@@ -1,0 +1,266 @@
+{
+  "boundary": {
+    "accelerator_runtime_probe_performed": false,
+    "dataset_access": false,
+    "dinov2_checkpoint_acquired": false,
+    "dinov2_source_acquired": false,
+    "model_constructed": false,
+    "model_inference_performed": false,
+    "network_access_during_verification": false,
+    "tensor_operation_performed": false
+  },
+  "decision": {
+    "next_step": "PROCEED_TO_CONTROLLED_MODEL_ASSET_ACQUISITION",
+    "reason": "The exact inspected distributions import from the isolated environment, and the fixed PyTorch build reports CPU-only metadata."
+  },
+  "environment": {
+    "environment_path": "environments/v0.2-preflight/.venv",
+    "forbidden_root_environment_visible": false,
+    "implementation": "CPython",
+    "isolated_prefix": true,
+    "platform": "linux-x86_64",
+    "python_executable": "environments/v0.2-preflight/.venv/bin/python",
+    "python_version": "3.13.14",
+    "user_site_enabled": false
+  },
+  "imports": [
+    {
+      "distribution": "filelock",
+      "import_name": "filelock",
+      "module_reported_version": "3.32.2",
+      "origin": "lib/python3.13/site-packages/filelock/__init__.py",
+      "status": "pass"
+    },
+    {
+      "distribution": "fsspec",
+      "import_name": "fsspec",
+      "module_reported_version": "2026.7.0",
+      "origin": "lib/python3.13/site-packages/fsspec/__init__.py",
+      "status": "pass"
+    },
+    {
+      "distribution": "iniconfig",
+      "import_name": "iniconfig",
+      "origin": "lib/python3.13/site-packages/iniconfig/__init__.py",
+      "status": "pass"
+    },
+    {
+      "distribution": "jinja2",
+      "import_name": "jinja2",
+      "module_reported_version": "3.1.6",
+      "origin": "lib/python3.13/site-packages/jinja2/__init__.py",
+      "status": "pass"
+    },
+    {
+      "distribution": "markupsafe",
+      "import_name": "markupsafe",
+      "module_reported_version": "3.0.3",
+      "origin": "lib/python3.13/site-packages/markupsafe/__init__.py",
+      "status": "pass"
+    },
+    {
+      "distribution": "mpmath",
+      "import_name": "mpmath",
+      "module_reported_version": "1.3.0",
+      "origin": "lib/python3.13/site-packages/mpmath/__init__.py",
+      "status": "pass"
+    },
+    {
+      "distribution": "networkx",
+      "import_name": "networkx",
+      "module_reported_version": "3.6.1",
+      "origin": "lib/python3.13/site-packages/networkx/__init__.py",
+      "status": "pass"
+    },
+    {
+      "distribution": "numpy",
+      "import_name": "numpy",
+      "module_reported_version": "2.5.1",
+      "origin": "lib/python3.13/site-packages/numpy/__init__.py",
+      "status": "pass"
+    },
+    {
+      "distribution": "packaging",
+      "import_name": "packaging",
+      "module_reported_version": "26.2",
+      "origin": "lib/python3.13/site-packages/packaging/__init__.py",
+      "status": "pass"
+    },
+    {
+      "distribution": "pluggy",
+      "import_name": "pluggy",
+      "module_reported_version": "1.6.0",
+      "origin": "lib/python3.13/site-packages/pluggy/__init__.py",
+      "status": "pass"
+    },
+    {
+      "distribution": "pygments",
+      "import_name": "pygments",
+      "module_reported_version": "2.20.0",
+      "origin": "lib/python3.13/site-packages/pygments/__init__.py",
+      "status": "pass"
+    },
+    {
+      "distribution": "pytest",
+      "import_name": "pytest",
+      "module_reported_version": "9.1.1",
+      "origin": "lib/python3.13/site-packages/pytest/__init__.py",
+      "status": "pass"
+    },
+    {
+      "distribution": "ruff",
+      "import_name": null,
+      "origin": null,
+      "status": "metadata_only_no_python_module"
+    },
+    {
+      "distribution": "setuptools",
+      "import_name": "setuptools",
+      "module_reported_version": "83.0.0",
+      "origin": "lib/python3.13/site-packages/setuptools/__init__.py",
+      "status": "pass"
+    },
+    {
+      "distribution": "sympy",
+      "import_name": "sympy",
+      "module_reported_version": "1.14.0",
+      "origin": "lib/python3.13/site-packages/sympy/__init__.py",
+      "status": "pass"
+    },
+    {
+      "distribution": "torch",
+      "import_name": "torch",
+      "module_reported_version": "2.13.0+cpu",
+      "origin": "lib/python3.13/site-packages/torch/__init__.py",
+      "status": "pass"
+    },
+    {
+      "distribution": "typing-extensions",
+      "import_name": "typing_extensions",
+      "origin": "lib/python3.13/site-packages/typing_extensions.py",
+      "status": "pass"
+    }
+  ],
+  "inputs": {
+    "wheel_inspection_record": "artifacts/v0.2/dependencies/wheel-inspection.json",
+    "wheel_inspection_record_sha256": "402e35c32a7c31e2fd2470877f8047685a372e933d48167046366553eea1d0ad"
+  },
+  "installation": {
+    "artifact_installation_source": "verified_external_wheel_set",
+    "completed_method": "uv_pip_install_exact_local_wheels_no_deps",
+    "dependency_compatibility_check": "pass",
+    "initial_locked_sync_attempt": {
+      "package_installation_occurred": false,
+      "reason_code": "EXPLICIT_INDEX_NOT_REPLACED_BY_NO_INDEX_FIND_LINKS",
+      "result": "stopped_before_install"
+    },
+    "installer": "uv 0.11.32",
+    "network_access": false,
+    "source_build": false,
+    "wheel_count": 17
+  },
+  "packages": [
+    {
+      "name": "filelock",
+      "role": "runtime",
+      "version": "3.32.2"
+    },
+    {
+      "name": "fsspec",
+      "role": "runtime",
+      "version": "2026.7.0"
+    },
+    {
+      "name": "iniconfig",
+      "role": "development",
+      "version": "2.3.0"
+    },
+    {
+      "name": "jinja2",
+      "role": "runtime",
+      "version": "3.1.6"
+    },
+    {
+      "name": "markupsafe",
+      "role": "runtime",
+      "version": "3.0.3"
+    },
+    {
+      "name": "mpmath",
+      "role": "runtime",
+      "version": "1.3.0"
+    },
+    {
+      "name": "networkx",
+      "role": "runtime",
+      "version": "3.6.1"
+    },
+    {
+      "name": "numpy",
+      "role": "runtime",
+      "version": "2.5.1"
+    },
+    {
+      "name": "packaging",
+      "role": "development",
+      "version": "26.2"
+    },
+    {
+      "name": "pluggy",
+      "role": "development",
+      "version": "1.6.0"
+    },
+    {
+      "name": "pygments",
+      "role": "development",
+      "version": "2.20.0"
+    },
+    {
+      "name": "pytest",
+      "role": "development",
+      "version": "9.1.1"
+    },
+    {
+      "name": "ruff",
+      "role": "development",
+      "version": "0.16.0"
+    },
+    {
+      "name": "setuptools",
+      "role": "runtime",
+      "version": "83.0.0"
+    },
+    {
+      "name": "sympy",
+      "role": "runtime",
+      "version": "1.14.0"
+    },
+    {
+      "name": "torch",
+      "role": "runtime",
+      "version": "2.13.0+cpu"
+    },
+    {
+      "name": "typing-extensions",
+      "role": "runtime",
+      "version": "4.16.0"
+    }
+  ],
+  "schema_version": "v0.2-isolated-import-smoke-v1",
+  "summary": {
+    "accelerator_distribution_count": 0,
+    "development_distribution_count": 6,
+    "distribution_count": 17,
+    "import_pass_count": 16,
+    "metadata_only_count": 1,
+    "runtime_distribution_count": 11
+  },
+  "torch": {
+    "build": "cpu",
+    "cuda_build_version": null,
+    "distribution_version": "2.13.0+cpu",
+    "hip_build_version": null,
+    "module_version": "2.13.0+cpu",
+    "runtime_accelerator_probe_performed": false
+  }
+}
