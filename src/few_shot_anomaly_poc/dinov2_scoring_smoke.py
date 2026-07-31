@@ -313,6 +313,7 @@ def run_dinov2_scoring_smoke(
     ).resolve()
     if source_root.resolve() != expected_source_root or not source_root.is_dir():
         raise DINOv2ScoringSmokeError("source_root is not the verified hash-addressed extraction")
+    source_root = expected_source_root
 
     reference_image, query_image = generate_fixed_synthetic_images()
     previous_sys_path = list(sys.path)
