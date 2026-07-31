@@ -6,6 +6,7 @@ import hashlib
 import os
 import pickletools
 import re
+import shutil
 import stat
 import tarfile
 import tempfile
@@ -403,6 +404,96 @@ def inspect_source_archive(path: Path) -> dict[str, Any]:
         "safe_structure": "pass",
         "top_level_directory": SOURCE_ROOT,
         "total_file_bytes": total_file_bytes,
+    }
+
+
+def extract_source_archive(
+    path: Path,
+    *,
+    expected_sha256: str,
+    destination: Path,
+    project_root: Path,
+) -> dict[str, Any]:
+    """Verify and safely extract the fixed source archive into ignored storage."""
+    if not SHA256_PATTERN.fullmatch(expected_sha256):
+        raise ModelAssetError("source extraction requires a valid expected SHA-256")
+    observed_sha256 = sha256_file(path)
+    if observed_sha256 != expected_sha256:
+        raise ModelAssetError(
+            "source archive checksum mismatch before extraction: "
+            f"expected {expected_sha256}, observed {observed_sha256}"
+        )
+    destination = _validate_external_directory(destination, project_root)
+    if destination.exists():
+        raise FileExistsError(f"refusing to overwrite {destination}")
+    archive_inspection = inspect_source_archive(path)
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    staging = Path(
+        tempfile.mkdtemp(
+            dir=destination.parent,
+            prefix=f".{destination.name}.extracting.",
+        )
+    )
+    file_records: list[dict[str, Any]] = []
+    try:
+        with tarfile.open(path, mode="r:gz") as archive:
+            for member in archive:
+                parts = _validated_posix_parts(member.name, asset="source archive")
+                if parts[0] != SOURCE_ROOT:
+                    raise ModelAssetError(
+                        f"source archive has an unexpected top-level path: {member.name!r}"
+                    )
+                target = staging.joinpath(*parts)
+                if member.isdir():
+                    target.mkdir(parents=True, exist_ok=False)
+                    continue
+                if not member.isreg():
+                    raise ModelAssetError(
+                        f"source archive has an unsupported member type: {member.name!r}"
+                    )
+                target.parent.mkdir(parents=True, exist_ok=True)
+                source = archive.extractfile(member)
+                if source is None:
+                    raise ModelAssetError(
+                        f"cannot read source archive member: {member.name!r}"
+                    )
+                digest = hashlib.sha256()
+                byte_count = 0
+                with source, target.open("xb") as output:
+                    while chunk := source.read(MEMBER_CHUNK_SIZE):
+                        output.write(chunk)
+                        digest.update(chunk)
+                        byte_count += len(chunk)
+                if byte_count != member.size:
+                    raise ModelAssetError(
+                        f"source member size changed during extraction: {member.name!r}"
+                    )
+                file_records.append(
+                    {
+                        "byte_count": byte_count,
+                        "path": "/".join(parts),
+                        "sha256": digest.hexdigest(),
+                    }
+                )
+        if len(file_records) != archive_inspection["file_count"]:
+            raise ModelAssetError("extracted source file count differs from inspection")
+        manifest_content = "".join(
+            f"{item['sha256']}  {item['byte_count']}  {item['path']}\n"
+            for item in sorted(file_records, key=lambda item: item["path"])
+        ).encode()
+        os.replace(staging, destination)
+    except Exception:
+        shutil.rmtree(staging, ignore_errors=True)
+        raise
+
+    return {
+        "archive_sha256": observed_sha256,
+        "directory_count": archive_inspection["directory_count"],
+        "file_count": len(file_records),
+        "import_root": SOURCE_ROOT,
+        "safe_extraction": "pass",
+        "tree_manifest_sha256": hashlib.sha256(manifest_content).hexdigest(),
     }
 
 
