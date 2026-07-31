@@ -204,7 +204,10 @@ def _run_resolution(
         or score_difference > NUMPY_SCORE_TOLERANCE
     ):
         raise DINOv2ScoringSmokeError(
-            "blocked PyTorch scoring differs from the independent NumPy calculation"
+            "blocked PyTorch scoring differs from the independent NumPy calculation: "
+            f"maximum_patch_distance_difference={maximum_distance_difference:.12g}, "
+            f"score_difference={score_difference:.12g}, "
+            f"tolerance={NUMPY_SCORE_TOLERANCE:.12g}"
         )
 
     query_norms = torch.linalg.vector_norm(query_features, ord=2, dim=1)
