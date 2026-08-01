@@ -3,6 +3,10 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
+from few_shot_anomaly_poc.dinov2_errors import (
+    DINOv2ScoringError,
+    DINOv2ScoringFailureCode,
+)
 from few_shot_anomaly_poc.dinov2_scoring import (
     ALLOWED_RESOLUTIONS,
     EMBEDDING_DIMENSION,
@@ -14,10 +18,6 @@ from few_shot_anomaly_poc.dinov2_scoring import (
     validate_input_image,
     validate_reference_count,
     validate_resolution,
-)
-from few_shot_anomaly_poc.errors import (
-    DINOv2ScoringError,
-    DINOv2ScoringFailureCode,
 )
 
 

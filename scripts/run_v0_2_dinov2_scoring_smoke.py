@@ -11,11 +11,11 @@ PROJECT_SOURCE = PROJECT_ROOT / "src"
 if str(PROJECT_SOURCE) not in sys.path:
     sys.path.insert(0, str(PROJECT_SOURCE))
 
+from few_shot_anomaly_poc.dinov2_errors import DINOv2ScoringError  # noqa: E402
 from few_shot_anomaly_poc.dinov2_scoring_smoke import (  # noqa: E402
     DINOv2ScoringSmokeError,
     run_dinov2_scoring_smoke,
 )
-from few_shot_anomaly_poc.errors import DINOv2ScoringError  # noqa: E402
 from few_shot_anomaly_poc.model_compatibility import (  # noqa: E402
     ModelCompatibilityError,
 )

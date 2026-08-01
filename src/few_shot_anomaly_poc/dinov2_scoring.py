@@ -12,7 +12,7 @@ from typing import Any
 import numpy as np
 from numpy.typing import NDArray
 
-from few_shot_anomaly_poc.errors import (
+from few_shot_anomaly_poc.dinov2_errors import (
     DINOv2ScoringError,
     DINOv2ScoringFailureCode,
 )

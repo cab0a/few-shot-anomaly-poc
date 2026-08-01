@@ -79,17 +79,20 @@ def test_public_license_language_and_rights_boundaries_are_explicit() -> None:
     assert "<https://polyformproject.org/licenses/noncommercial/1.0.0>" in license_text
 
 
-def test_v0_2_methods_and_pixel_level_assets_remain_out_of_implementation_scope() -> None:
+def test_v0_2_scoring_stays_isolated_and_deferred_methods_remain_out_of_scope() -> None:
     source_names = {
         path.name.lower()
         for path in (ROOT / "src/few_shot_anomaly_poc").glob("*.py")
     }
     project = (ROOT / "pyproject.toml").read_text(encoding="utf-8").lower()
 
+    assert {name for name in source_names if "dinov2" in name} == {
+        "dinov2_errors.py",
+        "dinov2_scoring.py",
+        "dinov2_scoring_smoke.py",
+    }
     assert not any(
-        token in name
-        for name in source_names
-        for token in ("dinov2", "anomalydino", "patchcore")
+        token in name for name in source_names for token in ("anomalydino", "patchcore")
     )
     assert all(
         dependency not in project

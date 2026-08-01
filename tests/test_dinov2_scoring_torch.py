@@ -7,6 +7,10 @@ import pytest
 
 torch = pytest.importorskip("torch")
 
+from few_shot_anomaly_poc.dinov2_errors import (  # noqa: E402
+    DINOv2ScoringError,
+    DINOv2ScoringFailureCode,
+)
 from few_shot_anomaly_poc.dinov2_scoring import (  # noqa: E402
     EMBEDDING_DIMENSION,
     IMAGENET_MEAN,
@@ -22,10 +26,6 @@ from few_shot_anomaly_poc.dinov2_scoring import (  # noqa: E402
     extract_dinov2_patch_features,
     preprocess_dinov2_image,
     score_dinov2_image,
-)
-from few_shot_anomaly_poc.errors import (  # noqa: E402
-    DINOv2ScoringError,
-    DINOv2ScoringFailureCode,
 )
 
 
