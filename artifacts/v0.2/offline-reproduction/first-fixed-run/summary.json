@@ -1,0 +1,27 @@
+{
+  "boundary": {
+    "dataset_access": false,
+    "labels_accessed": false,
+    "latency_measurement_performed": false,
+    "network_access": false,
+    "synthetic_inputs_only": true,
+    "threshold_calibration_performed": false
+  },
+  "decision": {
+    "next_step": "PROCEED_TO_EVALUATION_BOUNDARY_CHECK",
+    "status": "pass"
+  },
+  "execution": {
+    "execution_commit": "50c9a3f1e02bd370b428989315f9ee8bca52c5fa",
+    "resolution": 224,
+    "verification_date": "2026-08-01"
+  },
+  "schema_version": "v0.2-dinov2-offline-reproduction-parent-v1",
+  "worker": {
+    "artifact": "reproduction.json",
+    "artifact_sha256": "3b53ad4370377fa86394bb757b204f9f6dc05c38448e203d16d77ace8bf89aeb",
+    "fresh_process": true,
+    "return_code": 0,
+    "validation_failure": null
+  }
+}
