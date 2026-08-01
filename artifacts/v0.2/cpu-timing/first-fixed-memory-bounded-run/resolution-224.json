@@ -1,0 +1,3196 @@
+{
+  "boundary": {
+    "dataset_access": false,
+    "labels_accessed": false,
+    "model_constructed": true,
+    "model_inference_performed": true,
+    "network_access": false,
+    "synthetic_inputs_only": true,
+    "threshold_calibration_performed": false,
+    "timing_invocation_count": 300
+  },
+  "decision": {
+    "latency_gate_passed": true,
+    "status": "pass"
+  },
+  "execution": {
+    "execution_commit": "d02da60f622090746c8348704e550dccf57358d5",
+    "fresh_process_required": true,
+    "process_id_recorded": false,
+    "verification_date": "2026-08-01"
+  },
+  "failure": null,
+  "fixed_runtime": {
+    "checkpoint_identity": {
+      "byte_count": 88283115,
+      "sha256": "b938bf1bc15cd2ec0feacfe3a1bb553fe8ea9ca46a7e1d8d00217f29aef60cd9",
+      "verification": "pass"
+    },
+    "environment": {
+      "deterministic_algorithms": true,
+      "environment_path": "environments/v0.2-preflight/.venv",
+      "implementation": "CPython",
+      "interop_threads": 1,
+      "intraop_threads": 4,
+      "isolated_mode": true,
+      "numpy_version": "2.5.1",
+      "platform": "linux-x86_64",
+      "python_version": "3.13.14",
+      "system_byteorder": "little",
+      "torch_version": "2.13.0+cpu",
+      "user_site_enabled": false,
+      "xformers_imported": false
+    },
+    "model": {
+      "buffer_element_count": 0,
+      "class": "dinov2.models.vision_transformer.DinoVisionTransformer",
+      "embedding_dimension": 384,
+      "entry_point": "dinov2.hub.backbones.dinov2_vits14",
+      "eval_mode": true,
+      "exact_value_match_count": 175,
+      "missing_keys": [],
+      "num_heads": 6,
+      "num_register_tokens": 0,
+      "parameter_count": 22056576,
+      "patch_size": 14,
+      "register_tokens_is_none": true,
+      "state_key_count": 175,
+      "strict_load": "pass",
+      "trainable_parameter_count": 22056576,
+      "transformer_block_count": 12,
+      "unexpected_keys": []
+    },
+    "module_origins": [
+      {
+        "module": "dinov2",
+        "origin": "dinov2/__init__.py"
+      },
+      {
+        "module": "dinov2.hub",
+        "origin": "dinov2/hub/__init__.py"
+      },
+      {
+        "module": "dinov2.hub.backbones",
+        "origin": "dinov2/hub/backbones.py"
+      },
+      {
+        "module": "dinov2.hub.utils",
+        "origin": "dinov2/hub/utils.py"
+      },
+      {
+        "module": "dinov2.layers",
+        "origin": "dinov2/layers/__init__.py"
+      },
+      {
+        "module": "dinov2.layers.attention",
+        "origin": "dinov2/layers/attention.py"
+      },
+      {
+        "module": "dinov2.layers.block",
+        "origin": "dinov2/layers/block.py"
+      },
+      {
+        "module": "dinov2.layers.dino_head",
+        "origin": "dinov2/layers/dino_head.py"
+      },
+      {
+        "module": "dinov2.layers.drop_path",
+        "origin": "dinov2/layers/drop_path.py"
+      },
+      {
+        "module": "dinov2.layers.layer_scale",
+        "origin": "dinov2/layers/layer_scale.py"
+      },
+      {
+        "module": "dinov2.layers.mlp",
+        "origin": "dinov2/layers/mlp.py"
+      },
+      {
+        "module": "dinov2.layers.patch_embed",
+        "origin": "dinov2/layers/patch_embed.py"
+      },
+      {
+        "module": "dinov2.layers.swiglu_ffn",
+        "origin": "dinov2/layers/swiglu_ffn.py"
+      },
+      {
+        "module": "dinov2.models",
+        "origin": "dinov2/models/__init__.py"
+      },
+      {
+        "module": "dinov2.models.vision_transformer",
+        "origin": "dinov2/models/vision_transformer.py"
+      }
+    ],
+    "source_identity": {
+      "byte_count": 2869642,
+      "sha256": "c27dcdaf50e9fb5bbdf2bb529da357716372e19c6afab17d5350f3f0094aed4b",
+      "verification": "pass"
+    }
+  },
+  "inputs": {
+    "input_manifest_sha256": "0760e26a49e11130b66bae57e287d8593dea666feda0a6c08041baf77e2c7dec",
+    "logical_store": {
+      "byte_count": 94371968,
+      "dtype": "uint8",
+      "file_sha256": "b57319a8aa9fc8c27d1daa22acf8640a31cf366074a2c42e14e65ff55f4501b7",
+      "format": "NumPy .npy memory map",
+      "logical_id": "synthetic-pcg64-42-memory-bounded-v1",
+      "path_recorded": false,
+      "shape": [
+        120,
+        512,
+        512,
+        3
+      ]
+    },
+    "precondition_record_sha256": "331ba1549f33fe0da920472a5c3667051b09e09e1fa08f370331df7484c5229e",
+    "preregistration_id": "v0.2-dinov2-cpu-preflight-2"
+  },
+  "loop": {
+    "observations": [
+      {
+        "asset_id": "synthetic/query/000",
+        "duration_ns": 487091772,
+        "failure": null,
+        "invocation_index": 0,
+        "pass_index": 0,
+        "query_index": 0,
+        "score": 0.11556071043014526,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/001",
+        "duration_ns": 607800870,
+        "failure": null,
+        "invocation_index": 1,
+        "pass_index": 0,
+        "query_index": 1,
+        "score": 0.056819796562194824,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/002",
+        "duration_ns": 546639939,
+        "failure": null,
+        "invocation_index": 2,
+        "pass_index": 0,
+        "query_index": 2,
+        "score": 0.07399198412895203,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/003",
+        "duration_ns": 379926272,
+        "failure": null,
+        "invocation_index": 3,
+        "pass_index": 0,
+        "query_index": 3,
+        "score": 0.0637650191783905,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/004",
+        "duration_ns": 494077097,
+        "failure": null,
+        "invocation_index": 4,
+        "pass_index": 0,
+        "query_index": 4,
+        "score": 0.097206711769104,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/005",
+        "duration_ns": 363335645,
+        "failure": null,
+        "invocation_index": 5,
+        "pass_index": 0,
+        "query_index": 5,
+        "score": 0.08907085657119751,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/006",
+        "duration_ns": 382534981,
+        "failure": null,
+        "invocation_index": 6,
+        "pass_index": 0,
+        "query_index": 6,
+        "score": 0.09307286143302917,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/007",
+        "duration_ns": 433634214,
+        "failure": null,
+        "invocation_index": 7,
+        "pass_index": 0,
+        "query_index": 7,
+        "score": 0.05427396297454834,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/008",
+        "duration_ns": 385674610,
+        "failure": null,
+        "invocation_index": 8,
+        "pass_index": 0,
+        "query_index": 8,
+        "score": 0.0936419665813446,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/009",
+        "duration_ns": 426669297,
+        "failure": null,
+        "invocation_index": 9,
+        "pass_index": 0,
+        "query_index": 9,
+        "score": 0.08250007033348083,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/010",
+        "duration_ns": 435918724,
+        "failure": null,
+        "invocation_index": 10,
+        "pass_index": 0,
+        "query_index": 10,
+        "score": 0.06610774993896484,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/011",
+        "duration_ns": 318924694,
+        "failure": null,
+        "invocation_index": 11,
+        "pass_index": 0,
+        "query_index": 11,
+        "score": 0.06583952903747559,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/012",
+        "duration_ns": 381117063,
+        "failure": null,
+        "invocation_index": 12,
+        "pass_index": 0,
+        "query_index": 12,
+        "score": 0.06428897380828857,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/013",
+        "duration_ns": 441251034,
+        "failure": null,
+        "invocation_index": 13,
+        "pass_index": 0,
+        "query_index": 13,
+        "score": 0.06945142149925232,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/014",
+        "duration_ns": 364504834,
+        "failure": null,
+        "invocation_index": 14,
+        "pass_index": 0,
+        "query_index": 14,
+        "score": 0.13210880756378174,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/015",
+        "duration_ns": 488544951,
+        "failure": null,
+        "invocation_index": 15,
+        "pass_index": 0,
+        "query_index": 15,
+        "score": 0.07209736108779907,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/016",
+        "duration_ns": 364865867,
+        "failure": null,
+        "invocation_index": 16,
+        "pass_index": 0,
+        "query_index": 16,
+        "score": 0.09135082364082336,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/017",
+        "duration_ns": 383547442,
+        "failure": null,
+        "invocation_index": 17,
+        "pass_index": 0,
+        "query_index": 17,
+        "score": 0.08289346098899841,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/018",
+        "duration_ns": 429784756,
+        "failure": null,
+        "invocation_index": 18,
+        "pass_index": 0,
+        "query_index": 18,
+        "score": 0.07765814661979675,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/019",
+        "duration_ns": 350945960,
+        "failure": null,
+        "invocation_index": 19,
+        "pass_index": 0,
+        "query_index": 19,
+        "score": 0.060726553201675415,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/020",
+        "duration_ns": 354489189,
+        "failure": null,
+        "invocation_index": 20,
+        "pass_index": 0,
+        "query_index": 20,
+        "score": 0.049661874771118164,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/021",
+        "duration_ns": 404839609,
+        "failure": null,
+        "invocation_index": 21,
+        "pass_index": 0,
+        "query_index": 21,
+        "score": 0.06143689155578613,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/022",
+        "duration_ns": 374946287,
+        "failure": null,
+        "invocation_index": 22,
+        "pass_index": 0,
+        "query_index": 22,
+        "score": 0.06790441274642944,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/023",
+        "duration_ns": 366420669,
+        "failure": null,
+        "invocation_index": 23,
+        "pass_index": 0,
+        "query_index": 23,
+        "score": 0.10414594411849976,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/024",
+        "duration_ns": 587982579,
+        "failure": null,
+        "invocation_index": 24,
+        "pass_index": 0,
+        "query_index": 24,
+        "score": 0.05522391200065613,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/025",
+        "duration_ns": 393862595,
+        "failure": null,
+        "invocation_index": 25,
+        "pass_index": 0,
+        "query_index": 25,
+        "score": 0.10066273808479309,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/026",
+        "duration_ns": 344665737,
+        "failure": null,
+        "invocation_index": 26,
+        "pass_index": 0,
+        "query_index": 26,
+        "score": 0.0742376446723938,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/027",
+        "duration_ns": 446347948,
+        "failure": null,
+        "invocation_index": 27,
+        "pass_index": 0,
+        "query_index": 27,
+        "score": 0.09500104188919067,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/028",
+        "duration_ns": 387067929,
+        "failure": null,
+        "invocation_index": 28,
+        "pass_index": 0,
+        "query_index": 28,
+        "score": 0.05210837721824646,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/029",
+        "duration_ns": 350938549,
+        "failure": null,
+        "invocation_index": 29,
+        "pass_index": 0,
+        "query_index": 29,
+        "score": 0.13618916273117065,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/030",
+        "duration_ns": 406239986,
+        "failure": null,
+        "invocation_index": 30,
+        "pass_index": 0,
+        "query_index": 30,
+        "score": 0.08027899265289307,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/031",
+        "duration_ns": 376471848,
+        "failure": null,
+        "invocation_index": 31,
+        "pass_index": 0,
+        "query_index": 31,
+        "score": 0.06112074851989746,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/032",
+        "duration_ns": 375160816,
+        "failure": null,
+        "invocation_index": 32,
+        "pass_index": 0,
+        "query_index": 32,
+        "score": 0.10463464260101318,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/033",
+        "duration_ns": 493474403,
+        "failure": null,
+        "invocation_index": 33,
+        "pass_index": 0,
+        "query_index": 33,
+        "score": 0.06193476915359497,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/034",
+        "duration_ns": 378356473,
+        "failure": null,
+        "invocation_index": 34,
+        "pass_index": 0,
+        "query_index": 34,
+        "score": 0.10258716344833374,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/035",
+        "duration_ns": 366134891,
+        "failure": null,
+        "invocation_index": 35,
+        "pass_index": 0,
+        "query_index": 35,
+        "score": 0.0800449550151825,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/036",
+        "duration_ns": 433155476,
+        "failure": null,
+        "invocation_index": 36,
+        "pass_index": 0,
+        "query_index": 36,
+        "score": 0.06749019026756287,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/037",
+        "duration_ns": 364898571,
+        "failure": null,
+        "invocation_index": 37,
+        "pass_index": 0,
+        "query_index": 37,
+        "score": 0.0818561315536499,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/038",
+        "duration_ns": 376361793,
+        "failure": null,
+        "invocation_index": 38,
+        "pass_index": 0,
+        "query_index": 38,
+        "score": 0.1053386926651001,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/039",
+        "duration_ns": 470069355,
+        "failure": null,
+        "invocation_index": 39,
+        "pass_index": 0,
+        "query_index": 39,
+        "score": 0.06240576505661011,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/040",
+        "duration_ns": 522235213,
+        "failure": null,
+        "invocation_index": 40,
+        "pass_index": 0,
+        "query_index": 40,
+        "score": 0.07442241907119751,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/041",
+        "duration_ns": 506760092,
+        "failure": null,
+        "invocation_index": 41,
+        "pass_index": 0,
+        "query_index": 41,
+        "score": 0.10726258158683777,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/042",
+        "duration_ns": 415009038,
+        "failure": null,
+        "invocation_index": 42,
+        "pass_index": 0,
+        "query_index": 42,
+        "score": 0.060644447803497314,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/043",
+        "duration_ns": 465114226,
+        "failure": null,
+        "invocation_index": 43,
+        "pass_index": 0,
+        "query_index": 43,
+        "score": 0.09570232033729553,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/044",
+        "duration_ns": 465639597,
+        "failure": null,
+        "invocation_index": 44,
+        "pass_index": 0,
+        "query_index": 44,
+        "score": 0.06493881344795227,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/045",
+        "duration_ns": 509992209,
+        "failure": null,
+        "invocation_index": 45,
+        "pass_index": 0,
+        "query_index": 45,
+        "score": 0.08952420949935913,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/046",
+        "duration_ns": 420009852,
+        "failure": null,
+        "invocation_index": 46,
+        "pass_index": 0,
+        "query_index": 46,
+        "score": 0.08435502648353577,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/047",
+        "duration_ns": 433896071,
+        "failure": null,
+        "invocation_index": 47,
+        "pass_index": 0,
+        "query_index": 47,
+        "score": 0.10553139448165894,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/048",
+        "duration_ns": 366638231,
+        "failure": null,
+        "invocation_index": 48,
+        "pass_index": 0,
+        "query_index": 48,
+        "score": 0.07053017616271973,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/049",
+        "duration_ns": 420755420,
+        "failure": null,
+        "invocation_index": 49,
+        "pass_index": 0,
+        "query_index": 49,
+        "score": 0.05802434682846069,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/050",
+        "duration_ns": 325150637,
+        "failure": null,
+        "invocation_index": 50,
+        "pass_index": 0,
+        "query_index": 50,
+        "score": 0.05563855171203613,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/051",
+        "duration_ns": 352073882,
+        "failure": null,
+        "invocation_index": 51,
+        "pass_index": 0,
+        "query_index": 51,
+        "score": 0.09577673673629761,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/052",
+        "duration_ns": 420390199,
+        "failure": null,
+        "invocation_index": 52,
+        "pass_index": 0,
+        "query_index": 52,
+        "score": 0.09732484817504883,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/053",
+        "duration_ns": 403741832,
+        "failure": null,
+        "invocation_index": 53,
+        "pass_index": 0,
+        "query_index": 53,
+        "score": 0.0839310884475708,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/054",
+        "duration_ns": 409555187,
+        "failure": null,
+        "invocation_index": 54,
+        "pass_index": 0,
+        "query_index": 54,
+        "score": 0.07484093308448792,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/055",
+        "duration_ns": 400578701,
+        "failure": null,
+        "invocation_index": 55,
+        "pass_index": 0,
+        "query_index": 55,
+        "score": 0.10465991497039795,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/056",
+        "duration_ns": 301167193,
+        "failure": null,
+        "invocation_index": 56,
+        "pass_index": 0,
+        "query_index": 56,
+        "score": 0.0906381607055664,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/057",
+        "duration_ns": 400599819,
+        "failure": null,
+        "invocation_index": 57,
+        "pass_index": 0,
+        "query_index": 57,
+        "score": 0.07266762852668762,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/058",
+        "duration_ns": 396218888,
+        "failure": null,
+        "invocation_index": 58,
+        "pass_index": 0,
+        "query_index": 58,
+        "score": 0.06856828927993774,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/059",
+        "duration_ns": 433744061,
+        "failure": null,
+        "invocation_index": 59,
+        "pass_index": 0,
+        "query_index": 59,
+        "score": 0.055054306983947754,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/060",
+        "duration_ns": 410741817,
+        "failure": null,
+        "invocation_index": 60,
+        "pass_index": 0,
+        "query_index": 60,
+        "score": 0.08129075169563293,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/061",
+        "duration_ns": 458530007,
+        "failure": null,
+        "invocation_index": 61,
+        "pass_index": 0,
+        "query_index": 61,
+        "score": 0.11343264579772949,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/062",
+        "duration_ns": 645198789,
+        "failure": null,
+        "invocation_index": 62,
+        "pass_index": 0,
+        "query_index": 62,
+        "score": 0.08079701662063599,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/063",
+        "duration_ns": 666746272,
+        "failure": null,
+        "invocation_index": 63,
+        "pass_index": 0,
+        "query_index": 63,
+        "score": 0.08805239200592041,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/064",
+        "duration_ns": 526467877,
+        "failure": null,
+        "invocation_index": 64,
+        "pass_index": 0,
+        "query_index": 64,
+        "score": 0.07212436199188232,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/065",
+        "duration_ns": 586838842,
+        "failure": null,
+        "invocation_index": 65,
+        "pass_index": 0,
+        "query_index": 65,
+        "score": 0.06058502197265625,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/066",
+        "duration_ns": 435024401,
+        "failure": null,
+        "invocation_index": 66,
+        "pass_index": 0,
+        "query_index": 66,
+        "score": 0.07692199945449829,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/067",
+        "duration_ns": 440543838,
+        "failure": null,
+        "invocation_index": 67,
+        "pass_index": 0,
+        "query_index": 67,
+        "score": 0.08586558699607849,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/068",
+        "duration_ns": 630291535,
+        "failure": null,
+        "invocation_index": 68,
+        "pass_index": 0,
+        "query_index": 68,
+        "score": 0.06594446301460266,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/069",
+        "duration_ns": 558572809,
+        "failure": null,
+        "invocation_index": 69,
+        "pass_index": 0,
+        "query_index": 69,
+        "score": 0.08131766319274902,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/070",
+        "duration_ns": 679490250,
+        "failure": null,
+        "invocation_index": 70,
+        "pass_index": 0,
+        "query_index": 70,
+        "score": 0.0957329273223877,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/071",
+        "duration_ns": 496704709,
+        "failure": null,
+        "invocation_index": 71,
+        "pass_index": 0,
+        "query_index": 71,
+        "score": 0.08336657285690308,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/072",
+        "duration_ns": 445721565,
+        "failure": null,
+        "invocation_index": 72,
+        "pass_index": 0,
+        "query_index": 72,
+        "score": 0.08320963382720947,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/073",
+        "duration_ns": 401094765,
+        "failure": null,
+        "invocation_index": 73,
+        "pass_index": 0,
+        "query_index": 73,
+        "score": 0.08248141407966614,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/074",
+        "duration_ns": 350376106,
+        "failure": null,
+        "invocation_index": 74,
+        "pass_index": 0,
+        "query_index": 74,
+        "score": 0.05131986737251282,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/075",
+        "duration_ns": 370816900,
+        "failure": null,
+        "invocation_index": 75,
+        "pass_index": 0,
+        "query_index": 75,
+        "score": 0.08950108289718628,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/076",
+        "duration_ns": 359804930,
+        "failure": null,
+        "invocation_index": 76,
+        "pass_index": 0,
+        "query_index": 76,
+        "score": 0.05682873725891113,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/077",
+        "duration_ns": 373628144,
+        "failure": null,
+        "invocation_index": 77,
+        "pass_index": 0,
+        "query_index": 77,
+        "score": 0.06153038144111633,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/078",
+        "duration_ns": 383476081,
+        "failure": null,
+        "invocation_index": 78,
+        "pass_index": 0,
+        "query_index": 78,
+        "score": 0.05856287479400635,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/079",
+        "duration_ns": 395600812,
+        "failure": null,
+        "invocation_index": 79,
+        "pass_index": 0,
+        "query_index": 79,
+        "score": 0.06162601709365845,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/080",
+        "duration_ns": 551004814,
+        "failure": null,
+        "invocation_index": 80,
+        "pass_index": 0,
+        "query_index": 80,
+        "score": 0.06562229990959167,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/081",
+        "duration_ns": 603351800,
+        "failure": null,
+        "invocation_index": 81,
+        "pass_index": 0,
+        "query_index": 81,
+        "score": 0.09228560328483582,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/082",
+        "duration_ns": 537415726,
+        "failure": null,
+        "invocation_index": 82,
+        "pass_index": 0,
+        "query_index": 82,
+        "score": 0.060340702533721924,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/083",
+        "duration_ns": 566614539,
+        "failure": null,
+        "invocation_index": 83,
+        "pass_index": 0,
+        "query_index": 83,
+        "score": 0.08545070886611938,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/084",
+        "duration_ns": 718658022,
+        "failure": null,
+        "invocation_index": 84,
+        "pass_index": 0,
+        "query_index": 84,
+        "score": 0.06350737810134888,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/085",
+        "duration_ns": 507600934,
+        "failure": null,
+        "invocation_index": 85,
+        "pass_index": 0,
+        "query_index": 85,
+        "score": 0.09975031018257141,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/086",
+        "duration_ns": 406885483,
+        "failure": null,
+        "invocation_index": 86,
+        "pass_index": 0,
+        "query_index": 86,
+        "score": 0.05910047888755798,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/087",
+        "duration_ns": 398050396,
+        "failure": null,
+        "invocation_index": 87,
+        "pass_index": 0,
+        "query_index": 87,
+        "score": 0.09887257218360901,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/088",
+        "duration_ns": 491782625,
+        "failure": null,
+        "invocation_index": 88,
+        "pass_index": 0,
+        "query_index": 88,
+        "score": 0.06553179025650024,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/089",
+        "duration_ns": 433669224,
+        "failure": null,
+        "invocation_index": 89,
+        "pass_index": 0,
+        "query_index": 89,
+        "score": 0.08273196220397949,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/090",
+        "duration_ns": 406198676,
+        "failure": null,
+        "invocation_index": 90,
+        "pass_index": 0,
+        "query_index": 90,
+        "score": 0.06387662887573242,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/091",
+        "duration_ns": 373605251,
+        "failure": null,
+        "invocation_index": 91,
+        "pass_index": 0,
+        "query_index": 91,
+        "score": 0.11498728394508362,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/092",
+        "duration_ns": 364772194,
+        "failure": null,
+        "invocation_index": 92,
+        "pass_index": 0,
+        "query_index": 92,
+        "score": 0.06111404299736023,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/093",
+        "duration_ns": 388020174,
+        "failure": null,
+        "invocation_index": 93,
+        "pass_index": 0,
+        "query_index": 93,
+        "score": 0.06834182143211365,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/094",
+        "duration_ns": 379100416,
+        "failure": null,
+        "invocation_index": 94,
+        "pass_index": 0,
+        "query_index": 94,
+        "score": 0.10598602890968323,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/095",
+        "duration_ns": 518569918,
+        "failure": null,
+        "invocation_index": 95,
+        "pass_index": 0,
+        "query_index": 95,
+        "score": 0.07899898290634155,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/096",
+        "duration_ns": 391961725,
+        "failure": null,
+        "invocation_index": 96,
+        "pass_index": 0,
+        "query_index": 96,
+        "score": 0.05502542853355408,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/097",
+        "duration_ns": 544367764,
+        "failure": null,
+        "invocation_index": 97,
+        "pass_index": 0,
+        "query_index": 97,
+        "score": 0.09636837244033813,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/098",
+        "duration_ns": 517332449,
+        "failure": null,
+        "invocation_index": 98,
+        "pass_index": 0,
+        "query_index": 98,
+        "score": 0.10205009579658508,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/099",
+        "duration_ns": 565130854,
+        "failure": null,
+        "invocation_index": 99,
+        "pass_index": 0,
+        "query_index": 99,
+        "score": 0.05691993236541748,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/000",
+        "duration_ns": 449951572,
+        "failure": null,
+        "invocation_index": 100,
+        "pass_index": 1,
+        "query_index": 0,
+        "score": 0.11556071043014526,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/001",
+        "duration_ns": 565968219,
+        "failure": null,
+        "invocation_index": 101,
+        "pass_index": 1,
+        "query_index": 1,
+        "score": 0.056819796562194824,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/002",
+        "duration_ns": 379011075,
+        "failure": null,
+        "invocation_index": 102,
+        "pass_index": 1,
+        "query_index": 2,
+        "score": 0.07399198412895203,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/003",
+        "duration_ns": 330893277,
+        "failure": null,
+        "invocation_index": 103,
+        "pass_index": 1,
+        "query_index": 3,
+        "score": 0.0637650191783905,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/004",
+        "duration_ns": 372926769,
+        "failure": null,
+        "invocation_index": 104,
+        "pass_index": 1,
+        "query_index": 4,
+        "score": 0.097206711769104,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/005",
+        "duration_ns": 337323128,
+        "failure": null,
+        "invocation_index": 105,
+        "pass_index": 1,
+        "query_index": 5,
+        "score": 0.08907085657119751,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/006",
+        "duration_ns": 427993963,
+        "failure": null,
+        "invocation_index": 106,
+        "pass_index": 1,
+        "query_index": 6,
+        "score": 0.09307286143302917,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/007",
+        "duration_ns": 391189247,
+        "failure": null,
+        "invocation_index": 107,
+        "pass_index": 1,
+        "query_index": 7,
+        "score": 0.05427396297454834,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/008",
+        "duration_ns": 373301780,
+        "failure": null,
+        "invocation_index": 108,
+        "pass_index": 1,
+        "query_index": 8,
+        "score": 0.0936419665813446,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/009",
+        "duration_ns": 398976642,
+        "failure": null,
+        "invocation_index": 109,
+        "pass_index": 1,
+        "query_index": 9,
+        "score": 0.08250007033348083,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/010",
+        "duration_ns": 387139553,
+        "failure": null,
+        "invocation_index": 110,
+        "pass_index": 1,
+        "query_index": 10,
+        "score": 0.06610774993896484,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/011",
+        "duration_ns": 285127744,
+        "failure": null,
+        "invocation_index": 111,
+        "pass_index": 1,
+        "query_index": 11,
+        "score": 0.06583952903747559,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/012",
+        "duration_ns": 354348893,
+        "failure": null,
+        "invocation_index": 112,
+        "pass_index": 1,
+        "query_index": 12,
+        "score": 0.06428897380828857,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/013",
+        "duration_ns": 321575900,
+        "failure": null,
+        "invocation_index": 113,
+        "pass_index": 1,
+        "query_index": 13,
+        "score": 0.06945142149925232,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/014",
+        "duration_ns": 364350280,
+        "failure": null,
+        "invocation_index": 114,
+        "pass_index": 1,
+        "query_index": 14,
+        "score": 0.13210880756378174,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/015",
+        "duration_ns": 366529955,
+        "failure": null,
+        "invocation_index": 115,
+        "pass_index": 1,
+        "query_index": 15,
+        "score": 0.07209736108779907,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/016",
+        "duration_ns": 374614824,
+        "failure": null,
+        "invocation_index": 116,
+        "pass_index": 1,
+        "query_index": 16,
+        "score": 0.09135082364082336,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/017",
+        "duration_ns": 399350362,
+        "failure": null,
+        "invocation_index": 117,
+        "pass_index": 1,
+        "query_index": 17,
+        "score": 0.08289346098899841,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/018",
+        "duration_ns": 359277300,
+        "failure": null,
+        "invocation_index": 118,
+        "pass_index": 1,
+        "query_index": 18,
+        "score": 0.07765814661979675,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/019",
+        "duration_ns": 342316264,
+        "failure": null,
+        "invocation_index": 119,
+        "pass_index": 1,
+        "query_index": 19,
+        "score": 0.060726553201675415,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/020",
+        "duration_ns": 388022632,
+        "failure": null,
+        "invocation_index": 120,
+        "pass_index": 1,
+        "query_index": 20,
+        "score": 0.049661874771118164,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/021",
+        "duration_ns": 360864059,
+        "failure": null,
+        "invocation_index": 121,
+        "pass_index": 1,
+        "query_index": 21,
+        "score": 0.06143689155578613,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/022",
+        "duration_ns": 417900594,
+        "failure": null,
+        "invocation_index": 122,
+        "pass_index": 1,
+        "query_index": 22,
+        "score": 0.06790441274642944,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/023",
+        "duration_ns": 411108362,
+        "failure": null,
+        "invocation_index": 123,
+        "pass_index": 1,
+        "query_index": 23,
+        "score": 0.10414594411849976,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/024",
+        "duration_ns": 417161277,
+        "failure": null,
+        "invocation_index": 124,
+        "pass_index": 1,
+        "query_index": 24,
+        "score": 0.05522391200065613,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/025",
+        "duration_ns": 510095793,
+        "failure": null,
+        "invocation_index": 125,
+        "pass_index": 1,
+        "query_index": 25,
+        "score": 0.10066273808479309,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/026",
+        "duration_ns": 370154877,
+        "failure": null,
+        "invocation_index": 126,
+        "pass_index": 1,
+        "query_index": 26,
+        "score": 0.0742376446723938,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/027",
+        "duration_ns": 476743134,
+        "failure": null,
+        "invocation_index": 127,
+        "pass_index": 1,
+        "query_index": 27,
+        "score": 0.09500104188919067,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/028",
+        "duration_ns": 353451073,
+        "failure": null,
+        "invocation_index": 128,
+        "pass_index": 1,
+        "query_index": 28,
+        "score": 0.05210837721824646,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/029",
+        "duration_ns": 383227649,
+        "failure": null,
+        "invocation_index": 129,
+        "pass_index": 1,
+        "query_index": 29,
+        "score": 0.13618916273117065,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/030",
+        "duration_ns": 380318588,
+        "failure": null,
+        "invocation_index": 130,
+        "pass_index": 1,
+        "query_index": 30,
+        "score": 0.08027899265289307,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/031",
+        "duration_ns": 382830548,
+        "failure": null,
+        "invocation_index": 131,
+        "pass_index": 1,
+        "query_index": 31,
+        "score": 0.06112074851989746,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/032",
+        "duration_ns": 376329100,
+        "failure": null,
+        "invocation_index": 132,
+        "pass_index": 1,
+        "query_index": 32,
+        "score": 0.10463464260101318,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/033",
+        "duration_ns": 415500448,
+        "failure": null,
+        "invocation_index": 133,
+        "pass_index": 1,
+        "query_index": 33,
+        "score": 0.06193476915359497,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/034",
+        "duration_ns": 379722074,
+        "failure": null,
+        "invocation_index": 134,
+        "pass_index": 1,
+        "query_index": 34,
+        "score": 0.10258716344833374,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/035",
+        "duration_ns": 446852534,
+        "failure": null,
+        "invocation_index": 135,
+        "pass_index": 1,
+        "query_index": 35,
+        "score": 0.0800449550151825,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/036",
+        "duration_ns": 590533204,
+        "failure": null,
+        "invocation_index": 136,
+        "pass_index": 1,
+        "query_index": 36,
+        "score": 0.06749019026756287,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/037",
+        "duration_ns": 449623915,
+        "failure": null,
+        "invocation_index": 137,
+        "pass_index": 1,
+        "query_index": 37,
+        "score": 0.0818561315536499,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/038",
+        "duration_ns": 458535484,
+        "failure": null,
+        "invocation_index": 138,
+        "pass_index": 1,
+        "query_index": 38,
+        "score": 0.1053386926651001,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/039",
+        "duration_ns": 482882410,
+        "failure": null,
+        "invocation_index": 139,
+        "pass_index": 1,
+        "query_index": 39,
+        "score": 0.06240576505661011,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/040",
+        "duration_ns": 442070773,
+        "failure": null,
+        "invocation_index": 140,
+        "pass_index": 1,
+        "query_index": 40,
+        "score": 0.07442241907119751,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/041",
+        "duration_ns": 349612362,
+        "failure": null,
+        "invocation_index": 141,
+        "pass_index": 1,
+        "query_index": 41,
+        "score": 0.10726258158683777,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/042",
+        "duration_ns": 343514006,
+        "failure": null,
+        "invocation_index": 142,
+        "pass_index": 1,
+        "query_index": 42,
+        "score": 0.060644447803497314,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/043",
+        "duration_ns": 334457649,
+        "failure": null,
+        "invocation_index": 143,
+        "pass_index": 1,
+        "query_index": 43,
+        "score": 0.09570232033729553,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/044",
+        "duration_ns": 346232792,
+        "failure": null,
+        "invocation_index": 144,
+        "pass_index": 1,
+        "query_index": 44,
+        "score": 0.06493881344795227,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/045",
+        "duration_ns": 562973164,
+        "failure": null,
+        "invocation_index": 145,
+        "pass_index": 1,
+        "query_index": 45,
+        "score": 0.08952420949935913,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/046",
+        "duration_ns": 564881720,
+        "failure": null,
+        "invocation_index": 146,
+        "pass_index": 1,
+        "query_index": 46,
+        "score": 0.08435502648353577,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/047",
+        "duration_ns": 500560509,
+        "failure": null,
+        "invocation_index": 147,
+        "pass_index": 1,
+        "query_index": 47,
+        "score": 0.10553139448165894,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/048",
+        "duration_ns": 403521681,
+        "failure": null,
+        "invocation_index": 148,
+        "pass_index": 1,
+        "query_index": 48,
+        "score": 0.07053017616271973,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/049",
+        "duration_ns": 459390641,
+        "failure": null,
+        "invocation_index": 149,
+        "pass_index": 1,
+        "query_index": 49,
+        "score": 0.05802434682846069,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/050",
+        "duration_ns": 494453478,
+        "failure": null,
+        "invocation_index": 150,
+        "pass_index": 1,
+        "query_index": 50,
+        "score": 0.05563855171203613,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/051",
+        "duration_ns": 389861682,
+        "failure": null,
+        "invocation_index": 151,
+        "pass_index": 1,
+        "query_index": 51,
+        "score": 0.09577673673629761,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/052",
+        "duration_ns": 706279275,
+        "failure": null,
+        "invocation_index": 152,
+        "pass_index": 1,
+        "query_index": 52,
+        "score": 0.09732484817504883,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/053",
+        "duration_ns": 688271106,
+        "failure": null,
+        "invocation_index": 153,
+        "pass_index": 1,
+        "query_index": 53,
+        "score": 0.0839310884475708,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/054",
+        "duration_ns": 832932859,
+        "failure": null,
+        "invocation_index": 154,
+        "pass_index": 1,
+        "query_index": 54,
+        "score": 0.07484093308448792,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/055",
+        "duration_ns": 873585413,
+        "failure": null,
+        "invocation_index": 155,
+        "pass_index": 1,
+        "query_index": 55,
+        "score": 0.10465991497039795,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/056",
+        "duration_ns": 453553182,
+        "failure": null,
+        "invocation_index": 156,
+        "pass_index": 1,
+        "query_index": 56,
+        "score": 0.0906381607055664,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/057",
+        "duration_ns": 501418670,
+        "failure": null,
+        "invocation_index": 157,
+        "pass_index": 1,
+        "query_index": 57,
+        "score": 0.07266762852668762,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/058",
+        "duration_ns": 418618481,
+        "failure": null,
+        "invocation_index": 158,
+        "pass_index": 1,
+        "query_index": 58,
+        "score": 0.06856828927993774,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/059",
+        "duration_ns": 346641754,
+        "failure": null,
+        "invocation_index": 159,
+        "pass_index": 1,
+        "query_index": 59,
+        "score": 0.055054306983947754,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/060",
+        "duration_ns": 409751039,
+        "failure": null,
+        "invocation_index": 160,
+        "pass_index": 1,
+        "query_index": 60,
+        "score": 0.08129075169563293,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/061",
+        "duration_ns": 409752019,
+        "failure": null,
+        "invocation_index": 161,
+        "pass_index": 1,
+        "query_index": 61,
+        "score": 0.11343264579772949,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/062",
+        "duration_ns": 431102851,
+        "failure": null,
+        "invocation_index": 162,
+        "pass_index": 1,
+        "query_index": 62,
+        "score": 0.08079701662063599,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/063",
+        "duration_ns": 843832348,
+        "failure": null,
+        "invocation_index": 163,
+        "pass_index": 1,
+        "query_index": 63,
+        "score": 0.08805239200592041,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/064",
+        "duration_ns": 542189995,
+        "failure": null,
+        "invocation_index": 164,
+        "pass_index": 1,
+        "query_index": 64,
+        "score": 0.07212436199188232,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/065",
+        "duration_ns": 877859926,
+        "failure": null,
+        "invocation_index": 165,
+        "pass_index": 1,
+        "query_index": 65,
+        "score": 0.06058502197265625,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/066",
+        "duration_ns": 581186129,
+        "failure": null,
+        "invocation_index": 166,
+        "pass_index": 1,
+        "query_index": 66,
+        "score": 0.07692199945449829,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/067",
+        "duration_ns": 510763486,
+        "failure": null,
+        "invocation_index": 167,
+        "pass_index": 1,
+        "query_index": 67,
+        "score": 0.08586558699607849,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/068",
+        "duration_ns": 588682258,
+        "failure": null,
+        "invocation_index": 168,
+        "pass_index": 1,
+        "query_index": 68,
+        "score": 0.06594446301460266,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/069",
+        "duration_ns": 504427143,
+        "failure": null,
+        "invocation_index": 169,
+        "pass_index": 1,
+        "query_index": 69,
+        "score": 0.08131766319274902,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/070",
+        "duration_ns": 447625925,
+        "failure": null,
+        "invocation_index": 170,
+        "pass_index": 1,
+        "query_index": 70,
+        "score": 0.0957329273223877,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/071",
+        "duration_ns": 636157269,
+        "failure": null,
+        "invocation_index": 171,
+        "pass_index": 1,
+        "query_index": 71,
+        "score": 0.08336657285690308,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/072",
+        "duration_ns": 408434481,
+        "failure": null,
+        "invocation_index": 172,
+        "pass_index": 1,
+        "query_index": 72,
+        "score": 0.08320963382720947,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/073",
+        "duration_ns": 404530796,
+        "failure": null,
+        "invocation_index": 173,
+        "pass_index": 1,
+        "query_index": 73,
+        "score": 0.08248141407966614,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/074",
+        "duration_ns": 516905837,
+        "failure": null,
+        "invocation_index": 174,
+        "pass_index": 1,
+        "query_index": 74,
+        "score": 0.05131986737251282,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/075",
+        "duration_ns": 459124399,
+        "failure": null,
+        "invocation_index": 175,
+        "pass_index": 1,
+        "query_index": 75,
+        "score": 0.08950108289718628,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/076",
+        "duration_ns": 540032866,
+        "failure": null,
+        "invocation_index": 176,
+        "pass_index": 1,
+        "query_index": 76,
+        "score": 0.05682873725891113,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/077",
+        "duration_ns": 468085036,
+        "failure": null,
+        "invocation_index": 177,
+        "pass_index": 1,
+        "query_index": 77,
+        "score": 0.06153038144111633,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/078",
+        "duration_ns": 441169207,
+        "failure": null,
+        "invocation_index": 178,
+        "pass_index": 1,
+        "query_index": 78,
+        "score": 0.05856287479400635,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/079",
+        "duration_ns": 462442227,
+        "failure": null,
+        "invocation_index": 179,
+        "pass_index": 1,
+        "query_index": 79,
+        "score": 0.06162601709365845,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/080",
+        "duration_ns": 426100932,
+        "failure": null,
+        "invocation_index": 180,
+        "pass_index": 1,
+        "query_index": 80,
+        "score": 0.06562229990959167,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/081",
+        "duration_ns": 498679746,
+        "failure": null,
+        "invocation_index": 181,
+        "pass_index": 1,
+        "query_index": 81,
+        "score": 0.09228560328483582,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/082",
+        "duration_ns": 362491353,
+        "failure": null,
+        "invocation_index": 182,
+        "pass_index": 1,
+        "query_index": 82,
+        "score": 0.060340702533721924,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/083",
+        "duration_ns": 437446969,
+        "failure": null,
+        "invocation_index": 183,
+        "pass_index": 1,
+        "query_index": 83,
+        "score": 0.08545070886611938,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/084",
+        "duration_ns": 423161890,
+        "failure": null,
+        "invocation_index": 184,
+        "pass_index": 1,
+        "query_index": 84,
+        "score": 0.06350737810134888,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/085",
+        "duration_ns": 378373592,
+        "failure": null,
+        "invocation_index": 185,
+        "pass_index": 1,
+        "query_index": 85,
+        "score": 0.09975031018257141,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/086",
+        "duration_ns": 407093931,
+        "failure": null,
+        "invocation_index": 186,
+        "pass_index": 1,
+        "query_index": 86,
+        "score": 0.05910047888755798,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/087",
+        "duration_ns": 402158973,
+        "failure": null,
+        "invocation_index": 187,
+        "pass_index": 1,
+        "query_index": 87,
+        "score": 0.09887257218360901,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/088",
+        "duration_ns": 352935609,
+        "failure": null,
+        "invocation_index": 188,
+        "pass_index": 1,
+        "query_index": 88,
+        "score": 0.06553179025650024,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/089",
+        "duration_ns": 395819278,
+        "failure": null,
+        "invocation_index": 189,
+        "pass_index": 1,
+        "query_index": 89,
+        "score": 0.08273196220397949,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/090",
+        "duration_ns": 385216328,
+        "failure": null,
+        "invocation_index": 190,
+        "pass_index": 1,
+        "query_index": 90,
+        "score": 0.06387662887573242,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/091",
+        "duration_ns": 389533502,
+        "failure": null,
+        "invocation_index": 191,
+        "pass_index": 1,
+        "query_index": 91,
+        "score": 0.11498728394508362,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/092",
+        "duration_ns": 460028058,
+        "failure": null,
+        "invocation_index": 192,
+        "pass_index": 1,
+        "query_index": 92,
+        "score": 0.06111404299736023,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/093",
+        "duration_ns": 349148283,
+        "failure": null,
+        "invocation_index": 193,
+        "pass_index": 1,
+        "query_index": 93,
+        "score": 0.06834182143211365,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/094",
+        "duration_ns": 356143408,
+        "failure": null,
+        "invocation_index": 194,
+        "pass_index": 1,
+        "query_index": 94,
+        "score": 0.10598602890968323,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/095",
+        "duration_ns": 400950783,
+        "failure": null,
+        "invocation_index": 195,
+        "pass_index": 1,
+        "query_index": 95,
+        "score": 0.07899898290634155,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/096",
+        "duration_ns": 375544232,
+        "failure": null,
+        "invocation_index": 196,
+        "pass_index": 1,
+        "query_index": 96,
+        "score": 0.05502542853355408,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/097",
+        "duration_ns": 447857879,
+        "failure": null,
+        "invocation_index": 197,
+        "pass_index": 1,
+        "query_index": 97,
+        "score": 0.09636837244033813,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/098",
+        "duration_ns": 371212056,
+        "failure": null,
+        "invocation_index": 198,
+        "pass_index": 1,
+        "query_index": 98,
+        "score": 0.10205009579658508,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/099",
+        "duration_ns": 415873456,
+        "failure": null,
+        "invocation_index": 199,
+        "pass_index": 1,
+        "query_index": 99,
+        "score": 0.05691993236541748,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/000",
+        "duration_ns": 370948759,
+        "failure": null,
+        "invocation_index": 200,
+        "pass_index": 2,
+        "query_index": 0,
+        "score": 0.11556071043014526,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/001",
+        "duration_ns": 342851962,
+        "failure": null,
+        "invocation_index": 201,
+        "pass_index": 2,
+        "query_index": 1,
+        "score": 0.056819796562194824,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/002",
+        "duration_ns": 351464222,
+        "failure": null,
+        "invocation_index": 202,
+        "pass_index": 2,
+        "query_index": 2,
+        "score": 0.07399198412895203,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/003",
+        "duration_ns": 362228152,
+        "failure": null,
+        "invocation_index": 203,
+        "pass_index": 2,
+        "query_index": 3,
+        "score": 0.0637650191783905,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/004",
+        "duration_ns": 380165193,
+        "failure": null,
+        "invocation_index": 204,
+        "pass_index": 2,
+        "query_index": 4,
+        "score": 0.097206711769104,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/005",
+        "duration_ns": 419186762,
+        "failure": null,
+        "invocation_index": 205,
+        "pass_index": 2,
+        "query_index": 5,
+        "score": 0.08907085657119751,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/006",
+        "duration_ns": 370625044,
+        "failure": null,
+        "invocation_index": 206,
+        "pass_index": 2,
+        "query_index": 6,
+        "score": 0.09307286143302917,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/007",
+        "duration_ns": 382961855,
+        "failure": null,
+        "invocation_index": 207,
+        "pass_index": 2,
+        "query_index": 7,
+        "score": 0.05427396297454834,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/008",
+        "duration_ns": 387645061,
+        "failure": null,
+        "invocation_index": 208,
+        "pass_index": 2,
+        "query_index": 8,
+        "score": 0.0936419665813446,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/009",
+        "duration_ns": 351905116,
+        "failure": null,
+        "invocation_index": 209,
+        "pass_index": 2,
+        "query_index": 9,
+        "score": 0.08250007033348083,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/010",
+        "duration_ns": 358302752,
+        "failure": null,
+        "invocation_index": 210,
+        "pass_index": 2,
+        "query_index": 10,
+        "score": 0.06610774993896484,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/011",
+        "duration_ns": 369460461,
+        "failure": null,
+        "invocation_index": 211,
+        "pass_index": 2,
+        "query_index": 11,
+        "score": 0.06583952903747559,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/012",
+        "duration_ns": 361672517,
+        "failure": null,
+        "invocation_index": 212,
+        "pass_index": 2,
+        "query_index": 12,
+        "score": 0.06428897380828857,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/013",
+        "duration_ns": 466430773,
+        "failure": null,
+        "invocation_index": 213,
+        "pass_index": 2,
+        "query_index": 13,
+        "score": 0.06945142149925232,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/014",
+        "duration_ns": 410583842,
+        "failure": null,
+        "invocation_index": 214,
+        "pass_index": 2,
+        "query_index": 14,
+        "score": 0.13210880756378174,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/015",
+        "duration_ns": 379716066,
+        "failure": null,
+        "invocation_index": 215,
+        "pass_index": 2,
+        "query_index": 15,
+        "score": 0.07209736108779907,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/016",
+        "duration_ns": 367971027,
+        "failure": null,
+        "invocation_index": 216,
+        "pass_index": 2,
+        "query_index": 16,
+        "score": 0.09135082364082336,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/017",
+        "duration_ns": 368572534,
+        "failure": null,
+        "invocation_index": 217,
+        "pass_index": 2,
+        "query_index": 17,
+        "score": 0.08289346098899841,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/018",
+        "duration_ns": 372222805,
+        "failure": null,
+        "invocation_index": 218,
+        "pass_index": 2,
+        "query_index": 18,
+        "score": 0.07765814661979675,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/019",
+        "duration_ns": 316863280,
+        "failure": null,
+        "invocation_index": 219,
+        "pass_index": 2,
+        "query_index": 19,
+        "score": 0.060726553201675415,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/020",
+        "duration_ns": 361570310,
+        "failure": null,
+        "invocation_index": 220,
+        "pass_index": 2,
+        "query_index": 20,
+        "score": 0.049661874771118164,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/021",
+        "duration_ns": 417404929,
+        "failure": null,
+        "invocation_index": 221,
+        "pass_index": 2,
+        "query_index": 21,
+        "score": 0.06143689155578613,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/022",
+        "duration_ns": 368700268,
+        "failure": null,
+        "invocation_index": 222,
+        "pass_index": 2,
+        "query_index": 22,
+        "score": 0.06790441274642944,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/023",
+        "duration_ns": 368814092,
+        "failure": null,
+        "invocation_index": 223,
+        "pass_index": 2,
+        "query_index": 23,
+        "score": 0.10414594411849976,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/024",
+        "duration_ns": 385292500,
+        "failure": null,
+        "invocation_index": 224,
+        "pass_index": 2,
+        "query_index": 24,
+        "score": 0.05522391200065613,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/025",
+        "duration_ns": 329695377,
+        "failure": null,
+        "invocation_index": 225,
+        "pass_index": 2,
+        "query_index": 25,
+        "score": 0.10066273808479309,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/026",
+        "duration_ns": 338372157,
+        "failure": null,
+        "invocation_index": 226,
+        "pass_index": 2,
+        "query_index": 26,
+        "score": 0.0742376446723938,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/027",
+        "duration_ns": 366394150,
+        "failure": null,
+        "invocation_index": 227,
+        "pass_index": 2,
+        "query_index": 27,
+        "score": 0.09500104188919067,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/028",
+        "duration_ns": 335757162,
+        "failure": null,
+        "invocation_index": 228,
+        "pass_index": 2,
+        "query_index": 28,
+        "score": 0.05210837721824646,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/029",
+        "duration_ns": 366434157,
+        "failure": null,
+        "invocation_index": 229,
+        "pass_index": 2,
+        "query_index": 29,
+        "score": 0.13618916273117065,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/030",
+        "duration_ns": 372331247,
+        "failure": null,
+        "invocation_index": 230,
+        "pass_index": 2,
+        "query_index": 30,
+        "score": 0.08027899265289307,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/031",
+        "duration_ns": 383163260,
+        "failure": null,
+        "invocation_index": 231,
+        "pass_index": 2,
+        "query_index": 31,
+        "score": 0.06112074851989746,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/032",
+        "duration_ns": 362293156,
+        "failure": null,
+        "invocation_index": 232,
+        "pass_index": 2,
+        "query_index": 32,
+        "score": 0.10463464260101318,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/033",
+        "duration_ns": 365611398,
+        "failure": null,
+        "invocation_index": 233,
+        "pass_index": 2,
+        "query_index": 33,
+        "score": 0.06193476915359497,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/034",
+        "duration_ns": 342318205,
+        "failure": null,
+        "invocation_index": 234,
+        "pass_index": 2,
+        "query_index": 34,
+        "score": 0.10258716344833374,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/035",
+        "duration_ns": 324427615,
+        "failure": null,
+        "invocation_index": 235,
+        "pass_index": 2,
+        "query_index": 35,
+        "score": 0.0800449550151825,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/036",
+        "duration_ns": 518516103,
+        "failure": null,
+        "invocation_index": 236,
+        "pass_index": 2,
+        "query_index": 36,
+        "score": 0.06749019026756287,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/037",
+        "duration_ns": 598373047,
+        "failure": null,
+        "invocation_index": 237,
+        "pass_index": 2,
+        "query_index": 37,
+        "score": 0.0818561315536499,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/038",
+        "duration_ns": 527583620,
+        "failure": null,
+        "invocation_index": 238,
+        "pass_index": 2,
+        "query_index": 38,
+        "score": 0.1053386926651001,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/039",
+        "duration_ns": 447358295,
+        "failure": null,
+        "invocation_index": 239,
+        "pass_index": 2,
+        "query_index": 39,
+        "score": 0.06240576505661011,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/040",
+        "duration_ns": 541208500,
+        "failure": null,
+        "invocation_index": 240,
+        "pass_index": 2,
+        "query_index": 40,
+        "score": 0.07442241907119751,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/041",
+        "duration_ns": 485307700,
+        "failure": null,
+        "invocation_index": 241,
+        "pass_index": 2,
+        "query_index": 41,
+        "score": 0.10726258158683777,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/042",
+        "duration_ns": 487539600,
+        "failure": null,
+        "invocation_index": 242,
+        "pass_index": 2,
+        "query_index": 42,
+        "score": 0.060644447803497314,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/043",
+        "duration_ns": 471409160,
+        "failure": null,
+        "invocation_index": 243,
+        "pass_index": 2,
+        "query_index": 43,
+        "score": 0.09570232033729553,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/044",
+        "duration_ns": 550428026,
+        "failure": null,
+        "invocation_index": 244,
+        "pass_index": 2,
+        "query_index": 44,
+        "score": 0.06493881344795227,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/045",
+        "duration_ns": 392549296,
+        "failure": null,
+        "invocation_index": 245,
+        "pass_index": 2,
+        "query_index": 45,
+        "score": 0.08952420949935913,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/046",
+        "duration_ns": 378094607,
+        "failure": null,
+        "invocation_index": 246,
+        "pass_index": 2,
+        "query_index": 46,
+        "score": 0.08435502648353577,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/047",
+        "duration_ns": 454729572,
+        "failure": null,
+        "invocation_index": 247,
+        "pass_index": 2,
+        "query_index": 47,
+        "score": 0.10553139448165894,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/048",
+        "duration_ns": 490780199,
+        "failure": null,
+        "invocation_index": 248,
+        "pass_index": 2,
+        "query_index": 48,
+        "score": 0.07053017616271973,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/049",
+        "duration_ns": 437697685,
+        "failure": null,
+        "invocation_index": 249,
+        "pass_index": 2,
+        "query_index": 49,
+        "score": 0.05802434682846069,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/050",
+        "duration_ns": 425543692,
+        "failure": null,
+        "invocation_index": 250,
+        "pass_index": 2,
+        "query_index": 50,
+        "score": 0.05563855171203613,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/051",
+        "duration_ns": 574347895,
+        "failure": null,
+        "invocation_index": 251,
+        "pass_index": 2,
+        "query_index": 51,
+        "score": 0.09577673673629761,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/052",
+        "duration_ns": 419373497,
+        "failure": null,
+        "invocation_index": 252,
+        "pass_index": 2,
+        "query_index": 52,
+        "score": 0.09732484817504883,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/053",
+        "duration_ns": 527508026,
+        "failure": null,
+        "invocation_index": 253,
+        "pass_index": 2,
+        "query_index": 53,
+        "score": 0.0839310884475708,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/054",
+        "duration_ns": 481496020,
+        "failure": null,
+        "invocation_index": 254,
+        "pass_index": 2,
+        "query_index": 54,
+        "score": 0.07484093308448792,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/055",
+        "duration_ns": 478548247,
+        "failure": null,
+        "invocation_index": 255,
+        "pass_index": 2,
+        "query_index": 55,
+        "score": 0.10465991497039795,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/056",
+        "duration_ns": 570243764,
+        "failure": null,
+        "invocation_index": 256,
+        "pass_index": 2,
+        "query_index": 56,
+        "score": 0.0906381607055664,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/057",
+        "duration_ns": 427686658,
+        "failure": null,
+        "invocation_index": 257,
+        "pass_index": 2,
+        "query_index": 57,
+        "score": 0.07266762852668762,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/058",
+        "duration_ns": 550788808,
+        "failure": null,
+        "invocation_index": 258,
+        "pass_index": 2,
+        "query_index": 58,
+        "score": 0.06856828927993774,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/059",
+        "duration_ns": 477399608,
+        "failure": null,
+        "invocation_index": 259,
+        "pass_index": 2,
+        "query_index": 59,
+        "score": 0.055054306983947754,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/060",
+        "duration_ns": 461048081,
+        "failure": null,
+        "invocation_index": 260,
+        "pass_index": 2,
+        "query_index": 60,
+        "score": 0.08129075169563293,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/061",
+        "duration_ns": 435276065,
+        "failure": null,
+        "invocation_index": 261,
+        "pass_index": 2,
+        "query_index": 61,
+        "score": 0.11343264579772949,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/062",
+        "duration_ns": 375266091,
+        "failure": null,
+        "invocation_index": 262,
+        "pass_index": 2,
+        "query_index": 62,
+        "score": 0.08079701662063599,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/063",
+        "duration_ns": 414889725,
+        "failure": null,
+        "invocation_index": 263,
+        "pass_index": 2,
+        "query_index": 63,
+        "score": 0.08805239200592041,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/064",
+        "duration_ns": 449325236,
+        "failure": null,
+        "invocation_index": 264,
+        "pass_index": 2,
+        "query_index": 64,
+        "score": 0.07212436199188232,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/065",
+        "duration_ns": 534107893,
+        "failure": null,
+        "invocation_index": 265,
+        "pass_index": 2,
+        "query_index": 65,
+        "score": 0.06058502197265625,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/066",
+        "duration_ns": 646614713,
+        "failure": null,
+        "invocation_index": 266,
+        "pass_index": 2,
+        "query_index": 66,
+        "score": 0.07692199945449829,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/067",
+        "duration_ns": 480582971,
+        "failure": null,
+        "invocation_index": 267,
+        "pass_index": 2,
+        "query_index": 67,
+        "score": 0.08586558699607849,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/068",
+        "duration_ns": 466255299,
+        "failure": null,
+        "invocation_index": 268,
+        "pass_index": 2,
+        "query_index": 68,
+        "score": 0.06594446301460266,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/069",
+        "duration_ns": 500410481,
+        "failure": null,
+        "invocation_index": 269,
+        "pass_index": 2,
+        "query_index": 69,
+        "score": 0.08131766319274902,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/070",
+        "duration_ns": 472562912,
+        "failure": null,
+        "invocation_index": 270,
+        "pass_index": 2,
+        "query_index": 70,
+        "score": 0.0957329273223877,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/071",
+        "duration_ns": 741428865,
+        "failure": null,
+        "invocation_index": 271,
+        "pass_index": 2,
+        "query_index": 71,
+        "score": 0.08336657285690308,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/072",
+        "duration_ns": 536874190,
+        "failure": null,
+        "invocation_index": 272,
+        "pass_index": 2,
+        "query_index": 72,
+        "score": 0.08320963382720947,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/073",
+        "duration_ns": 905770321,
+        "failure": null,
+        "invocation_index": 273,
+        "pass_index": 2,
+        "query_index": 73,
+        "score": 0.08248141407966614,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/074",
+        "duration_ns": 560372859,
+        "failure": null,
+        "invocation_index": 274,
+        "pass_index": 2,
+        "query_index": 74,
+        "score": 0.05131986737251282,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/075",
+        "duration_ns": 582864785,
+        "failure": null,
+        "invocation_index": 275,
+        "pass_index": 2,
+        "query_index": 75,
+        "score": 0.08950108289718628,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/076",
+        "duration_ns": 669263699,
+        "failure": null,
+        "invocation_index": 276,
+        "pass_index": 2,
+        "query_index": 76,
+        "score": 0.05682873725891113,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/077",
+        "duration_ns": 871848668,
+        "failure": null,
+        "invocation_index": 277,
+        "pass_index": 2,
+        "query_index": 77,
+        "score": 0.06153038144111633,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/078",
+        "duration_ns": 859074243,
+        "failure": null,
+        "invocation_index": 278,
+        "pass_index": 2,
+        "query_index": 78,
+        "score": 0.05856287479400635,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/079",
+        "duration_ns": 868079245,
+        "failure": null,
+        "invocation_index": 279,
+        "pass_index": 2,
+        "query_index": 79,
+        "score": 0.06162601709365845,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/080",
+        "duration_ns": 450780805,
+        "failure": null,
+        "invocation_index": 280,
+        "pass_index": 2,
+        "query_index": 80,
+        "score": 0.06562229990959167,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/081",
+        "duration_ns": 617852235,
+        "failure": null,
+        "invocation_index": 281,
+        "pass_index": 2,
+        "query_index": 81,
+        "score": 0.09228560328483582,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/082",
+        "duration_ns": 435730964,
+        "failure": null,
+        "invocation_index": 282,
+        "pass_index": 2,
+        "query_index": 82,
+        "score": 0.060340702533721924,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/083",
+        "duration_ns": 344788931,
+        "failure": null,
+        "invocation_index": 283,
+        "pass_index": 2,
+        "query_index": 83,
+        "score": 0.08545070886611938,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/084",
+        "duration_ns": 486014353,
+        "failure": null,
+        "invocation_index": 284,
+        "pass_index": 2,
+        "query_index": 84,
+        "score": 0.06350737810134888,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/085",
+        "duration_ns": 770698005,
+        "failure": null,
+        "invocation_index": 285,
+        "pass_index": 2,
+        "query_index": 85,
+        "score": 0.09975031018257141,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/086",
+        "duration_ns": 1018627957,
+        "failure": null,
+        "invocation_index": 286,
+        "pass_index": 2,
+        "query_index": 86,
+        "score": 0.05910047888755798,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/087",
+        "duration_ns": 752249718,
+        "failure": null,
+        "invocation_index": 287,
+        "pass_index": 2,
+        "query_index": 87,
+        "score": 0.09887257218360901,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/088",
+        "duration_ns": 479654555,
+        "failure": null,
+        "invocation_index": 288,
+        "pass_index": 2,
+        "query_index": 88,
+        "score": 0.06553179025650024,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/089",
+        "duration_ns": 437956298,
+        "failure": null,
+        "invocation_index": 289,
+        "pass_index": 2,
+        "query_index": 89,
+        "score": 0.08273196220397949,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/090",
+        "duration_ns": 381115975,
+        "failure": null,
+        "invocation_index": 290,
+        "pass_index": 2,
+        "query_index": 90,
+        "score": 0.06387662887573242,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/091",
+        "duration_ns": 498896928,
+        "failure": null,
+        "invocation_index": 291,
+        "pass_index": 2,
+        "query_index": 91,
+        "score": 0.11498728394508362,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/092",
+        "duration_ns": 493865448,
+        "failure": null,
+        "invocation_index": 292,
+        "pass_index": 2,
+        "query_index": 92,
+        "score": 0.06111404299736023,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/093",
+        "duration_ns": 409961714,
+        "failure": null,
+        "invocation_index": 293,
+        "pass_index": 2,
+        "query_index": 93,
+        "score": 0.06834182143211365,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/094",
+        "duration_ns": 375201048,
+        "failure": null,
+        "invocation_index": 294,
+        "pass_index": 2,
+        "query_index": 94,
+        "score": 0.10598602890968323,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/095",
+        "duration_ns": 410376020,
+        "failure": null,
+        "invocation_index": 295,
+        "pass_index": 2,
+        "query_index": 95,
+        "score": 0.07899898290634155,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/096",
+        "duration_ns": 372345486,
+        "failure": null,
+        "invocation_index": 296,
+        "pass_index": 2,
+        "query_index": 96,
+        "score": 0.05502542853355408,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/097",
+        "duration_ns": 358327326,
+        "failure": null,
+        "invocation_index": 297,
+        "pass_index": 2,
+        "query_index": 97,
+        "score": 0.09636837244033813,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/098",
+        "duration_ns": 389789082,
+        "failure": null,
+        "invocation_index": 298,
+        "pass_index": 2,
+        "query_index": 98,
+        "score": 0.10205009579658508,
+        "status": "success"
+      },
+      {
+        "asset_id": "synthetic/query/099",
+        "duration_ns": 469134438,
+        "failure": null,
+        "invocation_index": 299,
+        "pass_index": 2,
+        "query_index": 99,
+        "score": 0.05691993236541748,
+        "status": "success"
+      }
+    ],
+    "summary": {
+      "attempted_invocation_count": 300,
+      "complete_observation_set": true,
+      "failure_count": 0,
+      "latency_gate_ns": 1000000000,
+      "latency_gate_passed": true,
+      "median_ns": 417283103.0,
+      "missing_invocation_count": 0,
+      "p95_method": "nearest-rank",
+      "p95_nearest_rank": 285,
+      "p95_ns": 679490250,
+      "successful_invocation_count": 300,
+      "timed_invocation_count_required": 300
+    },
+    "warmup": {
+      "completed_count": 25,
+      "failure": null,
+      "query_id": "synthetic/query/000",
+      "required_count": 25,
+      "status": "pass"
+    }
+  },
+  "memory": {
+    "after_memory_bank_peak_rss_bytes": 495796224,
+    "after_model_load_peak_rss_bytes": 495796224,
+    "after_timing_peak_rss_bytes": 543424512,
+    "peak_rss_is_gating": false,
+    "process_start_peak_rss_bytes": 139747328,
+    "units": "bytes"
+  },
+  "observations_csv": {
+    "byte_count": 20660,
+    "logical_name": "resolution-224-observations.csv",
+    "sha256": "59492ba66335313c3d124900c940008bfc5b62c735a73fc9e2c925b3b50bf90d"
+  },
+  "resolution": 224,
+  "schema_version": "v0.2-dinov2-timing-resolution-v1",
+  "system": {
+    "machine": "x86_64",
+    "platform": "linux",
+    "python_hash_seed": "42",
+    "python_version": "3.13.14"
+  }
+}

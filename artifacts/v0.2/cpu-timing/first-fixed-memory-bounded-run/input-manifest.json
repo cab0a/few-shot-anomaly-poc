@@ -1,0 +1,1483 @@
+{
+  "boundary": {
+    "dataset_access": false,
+    "labels_accessed": false,
+    "model_inference_performed": false,
+    "network_access": false,
+    "synthetic_inputs_only": true,
+    "timing_invocation_count": 0
+  },
+  "generation": {
+    "bit_generator": "numpy.random.PCG64",
+    "generation_order": "20 references followed by 100 queries",
+    "high_exclusive": 256,
+    "low_inclusive": 0,
+    "numpy_version": "2.5.1",
+    "seed": 42
+  },
+  "logical_store": {
+    "byte_count": 94371968,
+    "dtype": "uint8",
+    "file_sha256": "b57319a8aa9fc8c27d1daa22acf8640a31cf366074a2c42e14e65ff55f4501b7",
+    "format": "NumPy .npy memory map",
+    "logical_id": "synthetic-pcg64-42-memory-bounded-v1",
+    "path_recorded": false,
+    "shape": [
+      120,
+      512,
+      512,
+      3
+    ]
+  },
+  "preregistration_id": "v0.2-dinov2-cpu-preflight-2",
+  "queries": [
+    {
+      "asset_id": "synthetic/query/000",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 20,
+      "sha256": "751b0ba5f549fafd2e6f77d9adb0f2d991845a4b273ef832790fd66a7ff16734",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/001",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 21,
+      "sha256": "b1a433b69e2761f8f95bffcde754495a9e510b35ff04e2bc48efc8a00051ce02",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/002",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 22,
+      "sha256": "6b95da62a3a535780e082ef84feace6c6bf222aa607fc28ef6ffbde9a596c939",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/003",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 23,
+      "sha256": "7682e9f7df818df395e69f5559091b49f6bc97d94a715e599debf01d819afc0c",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/004",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 24,
+      "sha256": "a5a3ac03b71a3108cd28cbdb266bd284c1a6a6e4365ec6911adbf13e49c6403d",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/005",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 25,
+      "sha256": "3c876e6dba68ae9a6c91879bd5ec53997f6c196ebe8ab0d88ae608d084178fbf",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/006",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 26,
+      "sha256": "a134a186f6b58adc6e05450af0a74ae0cecc59679cebfc613f8c877bd27f4b9e",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/007",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 27,
+      "sha256": "50f1f718ced8b711af04f94e3ad2b5e918683908bf9718bd479373ad96785c74",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/008",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 28,
+      "sha256": "f419ff9ce126f3245f08ca23bdae0ad8477c29cb8039d21aeb594ea76a9bd487",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/009",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 29,
+      "sha256": "65af8c60f2d05e4f4dcea267c6d877d6cfc720d9cd630b5e967cebff5a587b5a",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/010",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 30,
+      "sha256": "fdca2cab60a968108de5dbd214c21b11197d22bc6ad04561acdd2b3c35d5ece8",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/011",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 31,
+      "sha256": "2f6b7d2c14d640dac825e3f57bd0cc8b5a93cee0f9599e6731ac482e3a580459",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/012",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 32,
+      "sha256": "a95af004f05ce35e5cdbbb79c483eb781d762e7486818a593f4b703f9f46c617",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/013",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 33,
+      "sha256": "e48b8b87e0ec61f39841afd4654a722c28f0f652d78de19ee466b71de352c07e",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/014",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 34,
+      "sha256": "e2f275efe8d3504a84488f80275abddf39ea54983e10af2b3d00d6a6bcf88e8b",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/015",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 35,
+      "sha256": "1aadaf6c74372698a87e1ed1d21c5c5650d33c09433d127c50500b9e0245a5b8",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/016",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 36,
+      "sha256": "9cc35c021085866afd0dda8f965435e0144691595760a80d359baee1ef3ff497",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/017",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 37,
+      "sha256": "2a4a50434e18a04cca080c8e3eaeb348f4c68d9b5b384414432d4116cf816c25",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/018",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 38,
+      "sha256": "7a81b61be81098e16e42e145196c349e3ede023392c0dbcb648bf2f734c8fac3",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/019",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 39,
+      "sha256": "c2a34e709156376d10450f910cc5fe1c0b8a36db2b71b2f830b8cdf77dc9e038",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/020",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 40,
+      "sha256": "ae8ab66675fa2a31c6ff99fbd44759ac23be30d860f7eb488e8ccf7f2c3c39ef",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/021",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 41,
+      "sha256": "efa673bb69d0b3a52c0233b161120aed03e33838eda1143ea9f69376edd44a91",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/022",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 42,
+      "sha256": "7497548a7cd4f38e38f5756e1a3ee7e65fe856e94f7a226398b8c2aab64f9194",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/023",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 43,
+      "sha256": "d3096a3d83c68106b58b3dd0fef12fb52cd7a000c240e88139176efe2c01ac1d",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/024",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 44,
+      "sha256": "1c4f06fbc35f63fa22ebd469a05b48447fe6f0ea67a35fd51c3a3e0f7b26a85f",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/025",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 45,
+      "sha256": "a47e84d7acb66d9115f18cfda18d8776d2ca33f3171ddba7b39fbcd0e0ef749d",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/026",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 46,
+      "sha256": "d63f3b2766b6697679d34f15b078406a494095e9912f9073eabd0abd2d2670cc",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/027",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 47,
+      "sha256": "c3dfd3bd8ba5ce6ba446d692cd411f3a5d5d19f52f971fc8ea92496e05f9e9ae",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/028",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 48,
+      "sha256": "8f8554942fe7fb409426785d7383c8858b61cda245827b5201d32fdd9860a291",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/029",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 49,
+      "sha256": "3dac0ed74759dc395e80d091291bf87eb494b31be100ef165851e12f6a28dbe1",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/030",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 50,
+      "sha256": "f56f2601fb150db2f99c17cf026fac08d92b81e82a5ca305c2d1385ee3a1a730",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/031",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 51,
+      "sha256": "6552d6a6e5901407f5e04d4fbb4bf64f33e7e6ee7be7d21e13798c107ce26ffe",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/032",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 52,
+      "sha256": "c323cf5e99cbb4b77da4356eddd7e0ee051350f8c492dfc3f856acfe96ce497d",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/033",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 53,
+      "sha256": "2e0e557542a1c25a4b2f9216f5ca606c7b80cdb2442b97ffdec97260104a3020",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/034",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 54,
+      "sha256": "d2a4ec2b21223d19622f317aeb6f7f51f6b899c0f1e055ed91b2f22a18ad423f",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/035",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 55,
+      "sha256": "258961cb25c3a0eb8d97049b190ade5c5af815abbfc27f881ca8345af6716bb6",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/036",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 56,
+      "sha256": "c7ad2a17a9c3591cfff2ddc151e469eedf249f1044f9e3f3fd1bbc96f19a5eec",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/037",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 57,
+      "sha256": "34d380baf45253f7f52484a597180e75dea4eb0291537bfc92c07bc5c7660080",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/038",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 58,
+      "sha256": "e50940abb9d21e1b78d5eafbd5be581276731adfc8fbd1043c9e2c2bd656fb88",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/039",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 59,
+      "sha256": "8b91acd5f644c84a2b6e83420adc6ebe51c0aece636c754d8ed05dcee1a2c143",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/040",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 60,
+      "sha256": "39a92005bc3da7077810ff8726eb252ccdcd7052d7386eb23543d5b7e47bdace",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/041",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 61,
+      "sha256": "f4898337cfd9274fb87c4b00598a5b23c7b74a5aea611d7765f75012ae11ceb0",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/042",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 62,
+      "sha256": "033fae1fed0421744ab4ba0aec38af0795f5177ca4cdde5eb94332f5bf923954",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/043",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 63,
+      "sha256": "692a94553517582ebdf841d49093b9b757d2a65ce7f6b02a9961412662d09642",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/044",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 64,
+      "sha256": "5f94e79bbaeaf1b9e127a4578eb3d8e2037bb9ae66743ab33dcef69bb0544bb4",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/045",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 65,
+      "sha256": "200f0edc59296b2583717257adeca2122dc50c8c1a45cbe898b6851c7aff3872",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/046",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 66,
+      "sha256": "23d4cdbdef48ede6a697cc75ae37d58fa343f26ead8049cf43ada200383aacb2",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/047",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 67,
+      "sha256": "ab0df2b227d3896b47863b223cb8ebff3b86a0dbe3c005485e8f597f4cd4400b",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/048",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 68,
+      "sha256": "9b8ea504218da6503f1fa53017e4ad16bd2ca1301417a8151b910b4dab17d017",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/049",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 69,
+      "sha256": "f66bb533b68fb11fb7a1f16517b479c55f5b57d89363ea9293883d4060082f00",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/050",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 70,
+      "sha256": "3d79e229e3001c0d531ce23709d9ad77d62529a9ced9629d6972d54728a16922",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/051",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 71,
+      "sha256": "b3fd589af77b3d0954dc7dbf2d916f07ea0b8a937d01fa37bd80cef3dc071697",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/052",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 72,
+      "sha256": "4d4bbca660c334abec6780f60f06496f8c02f6396404f503053ab58ecf8a1e55",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/053",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 73,
+      "sha256": "2e54e540e8aeab6cf068bb8ef14aa2c2871cc1720063e4f904250611b6f47d4a",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/054",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 74,
+      "sha256": "377f9b6b4f0d520bf02673fd14796cfd0b3a3661073ff819272e7210b4ab7d08",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/055",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 75,
+      "sha256": "6cea4d6a72a0ab53adfacdf645149eca61160c5307445e8f621b0840c1800fd6",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/056",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 76,
+      "sha256": "cbe7a4a8e9c29f20191b9aa13122e47caf0b5765a008dba76f788c99c733e4b1",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/057",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 77,
+      "sha256": "cc314a7d0cf0b6f60816df83e3dc31a0ef89d63aa1942921328bf855e0a062cb",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/058",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 78,
+      "sha256": "23c5af7b9a4fa8b0a37414b082454e2414fcf2f61b379cadc195c7c6358d5fe1",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/059",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 79,
+      "sha256": "8c470497be0c39c1723704dd478c65939d1ceb1ab6d92b1aab20855462c6a8cf",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/060",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 80,
+      "sha256": "147e410b586f67837e149a067166e6ddacac7d70fcc7a85c02ca18bec5877f83",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/061",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 81,
+      "sha256": "5901184bef5aeb4c223e25ebcd7eb091e5df86c4a6e1bf82f3aa40f945e2b3f4",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/062",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 82,
+      "sha256": "1edc9a6fa91d865dcaa114ab703a24152c7906094e36df6bf03106a48e698b17",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/063",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 83,
+      "sha256": "8fd332934d81af9092ee6e222e4c097c001f7a3e853abce97c8595a83202b0ad",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/064",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 84,
+      "sha256": "d149bbc0db07f1c103cb2358903b7509edcac7aec397586977ff42de0129ed09",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/065",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 85,
+      "sha256": "62abf187361366d8e7061fa158a9c1a5d72b448b577c03a0dd98878e613f1a2f",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/066",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 86,
+      "sha256": "5a1491188fec47c2ea9938704675067826c76df91ea83c8be3581c73e00d7ab4",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/067",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 87,
+      "sha256": "fa35e5a62d55378785a8503d4bd7038b48f4e40776c340ac0d90c44105452b6d",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/068",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 88,
+      "sha256": "950d21ad869b7f0bdbd0b30e0355dc8f6cd09fb3da358b0dbc4285a91bf28b36",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/069",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 89,
+      "sha256": "b7cd057a222d03e01d82181c4329bfd416c558668cb5e6975fd9e3eab0fd2508",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/070",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 90,
+      "sha256": "833158f31b76becf855160ae75e41ee77b114983ff6809254c147562aec99be4",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/071",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 91,
+      "sha256": "79b125a68e3f5f11ffc14785330b27c75bcf9e59a529c5c6ac747fa485985b46",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/072",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 92,
+      "sha256": "c312b4c45dd1ce3e61413ca7a28c562a421bbe9bc11fbf62a8b0afca79339dc6",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/073",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 93,
+      "sha256": "fa46370176fee43db2ae8313e7362b5b6e65837911a8d5adb2bb7efcf5d16dc6",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/074",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 94,
+      "sha256": "0c8a47c437006debfeebc23a9fb64202ce1200859bf7709ab63307415b0e1f93",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/075",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 95,
+      "sha256": "b0c8aa01d9d96bac2ce3a6d9d0b91057968569dc600211d75f2e30a1d85c356d",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/076",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 96,
+      "sha256": "9f48bcf2e9a7603f4112c2a65b773c9685e7c5c9b5122fc639397363aa06c801",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/077",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 97,
+      "sha256": "c6a5d140af1d4a0dd35de9b487f6945fa6f76f2a27a9e9cf9fc39f5b89440aa2",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/078",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 98,
+      "sha256": "d1c90a153e0a8da266809236f162907d9d6601d2f19f24340459bccba189ccbe",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/079",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 99,
+      "sha256": "0100d47fe385955878e6572bda17c7153250b6b16a250340078a8452b14168a8",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/080",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 100,
+      "sha256": "122dd4d4c89d0503aced3517eb36d99faa3c549cc03fedb9a16aa53d92b83623",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/081",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 101,
+      "sha256": "1053018bee94fb1d6025133b805c774ed4b423f8eea2712834b10a521cea3f83",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/082",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 102,
+      "sha256": "178c9b676e4344d6999042dfd32c53213c8e4cd2e4242e7c72e97c66e1f17820",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/083",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 103,
+      "sha256": "4aaa721e3a5912c777a42d0529272d3efbb90d1416ec274cef2d69ec1df9bcc4",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/084",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 104,
+      "sha256": "3f0c377a712b9dfd40560a3bcc701d1ccb9e98ea48909dee3702e789be920c11",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/085",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 105,
+      "sha256": "c3af315d5cb4aacb191ec308c347f2b57fc3fe46460e241b3136d0810b93390a",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/086",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 106,
+      "sha256": "fb9ab82578cbc5fcdd89e8061f42e4b0e8f08f47124459027c7a3c8eaa688d0c",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/087",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 107,
+      "sha256": "be34428d51ecb383a8dd58323b5ce15dda2a9d9c6fb849a51b3e38cb954e5267",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/088",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 108,
+      "sha256": "a44e15836a867ed8da77544ef76003c9f5ed42ee4f653a45266f1f72e56f6498",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/089",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 109,
+      "sha256": "25e901cbb01901bb831909fdd3491e27d9b4d7aea187a44464febc7101428435",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/090",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 110,
+      "sha256": "4ea35eef12d0298b722b0426a2d5f5e800c563b89b152b8e23c3952a8339677b",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/091",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 111,
+      "sha256": "0b88b45e12ae67a4e5c033d87f90cc89ac82025c6770037bfc3b2d6dcedebf58",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/092",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 112,
+      "sha256": "55208bdfacec3db3babf33edc9fc9211f8ea656a3df036affbfde4b1e8c459ea",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/093",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 113,
+      "sha256": "8e83f27e7b93e2e587697b8e1f1080038b12b9cfc8a0ce20e3189851ccba81a0",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/094",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 114,
+      "sha256": "0bc4b7a46966b3851d415c4d0402a668d845b00e8298c3cddb5dfe1689fbba06",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/095",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 115,
+      "sha256": "0710fd201830b9cdce0b2bca2b86caa138ee32d4e227e6d7aa62110a65e5c5f0",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/096",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 116,
+      "sha256": "43ae89fe6915a2f81bb5ccdee76e256199b10f47f3cd9a54d745d5d2e1a957f1",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/097",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 117,
+      "sha256": "f2b978f186c2a23b197362016b8f18fd30ccad24f1269d51e794524b0ccf7cc9",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/098",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 118,
+      "sha256": "936a56b7bad02baea5d7ba94acf2e6c4f91d1918d2367c9ef6794837f355bdba",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/query/099",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 119,
+      "sha256": "7f68d98dc55025ddb09d5ce707428205e1bade9f0f50ddf49b08cfcbcc391310",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    }
+  ],
+  "references": [
+    {
+      "asset_id": "synthetic/reference/000",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 0,
+      "sha256": "023bb0389ea38626636c3b42cd8ea40ddd297d7a4103ba8343eb0af694bdbc15",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/001",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 1,
+      "sha256": "1ef557713ecb40ba459f0e5aa1c437d0598657aee46ea93dcc2f47286b2fafc4",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/002",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 2,
+      "sha256": "121acb21e2ab2088152a0e8aa19ece30fd52257e04cceb8ef26456c178e33f53",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/003",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 3,
+      "sha256": "af5ab4dadec0671957089576e4ee6ddd285b81fc9be4e9a11a31b73664d85c04",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/004",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 4,
+      "sha256": "566c669e48a1c93429a878bf35bf748a89eca7af415c3422a12cf6d744508c51",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/005",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 5,
+      "sha256": "51b7da37ffd63d42f2fa894b5ad733dde1279cb48651fdf9961f6d1ad5f9fd34",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/006",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 6,
+      "sha256": "7bb1349218b804ef693ea9308c86fc71678d87c954b50be7b430bad0dc344c89",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/007",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 7,
+      "sha256": "fb177c4c0d278d464dec51eba50cf516ed53eee8bc52964cb1eb4f687dd96dca",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/008",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 8,
+      "sha256": "b488c74946fb449e7a2ecf9b2e874c2331bbb565c580b7a8af13fb7aac543c20",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/009",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 9,
+      "sha256": "85c6aaae74abb464922576cef25f4c3e0e205e51b1d5e5dfb12e81fa968405b6",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/010",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 10,
+      "sha256": "2e72088e1c8cf62cee3ec952a2a9b8b8c63bdb91bb1e9565b7e59105bf9e2703",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/011",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 11,
+      "sha256": "68b2989413353c907023f1ba63f1415f52f2af2815afdabe7ef58c60f30cd3dd",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/012",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 12,
+      "sha256": "16ae65fbe6701be46a04d558fe477f41e2bf0493ab2e241d4f5cfd91748eafd0",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/013",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 13,
+      "sha256": "8466de912471ab0025b180b2238e264859573a176df601618a5f16f28f311d76",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/014",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 14,
+      "sha256": "baf543fa7d33baffc74d74c11b75093b72aa8cbab06f07e77cdd3085dc408801",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/015",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 15,
+      "sha256": "b2cc96dc19c372c7f2eb1855f3043e72102c4c1ebf2c072d8eec2108d35d0c3d",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/016",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 16,
+      "sha256": "45a7aa6712a9f3b99729dccca31926c16043039a5236ab8d0f7c0e8b1db2ea59",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/017",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 17,
+      "sha256": "433c8c73f1ec4216b4cdcfd86156010c8a316c69339da13e811b1ca1f6f9413d",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/018",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 18,
+      "sha256": "72bc384916bdc75a2fc090188614a9f66a654b82c34c993ed2b4318de32c9c52",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    },
+    {
+      "asset_id": "synthetic/reference/019",
+      "byte_count": 786432,
+      "dtype": "uint8",
+      "index": 19,
+      "sha256": "35bd1379b1343949ee431e41d2c825401964e6c4d554dbea55e9700f6521f7f0",
+      "shape": [
+        512,
+        512,
+        3
+      ]
+    }
+  ],
+  "resident_policy": {
+    "all_source_images_retained_in_process_memory": false,
+    "current_source_image_count": 1,
+    "memory_map_to_contiguous_copy_outside_timer": true
+  },
+  "schema_version": "v0.2-dinov2-timing-input-store-v1"
+}

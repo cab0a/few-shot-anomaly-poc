@@ -1,0 +1,55 @@
+{
+  "boundary": {
+    "dataset_access": false,
+    "labels_accessed": false,
+    "synthetic_inputs_only": true,
+    "threshold_calibration_performed": false,
+    "timing_invocation_count": 600
+  },
+  "decision": {
+    "next_step": "PROCEED_TO_OFFLINE_REPRODUCTION",
+    "resolution_pass": {
+      "224": true,
+      "448": false
+    },
+    "selected_resolution_candidate": 224,
+    "status": "pass"
+  },
+  "execution": {
+    "execution_commit": "d02da60f622090746c8348704e550dccf57358d5",
+    "process_order": [
+      224,
+      448
+    ],
+    "verification_date": "2026-08-01"
+  },
+  "inputs": {
+    "input_manifest_sha256": "0760e26a49e11130b66bae57e287d8593dea666feda0a6c08041baf77e2c7dec",
+    "logical_store_id": "synthetic-pcg64-42-memory-bounded-v1",
+    "precondition_record_sha256": "331ba1549f33fe0da920472a5c3667051b09e09e1fa08f370331df7484c5229e",
+    "raw_store_in_git": false
+  },
+  "schema_version": "v0.2-dinov2-timing-parent-v1",
+  "worker_processes": [
+    {
+      "artifact": "resolution-224.json",
+      "artifact_sha256": "2c0820771cc435f23b79c053d1c705f2bf1fcd875a7bb46a9d12706fddc4c3d4",
+      "fresh_process": true,
+      "observations_csv": "resolution-224-observations.csv",
+      "observations_csv_sha256": "59492ba66335313c3d124900c940008bfc5b62c735a73fc9e2c925b3b50bf90d",
+      "resolution": 224,
+      "return_code": 0,
+      "validation_failure": null
+    },
+    {
+      "artifact": "resolution-448.json",
+      "artifact_sha256": "7988270f82eb2a6e34b7f429fe755dd55d8b1e287fefbd2353191e50966c875a",
+      "fresh_process": true,
+      "observations_csv": "resolution-448-observations.csv",
+      "observations_csv_sha256": "0b3e91ff89671185e9226a1be09a65d0fb9d4e15aa4ce32dc74497b050059802",
+      "resolution": 448,
+      "return_code": 2,
+      "validation_failure": null
+    }
+  ]
+}
