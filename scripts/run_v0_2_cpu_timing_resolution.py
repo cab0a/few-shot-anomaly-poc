@@ -58,6 +58,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--verification-date", required=True)
     parser.add_argument("--resolution", type=int, choices=(224, 448), required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--observations-csv", type=Path, required=True)
     return parser
 
 
@@ -79,6 +80,7 @@ def main() -> int:
             verification_date=args.verification_date,
             resolution=args.resolution,
             output_path=args.output,
+            observations_csv_path=args.observations_csv,
         )
     except (
         DINOv2TimingError,

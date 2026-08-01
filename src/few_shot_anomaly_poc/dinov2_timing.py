@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import csv
 import hashlib
 import importlib
 import json
@@ -12,6 +13,7 @@ import re
 import resource
 import subprocess
 import sys
+import tempfile
 import time
 import warnings
 from collections.abc import Callable
@@ -31,6 +33,7 @@ from few_shot_anomaly_poc.dinov2_scoring import (
     score_dinov2_image,
     validate_resolution,
 )
+from few_shot_anomaly_poc.dinov2_timing_preflight import run_timing_preconditions
 from few_shot_anomaly_poc.hashing import sha256_file
 from few_shot_anomaly_poc.jsonio import write_json_atomic
 from few_shot_anomaly_poc.model_assets import SOURCE_ROOT
@@ -63,7 +66,8 @@ TIMED_INVOCATION_COUNT = QUERY_COUNT * TIMED_PASS_COUNT
 P95_NEAREST_RANK = 285
 LATENCY_GATE_NS = 1_000_000_000
 RESOLUTION_WORKER_SCHEMA = "v0.2-dinov2-timing-resolution-v1"
-PRECONDITION_RECORD_SHA256 = "f9befbd3df1c980f1dc0a8dc48563fd4dffbecd24530b2a4e2b413b4e688715d"
+PARENT_RUN_SCHEMA = "v0.2-dinov2-timing-parent-v1"
+PREREGISTRATION_SHA256 = "8d2d055d6f311719e28f52fb7e8f2f87fb3202c04414b56440d0a420832658ba"
 STRICT_LOAD_RECORD_SHA256 = "4491f2fb472df813642d296d92d396e62476a2fd257d6b9da431c3a90b6aa604"
 COMMIT_PATTERN = re.compile(r"[0-9a-f]{40}")
 DATE_PATTERN = re.compile(r"\d{4}-\d{2}-\d{2}")
@@ -527,19 +531,96 @@ def _validate_execution_identity(
         raise DINOv2TimingError("worktree must be clean before the timing worker starts")
 
 
-def _validate_precondition_record(path: Path) -> dict[str, Any]:
-    if sha256_file(path) != PRECONDITION_RECORD_SHA256:
-        raise DINOv2TimingError("memory-bounded precondition record SHA-256 changed")
+def _validate_precondition_record(
+    path: Path,
+    *,
+    execution_commit: str,
+) -> dict[str, Any]:
     record = _load_json(path, field="memory-bounded precondition record")
+    conditions = record.get("ordered_stop_conditions")
     if (
         record.get("schema_version") != "v0.2-cpu-timing-preconditions-v2"
         or record.get("inputs", {}).get("preregistration_id") != PREREGISTRATION_ID
+        or record.get("inputs", {}).get("preregistration_sha256")
+        != PREREGISTRATION_SHA256
+        or record.get("execution", {}).get("execution_commit") != execution_commit
+        or record.get("execution", {}).get("worktree_clean") is not True
         or record.get("decision", {}).get("status") != "pass"
         or record.get("decision", {}).get("next_step")
         != "PROCEED_TO_FRESH_PROCESS_TIMING_RUN"
+        or not isinstance(conditions, list)
+        or len(conditions) != 10
+        or [item.get("status") for item in conditions[:6]] != ["pass"] * 6
+        or [item.get("status") for item in conditions[6:]] != ["pending"] * 4
     ):
         raise DINOv2TimingError("precondition record does not authorize the timing worker")
     return record
+
+
+def write_timing_observations_csv(
+    path: Path,
+    *,
+    observations: object,
+) -> None:
+    """Write deterministic per-invocation evidence without overwriting."""
+    if path.exists():
+        raise FileExistsError(f"refusing to overwrite {path}")
+    if not isinstance(observations, list):
+        raise DINOv2TimingError("observations must be a list")
+    columns = (
+        "invocation_index",
+        "pass_index",
+        "query_index",
+        "asset_id",
+        "status",
+        "duration_ns",
+        "score",
+        "failure_category",
+        "failure_exception_type",
+    )
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".tmp",
+            delete=False,
+            newline="",
+        ) as stream:
+            temporary_path = Path(stream.name)
+            writer = csv.DictWriter(stream, fieldnames=columns, lineterminator="\n")
+            writer.writeheader()
+            for item in observations:
+                if not isinstance(item, dict):
+                    raise DINOv2TimingError("observation row must be an object")
+                failure = item.get("failure")
+                writer.writerow(
+                    {
+                        "asset_id": item.get("asset_id"),
+                        "duration_ns": item.get("duration_ns"),
+                        "failure_category": (
+                            failure.get("category") if isinstance(failure, dict) else None
+                        ),
+                        "failure_exception_type": (
+                            failure.get("exception_type")
+                            if isinstance(failure, dict)
+                            else None
+                        ),
+                        "invocation_index": item.get("invocation_index"),
+                        "pass_index": item.get("pass_index"),
+                        "query_index": item.get("query_index"),
+                        "score": item.get("score"),
+                        "status": item.get("status"),
+                    }
+                )
+        os.replace(temporary_path, path)
+    except Exception:
+        if temporary_path is not None:
+            temporary_path.unlink(missing_ok=True)
+        raise
 
 
 def build_memory_bank_one_at_a_time(
@@ -688,6 +769,7 @@ def run_timing_resolution_worker(
     verification_date: str,
     resolution: int,
     output_path: Path,
+    observations_csv_path: Path,
 ) -> dict[str, Any]:
     """Run one fixed resolution inside one isolated fresh process."""
     project_root = project_root.resolve()
@@ -701,21 +783,27 @@ def run_timing_resolution_worker(
             "input_manifest_path": input_manifest_path,
             "input_store_path": input_store_path,
             "output_path": output_path,
+            "observations_csv_path": observations_csv_path,
             "precondition_path": precondition_path,
             "source_root": source_root,
             "strict_load_path": strict_load_path,
         }.items()
     }
     output_path = resolved_paths["output_path"]
-    if output_path.exists():
-        raise FileExistsError(f"refusing to overwrite {output_path}")
+    observations_csv_path = resolved_paths["observations_csv_path"]
+    for target in (output_path, observations_csv_path):
+        if target.exists():
+            raise FileExistsError(f"refusing to overwrite {target}")
     validated_resolution = validate_resolution(resolution)
     _validate_execution_identity(
         project_root=project_root,
         execution_commit=execution_commit,
         verification_date=verification_date,
     )
-    _validate_precondition_record(resolved_paths["precondition_path"])
+    _validate_precondition_record(
+        resolved_paths["precondition_path"],
+        execution_commit=execution_commit,
+    )
     input_manifest = validate_synthetic_input_manifest(
         _load_json(resolved_paths["input_manifest_path"], field="input manifest")
     )
@@ -847,7 +935,9 @@ def run_timing_resolution_worker(
         "inputs": {
             "input_manifest_sha256": sha256_file(resolved_paths["input_manifest_path"]),
             "logical_store": input_manifest["logical_store"],
-            "precondition_record_sha256": PRECONDITION_RECORD_SHA256,
+            "precondition_record_sha256": sha256_file(
+                resolved_paths["precondition_path"]
+            ),
             "preregistration_id": PREREGISTRATION_ID,
         },
         "loop": loop,
@@ -865,5 +955,325 @@ def run_timing_resolution_worker(
             "python_version": platform.python_version(),
         },
     }
+    observations = loop["observations"] if loop is not None else []
+    write_timing_observations_csv(
+        observations_csv_path,
+        observations=observations,
+    )
+    report["observations_csv"] = {
+        "byte_count": observations_csv_path.stat().st_size,
+        "logical_name": observations_csv_path.name,
+        "sha256": sha256_file(observations_csv_path),
+    }
     write_json_atomic(output_path, report)
     return report
+
+
+def select_resolution_candidate(worker_reports: object) -> dict[str, Any]:
+    """Apply the fixed 448 preference without anomaly-performance evidence."""
+    if not isinstance(worker_reports, list):
+        raise DINOv2TimingError("worker_reports must be a list")
+    statuses: dict[int, bool] = {}
+    for report in worker_reports:
+        if not isinstance(report, dict):
+            raise DINOv2TimingError("worker report must be an object")
+        resolution = report.get("resolution")
+        if resolution not in (224, 448) or resolution in statuses:
+            raise DINOv2TimingError("worker report resolution set is invalid")
+        statuses[resolution] = report.get("decision", {}).get("status") == "pass"
+    if set(statuses) != {224, 448}:
+        raise DINOv2TimingError("both fixed resolution reports are required")
+    selected = 448 if statuses[448] else 224 if statuses[224] else None
+    return {
+        "next_step": (
+            "PROCEED_TO_OFFLINE_REPRODUCTION" if selected is not None else "DO_NOT_PROCEED"
+        ),
+        "resolution_pass": {"224": statuses[224], "448": statuses[448]},
+        "selected_resolution_candidate": selected,
+        "status": "pass" if selected is not None else "fail",
+    }
+
+
+def _worker_environment() -> dict[str, str]:
+    environment = os.environ.copy()
+    environment.update(
+        {
+            "CUDA_VISIBLE_DEVICES": "",
+            "MKL_NUM_THREADS": "4",
+            "OMP_NUM_THREADS": "4",
+            "OPENBLAS_NUM_THREADS": "4",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "PYTHONHASHSEED": "42",
+            "PYTHONNOUSERSITE": "1",
+            "XFORMERS_DISABLED": "1",
+        }
+    )
+    environment.pop("PYTHONHOME", None)
+    environment.pop("PYTHONPATH", None)
+    return environment
+
+
+def _worker_command(
+    *,
+    python_executable: Path,
+    worker_script: Path,
+    project_root: Path,
+    artifact_dir: Path,
+    source_root: Path,
+    environment_root: Path,
+    execution_commit: str,
+    verification_date: str,
+    precondition_path: Path,
+    input_store_path: Path,
+    input_manifest_path: Path,
+    resolution: int,
+    output_path: Path,
+    observations_csv_path: Path,
+) -> list[str]:
+    return [
+        str(python_executable),
+        "-I",
+        "-B",
+        str(worker_script),
+        "--artifact-dir",
+        str(artifact_dir),
+        "--source-root",
+        str(source_root),
+        "--environment-root",
+        str(environment_root),
+        "--project-root",
+        str(project_root),
+        "--execution-commit",
+        execution_commit,
+        "--verification-date",
+        verification_date,
+        "--precondition-record",
+        str(precondition_path),
+        "--input-store",
+        str(input_store_path),
+        "--input-manifest",
+        str(input_manifest_path),
+        "--resolution",
+        str(resolution),
+        "--output",
+        str(output_path),
+        "--observations-csv",
+        str(observations_csv_path),
+    ]
+
+
+def _worker_process_record(
+    *,
+    resolution: int,
+    completed: subprocess.CompletedProcess[str] | None,
+    output_path: Path,
+    observations_csv_path: Path,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    report: dict[str, Any]
+    validation_failure: str | None = None
+    if not output_path.is_file():
+        report = {
+            "decision": {"status": "fail"},
+            "resolution": resolution,
+            "schema_version": RESOLUTION_WORKER_SCHEMA,
+        }
+        validation_failure = "missing_worker_artifact"
+    else:
+        try:
+            report = _load_json(output_path, field=f"resolution-{resolution} worker artifact")
+            if (
+                report.get("schema_version") != RESOLUTION_WORKER_SCHEMA
+                or report.get("resolution") != resolution
+                or not observations_csv_path.is_file()
+                or report.get("observations_csv", {}).get("sha256")
+                != sha256_file(observations_csv_path)
+            ):
+                raise DINOv2TimingError("worker artifact contract is invalid")
+        except (DINOv2TimingError, OSError):
+            report = {
+                "decision": {"status": "fail"},
+                "resolution": resolution,
+                "schema_version": RESOLUTION_WORKER_SCHEMA,
+            }
+            validation_failure = "invalid_worker_artifact"
+    return_code = None if completed is None else completed.returncode
+    report_passed = report.get("decision", {}).get("status") == "pass"
+    if validation_failure is None and (
+        (report_passed and return_code != 0) or (not report_passed and return_code not in (1, 2))
+    ):
+        validation_failure = "worker_exit_and_artifact_disagree"
+        report["decision"] = {"status": "fail"}
+    process_record = {
+        "artifact": output_path.name if output_path.is_file() else None,
+        "artifact_sha256": sha256_file(output_path) if output_path.is_file() else None,
+        "fresh_process": True,
+        "observations_csv": (
+            observations_csv_path.name if observations_csv_path.is_file() else None
+        ),
+        "observations_csv_sha256": (
+            sha256_file(observations_csv_path)
+            if observations_csv_path.is_file()
+            else None
+        ),
+        "resolution": resolution,
+        "return_code": return_code,
+        "validation_failure": validation_failure,
+    }
+    return report, process_record
+
+
+def run_timing_parent(
+    *,
+    artifact_dir: Path,
+    environment_root: Path,
+    project_root: Path,
+    execution_commit: str,
+    verification_date: str,
+    no_concurrent_project_benchmark_confirmed: bool,
+    output_root: Path,
+) -> dict[str, Any]:
+    """Create bounded inputs and run 224 then 448 in fresh child processes."""
+    project_root = project_root.resolve()
+    artifact_dir = _resolve_project_path(
+        artifact_dir,
+        project_root=project_root,
+        field="artifact_dir",
+    )
+    environment_root = _resolve_project_path(
+        environment_root,
+        project_root=project_root,
+        field="environment_root",
+    )
+    output_root = _resolve_project_path(
+        output_root,
+        project_root=project_root,
+        field="output_root",
+    )
+    if output_root.relative_to(project_root).parts[:1] != ("work",):
+        raise DINOv2TimingError("output_root must remain under ignored work/")
+    if output_root.exists():
+        raise FileExistsError(f"refusing to overwrite {output_root}")
+    _validate_execution_identity(
+        project_root=project_root,
+        execution_commit=execution_commit,
+        verification_date=verification_date,
+    )
+    python_executable = environment_root / "bin/python"
+    worker_script = project_root / "scripts/run_v0_2_cpu_timing_resolution.py"
+    source_root = (
+        artifact_dir / f"dinov2-source-sha256-{EXPECTED_SOURCE_SHA256}" / SOURCE_ROOT
+    )
+    if not python_executable.is_file() or not worker_script.is_file():
+        raise DINOv2TimingError("isolated Python or resolution worker is unavailable")
+    output_root.mkdir(parents=True)
+    precondition_path = output_root / "preconditions.json"
+    precondition = run_timing_preconditions(
+        project_root=project_root,
+        execution_commit=execution_commit,
+        verification_date=verification_date,
+        no_concurrent_project_benchmark_confirmed=no_concurrent_project_benchmark_confirmed,
+        output_path=precondition_path,
+    )
+    if precondition["decision"]["status"] != "pass":
+        summary = {
+            "decision": {
+                "next_step": "DO_NOT_START_TIMING_WORKLOAD",
+                "selected_resolution_candidate": None,
+                "status": "stop",
+            },
+            "execution": {
+                "execution_commit": execution_commit,
+                "verification_date": verification_date,
+            },
+            "precondition_record_sha256": sha256_file(precondition_path),
+            "schema_version": PARENT_RUN_SCHEMA,
+            "worker_processes": [],
+        }
+        write_json_atomic(output_root / "summary.json", summary)
+        return summary
+
+    input_store_path = output_root / "synthetic-inputs.npy"
+    input_manifest_path = output_root / "input-manifest.json"
+    create_synthetic_input_store(
+        store_path=input_store_path,
+        manifest_path=input_manifest_path,
+    )
+    worker_reports: list[dict[str, Any]] = []
+    process_records: list[dict[str, Any]] = []
+    for resolution in (224, 448):
+        output_path = output_root / f"resolution-{resolution}.json"
+        observations_csv_path = output_root / f"resolution-{resolution}-observations.csv"
+        command = _worker_command(
+            python_executable=python_executable,
+            worker_script=worker_script,
+            project_root=project_root,
+            artifact_dir=artifact_dir,
+            source_root=source_root,
+            environment_root=environment_root,
+            execution_commit=execution_commit,
+            verification_date=verification_date,
+            precondition_path=precondition_path,
+            input_store_path=input_store_path,
+            input_manifest_path=input_manifest_path,
+            resolution=resolution,
+            output_path=output_path,
+            observations_csv_path=observations_csv_path,
+        )
+        completed: subprocess.CompletedProcess[str] | None
+        try:
+            completed = subprocess.run(
+                command,
+                cwd=project_root,
+                env=_worker_environment(),
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            (output_root / f"resolution-{resolution}.stdout.log").write_text(
+                completed.stdout,
+                encoding="utf-8",
+            )
+            (output_root / f"resolution-{resolution}.stderr.log").write_text(
+                completed.stderr,
+                encoding="utf-8",
+            )
+        except OSError:
+            completed = None
+        report, process_record = _worker_process_record(
+            resolution=resolution,
+            completed=completed,
+            output_path=output_path,
+            observations_csv_path=observations_csv_path,
+        )
+        worker_reports.append(report)
+        process_records.append(process_record)
+
+    selection = select_resolution_candidate(worker_reports)
+    summary = {
+        "boundary": {
+            "dataset_access": False,
+            "labels_accessed": False,
+            "synthetic_inputs_only": True,
+            "threshold_calibration_performed": False,
+            "timing_invocation_count": sum(
+                int(report.get("boundary", {}).get("timing_invocation_count", 0))
+                for report in worker_reports
+            ),
+        },
+        "decision": selection,
+        "execution": {
+            "execution_commit": execution_commit,
+            "process_order": [224, 448],
+            "verification_date": verification_date,
+        },
+        "inputs": {
+            "input_manifest_sha256": sha256_file(input_manifest_path),
+            "logical_store_id": LOGICAL_STORE_ID,
+            "precondition_record_sha256": sha256_file(precondition_path),
+            "raw_store_in_git": False,
+        },
+        "schema_version": PARENT_RUN_SCHEMA,
+        "worker_processes": process_records,
+    }
+    write_json_atomic(output_root / "summary.json", summary)
+    return summary
