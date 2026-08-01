@@ -1,0 +1,181 @@
+{
+  "boundary": {
+    "dataset_access": false,
+    "labels_accessed": false,
+    "model_constructed": false,
+    "model_inference_performed": false,
+    "network_access": false,
+    "scoring_performed": false,
+    "timing_invocation_count": 0
+  },
+  "decision": {
+    "first_failed_condition": 6,
+    "next_step": "DO_NOT_START_TIMING_WORKLOAD",
+    "outcome": "DO NOT PROCEED",
+    "status": "stop"
+  },
+  "execution": {
+    "execution_commit": "1dd2f9b45a9e3b4bfd63c6083e738895e0e97d2f",
+    "preregistration_commit": "e9330be10742947e4227ced4c99acafe4d098566",
+    "verification_date": "2026-08-01",
+    "worktree_clean": true
+  },
+  "inputs": {
+    "preregistration_id": "v0.2-dinov2-cpu-preflight-1",
+    "preregistration_path": "docs/v0.2-preflight-preregistration.md",
+    "preregistration_sha256": "19d4cf4079c6df7c9042be464859ccf98d41108656ba0259c8940ace740ebf42",
+    "required_records": {
+      "dependency_wheel_inspection": {
+        "path": "artifacts/v0.2/dependencies/wheel-inspection.json",
+        "sha256": "402e35c32a7c31e2fd2470877f8047685a372e933d48167046366553eea1d0ad",
+        "verification": "pass"
+      },
+      "fixed_scoring_path": {
+        "path": "artifacts/v0.2/scoring-path/synthetic-smoke.json",
+        "sha256": "56b5f342c3b8875df6c9baec61fdd8339c0f40d1f69c83245bdbf580ac23f7b8",
+        "verification": "pass"
+      },
+      "isolated_import_smoke": {
+        "path": "artifacts/v0.2/environment/import-smoke.json",
+        "sha256": "b0f38afb103f7084a0e5e09e8fd00e4cf2e0e5825d7a3fe8d5e3b48afd7b1f74",
+        "verification": "pass"
+      },
+      "model_asset_acquisition": {
+        "path": "artifacts/v0.2/model-assets/acquisition.json",
+        "sha256": "ba976ed08369fd80423d241129b8a86b05fcef650a39befa4ee67c8314233dac",
+        "verification": "pass"
+      },
+      "model_strict_load": {
+        "path": "artifacts/v0.2/model-compatibility/strict-load.json",
+        "sha256": "4491f2fb472df813642d296d92d396e62476a2fd257d6b9da431c3a90b6aa604",
+        "verification": "pass"
+      }
+    }
+  },
+  "ordered_stop_conditions": [
+    {
+      "condition": 1,
+      "name": "preregistration_identity",
+      "status": "pass"
+    },
+    {
+      "condition": 2,
+      "name": "source_and_license",
+      "status": "pass"
+    },
+    {
+      "condition": 3,
+      "name": "dependency_resolution",
+      "status": "pass"
+    },
+    {
+      "condition": 4,
+      "name": "checkpoint_acquisition",
+      "status": "pass"
+    },
+    {
+      "condition": 5,
+      "name": "third_party_separation",
+      "status": "pass"
+    },
+    {
+      "condition": 6,
+      "name": "target_machine",
+      "status": "fail"
+    },
+    {
+      "condition": 7,
+      "name": "execution_integrity",
+      "status": "not_evaluated"
+    },
+    {
+      "condition": 8,
+      "name": "cpu_result",
+      "status": "not_evaluated"
+    },
+    {
+      "condition": 9,
+      "name": "reproducibility",
+      "status": "not_evaluated"
+    },
+    {
+      "condition": 10,
+      "name": "evaluation_boundary",
+      "status": "not_evaluated"
+    }
+  ],
+  "schema_version": "v0.2-cpu-timing-preconditions-v1",
+  "target_machine": {
+    "concurrent_project_benchmark": {
+      "matching_process_count": 0,
+      "operator_confirmation": true,
+      "status": "pass"
+    },
+    "evaluation": {
+      "checks": {
+        "ac_power": true,
+        "cpu_affinity": true,
+        "cpu_model": true,
+        "logical_core_count": true,
+        "machine": true,
+        "nice": true,
+        "physical_core_count": true,
+        "ram_bytes": false,
+        "scheduler": true,
+        "sys_platform": true,
+        "wsl2": true
+      },
+      "failures": [
+        "ram_bytes"
+      ],
+      "status": "fail"
+    },
+    "observed": {
+      "ac_power": true,
+      "battery_charge_percent": 100,
+      "battery_status": 2,
+      "cpu_affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "cpu_model": "Intel(R) Core(TM) i7-3630QM CPU @ 2.40GHz",
+      "logical_core_count": 8,
+      "machine": "x86_64",
+      "nice": 0,
+      "operating_system": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+      "physical_core_count": 4,
+      "ram_bytes": 4045004800,
+      "scheduler": "SCHED_OTHER",
+      "sys_platform": "linux",
+      "wsl2": true
+    },
+    "required": {
+      "ac_power": true,
+      "cpu_affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "cpu_model": "Intel(R) Core(TM) i7-3630QM CPU @ 2.40GHz",
+      "logical_core_count": 8,
+      "machine": "x86_64",
+      "minimum_ram_bytes": 4045017088,
+      "nice": 0,
+      "physical_core_count": 4,
+      "scheduler": "SCHED_OTHER",
+      "sys_platform": "linux",
+      "wsl2": true
+    }
+  }
+}
