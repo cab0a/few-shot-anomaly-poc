@@ -3,7 +3,11 @@
 from __future__ import annotations
 
 import hashlib
+import math
 import os
+import resource
+import time
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -23,6 +27,11 @@ STORE_SHAPE = (TOTAL_IMAGE_COUNT, *INPUT_SHAPE)
 LOGICAL_STORE_ID = "synthetic-pcg64-42-memory-bounded-v1"
 REFERENCE_IDS = tuple(f"synthetic/reference/{index:03d}" for index in range(REFERENCE_COUNT))
 QUERY_IDS = tuple(f"synthetic/query/{index:03d}" for index in range(QUERY_COUNT))
+WARMUP_COUNT = 25
+TIMED_PASS_COUNT = 3
+TIMED_INVOCATION_COUNT = QUERY_COUNT * TIMED_PASS_COUNT
+P95_NEAREST_RANK = 285
+LATENCY_GATE_NS = 1_000_000_000
 
 
 class DINOv2TimingError(Exception):
@@ -237,3 +246,201 @@ def copy_store_image(
     if _image_sha256(image) != expected_sha256:
         raise DINOv2TimingError("copied input image SHA-256 changed")
     return image
+
+
+def peak_rss_bytes() -> int:
+    """Return the Linux process high-water resident set in bytes."""
+    value = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+    if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+        raise DINOv2TimingError("process peak RSS is unavailable")
+    return value * 1_024
+
+
+def _exception_record(error: BaseException, *, phase: str) -> dict[str, str]:
+    current: BaseException | None = error
+    observed_text: list[str] = []
+    while current is not None:
+        observed_text.append(str(current).lower())
+        current = current.__cause__ or current.__context__
+    combined = " ".join(observed_text)
+    if isinstance(error, MemoryError):
+        category = "memory_error"
+    elif any(
+        marker in combined
+        for marker in (
+            "out of memory",
+            "cannot allocate memory",
+            "can't allocate memory",
+            "bad allocation",
+            "std::bad_alloc",
+        )
+    ):
+        category = "framework_out_of_memory"
+    else:
+        category = "execution_error"
+    return {
+        "category": category,
+        "exception_type": f"{type(error).__module__}.{type(error).__qualname__}",
+        "phase": phase,
+    }
+
+
+def _validate_score(score: object) -> float:
+    if (
+        not isinstance(score, (int, float))
+        or isinstance(score, bool)
+        or not math.isfinite(float(score))
+        or not 0.0 <= float(score) <= 2.0
+    ):
+        raise DINOv2TimingError("image score must be finite and within [0, 2]")
+    return float(score)
+
+
+def summarize_timing_observations(observations: object) -> dict[str, Any]:
+    """Apply the fixed 300-observation median, p95, and completion gate."""
+    if not isinstance(observations, list) or len(observations) > TIMED_INVOCATION_COUNT:
+        raise DINOv2TimingError("timing observations must be a bounded list")
+    successful = [
+        item
+        for item in observations
+        if isinstance(item, dict) and item.get("status") == "success"
+    ]
+    failures = [
+        item
+        for item in observations
+        if isinstance(item, dict) and item.get("status") == "failure"
+    ]
+    if len(successful) + len(failures) != len(observations):
+        raise DINOv2TimingError("timing observation status is invalid")
+    durations = [item.get("duration_ns") for item in successful]
+    if any(type(value) is not int or value < 0 for value in durations):
+        raise DINOv2TimingError("successful duration_ns must be a non-negative integer")
+    complete = (
+        len(observations) == TIMED_INVOCATION_COUNT
+        and len(successful) == TIMED_INVOCATION_COUNT
+        and not failures
+    )
+    median_ns: float | None = None
+    p95_ns: int | None = None
+    if complete:
+        ordered = sorted(durations)
+        median_ns = (ordered[149] + ordered[150]) / 2
+        p95_ns = ordered[P95_NEAREST_RANK - 1]
+    return {
+        "attempted_invocation_count": len(observations),
+        "complete_observation_set": complete,
+        "failure_count": len(failures),
+        "latency_gate_ns": LATENCY_GATE_NS,
+        "latency_gate_passed": complete and p95_ns is not None and p95_ns <= LATENCY_GATE_NS,
+        "median_ns": median_ns,
+        "missing_invocation_count": TIMED_INVOCATION_COUNT - len(observations),
+        "p95_method": "nearest-rank",
+        "p95_nearest_rank": P95_NEAREST_RANK,
+        "p95_ns": p95_ns,
+        "successful_invocation_count": len(successful),
+        "timed_invocation_count_required": TIMED_INVOCATION_COUNT,
+    }
+
+
+def execute_fixed_timing_loop(
+    *,
+    copy_query: Callable[[int], NDArray[np.uint8]],
+    score_image: Callable[[NDArray[np.uint8]], float],
+    clock_ns: Callable[[], int] = time.perf_counter_ns,
+) -> dict[str, Any]:
+    """Execute the fixed warm-up and timed query order without retries."""
+    warmup_completed = 0
+    warmup_failure: dict[str, str] | None = None
+    for _ in range(WARMUP_COUNT):
+        try:
+            image = copy_query(0)
+            _validate_score(score_image(image))
+            warmup_completed += 1
+        except Exception as error:
+            warmup_failure = _exception_record(error, phase="warmup")
+            break
+
+    observations: list[dict[str, Any]] = []
+    if warmup_failure is None:
+        stop = False
+        for pass_index in range(TIMED_PASS_COUNT):
+            for query_index, asset_id in enumerate(QUERY_IDS):
+                invocation_index = pass_index * QUERY_COUNT + query_index
+                try:
+                    image = copy_query(query_index)
+                except Exception as error:
+                    observations.append(
+                        {
+                            "asset_id": asset_id,
+                            "duration_ns": None,
+                            "failure": _exception_record(error, phase="input_copy"),
+                            "invocation_index": invocation_index,
+                            "pass_index": pass_index,
+                            "query_index": query_index,
+                            "score": None,
+                            "status": "failure",
+                        }
+                    )
+                    stop = True
+                    break
+                try:
+                    started_ns = clock_ns()
+                    score = _validate_score(score_image(image))
+                    finished_ns = clock_ns()
+                    if type(started_ns) is not int or type(finished_ns) is not int:
+                        raise DINOv2TimingError("clock values must be integers")
+                    duration_ns = finished_ns - started_ns
+                    if duration_ns < 0:
+                        raise DINOv2TimingError("clock duration must not be negative")
+                except Exception as error:
+                    try:
+                        failure_finished_ns = clock_ns()
+                        failure_duration_ns = (
+                            failure_finished_ns - started_ns
+                            if type(failure_finished_ns) is int
+                            and type(started_ns) is int
+                            and failure_finished_ns >= started_ns
+                            else None
+                        )
+                    except Exception:
+                        failure_duration_ns = None
+                    observations.append(
+                        {
+                            "asset_id": asset_id,
+                            "duration_ns": failure_duration_ns,
+                            "failure": _exception_record(error, phase="timed_scoring"),
+                            "invocation_index": invocation_index,
+                            "pass_index": pass_index,
+                            "query_index": query_index,
+                            "score": None,
+                            "status": "failure",
+                        }
+                    )
+                    stop = True
+                    break
+                observations.append(
+                    {
+                        "asset_id": asset_id,
+                        "duration_ns": duration_ns,
+                        "failure": None,
+                        "invocation_index": invocation_index,
+                        "pass_index": pass_index,
+                        "query_index": query_index,
+                        "score": score,
+                        "status": "success",
+                    }
+                )
+            if stop:
+                break
+
+    return {
+        "observations": observations,
+        "summary": summarize_timing_observations(observations),
+        "warmup": {
+            "completed_count": warmup_completed,
+            "failure": warmup_failure,
+            "query_id": QUERY_IDS[0],
+            "required_count": WARMUP_COUNT,
+            "status": "pass" if warmup_failure is None else "failure",
+        },
+    }
