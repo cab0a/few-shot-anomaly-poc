@@ -8,7 +8,7 @@ ECCによる位置合わせ残差法と、局所勾配特徴量を用いた一�
 
 正常データだけによる閾値校正、一度だけの最終評価、誤検知・見逃し一覧、処理時間、判定根拠、チェックサム付き成果物を保存しています。再現手順、評価値、制約の詳細は以下の英語本文を参照してください。
 
-v0.2ではDINOv2のCPU timingを完了し、224だけを対象とするoffline score-reproduction runnerを実装しました。224はp95 0.6795秒で1秒ゲートを通過し、448は3.6253秒で不通過でした。正式なscore再現runは未実行です。合成入力によるpreflightであり、精度や採否は未判定です。
+v0.2ではDINOv2のCPU timingと224のoffline score再現を完了しました。224はp95 0.6795秒で1秒ゲートを通過し、先頭10 scoreは最大差0.0で一致しました。448は3.6253秒で不通過です。合成入力preflightであり、精度や採否は未判定です。
 
 ---
 
@@ -20,9 +20,9 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > Neither method passed every fixed operating-point gate. The thresholds and gates were not revised after the result.
 
-> **v0.2 status: offline score-reproduction runner implemented — formal reproduction not started**
+> **v0.2 status: offline score reproduction passed — final preflight decision pending**
 >
-> The fixed synthetic timing workload selected only `224` for the preregistered offline check. The new parent starts one isolated `-I -B` worker, which regenerates the fixed input store, rebuilds the model and 20-reference memory bank, and compares the first 10 query scores in order at absolute tolerance `1e-6`. Tests cover identities, mismatch, non-finite output, one-attempt failure preservation, and process-command isolation. No formal reproduction score or final preflight decision exists yet. See the [reproduction-runner record](docs/v0.2-offline-score-reproduction-runner.md), [timing result](docs/v0.2-first-memory-bounded-cpu-timing-run.md), and [preregistration](docs/v0.2-memory-bounded-cpu-preflight.md).
+> The first formal `224` offline worker regenerated all 10 fixed scores in order with maximum absolute difference `0.0`, below the preregistered `1e-6` tolerance. Every source, checkpoint, environment-lock, configuration, and generated-input identity matched; no score failed and no network, dataset, label, threshold, or latency boundary was entered. Reproducibility condition 9 therefore passes. The untouched evaluation-boundary feasibility check and final preflight decision remain pending. See the [formal reproduction record](docs/v0.2-first-offline-score-reproduction-run.md), [runner record](docs/v0.2-offline-score-reproduction-runner.md), and [preregistration](docs/v0.2-memory-bounded-cpu-preflight.md).
 
 ## Representative Result
 
@@ -61,6 +61,7 @@ uv run --locked --no-sync python scripts/render_v0_1_summary.py
 
 | Evidence | Location | What it preserves |
 | --- | --- | --- |
+| v0.2 first fixed offline score reproduction | [`artifacts/v0.2/offline-reproduction/first-fixed-run/`](artifacts/v0.2/offline-reproduction/first-fixed-run/) | Regenerated input identities, ten exact score comparisons, fixed asset and configuration identities, fresh-worker validation, boundary, and condition-9 result |
 | v0.2 first fixed memory-bounded CPU timing | [`artifacts/v0.2/cpu-timing/first-fixed-memory-bounded-run/`](artifacts/v0.2/cpu-timing/first-fixed-memory-bounded-run/) | Fixed synthetic input identities, 600 per-invocation observations, independently checked median and p95, peak RSS, both resolution outcomes, and the untouched dataset boundary |
 | v0.2 memory-bounded precondition pass | [`artifacts/v0.2/cpu-preflight/attempt-002-memory-bounded-pass.json`](artifacts/v0.2/cpu-preflight/attempt-002-memory-bounded-pass.json) | New preregistration identity, unchanged CPU boundary, non-gating memory diagnostics, zero-timing boundary, and authorization to implement the runner |
 | v0.2 CPU timing precondition stop | [`artifacts/v0.2/cpu-preflight/attempt-001-target-machine-stop.json`](artifacts/v0.2/cpu-preflight/attempt-001-target-machine-stop.json) | Ordered conditions, exact target-machine comparison, zero-timing boundary, and `DO NOT PROCEED` outcome |
@@ -233,6 +234,7 @@ See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md)
 | [v0.2 Memory-Bounded Timing Runner](docs/v0.2-memory-bounded-timing-runner.md) | Fixed input identities, one-image resident policy, timing loop, fresh-process orchestration, failure evidence, JSON/CSV outputs, and unexecuted formal boundary |
 | [v0.2 First Fixed Memory-Bounded CPU Timing Run](docs/v0.2-first-memory-bounded-cpu-timing-run.md) | Formal 224/448 latency and peak-RSS evidence, preserved failed gate, resolution selection, boundary, and next reproduction step |
 | [v0.2 Offline Score-Reproduction Runner](docs/v0.2-offline-score-reproduction-runner.md) | Fixed 224 baseline identities, fresh offline process, first-10 comparison, failure preservation, output contract, and unexecuted formal boundary |
+| [v0.2 First Fixed Offline Score-Reproduction Run](docs/v0.2-first-offline-score-reproduction-run.md) | Formal first-10 comparison, exact identity matches, condition-9 pass, preserved boundary, and pending final preflight decision |
 | [Method Specification](docs/method-specification.md) | Fixed preprocessing, parameters, scoring, and failure rules |
 | [Evaluation Plan](docs/evaluation-plan.md) | Partitions, metrics, latency, error selection, and decision logic |
 | [Evaluation Artifact Schema](docs/evaluation-artifact-schema.md) | JSON/CSV contract, deterministic serialization, and integrity |
