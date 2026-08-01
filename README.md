@@ -8,7 +8,7 @@ ECCによる位置合わせ残差法と、局所勾配特徴量を用いた一�
 
 正常データだけによる閾値校正、一度だけの最終評価、誤検知・見逃し一覧、処理時間、判定根拠、チェックサム付き成果物を保存しています。再現手順、評価値、制約の詳細は以下の英語本文を参照してください。
 
-v0.2ではDINOv2 scoring pathとmemory-bounded timing runnerを実装済みです。新preflightの条件1〜6を通過し、固定合成入力を一枚ずつ処理して224→448を別processで測る境界をテストしました。正式timing、速度・精度・採否は未判定です。
+v0.2ではDINOv2の固定CPU timingを完了しました。224はp95 0.6795秒で1秒ゲートを通過し、448は3.6253秒で不通過でした。両解像度とも300件を欠測・OOMなく完了し、224だけをoffline score再現確認へ進めます。合成入力による速度検証であり、精度や採否は未判定です。
 
 ---
 
@@ -20,9 +20,9 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > Neither method passed every fixed operating-point gate. The thresholds and gates were not revised after the result.
 
-> **v0.2 status: memory-bounded timing runner implemented — formal workload not started**
+> **v0.2 status: first fixed memory-bounded CPU timing complete — offline reproduction pending**
 >
-> The runner generates the fixed 20-reference and 100-query PCG64 workload into an ignored memory-mapped store, processes one decoded image at a time, and starts `224` then `448` in distinct isolated processes. It records every timing observation, peak RSS, failure, child exit, and deterministic JSON/CSV identity. Only fake-worker and contract tests have run; no formal DINOv2 timing invocation or performance result exists. See the [timing-runner implementation record](docs/v0.2-memory-bounded-timing-runner.md), [attempt-2 precondition record](docs/v0.2-memory-bounded-precondition-pass.md), and [preregistration](docs/v0.2-memory-bounded-cpu-preflight.md).
+> The fixed synthetic workload completed all `300` invocations per resolution without a scoring failure, missing observation, or out-of-memory event. At `224`, CPU p95 was `0.6795 s` and passed the preregistered one-second gate; at `448`, p95 was `3.6253 s` and failed it. Resolution `224` is the sole candidate for the separate offline score-reproduction check. This is CPU timing evidence, not anomaly-performance or adoption evidence. See the [formal run record](docs/v0.2-first-memory-bounded-cpu-timing-run.md), [runner implementation record](docs/v0.2-memory-bounded-timing-runner.md), and [preregistration](docs/v0.2-memory-bounded-cpu-preflight.md).
 
 ## Representative Result
 
@@ -61,6 +61,7 @@ uv run --locked --no-sync python scripts/render_v0_1_summary.py
 
 | Evidence | Location | What it preserves |
 | --- | --- | --- |
+| v0.2 first fixed memory-bounded CPU timing | [`artifacts/v0.2/cpu-timing/first-fixed-memory-bounded-run/`](artifacts/v0.2/cpu-timing/first-fixed-memory-bounded-run/) | Fixed synthetic input identities, 600 per-invocation observations, independently checked median and p95, peak RSS, both resolution outcomes, and the untouched dataset boundary |
 | v0.2 memory-bounded precondition pass | [`artifacts/v0.2/cpu-preflight/attempt-002-memory-bounded-pass.json`](artifacts/v0.2/cpu-preflight/attempt-002-memory-bounded-pass.json) | New preregistration identity, unchanged CPU boundary, non-gating memory diagnostics, zero-timing boundary, and authorization to implement the runner |
 | v0.2 CPU timing precondition stop | [`artifacts/v0.2/cpu-preflight/attempt-001-target-machine-stop.json`](artifacts/v0.2/cpu-preflight/attempt-001-target-machine-stop.json) | Ordered conditions, exact target-machine comparison, zero-timing boundary, and `DO NOT PROCEED` outcome |
 | v0.2 fixed scoring-path smoke | [`artifacts/v0.2/scoring-path/synthetic-smoke.json`](artifacts/v0.2/scoring-path/synthetic-smoke.json) | Fixed preprocessing and scoring contract, real model-forward shape evidence, independent scalar-score check, synthetic-only boundary, and next-step decision |
@@ -230,6 +231,7 @@ See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md)
 | [v0.2 Memory-Bounded CPU Preflight](docs/v0.2-memory-bounded-cpu-preflight.md) | New preflight identity, same-machine execution, sequential input storage, memory diagnostics, actual failure boundary, and unchanged latency gate |
 | [v0.2 Memory-Bounded Precondition Pass](docs/v0.2-memory-bounded-precondition-pass.md) | Attempt-2 machine evidence, non-gating RAM observation, passed conditions 1–6, zero-timing boundary, and authorized next step |
 | [v0.2 Memory-Bounded Timing Runner](docs/v0.2-memory-bounded-timing-runner.md) | Fixed input identities, one-image resident policy, timing loop, fresh-process orchestration, failure evidence, JSON/CSV outputs, and unexecuted formal boundary |
+| [v0.2 First Fixed Memory-Bounded CPU Timing Run](docs/v0.2-first-memory-bounded-cpu-timing-run.md) | Formal 224/448 latency and peak-RSS evidence, preserved failed gate, resolution selection, boundary, and next reproduction step |
 | [Method Specification](docs/method-specification.md) | Fixed preprocessing, parameters, scoring, and failure rules |
 | [Evaluation Plan](docs/evaluation-plan.md) | Partitions, metrics, latency, error selection, and decision logic |
 | [Evaluation Artifact Schema](docs/evaluation-artifact-schema.md) | JSON/CSV contract, deterministic serialization, and integrity |
