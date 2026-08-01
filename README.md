@@ -8,7 +8,7 @@ ECCによる位置合わせ残差法と、局所勾配特徴量を用いた一�
 
 正常データだけによる閾値校正、一度だけの最終評価、誤検知・見逃し一覧、処理時間、判定根拠、チェックサム付き成果物を保存しています。再現手順、評価値、制約の詳細は以下の英語本文を参照してください。
 
-v0.2のDINOv2固定scoring pathは合成入力で確認済みです。正式CPU計測前、観測RAMが事前登録下限を12,288 bytes（3 pages）下回ったため、条件を変えず計測0回で`DO NOT PROCEED`としました。速度・精度・採否は未判定です。
+v0.2ではDINOv2 scoring pathを合成入力で確認済みです。総RAM snapshotの12,288 bytes差で最初のpreflightが停止したため、同じWSLで逐次処理し、OOMとpeak RSSを評価する新preflightを性能計測前に固定しました。速度・精度・採否は未判定です。
 
 ---
 
@@ -20,9 +20,9 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > Neither method passed every fixed operating-point gate. The thresholds and gates were not revised after the result.
 
-> **v0.2 status: CPU timing stopped at preregistered target-machine gate — `DO NOT PROCEED`**
+> **v0.2 status: memory-bounded CPU preflight preregistered — no timing result yet**
 >
-> Conditions 1–5 passed, but condition 6 failed because the observed WSL2 RAM was `4,045,004,800` bytes against the fixed minimum of `4,045,017,088` bytes. The workload therefore stopped before model construction, inference, scoring, or any timed invocation. This is a precondition result, not DINOv2 latency or anomaly-performance evidence. See the [CPU timing precondition stop record](docs/v0.2-cpu-timing-precondition-stop.md).
+> Attempt 1 remains a `DO NOT PROCEED` record with zero timing invocations: its exact total-RAM snapshot differed by 12,288 bytes. Because total visible RAM is not workload usage, a new preregistration keeps the same CPU and timing gates while loading deterministic inputs one at a time, recording memory diagnostics, and treating an actual out-of-memory event or incomplete run as failure. No DINOv2 latency or anomaly-performance result has been observed. See the [memory-bounded CPU preflight](docs/v0.2-memory-bounded-cpu-preflight.md) and the preserved [attempt-1 stop record](docs/v0.2-cpu-timing-precondition-stop.md).
 
 ## Representative Result
 
@@ -226,6 +226,7 @@ See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md)
 | [v0.2 Weights-Only Strict Load](docs/v0.2-weights-only-strict-load.md) | Safe source extraction, complete tensor inventory, fixed architecture identity, exact strict load, and the non-inference boundary |
 | [v0.2 Fixed DINOv2 Scoring Path](docs/v0.2-fixed-dinov2-scoring-path.md) | Fixed preprocessing, patch-token extraction, exact blocked scoring, implementation-smoke evidence, stopped attempts, and the formal timing boundary |
 | [v0.2 CPU Timing Precondition Stop](docs/v0.2-cpu-timing-precondition-stop.md) | Ordered precondition result, exact RAM shortfall, preserved zero-timing boundary, and unchanged retry rule |
+| [v0.2 Memory-Bounded CPU Preflight](docs/v0.2-memory-bounded-cpu-preflight.md) | New preflight identity, same-machine execution, sequential input storage, memory diagnostics, actual failure boundary, and unchanged latency gate |
 | [Method Specification](docs/method-specification.md) | Fixed preprocessing, parameters, scoring, and failure rules |
 | [Evaluation Plan](docs/evaluation-plan.md) | Partitions, metrics, latency, error selection, and decision logic |
 | [Evaluation Artifact Schema](docs/evaluation-artifact-schema.md) | JSON/CSV contract, deterministic serialization, and integrity |
