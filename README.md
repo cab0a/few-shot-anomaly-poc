@@ -8,7 +8,7 @@ ECCによる位置合わせ残差法と、局所勾配特徴量を用いた一�
 
 正常データだけによる閾値校正、一度だけの最終評価、誤検知・見逃し一覧、処理時間、判定根拠、チェックサム付き成果物を保存しています。再現手順、評価値、制約の詳細は以下の英語本文を参照してください。
 
-v0.2では標準DINOv2 ViT-S/14 checkpointのstrict loadに続き、固定した前処理、patch feature抽出、exact cosine nearest neighbor、top 1%集約を実装しました。合成入力による接続確認は両解像度で完了しましたが、正式なCPU latency計測、VisA評価、閾値校正は未実施です。
+v0.2のDINOv2固定scoring pathは合成入力で確認済みです。正式CPU計測前、観測RAMが事前登録下限を12,288 bytes（3 pages）下回ったため、条件を変えず計測0回で`DO NOT PROCEED`としました。速度・精度・採否は未判定です。
 
 ---
 
@@ -20,9 +20,9 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > Neither method passed every fixed operating-point gate. The thresholds and gates were not revised after the result.
 
-> **v0.2 status: fixed DINOv2 scoring path complete — `PROCEED TO PREREGISTERED CPU TIMING WORKLOAD`**
+> **v0.2 status: CPU timing stopped at preregistered target-machine gate — `DO NOT PROCEED`**
 >
-> The fixed local non-register `dinov2_vits14` completed the preregistered preprocessing, final-layer patch extraction, L2 normalization, exact blocked cosine nearest-neighbor search, and top-one-percent aggregation at `224` and `448` on deterministic synthetic inputs. This was an implementation smoke check, not the formal timing workload or anomaly-performance evidence. See the [fixed scoring-path record](docs/v0.2-fixed-dinov2-scoring-path.md).
+> Conditions 1–5 passed, but condition 6 failed because the observed WSL2 RAM was `4,045,004,800` bytes against the fixed minimum of `4,045,017,088` bytes. The workload therefore stopped before model construction, inference, scoring, or any timed invocation. This is a precondition result, not DINOv2 latency or anomaly-performance evidence. See the [CPU timing precondition stop record](docs/v0.2-cpu-timing-precondition-stop.md).
 
 ## Representative Result
 
@@ -61,6 +61,7 @@ uv run --locked --no-sync python scripts/render_v0_1_summary.py
 
 | Evidence | Location | What it preserves |
 | --- | --- | --- |
+| v0.2 CPU timing precondition stop | [`artifacts/v0.2/cpu-preflight/attempt-001-target-machine-stop.json`](artifacts/v0.2/cpu-preflight/attempt-001-target-machine-stop.json) | Ordered conditions, exact target-machine comparison, zero-timing boundary, and `DO NOT PROCEED` outcome |
 | v0.2 fixed scoring-path smoke | [`artifacts/v0.2/scoring-path/synthetic-smoke.json`](artifacts/v0.2/scoring-path/synthetic-smoke.json) | Fixed preprocessing and scoring contract, real model-forward shape evidence, independent scalar-score check, synthetic-only boundary, and next-step decision |
 | v0.2 weights-only strict load | [`artifacts/v0.2/model-compatibility/strict-load.json`](artifacts/v0.2/model-compatibility/strict-load.json) | Exact source origins, tensor inventory, finite-value checks, architecture identity, strict-load result, and the non-inference boundary |
 | v0.2 model-asset acquisition | [`artifacts/v0.2/model-assets/acquisition.json`](artifacts/v0.2/model-assets/acquisition.json) | Source and checkpoint transport metadata, observed hashes, archive and pickle structure, license separation, and the non-execution boundary |
@@ -224,6 +225,7 @@ See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md)
 | [v0.2 Controlled Model-Asset Acquisition](docs/v0.2-model-asset-acquisition.md) | Fixed source and checkpoint hashes, safe container inspection, license separation, stopped attempts, and the strict-load boundary |
 | [v0.2 Weights-Only Strict Load](docs/v0.2-weights-only-strict-load.md) | Safe source extraction, complete tensor inventory, fixed architecture identity, exact strict load, and the non-inference boundary |
 | [v0.2 Fixed DINOv2 Scoring Path](docs/v0.2-fixed-dinov2-scoring-path.md) | Fixed preprocessing, patch-token extraction, exact blocked scoring, implementation-smoke evidence, stopped attempts, and the formal timing boundary |
+| [v0.2 CPU Timing Precondition Stop](docs/v0.2-cpu-timing-precondition-stop.md) | Ordered precondition result, exact RAM shortfall, preserved zero-timing boundary, and unchanged retry rule |
 | [Method Specification](docs/method-specification.md) | Fixed preprocessing, parameters, scoring, and failure rules |
 | [Evaluation Plan](docs/evaluation-plan.md) | Partitions, metrics, latency, error selection, and decision logic |
 | [Evaluation Artifact Schema](docs/evaluation-artifact-schema.md) | JSON/CSV contract, deterministic serialization, and integrity |
