@@ -8,7 +8,7 @@ ECCによる位置合わせ残差法と、局所勾配特徴量を用いた一�
 
 正常データだけによる閾値校正、一度だけの最終評価、誤検知・見逃し一覧、処理時間、判定根拠、チェックサム付き成果物を保存しています。再現手順、評価値、制約の詳細は以下の英語本文を参照してください。
 
-v0.2ではDINOv2の固定CPU timingを完了しました。224はp95 0.6795秒で1秒ゲートを通過し、448は3.6253秒で不通過でした。両解像度とも300件を欠測・OOMなく完了し、224だけをoffline score再現確認へ進めます。合成入力による速度検証であり、精度や採否は未判定です。
+v0.2ではDINOv2のCPU timingを完了し、224だけを対象とするoffline score-reproduction runnerを実装しました。224はp95 0.6795秒で1秒ゲートを通過し、448は3.6253秒で不通過でした。正式なscore再現runは未実行です。合成入力によるpreflightであり、精度や採否は未判定です。
 
 ---
 
@@ -20,9 +20,9 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > Neither method passed every fixed operating-point gate. The thresholds and gates were not revised after the result.
 
-> **v0.2 status: first fixed memory-bounded CPU timing complete — offline reproduction pending**
+> **v0.2 status: offline score-reproduction runner implemented — formal reproduction not started**
 >
-> The fixed synthetic workload completed all `300` invocations per resolution without a scoring failure, missing observation, or out-of-memory event. At `224`, CPU p95 was `0.6795 s` and passed the preregistered one-second gate; at `448`, p95 was `3.6253 s` and failed it. Resolution `224` is the sole candidate for the separate offline score-reproduction check. This is CPU timing evidence, not anomaly-performance or adoption evidence. See the [formal run record](docs/v0.2-first-memory-bounded-cpu-timing-run.md), [runner implementation record](docs/v0.2-memory-bounded-timing-runner.md), and [preregistration](docs/v0.2-memory-bounded-cpu-preflight.md).
+> The fixed synthetic timing workload selected only `224` for the preregistered offline check. The new parent starts one isolated `-I -B` worker, which regenerates the fixed input store, rebuilds the model and 20-reference memory bank, and compares the first 10 query scores in order at absolute tolerance `1e-6`. Tests cover identities, mismatch, non-finite output, one-attempt failure preservation, and process-command isolation. No formal reproduction score or final preflight decision exists yet. See the [reproduction-runner record](docs/v0.2-offline-score-reproduction-runner.md), [timing result](docs/v0.2-first-memory-bounded-cpu-timing-run.md), and [preregistration](docs/v0.2-memory-bounded-cpu-preflight.md).
 
 ## Representative Result
 
@@ -232,6 +232,7 @@ See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md)
 | [v0.2 Memory-Bounded Precondition Pass](docs/v0.2-memory-bounded-precondition-pass.md) | Attempt-2 machine evidence, non-gating RAM observation, passed conditions 1–6, zero-timing boundary, and authorized next step |
 | [v0.2 Memory-Bounded Timing Runner](docs/v0.2-memory-bounded-timing-runner.md) | Fixed input identities, one-image resident policy, timing loop, fresh-process orchestration, failure evidence, JSON/CSV outputs, and unexecuted formal boundary |
 | [v0.2 First Fixed Memory-Bounded CPU Timing Run](docs/v0.2-first-memory-bounded-cpu-timing-run.md) | Formal 224/448 latency and peak-RSS evidence, preserved failed gate, resolution selection, boundary, and next reproduction step |
+| [v0.2 Offline Score-Reproduction Runner](docs/v0.2-offline-score-reproduction-runner.md) | Fixed 224 baseline identities, fresh offline process, first-10 comparison, failure preservation, output contract, and unexecuted formal boundary |
 | [Method Specification](docs/method-specification.md) | Fixed preprocessing, parameters, scoring, and failure rules |
 | [Evaluation Plan](docs/evaluation-plan.md) | Partitions, metrics, latency, error selection, and decision logic |
 | [Evaluation Artifact Schema](docs/evaluation-artifact-schema.md) | JSON/CSV contract, deterministic serialization, and integrity |
