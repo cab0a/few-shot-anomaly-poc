@@ -8,7 +8,7 @@ from few_shot_anomaly_poc.dinov2_timing_preflight import (
     EXPECTED_CPU_MODEL,
     EXPECTED_LOGICAL_CORES,
     EXPECTED_PHYSICAL_CORES,
-    MINIMUM_RAM_BYTES,
+    SUPERSEDED_RAM_SNAPSHOT_BYTES,
     TargetMachineObservation,
     _ordered_conditions,
     evaluate_target_machine,
@@ -25,11 +25,17 @@ def passing_machine() -> TargetMachineObservation:
         cpu_model=EXPECTED_CPU_MODEL,
         logical_core_count=EXPECTED_LOGICAL_CORES,
         machine="x86_64",
+        mem_available_bytes=2_000_000_000,
+        mem_total_bytes=SUPERSEDED_RAM_SNAPSHOT_BYTES - 3 * 4_096,
+        meminfo_status="available",
         nice=0,
         operating_system="Linux-test-microsoft-standard-WSL2",
         physical_core_count=EXPECTED_PHYSICAL_CORES,
-        ram_bytes=MINIMUM_RAM_BYTES,
+        ram_bytes=SUPERSEDED_RAM_SNAPSHOT_BYTES - 3 * 4_096,
+        ram_bytes_status="available",
         scheduler="SCHED_OTHER",
+        swap_free_bytes=1_000_000_000,
+        swap_total_bytes=1_000_000_000,
         sys_platform="linux",
         wsl2=True,
     )
@@ -45,19 +51,42 @@ def test_target_machine_requires_every_fixed_field(
     assert all(result["checks"].values())
 
 
-def test_three_page_ram_shortfall_is_not_rounded_or_waived(
+def test_three_page_ram_shortfall_is_recorded_but_not_gating(
+    passing_machine: TargetMachineObservation,
+) -> None:
+    result = evaluate_target_machine(passing_machine)
+
+    assert result["status"] == "pass"
+    assert result["failures"] == []
+    assert "ram_bytes" not in result["checks"]
+    assert result["diagnostics"] == {
+        "meminfo_status": "available",
+        "ram_bytes_status": "available",
+        "superseded_ram_snapshot_bytes": SUPERSEDED_RAM_SNAPSHOT_BYTES,
+        "total_ram_is_gating": False,
+        "total_ram_meets_superseded_snapshot": False,
+    }
+
+
+def test_unavailable_ram_diagnostics_do_not_claim_workload_failure(
     passing_machine: TargetMachineObservation,
 ) -> None:
     observed = replace(
         passing_machine,
-        ram_bytes=MINIMUM_RAM_BYTES - 3 * 4_096,
+        mem_available_bytes=None,
+        mem_total_bytes=None,
+        meminfo_status="unavailable",
+        ram_bytes=None,
+        ram_bytes_status="unavailable",
+        swap_free_bytes=None,
+        swap_total_bytes=None,
     )
 
     result = evaluate_target_machine(observed)
 
-    assert result["status"] == "fail"
-    assert result["failures"] == ["ram_bytes"]
-    assert result["checks"]["ram_bytes"] is False
+    assert result["status"] == "pass"
+    assert result["failures"] == []
+    assert result["diagnostics"]["total_ram_meets_superseded_snapshot"] is None
 
 
 @pytest.mark.parametrize(

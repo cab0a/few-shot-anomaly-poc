@@ -14,14 +14,21 @@ from typing import Any
 from few_shot_anomaly_poc.hashing import sha256_file
 from few_shot_anomaly_poc.jsonio import write_json_atomic
 
-OUTPUT_SCHEMA = "v0.2-cpu-timing-preconditions-v1"
-PREREGISTRATION_ID = "v0.2-dinov2-cpu-preflight-1"
-PREREGISTRATION_COMMIT = "e9330be10742947e4227ced4c99acafe4d098566"
-PREREGISTRATION_SHA256 = "19d4cf4079c6df7c9042be464859ccf98d41108656ba0259c8940ace740ebf42"
+OUTPUT_SCHEMA = "v0.2-cpu-timing-preconditions-v2"
+PREREGISTRATION_ID = "v0.2-dinov2-cpu-preflight-2"
+PREREGISTRATION_PATH = "docs/v0.2-memory-bounded-cpu-preflight.md"
+PREREGISTRATION_COMMIT = "a177b5648c450b1e33ca3bbf5c16a051410ef756"
+PREREGISTRATION_SHA256 = "8d2d055d6f311719e28f52fb7e8f2f87fb3202c04414b56440d0a420832658ba"
+SUPERSEDED_PREREGISTRATION_ID = "v0.2-dinov2-cpu-preflight-1"
+SUPERSEDED_PREREGISTRATION_PATH = "docs/v0.2-preflight-preregistration.md"
+SUPERSEDED_PREREGISTRATION_COMMIT = "e9330be10742947e4227ced4c99acafe4d098566"
+SUPERSEDED_PREREGISTRATION_SHA256 = (
+    "19d4cf4079c6df7c9042be464859ccf98d41108656ba0259c8940ace740ebf42"
+)
 EXPECTED_CPU_MODEL = "Intel(R) Core(TM) i7-3630QM CPU @ 2.40GHz"
 EXPECTED_PHYSICAL_CORES = 4
 EXPECTED_LOGICAL_CORES = 8
-MINIMUM_RAM_BYTES = 4_045_017_088
+SUPERSEDED_RAM_SNAPSHOT_BYTES = 4_045_017_088
 EXPECTED_MACHINE = "x86_64"
 EXPECTED_PLATFORM = "linux"
 EXPECTED_AFFINITY = tuple(range(EXPECTED_LOGICAL_CORES))
@@ -71,6 +78,13 @@ REQUIRED_RECORDS = {
         "decision_path": ("decision", "next_step"),
         "decision_value": "PROCEED_TO_PREREGISTERED_CPU_TIMING_WORKLOAD",
     },
+    "first_cpu_preflight_attempt": {
+        "path": "artifacts/v0.2/cpu-preflight/attempt-001-target-machine-stop.json",
+        "sha256": "b334ae369437636cc7c4e368e48e73687f3344a12a8e329134ba3871ed35a283",
+        "schema_version": "v0.2-cpu-timing-preconditions-v1",
+        "decision_path": ("decision", "outcome"),
+        "decision_value": "DO NOT PROCEED",
+    },
 }
 
 
@@ -92,8 +106,14 @@ class TargetMachineObservation:
     nice: int
     operating_system: str
     physical_core_count: int
-    ram_bytes: int
+    mem_available_bytes: int | None
+    mem_total_bytes: int | None
+    meminfo_status: str
+    ram_bytes: int | None
+    ram_bytes_status: str
     scheduler: str
+    swap_free_bytes: int | None
+    swap_total_bytes: int | None
     sys_platform: str
     wsl2: bool
 
@@ -159,9 +179,18 @@ def _validate_execution_identity(
     )
     if preregistration_commit_type != "commit":
         raise DINOv2TimingPreflightError("controlling preregistration commit is unavailable")
+    superseded_commit_type = _git_output(
+        project_root,
+        "cat-file",
+        "-t",
+        SUPERSEDED_PREREGISTRATION_COMMIT,
+    )
+    if superseded_commit_type != "commit":
+        raise DINOv2TimingPreflightError("superseded preregistration commit is unavailable")
     return {
         "execution_commit": execution_commit,
         "preregistration_commit": PREREGISTRATION_COMMIT,
+        "superseded_preregistration_commit": SUPERSEDED_PREREGISTRATION_COMMIT,
         "verification_date": verification_date,
         "worktree_clean": True,
     }
@@ -228,12 +257,12 @@ def _physical_core_count(cpuinfo: str) -> int:
     return len(pairs)
 
 
-def _ram_bytes() -> int:
+def _ram_bytes() -> tuple[int | None, str]:
     try:
         pages = os.sysconf("SC_PHYS_PAGES")
         page_size = os.sysconf("SC_PAGE_SIZE")
-    except (AttributeError, OSError, ValueError) as error:
-        raise DINOv2TimingPreflightError("RAM size is unavailable") from error
+    except (AttributeError, OSError, ValueError):
+        return None, "unavailable"
     if (
         not isinstance(pages, int)
         or isinstance(pages, bool)
@@ -242,8 +271,39 @@ def _ram_bytes() -> int:
         or isinstance(page_size, bool)
         or page_size <= 0
     ):
-        raise DINOv2TimingPreflightError("RAM size is invalid")
-    return pages * page_size
+        return None, "unavailable"
+    return pages * page_size, "available"
+
+
+def _meminfo_bytes() -> tuple[dict[str, int | None], str]:
+    fields = {
+        "MemAvailable": "mem_available_bytes",
+        "MemTotal": "mem_total_bytes",
+        "SwapFree": "swap_free_bytes",
+        "SwapTotal": "swap_total_bytes",
+    }
+    values: dict[str, int | None] = {output_name: None for output_name in fields.values()}
+    try:
+        lines = Path("/proc/meminfo").read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return values, "unavailable"
+    for line in lines:
+        if ":" not in line:
+            continue
+        name, raw_value = line.split(":", maxsplit=1)
+        if name not in fields:
+            continue
+        parts = raw_value.split()
+        if len(parts) == 2 and parts[1] == "kB" and parts[0].isdigit():
+            values[fields[name]] = int(parts[0]) * 1_024
+    available_count = sum(value is not None for value in values.values())
+    if available_count == len(values):
+        status = "available"
+    elif available_count:
+        status = "partial"
+    else:
+        status = "unavailable"
+    return values, status
 
 
 def _windows_power_status() -> tuple[int, int | None]:
@@ -319,6 +379,8 @@ def capture_target_machine() -> TargetMachineObservation:
     except (AttributeError, OSError) as error:
         raise DINOv2TimingPreflightError("process or WSL identity is unavailable") from error
     battery_status, charge = _windows_power_status()
+    ram_bytes, ram_bytes_status = _ram_bytes()
+    meminfo, meminfo_status = _meminfo_bytes()
     return TargetMachineObservation(
         ac_power=battery_status in AC_POWER_BATTERY_STATUSES,
         battery_charge_percent=charge,
@@ -327,11 +389,17 @@ def capture_target_machine() -> TargetMachineObservation:
         cpu_model=_cpu_model(cpuinfo),
         logical_core_count=logical_cores,
         machine=platform.machine(),
+        mem_available_bytes=meminfo["mem_available_bytes"],
+        mem_total_bytes=meminfo["mem_total_bytes"],
+        meminfo_status=meminfo_status,
         nice=nice,
         operating_system=platform.platform(),
         physical_core_count=_physical_core_count(cpuinfo),
-        ram_bytes=_ram_bytes(),
+        ram_bytes=ram_bytes,
+        ram_bytes_status=ram_bytes_status,
         scheduler=_scheduler_name(),
+        swap_free_bytes=meminfo["swap_free_bytes"],
+        swap_total_bytes=meminfo["swap_total_bytes"],
         sys_platform=os.sys.platform,
         wsl2="microsoft-standard-wsl2" in os_release.lower(),
     )
@@ -340,7 +408,7 @@ def capture_target_machine() -> TargetMachineObservation:
 def evaluate_target_machine(
     observation: TargetMachineObservation,
 ) -> dict[str, Any]:
-    """Evaluate every fixed target field without tolerance or substitution."""
+    """Evaluate fixed target identity while keeping memory values diagnostic."""
     checks = {
         "ac_power": observation.ac_power is True,
         "cpu_affinity": observation.cpu_affinity == EXPECTED_AFFINITY,
@@ -349,7 +417,6 @@ def evaluate_target_machine(
         "machine": observation.machine == EXPECTED_MACHINE,
         "nice": observation.nice == EXPECTED_NICE,
         "physical_core_count": (observation.physical_core_count == EXPECTED_PHYSICAL_CORES),
-        "ram_bytes": observation.ram_bytes >= MINIMUM_RAM_BYTES,
         "scheduler": observation.scheduler == EXPECTED_SCHEDULER,
         "sys_platform": observation.sys_platform == EXPECTED_PLATFORM,
         "wsl2": observation.wsl2 is True,
@@ -357,6 +424,17 @@ def evaluate_target_machine(
     failures = tuple(name for name, passed in checks.items() if not passed)
     return {
         "checks": checks,
+        "diagnostics": {
+            "meminfo_status": observation.meminfo_status,
+            "ram_bytes_status": observation.ram_bytes_status,
+            "superseded_ram_snapshot_bytes": SUPERSEDED_RAM_SNAPSHOT_BYTES,
+            "total_ram_is_gating": False,
+            "total_ram_meets_superseded_snapshot": (
+                None
+                if observation.ram_bytes is None
+                else observation.ram_bytes >= SUPERSEDED_RAM_SNAPSHOT_BYTES
+            ),
+        },
         "failures": list(failures),
         "status": "pass" if not failures else "fail",
     }
@@ -422,9 +500,15 @@ def run_timing_preconditions(
         execution_commit=execution_commit,
         verification_date=verification_date,
     )
-    preregistration_path = project_root / "docs/v0.2-preflight-preregistration.md"
+    preregistration_path = project_root / PREREGISTRATION_PATH
     if sha256_file(preregistration_path) != PREREGISTRATION_SHA256:
         raise DINOv2TimingPreflightError("preregistration bytes have changed")
+    superseded_preregistration_path = project_root / SUPERSEDED_PREREGISTRATION_PATH
+    if (
+        sha256_file(superseded_preregistration_path)
+        != SUPERSEDED_PREREGISTRATION_SHA256
+    ):
+        raise DINOv2TimingPreflightError("superseded preregistration bytes have changed")
     records = _validate_required_records(project_root)
     if no_concurrent_project_benchmark_confirmed is not True:
         raise DINOv2TimingPreflightError(
@@ -459,9 +543,15 @@ def run_timing_preconditions(
         "execution": execution,
         "inputs": {
             "preregistration_id": PREREGISTRATION_ID,
-            "preregistration_path": "docs/v0.2-preflight-preregistration.md",
+            "preregistration_path": PREREGISTRATION_PATH,
             "preregistration_sha256": PREREGISTRATION_SHA256,
             "required_records": records,
+            "superseded_preregistration": {
+                "commit": SUPERSEDED_PREREGISTRATION_COMMIT,
+                "id": SUPERSEDED_PREREGISTRATION_ID,
+                "path": SUPERSEDED_PREREGISTRATION_PATH,
+                "sha256": SUPERSEDED_PREREGISTRATION_SHA256,
+            },
         },
         "ordered_stop_conditions": _ordered_conditions(target_evaluation["status"]),
         "schema_version": OUTPUT_SCHEMA,
@@ -479,12 +569,24 @@ def run_timing_preconditions(
                 "cpu_model": EXPECTED_CPU_MODEL,
                 "logical_core_count": EXPECTED_LOGICAL_CORES,
                 "machine": EXPECTED_MACHINE,
-                "minimum_ram_bytes": MINIMUM_RAM_BYTES,
                 "nice": EXPECTED_NICE,
                 "physical_core_count": EXPECTED_PHYSICAL_CORES,
                 "scheduler": EXPECTED_SCHEDULER,
                 "sys_platform": EXPECTED_PLATFORM,
                 "wsl2": True,
+            },
+            "resource_policy": {
+                "hard_memory_failures": [
+                    "memory_error",
+                    "framework_out_of_memory",
+                    "operating_system_termination",
+                    "nonzero_resolution_process_exit",
+                    "missing_observation",
+                    "incomplete_timing_run",
+                ],
+                "peak_rss_is_gating": False,
+                "superseded_ram_snapshot_bytes": SUPERSEDED_RAM_SNAPSHOT_BYTES,
+                "total_ram_is_gating": False,
             },
         },
     }

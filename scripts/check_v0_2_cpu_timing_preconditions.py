@@ -21,8 +21,9 @@ def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=(
             "Check preregistration identity, prior evidence, AC power, fixed CPU, "
-            "core counts, RAM, WSL2, default affinity, default priority, and "
-            "concurrent-project controls before any DINOv2 timing invocation."
+            "core counts, diagnostic memory metadata, WSL2, default affinity, "
+            "default priority, and concurrent-project controls before any DINOv2 "
+            "timing invocation."
         )
     )
     parser.add_argument("--project-root", type=Path, default=Path("."))
@@ -52,13 +53,13 @@ def main() -> int:
         print(f"error: {error}")
         return 1
     observed = report["target_machine"]["observed"]
-    required = report["target_machine"]["required"]
+    resource_policy = report["target_machine"]["resource_policy"]
     print(
         "v0.2 CPU timing preconditions: "
         f"status={report['decision']['status']}, "
         f"outcome={report['decision']['outcome']}, "
         f"ram_bytes={observed['ram_bytes']}, "
-        f"minimum_ram_bytes={required['minimum_ram_bytes']}, "
+        f"total_ram_is_gating={resource_policy['total_ram_is_gating']}, "
         f"next_step={report['decision']['next_step']}, "
         f"output={args.output.as_posix()}"
     )
