@@ -3,20 +3,50 @@
 from __future__ import annotations
 
 import hashlib
+import importlib
+import json
 import math
 import os
+import platform
+import re
 import resource
+import subprocess
+import sys
 import time
+import warnings
 from collections.abc import Callable
 from pathlib import Path
+from types import ModuleType
 from typing import Any
 
 import numpy as np
 from numpy.typing import NDArray
 
-from few_shot_anomaly_poc.dinov2_scoring import INPUT_SHAPE, REFERENCE_COUNT
+from few_shot_anomaly_poc.dinov2_scoring import (
+    INPUT_SHAPE,
+    REFERENCE_COUNT,
+    create_dinov2_memory_bank,
+    expected_patch_count,
+    extract_dinov2_patch_features,
+    score_dinov2_image,
+    validate_resolution,
+)
 from few_shot_anomaly_poc.hashing import sha256_file
 from few_shot_anomaly_poc.jsonio import write_json_atomic
+from few_shot_anomaly_poc.model_assets import SOURCE_ROOT
+from few_shot_anomaly_poc.model_compatibility import (
+    EXPECTED_CHECKPOINT_BYTES,
+    EXPECTED_CHECKPOINT_SHA256,
+    EXPECTED_SOURCE_SHA256,
+    EXPECTED_TORCH_VERSION,
+    NetworkGuard,
+    _load_acquisition_record,
+    _load_import_smoke_record,
+    _model_summary,
+    _module_origins,
+    _validate_environment,
+    _verify_asset,
+)
 
 PREREGISTRATION_ID = "v0.2-dinov2-cpu-preflight-2"
 INPUT_STORE_SCHEMA = "v0.2-dinov2-timing-input-store-v1"
@@ -32,6 +62,11 @@ TIMED_PASS_COUNT = 3
 TIMED_INVOCATION_COUNT = QUERY_COUNT * TIMED_PASS_COUNT
 P95_NEAREST_RANK = 285
 LATENCY_GATE_NS = 1_000_000_000
+RESOLUTION_WORKER_SCHEMA = "v0.2-dinov2-timing-resolution-v1"
+PRECONDITION_RECORD_SHA256 = "f9befbd3df1c980f1dc0a8dc48563fd4dffbecd24530b2a4e2b413b4e688715d"
+STRICT_LOAD_RECORD_SHA256 = "4491f2fb472df813642d296d92d396e62476a2fd257d6b9da431c3a90b6aa604"
+COMMIT_PATTERN = re.compile(r"[0-9a-f]{40}")
+DATE_PATTERN = re.compile(r"\d{4}-\d{2}-\d{2}")
 
 
 class DINOv2TimingError(Exception):
@@ -444,3 +479,391 @@ def execute_fixed_timing_loop(
             "status": "pass" if warmup_failure is None else "failure",
         },
     }
+
+
+def _load_json(path: Path, *, field: str) -> dict[str, Any]:
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        raise DINOv2TimingError(f"cannot read {field}") from error
+    if not isinstance(value, dict):
+        raise DINOv2TimingError(f"{field} must contain a JSON object")
+    return value
+
+
+def _resolve_project_path(path: Path, *, project_root: Path, field: str) -> Path:
+    candidate = path if path.is_absolute() else project_root / path
+    resolved = candidate.resolve()
+    if not resolved.is_relative_to(project_root):
+        raise DINOv2TimingError(f"{field} must remain within project_root")
+    return resolved
+
+
+def _git_output(project_root: Path, *arguments: str) -> str:
+    try:
+        return subprocess.run(
+            ["git", "-C", str(project_root), *arguments],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+    except (OSError, subprocess.CalledProcessError) as error:
+        raise DINOv2TimingError("cannot verify Git execution identity") from error
+
+
+def _validate_execution_identity(
+    *,
+    project_root: Path,
+    execution_commit: str,
+    verification_date: str,
+) -> None:
+    if not COMMIT_PATTERN.fullmatch(execution_commit):
+        raise DINOv2TimingError("execution_commit must be a full lowercase Git commit")
+    if not DATE_PATTERN.fullmatch(verification_date):
+        raise DINOv2TimingError("verification_date must use YYYY-MM-DD")
+    if _git_output(project_root, "rev-parse", "HEAD") != execution_commit:
+        raise DINOv2TimingError("execution_commit is not the checked-out Git HEAD")
+    if _git_output(project_root, "status", "--porcelain"):
+        raise DINOv2TimingError("worktree must be clean before the timing worker starts")
+
+
+def _validate_precondition_record(path: Path) -> dict[str, Any]:
+    if sha256_file(path) != PRECONDITION_RECORD_SHA256:
+        raise DINOv2TimingError("memory-bounded precondition record SHA-256 changed")
+    record = _load_json(path, field="memory-bounded precondition record")
+    if (
+        record.get("schema_version") != "v0.2-cpu-timing-preconditions-v2"
+        or record.get("inputs", {}).get("preregistration_id") != PREREGISTRATION_ID
+        or record.get("decision", {}).get("status") != "pass"
+        or record.get("decision", {}).get("next_step")
+        != "PROCEED_TO_FRESH_PROCESS_TIMING_RUN"
+    ):
+        raise DINOv2TimingError("precondition record does not authorize the timing worker")
+    return record
+
+
+def build_memory_bank_one_at_a_time(
+    *,
+    copy_reference: Callable[[int], NDArray[np.uint8]],
+    model: object,
+    resolution: int,
+    torch_module: ModuleType,
+) -> Any:
+    """Build the fixed bank without retaining decoded reference images."""
+    validated_resolution = validate_resolution(resolution)
+    patch_count = expected_patch_count(validated_resolution)
+    try:
+        features = torch_module.empty(
+            (REFERENCE_COUNT * patch_count, 384),
+            dtype=torch_module.float32,
+            device="cpu",
+        )
+        for index in range(REFERENCE_COUNT):
+            image = copy_reference(index)
+            extracted = extract_dinov2_patch_features(
+                image,
+                model=model,
+                resolution=validated_resolution,
+                torch_module=torch_module,
+            )
+            start = index * patch_count
+            features[start : start + patch_count].copy_(extracted)
+            del extracted
+            del image
+    except DINOv2TimingError:
+        raise
+    except Exception as error:
+        raise DINOv2TimingError("one-at-a-time reference fitting failed") from error
+    return create_dinov2_memory_bank(
+        features,
+        resolution=validated_resolution,
+        reference_count=REFERENCE_COUNT,
+        torch_module=torch_module,
+    )
+
+
+def _load_fixed_runtime(
+    *,
+    acquisition_path: Path,
+    import_smoke_path: Path,
+    strict_load_path: Path,
+    artifact_dir: Path,
+    source_root: Path,
+    environment_root: Path,
+) -> tuple[Any, Any, dict[str, Any], NetworkGuard, list[str]]:
+    acquisition_record = _load_acquisition_record(acquisition_path)
+    import_smoke_record = _load_import_smoke_record(import_smoke_path)
+    if sha256_file(strict_load_path) != STRICT_LOAD_RECORD_SHA256:
+        raise DINOv2TimingError("strict-load record SHA-256 changed")
+    environment = _validate_environment(
+        environment_root=environment_root,
+        import_smoke_record=import_smoke_record,
+    )
+    source_artifact = acquisition_record["source"]["artifact"]
+    checkpoint_artifact = acquisition_record["checkpoint"]["artifact"]
+    source_archive_path = artifact_dir / source_artifact["filename"]
+    checkpoint_path = artifact_dir / checkpoint_artifact["filename"]
+    source_identity = _verify_asset(
+        path=source_archive_path,
+        expected_sha256=EXPECTED_SOURCE_SHA256,
+        expected_bytes=source_artifact["byte_count"],
+        field="source archive",
+    )
+    checkpoint_identity = _verify_asset(
+        path=checkpoint_path,
+        expected_sha256=EXPECTED_CHECKPOINT_SHA256,
+        expected_bytes=EXPECTED_CHECKPOINT_BYTES,
+        field="checkpoint",
+    )
+    expected_source_root = (
+        artifact_dir / f"dinov2-source-sha256-{EXPECTED_SOURCE_SHA256}" / SOURCE_ROOT
+    ).resolve()
+    if source_root.resolve() != expected_source_root or not source_root.is_dir():
+        raise DINOv2TimingError("source_root is not the verified hash-addressed extraction")
+    if any(name == "dinov2" or name.startswith("dinov2.") for name in sys.modules):
+        raise DINOv2TimingError("DINOv2 was imported before the network guard")
+
+    previous_sys_path = list(sys.path)
+    network_guard = NetworkGuard()
+    network_guard.__enter__()
+    try:
+        sys.path.insert(0, str(expected_source_root))
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", UserWarning)
+            torch = importlib.import_module("torch")
+            backbones = importlib.import_module("dinov2.hub.backbones")
+        if (
+            torch.__version__ != EXPECTED_TORCH_VERSION
+            or torch.version.cuda is not None
+            or torch.version.hip is not None
+        ):
+            raise DINOv2TimingError("PyTorch is not the fixed CPU build")
+        torch.set_num_threads(4)
+        torch.set_num_interop_threads(1)
+        torch.use_deterministic_algorithms(True)
+        state = torch.load(
+            checkpoint_path,
+            map_location="cpu",
+            mmap=True,
+            weights_only=True,
+        )
+        torch.manual_seed(GENERATOR_SEED)
+        model = backbones.dinov2_vits14(pretrained=False)
+        model_summary = _model_summary(torch, model, state)
+        del state
+    except Exception:
+        sys.path[:] = previous_sys_path
+        network_guard.__exit__(*sys.exc_info())
+        raise
+    fixed_runtime = {
+        "checkpoint_identity": checkpoint_identity,
+        "environment": {
+            **environment,
+            "deterministic_algorithms": torch.are_deterministic_algorithms_enabled(),
+            "interop_threads": torch.get_num_interop_threads(),
+            "intraop_threads": torch.get_num_threads(),
+            "numpy_version": np.__version__,
+            "torch_version": torch.__version__,
+            "xformers_imported": False,
+        },
+        "model": model_summary,
+        "source_identity": source_identity,
+    }
+    return torch, model, fixed_runtime, network_guard, previous_sys_path
+
+
+def run_timing_resolution_worker(
+    *,
+    acquisition_path: Path,
+    import_smoke_path: Path,
+    strict_load_path: Path,
+    precondition_path: Path,
+    input_store_path: Path,
+    input_manifest_path: Path,
+    artifact_dir: Path,
+    source_root: Path,
+    environment_root: Path,
+    project_root: Path,
+    execution_commit: str,
+    verification_date: str,
+    resolution: int,
+    output_path: Path,
+) -> dict[str, Any]:
+    """Run one fixed resolution inside one isolated fresh process."""
+    project_root = project_root.resolve()
+    resolved_paths = {
+        name: _resolve_project_path(path, project_root=project_root, field=name)
+        for name, path in {
+            "acquisition_path": acquisition_path,
+            "artifact_dir": artifact_dir,
+            "environment_root": environment_root,
+            "import_smoke_path": import_smoke_path,
+            "input_manifest_path": input_manifest_path,
+            "input_store_path": input_store_path,
+            "output_path": output_path,
+            "precondition_path": precondition_path,
+            "source_root": source_root,
+            "strict_load_path": strict_load_path,
+        }.items()
+    }
+    output_path = resolved_paths["output_path"]
+    if output_path.exists():
+        raise FileExistsError(f"refusing to overwrite {output_path}")
+    validated_resolution = validate_resolution(resolution)
+    _validate_execution_identity(
+        project_root=project_root,
+        execution_commit=execution_commit,
+        verification_date=verification_date,
+    )
+    _validate_precondition_record(resolved_paths["precondition_path"])
+    input_manifest = validate_synthetic_input_manifest(
+        _load_json(resolved_paths["input_manifest_path"], field="input manifest")
+    )
+    store = open_verified_synthetic_input_store(
+        store_path=resolved_paths["input_store_path"],
+        manifest=input_manifest,
+    )
+    phase = "runtime_setup"
+    state = {
+        "model_constructed": False,
+        "model_inference_performed": False,
+    }
+    memory = {"process_start_peak_rss_bytes": peak_rss_bytes()}
+    fixed_runtime: dict[str, Any] | None = None
+    loop: dict[str, Any] | None = None
+    worker_failure: dict[str, str] | None = None
+    network_guard: NetworkGuard | None = None
+    previous_sys_path: list[str] | None = None
+    try:
+        torch, model, fixed_runtime, network_guard, previous_sys_path = _load_fixed_runtime(
+            acquisition_path=resolved_paths["acquisition_path"],
+            import_smoke_path=resolved_paths["import_smoke_path"],
+            strict_load_path=resolved_paths["strict_load_path"],
+            artifact_dir=resolved_paths["artifact_dir"],
+            source_root=resolved_paths["source_root"],
+            environment_root=resolved_paths["environment_root"],
+        )
+        state["model_constructed"] = True
+        memory["after_model_load_peak_rss_bytes"] = peak_rss_bytes()
+
+        reference_records = input_manifest["references"]
+
+        def copy_reference(index: int) -> NDArray[np.uint8]:
+            record = reference_records[index]
+            return copy_store_image(
+                store,
+                index=index,
+                expected_sha256=record["sha256"],
+            )
+
+        phase = "reference_fitting"
+        state["model_inference_performed"] = True
+        memory_bank = build_memory_bank_one_at_a_time(
+            copy_reference=copy_reference,
+            model=model,
+            resolution=validated_resolution,
+            torch_module=torch,
+        )
+        memory["after_memory_bank_peak_rss_bytes"] = peak_rss_bytes()
+        query_records = input_manifest["queries"]
+
+        def copy_query(index: int) -> NDArray[np.uint8]:
+            record = query_records[index]
+            return copy_store_image(
+                store,
+                index=REFERENCE_COUNT + index,
+                expected_sha256=record["sha256"],
+            )
+
+        def score_image(image: NDArray[np.uint8]) -> float:
+            return score_dinov2_image(
+                image,
+                model=model,
+                memory_bank=memory_bank,
+                resolution=validated_resolution,
+                torch_module=torch,
+            )
+
+        phase = "warmup_and_timing"
+        loop = execute_fixed_timing_loop(
+            copy_query=copy_query,
+            score_image=score_image,
+        )
+        memory["after_timing_peak_rss_bytes"] = peak_rss_bytes()
+        fixed_runtime["module_origins"] = _module_origins(resolved_paths["source_root"])
+        if "xformers" in sys.modules or any(
+            name.startswith("xformers.") for name in sys.modules
+        ):
+            raise DINOv2TimingError("xformers was imported unexpectedly")
+    except Exception as error:
+        worker_failure = _exception_record(error, phase=phase)
+        memory["failure_peak_rss_bytes"] = peak_rss_bytes()
+    finally:
+        if previous_sys_path is not None:
+            sys.path[:] = previous_sys_path
+        if network_guard is not None:
+            network_guard.__exit__(None, None, None)
+            if network_guard.attempts and worker_failure is None:
+                worker_failure = {
+                    "category": "execution_error",
+                    "exception_type": "network_operation_attempted",
+                    "phase": "network_boundary",
+                }
+
+    summary = (
+        loop["summary"]
+        if loop is not None
+        else summarize_timing_observations([])
+    )
+    passed = (
+        worker_failure is None
+        and loop is not None
+        and loop["warmup"]["status"] == "pass"
+        and summary["latency_gate_passed"] is True
+    )
+    report = {
+        "boundary": {
+            "dataset_access": False,
+            "labels_accessed": False,
+            "model_constructed": state["model_constructed"],
+            "model_inference_performed": state["model_inference_performed"],
+            "network_access": False,
+            "synthetic_inputs_only": True,
+            "threshold_calibration_performed": False,
+            "timing_invocation_count": summary["attempted_invocation_count"],
+        },
+        "decision": {
+            "latency_gate_passed": summary["latency_gate_passed"],
+            "status": "pass" if passed else "fail",
+        },
+        "execution": {
+            "execution_commit": execution_commit,
+            "fresh_process_required": True,
+            "process_id_recorded": False,
+            "verification_date": verification_date,
+        },
+        "failure": worker_failure,
+        "fixed_runtime": fixed_runtime,
+        "inputs": {
+            "input_manifest_sha256": sha256_file(resolved_paths["input_manifest_path"]),
+            "logical_store": input_manifest["logical_store"],
+            "precondition_record_sha256": PRECONDITION_RECORD_SHA256,
+            "preregistration_id": PREREGISTRATION_ID,
+        },
+        "loop": loop,
+        "memory": {
+            **memory,
+            "peak_rss_is_gating": False,
+            "units": "bytes",
+        },
+        "resolution": validated_resolution,
+        "schema_version": RESOLUTION_WORKER_SCHEMA,
+        "system": {
+            "machine": platform.machine(),
+            "platform": sys.platform,
+            "python_hash_seed": os.environ.get("PYTHONHASHSEED"),
+            "python_version": platform.python_version(),
+        },
+    }
+    write_json_atomic(output_path, report)
+    return report
