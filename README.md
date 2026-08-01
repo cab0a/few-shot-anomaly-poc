@@ -8,7 +8,7 @@ ECCによる位置合わせ残差法と、局所勾配特徴量を用いた一�
 
 正常データだけによる閾値校正、一度だけの最終評価、誤検知・見逃し一覧、処理時間、判定根拠、チェックサム付き成果物を保存しています。再現手順、評価値、制約の詳細は以下の英語本文を参照してください。
 
-v0.2ではDINOv2 scoring pathを合成入力で確認済みです。総RAM snapshotの12,288 bytes差で最初のpreflightが停止したため、同じWSLで逐次処理し、OOMとpeak RSSを評価する新preflightを性能計測前に固定しました。速度・精度・採否は未判定です。
+v0.2ではDINOv2 scoring pathを合成入力で確認済みです。最初のpreflightは総RAM snapshot差で停止しましたが、同じWSLで実使用量を評価する新preflightは条件1〜6を通過しました。timing、速度・精度・採否は未判定です。
 
 ---
 
@@ -20,9 +20,9 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > Neither method passed every fixed operating-point gate. The thresholds and gates were not revised after the result.
 
-> **v0.2 status: memory-bounded CPU preflight preregistered — no timing result yet**
+> **v0.2 status: memory-bounded preconditions passed — `PROCEED TO FRESH-PROCESS TIMING RUN`**
 >
-> Attempt 1 remains a `DO NOT PROCEED` record with zero timing invocations: its exact total-RAM snapshot differed by 12,288 bytes. Because total visible RAM is not workload usage, a new preregistration keeps the same CPU and timing gates while loading deterministic inputs one at a time, recording memory diagnostics, and treating an actual out-of-memory event or incomplete run as failure. No DINOv2 latency or anomaly-performance result has been observed. See the [memory-bounded CPU preflight](docs/v0.2-memory-bounded-cpu-preflight.md) and the preserved [attempt-1 stop record](docs/v0.2-cpu-timing-precondition-stop.md).
+> Attempt 2 passed ordered conditions 1–6 on the unchanged WSL2 machine while recording the same `4,045,004,800` visible RAM as a non-gating diagnostic. It performed no model construction, inference, scoring, or timed invocation. The result authorizes only implementation of the fixed memory-bounded runner; it is not DINOv2 latency or anomaly-performance evidence. See the [attempt-2 precondition record](docs/v0.2-memory-bounded-precondition-pass.md), its [preregistration](docs/v0.2-memory-bounded-cpu-preflight.md), and the preserved [attempt-1 stop record](docs/v0.2-cpu-timing-precondition-stop.md).
 
 ## Representative Result
 
@@ -61,6 +61,7 @@ uv run --locked --no-sync python scripts/render_v0_1_summary.py
 
 | Evidence | Location | What it preserves |
 | --- | --- | --- |
+| v0.2 memory-bounded precondition pass | [`artifacts/v0.2/cpu-preflight/attempt-002-memory-bounded-pass.json`](artifacts/v0.2/cpu-preflight/attempt-002-memory-bounded-pass.json) | New preregistration identity, unchanged CPU boundary, non-gating memory diagnostics, zero-timing boundary, and authorization to implement the runner |
 | v0.2 CPU timing precondition stop | [`artifacts/v0.2/cpu-preflight/attempt-001-target-machine-stop.json`](artifacts/v0.2/cpu-preflight/attempt-001-target-machine-stop.json) | Ordered conditions, exact target-machine comparison, zero-timing boundary, and `DO NOT PROCEED` outcome |
 | v0.2 fixed scoring-path smoke | [`artifacts/v0.2/scoring-path/synthetic-smoke.json`](artifacts/v0.2/scoring-path/synthetic-smoke.json) | Fixed preprocessing and scoring contract, real model-forward shape evidence, independent scalar-score check, synthetic-only boundary, and next-step decision |
 | v0.2 weights-only strict load | [`artifacts/v0.2/model-compatibility/strict-load.json`](artifacts/v0.2/model-compatibility/strict-load.json) | Exact source origins, tensor inventory, finite-value checks, architecture identity, strict-load result, and the non-inference boundary |
@@ -227,6 +228,7 @@ See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md)
 | [v0.2 Fixed DINOv2 Scoring Path](docs/v0.2-fixed-dinov2-scoring-path.md) | Fixed preprocessing, patch-token extraction, exact blocked scoring, implementation-smoke evidence, stopped attempts, and the formal timing boundary |
 | [v0.2 CPU Timing Precondition Stop](docs/v0.2-cpu-timing-precondition-stop.md) | Ordered precondition result, exact RAM shortfall, preserved zero-timing boundary, and unchanged retry rule |
 | [v0.2 Memory-Bounded CPU Preflight](docs/v0.2-memory-bounded-cpu-preflight.md) | New preflight identity, same-machine execution, sequential input storage, memory diagnostics, actual failure boundary, and unchanged latency gate |
+| [v0.2 Memory-Bounded Precondition Pass](docs/v0.2-memory-bounded-precondition-pass.md) | Attempt-2 machine evidence, non-gating RAM observation, passed conditions 1–6, zero-timing boundary, and authorized next step |
 | [Method Specification](docs/method-specification.md) | Fixed preprocessing, parameters, scoring, and failure rules |
 | [Evaluation Plan](docs/evaluation-plan.md) | Partitions, metrics, latency, error selection, and decision logic |
 | [Evaluation Artifact Schema](docs/evaluation-artifact-schema.md) | JSON/CSV contract, deterministic serialization, and integrity |
