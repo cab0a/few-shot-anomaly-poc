@@ -2,13 +2,11 @@
 
 ## 日本語概要
 
-このリポジトリは、正常画像20枚以内・CPU実行・異常ラベルを学習に使わない条件で、少数例の外観異常検知が次段階の検証に値するかを判定した公開技術検証です。
+このリポジトリは、正常画像20枚以内・CPU実行・異常ラベルを学習に使わない条件で、少数例の外観異常検知が次段階の検証に値するかを判定する公開技術検証です。
 
-ECCによる位置合わせ残差法と、局所勾配特徴量を用いた一クラス分類法を、事前に固定した誤検知率・再現率・処理時間の基準で比較しました。両手法とも採用基準を満たさず、却下という結果をそのまま公開しています。
+v0.1ではECC残差法とPatch HOG + One-Class SVMを事前固定した基準で比較し、両方式とも`REJECT`となった結果を変更せず公開しています。正常データだけの閾値校正、最終評価、失敗例、処理時間、hard-gate判断をチェックサム付きで保存しました。
 
-正常データだけによる閾値校正、一度だけの最終評価、誤検知・見逃し一覧、処理時間、判定根拠、チェックサム付き成果物を保存しています。再現手順、評価値、制約の詳細は以下の英語本文を参照してください。
-
-v0.2ではDINOv2のCPU timingと224のoffline score再現を完了しました。224はp95 0.6795秒で1秒ゲートを通過し、先頭10 scoreは最大差0.0で一致しました。448は3.6253秒で不通過です。合成入力preflightであり、精度や採否は未判定です。
+v0.2ではDINOv2のCPU timing、224のoffline score再現、未使用評価境界の実現可能性確認を完了しました。224はp95 0.6795秒で通過、448は3.6253秒で不通過です。条件1〜10はすべて通過し最終preflightは`PROCEED`ですが、許可範囲は次のmethod/evaluation preregistration作成だけで、精度評価やDINOv2採用はまだ行っていません。詳細は以下の英語本文を参照してください。
 
 ---
 
@@ -20,9 +18,9 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > Neither method passed every fixed operating-point gate. The thresholds and gates were not revised after the result.
 
-> **v0.2 status: offline score reproduction passed — final preflight decision pending**
+> **v0.2 status: final preflight `PROCEED` — performance evaluation not started**
 >
-> The first formal `224` offline worker regenerated all 10 fixed scores in order with maximum absolute difference `0.0`, below the preregistered `1e-6` tolerance. Every source, checkpoint, environment-lock, configuration, and generated-input identity matched; no score failed and no network, dataset, label, threshold, or latency boundary was entered. Reproducibility condition 9 therefore passes. The untouched evaluation-boundary feasibility check and final preflight decision remain pending. See the [formal reproduction record](docs/v0.2-first-offline-score-reproduction-run.md), [runner record](docs/v0.2-offline-score-reproduction-runner.md), and [preregistration](docs/v0.2-memory-bounded-cpu-preflight.md).
+> Conditions 1 through 10 passed in their preregistered order. The selected `224` candidate passed the CPU gate and reproduced its first 10 scores exactly; `448` remains a failed latency result. A synthetic-only checkpoint verified that opaque HMAC ordering, a four-field label-free scoring manifest, sealed source/label mapping, copy identity, scorer isolation, and non-overwrite controls are implementable. No VisA archive, official split row, label, decoded image, calibration threshold, or final-test score was accessed. `PROCEED` authorizes only a separate v0.2 method-and-evaluation preregistration; it does not adopt DINOv2. See the [final preflight record](docs/v0.2-final-preflight-decision.md) and [committed decision artifacts](artifacts/v0.2/preflight/final-decision/).
 
 ## Representative Result
 
@@ -61,6 +59,7 @@ uv run --locked --no-sync python scripts/render_v0_1_summary.py
 
 | Evidence | Location | What it preserves |
 | --- | --- | --- |
+| v0.2 final preflight decision | [`artifacts/v0.2/preflight/final-decision/`](artifacts/v0.2/preflight/final-decision/) | Synthetic opaque-boundary feasibility, untouched-data flags, exact evidence identities, ordered conditions 1–10, and the scoped `PROCEED` decision |
 | v0.2 first fixed offline score reproduction | [`artifacts/v0.2/offline-reproduction/first-fixed-run/`](artifacts/v0.2/offline-reproduction/first-fixed-run/) | Regenerated input identities, ten exact score comparisons, fixed asset and configuration identities, fresh-worker validation, boundary, and condition-9 result |
 | v0.2 first fixed memory-bounded CPU timing | [`artifacts/v0.2/cpu-timing/first-fixed-memory-bounded-run/`](artifacts/v0.2/cpu-timing/first-fixed-memory-bounded-run/) | Fixed synthetic input identities, 600 per-invocation observations, independently checked median and p95, peak RSS, both resolution outcomes, and the untouched dataset boundary |
 | v0.2 memory-bounded precondition pass | [`artifacts/v0.2/cpu-preflight/attempt-002-memory-bounded-pass.json`](artifacts/v0.2/cpu-preflight/attempt-002-memory-bounded-pass.json) | New preregistration identity, unchanged CPU boundary, non-gating memory diagnostics, zero-timing boundary, and authorization to implement the runner |
@@ -234,7 +233,8 @@ See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md)
 | [v0.2 Memory-Bounded Timing Runner](docs/v0.2-memory-bounded-timing-runner.md) | Fixed input identities, one-image resident policy, timing loop, fresh-process orchestration, failure evidence, JSON/CSV outputs, and unexecuted formal boundary |
 | [v0.2 First Fixed Memory-Bounded CPU Timing Run](docs/v0.2-first-memory-bounded-cpu-timing-run.md) | Formal 224/448 latency and peak-RSS evidence, preserved failed gate, resolution selection, boundary, and next reproduction step |
 | [v0.2 Offline Score-Reproduction Runner](docs/v0.2-offline-score-reproduction-runner.md) | Fixed 224 baseline identities, fresh offline process, first-10 comparison, failure preservation, output contract, and unexecuted formal boundary |
-| [v0.2 First Fixed Offline Score-Reproduction Run](docs/v0.2-first-offline-score-reproduction-run.md) | Formal first-10 comparison, exact identity matches, condition-9 pass, preserved boundary, and pending final preflight decision |
+| [v0.2 First Fixed Offline Score-Reproduction Run](docs/v0.2-first-offline-score-reproduction-run.md) | Formal first-10 comparison, exact identity matches, condition-9 pass, and the preserved boundary entering final preflight |
+| [v0.2 Untouched Evaluation-Boundary Feasibility and Final Preflight Decision](docs/v0.2-final-preflight-decision.md) | Synthetic opaque-boundary checks, ordered conditions 1–10, untouched-data evidence, scoped `PROCEED` outcome, and next preregistration boundary |
 | [Method Specification](docs/method-specification.md) | Fixed preprocessing, parameters, scoring, and failure rules |
 | [Evaluation Plan](docs/evaluation-plan.md) | Partitions, metrics, latency, error selection, and decision logic |
 | [Evaluation Artifact Schema](docs/evaluation-artifact-schema.md) | JSON/CSV contract, deterministic serialization, and integrity |
