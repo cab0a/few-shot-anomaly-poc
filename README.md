@@ -6,11 +6,11 @@
 
 v0.1ではECC残差法とPatch HOG + One-Class SVMを事前固定した基準で比較し、両方式とも`REJECT`となった結果を変更せず公開しています。正常データだけの閾値校正、最終評価、失敗例、処理時間、hard-gate判断をチェックサム付きで保存しました。
 
-v0.2ではDINOv2のCPU preflightを完了し、224はp95 0.6795秒で通過、448は3.6253秒で不通過でした。最終preflightの`PROCEED`を受け、未使用の`pcb2`でDINOv2 224と古典2方式を比較するmethod/evaluation preregistrationを固定しました。実データ境界の準備、精度評価、DINOv2採用はまだ行っていません。詳細は以下の英語本文を参照してください。
+v0.2ではDINOv2のCPU preflightを完了し、224はp95 0.6795秒で通過、448は3.6253秒で不通過でした。その後、未使用の`pcb2`でDINOv2 224と古典2方式を比べる事前登録を、設定・成果物スキーマ・検証器・合成契約テストへ変換しました。実データ境界の準備、精度評価、DINOv2採用はまだ行っていません。詳細は以下の英語本文を参照してください。
 
 ---
 
-A preregistered CPU-only evaluation that turns two normal-only visual anomaly methods into an auditable go/no-go decision.
+A preregistered CPU-only evaluation that turns normal-only visual anomaly methods into an auditable go/no-go decision.
 
 This is a source-available, noncommercially licensed public portfolio project.
 
@@ -18,9 +18,9 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > Neither method passed every fixed operating-point gate. The thresholds and gates were not revised after the result.
 
-> **v0.2 status: method and evaluation preregistered — `pcb2` boundary untouched**
+> **v0.2 status: machine-readable evaluation contract fixed — `pcb2` boundary untouched**
 >
-> The study now fixes DINOv2 ViT-S/14 at `224 x 224`, both unchanged classical comparators, one shared 20-image normal reference set, normal-only thresholds, opaque label-free scoring, final-test CPU timing, first-10 offline reproduction, image-level metrics, mechanical error selection, and ordered hard gates. No VisA archive, official split row, label, image, score, or metric was accessed while writing it. See the [method and evaluation preregistration](docs/v0.2-method-and-evaluation-preregistration.md), [final preflight record](docs/v0.2-final-preflight-decision.md), and [committed preflight artifacts](artifacts/v0.2/preflight/final-decision/).
+> The study fixes DINOv2 ViT-S/14 at `224 x 224`, both unchanged classical comparators, one shared 20-image normal reference set, normal-only thresholds, opaque label-free scoring, final-test CPU timing, first-10 offline reproduction, image-level metrics, mechanical error selection, and ordered hard gates. The preregistration is now represented by an exact config, JSON/CSV artifact schema, standard-library validator, and synthetic rejection tests. No VisA archive, official split row, label, image, score, or metric was accessed while defining this contract. See the [machine-readable evaluation contract](docs/v0.2-machine-readable-evaluation-contract.md), [method and evaluation preregistration](docs/v0.2-method-and-evaluation-preregistration.md), and [final preflight record](docs/v0.2-final-preflight-decision.md).
 
 ## Representative Result
 
@@ -95,19 +95,22 @@ The repository covers the full path from requirements and method selection throu
 - Per-image scoring and classification were preserved before final-test labels entered the evaluation boundary.
 - Both favorable and unfavorable results remain committed; failed gates cannot be waived by an aggregate score.
 - JSON and CSV contracts fix required fields, ordering, finite-number rules, relative paths, and non-overwrite behavior.
+- The v0.2 contract rejects protected final-test label fields, changed method score ranges, incomplete timing passes, inconsistent metric arithmetic, and out-of-order hard-gate traces before real boundary preparation.
 - The final manifest records artifact counts, source and configuration identities, and SHA-256 values.
 - Tests cover deterministic primitives, leakage boundaries, frozen identities, exact committed metrics, gate order, and byte reproduction.
 
 ## Technical Design
 
-The two methods share deterministic grayscale conversion and direct `512 × 512` area-interpolation resizing:
+The two v0.1 methods share deterministic grayscale conversion and direct `512 × 512` area-interpolation resizing:
 
 1. **ECC residual:** align each image to a normal template with bounded Euclidean ECC registration, compute a normalized residual, and aggregate the largest residual values into one image score.
 2. **Patch HOG + One-Class SVM:** extract fixed-position HOG patches, fit one reference-derived scaler and One-Class SVM per position, and aggregate the most anomalous patch scores.
 
-Both methods use a nearest-rank 95th percentile of 884 normal calibration scores as the fixed threshold. Scoring failures map to positive infinity, so a failed decode or method operation cannot silently appear normal.
+Both v0.1 methods use a nearest-rank 95th percentile of 884 normal calibration scores as the fixed threshold. Scoring failures map to positive infinity, so a failed decode or method operation cannot silently appear normal.
 
-Implementation details and stable failure codes are kept in the [method specification](docs/method-specification.md). The machine-readable artifact contract is defined by [`schemas/v0.1/evaluation-artifacts.json`](schemas/v0.1/evaluation-artifacts.json) and explained in the [artifact schema guide](docs/evaluation-artifact-schema.md).
+Implementation details and stable failure codes are kept in the [method specification](docs/method-specification.md). The v0.1 machine-readable artifact contract is defined by [`schemas/v0.1/evaluation-artifacts.json`](schemas/v0.1/evaluation-artifacts.json) and explained in the [artifact schema guide](docs/evaluation-artifact-schema.md).
+
+The v0.2 study adds DINOv2 ViT-S/14 at `224 x 224` without changing either classical comparator. Its fixed configuration is [`configs/v0.2.yaml`](configs/v0.2.yaml), and its staged JSON/CSV evidence contract is [`schemas/v0.2/evaluation-artifacts.json`](schemas/v0.2/evaluation-artifacts.json). The [machine-readable contract record](docs/v0.2-machine-readable-evaluation-contract.md) explains exact identities, protected label-free fields, fixed finite failure scores, three-pass CPU timing, first-ten reproduction, hard-gate ordering, and the still-unentered `pcb2` boundary.
 
 ## Evaluation Methodology
 
@@ -236,6 +239,7 @@ See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md)
 | [v0.2 First Fixed Offline Score-Reproduction Run](docs/v0.2-first-offline-score-reproduction-run.md) | Formal first-10 comparison, exact identity matches, condition-9 pass, and the preserved boundary entering final preflight |
 | [v0.2 Untouched Evaluation-Boundary Feasibility and Final Preflight Decision](docs/v0.2-final-preflight-decision.md) | Synthetic opaque-boundary checks, ordered conditions 1–10, untouched-data evidence, scoped `PROCEED` outcome, and next preregistration boundary |
 | [v0.2 Method and Evaluation Preregistration](docs/v0.2-method-and-evaluation-preregistration.md) | Fixed `pcb2` partitions, three methods, normal-only calibration, opaque scoring and reveal, CPU timing, metrics, failure review, hard gates, artifact order, and change control |
+| [v0.2 Machine-Readable Evaluation Contract](docs/v0.2-machine-readable-evaluation-contract.md) | Exact config and schema identities, label-free artifact boundary, standard-library validation rules, synthetic rejection tests, and the unentered `pcb2` boundary |
 | [Method Specification](docs/method-specification.md) | Fixed preprocessing, parameters, scoring, and failure rules |
 | [Evaluation Plan](docs/evaluation-plan.md) | Partitions, metrics, latency, error selection, and decision logic |
 | [Evaluation Artifact Schema](docs/evaluation-artifact-schema.md) | JSON/CSV contract, deterministic serialization, and integrity |

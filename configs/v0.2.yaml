@@ -1,0 +1,296 @@
+{
+  "schema_version": "v0.2-evaluation-contract-v1",
+  "preregistration": {
+    "id": "v0.2-pcb2-method-evaluation-1",
+    "commit": "b873bacc4f677a4c82f3944c09a7374037cb7c50",
+    "document": "docs/v0.2-method-and-evaluation-preregistration.md",
+    "document_sha256": "6306c2122f69aa96dcfe1f377518e7c6795a096eceb085be5b829262b55482b9"
+  },
+  "entry_preflight": {
+    "decision": "PROCEED",
+    "artifact": "artifacts/v0.2/preflight/final-decision/final-decision.json",
+    "artifact_sha256": "04da3c64f181c05411b8fdaec2b56db15a38812978815f4c2a1fcac37a9e0298"
+  },
+  "dataset": {
+    "name": "VisA",
+    "category": "pcb2",
+    "license": "CC BY 4.0",
+    "archive": "VisA_20220922.tar",
+    "archive_sha256": "2eb8690c803ab37de0324772964100169ec8ba1fa3f7e94291c9ca673f40f362",
+    "split_repository": "amazon-science/spot-diff",
+    "split_revision": "2a692ab575001cbde74d402d897a7286086c6199",
+    "split_path": "split_csv/1cls.csv",
+    "split_sha256": "a48557e6033318cb90556f706196bc9d247a776a23ea51aecee5a80dd0332995",
+    "raw_data_in_git": false
+  },
+  "partitions": {
+    "reference": {
+      "source": "official_normal_train",
+      "count": 20,
+      "seed": 42,
+      "selection": "sha256_path_ranking_v1",
+      "selection_input": "few-shot-anomaly-poc:v0.2:pcb2:42:<posix_relative_path>",
+      "tie_breaker": "posix_relative_path_ascending"
+    },
+    "calibration": {
+      "source": "remaining_official_normal_train",
+      "class_access": "known_normal_only",
+      "use": "threshold_only"
+    },
+    "final_test": {
+      "source": "all_official_pcb2_test_records",
+      "scorer_identity": "opaque_asset_id_only",
+      "class_access": "reveal_only_after_committed_label_free_scores"
+    },
+    "duplicate_paths_forbidden": true,
+    "overlap_forbidden": true
+  },
+  "opaque_boundary": {
+    "ordering_algorithm": "HMAC-SHA-256",
+    "ordering_key_bytes": 32,
+    "ordering_key_source": "os_cryptographic_random",
+    "asset_id_pattern": "^asset-[0-9]{6}$",
+    "scoring_manifest_schema": "v0.2-opaque-scoring-manifest-v1",
+    "sealed_mapping_schema": "v0.2-sealed-label-mapping-v1",
+    "scorer_record_fields": [
+      "asset_id",
+      "relative_path",
+      "byte_count",
+      "sha256"
+    ],
+    "scorer_forbidden_inputs": [
+      "official_split",
+      "source_path",
+      "class_label",
+      "class_count",
+      "sealed_mapping",
+      "hmac_key"
+    ],
+    "overwrite_allowed": false,
+    "manual_final_test_image_access_before_reveal": false
+  },
+  "method_order": [
+    "ecc_residual",
+    "patch_hog_ocsvm",
+    "dinov2_vits14_224_nn"
+  ],
+  "methods": {
+    "ecc_residual": {
+      "implementation_method_id": "ecc_residual",
+      "role": "classical_baseline",
+      "parameter_source": "configs/v0.1.yaml",
+      "parameter_source_sha256": "9a8149c0d37f86a4474089ae251bd4954071d7171f7110073e82c9796b52d917",
+      "method_specification": "docs/method-specification.md",
+      "method_specification_sha256": "7c0259a8c5751c5bfd888c81258ed8dcb29154fc74ba1c16fb7545d6f0341c8c",
+      "reference_count": 20,
+      "success_score_minimum": 0.0,
+      "success_score_minimum_inclusive": true,
+      "success_score_maximum": 1.0,
+      "success_score_maximum_inclusive": true,
+      "failure_score": 1.0
+    },
+    "patch_hog_ocsvm": {
+      "implementation_method_id": "patch_hog_one_class_svm",
+      "role": "classical_comparator",
+      "parameter_source": "configs/v0.1.yaml",
+      "parameter_source_sha256": "9a8149c0d37f86a4474089ae251bd4954071d7171f7110073e82c9796b52d917",
+      "method_specification": "docs/method-specification.md",
+      "method_specification_sha256": "7c0259a8c5751c5bfd888c81258ed8dcb29154fc74ba1c16fb7545d6f0341c8c",
+      "reference_count": 20,
+      "success_score_minimum": -1000000000000.0,
+      "success_score_minimum_inclusive": false,
+      "success_score_maximum": 1000000000000.0,
+      "success_score_maximum_inclusive": false,
+      "failure_score": 1000000000000.0
+    },
+    "dinov2_vits14_224_nn": {
+      "implementation_method_id": "dinov2_vits14_224_nn",
+      "role": "new_representation_candidate",
+      "source_revision": "7764ea0f912e53c92e82eb78a2a1631e92725fc8",
+      "source_archive_sha256": "c27dcdaf50e9fb5bbdf2bb529da357716372e19c6afab17d5350f3f0094aed4b",
+      "checkpoint_sha256": "b938bf1bc15cd2ec0feacfe3a1bb553fe8ea9ca46a7e1d8d00217f29aef60cd9",
+      "environment_lock_sha256": "28a0878f3425bf6ea6fcc1631b168d67e6ddcc747d71f9c92c85b3aa9c706ec8",
+      "scoring_source": "src/few_shot_anomaly_poc/dinov2_scoring.py",
+      "scoring_source_sha256": "944dc4c349aa011157ecc2e147bbcdd27da8b8c1fa1084fc0ae0e4641cec4cee",
+      "resolution": 224,
+      "device": "cpu",
+      "dtype": "float32",
+      "reference_count": 20,
+      "patch_tokens_per_image": 256,
+      "memory_bank_patch_count": 5120,
+      "memory_block_size": 2048,
+      "distance": "exact_cosine_clamp_0_2",
+      "aggregation": "mean_largest_two_patch_distances",
+      "success_score_minimum": 0.0,
+      "success_score_minimum_inclusive": true,
+      "success_score_maximum": 2.0,
+      "success_score_maximum_inclusive": true,
+      "failure_score": 2.0
+    }
+  },
+  "dinov2_input_adapter": {
+    "decoder_environment": "v0.1_root_lock",
+    "opencv_version": "4.13.0.92",
+    "decode_flags": "IMREAD_COLOR|IMREAD_IGNORE_ORIENTATION",
+    "decoded_color_order": "BGR",
+    "model_color_order": "RGB",
+    "resize_height": 512,
+    "resize_width": 512,
+    "resize_interpolation": "area",
+    "output_dtype": "uint8",
+    "output_layout": "HWC_C_contiguous",
+    "crop": false,
+    "aspect_ratio_preservation": false,
+    "augmentation": false,
+    "content_dependent_branch": false
+  },
+  "calibration": {
+    "normal_only": true,
+    "method_scope": "per_method",
+    "score_order": "ascending",
+    "tie_breaker": "posix_relative_path_ascending",
+    "quantile": 0.95,
+    "rank": "ceil_quantile_times_sample_count",
+    "threshold_index": "rank_minus_one",
+    "prediction_rule": "failed_or_strictly_greater",
+    "parameter_changes_allowed": false
+  },
+  "final_test_scoring": {
+    "asset_order": "opaque_asset_id_ascending",
+    "warmup_passes": 1,
+    "timed_passes": 3,
+    "canonical_score_pass_index": 0,
+    "retry_allowed": false,
+    "outlier_removal_allowed": false,
+    "manual_score_inspection_before_commit": false,
+    "label_access": false,
+    "score_repetition_absolute_tolerance": 0.000001,
+    "status_and_failure_code_must_match": true
+  },
+  "latency": {
+    "machine_cpu": "Intel(R) Core(TM) i7-3630QM CPU @ 2.40GHz",
+    "os_boundary": "Linux_x86_64_WSL2",
+    "device": "cpu",
+    "timer": "perf_counter_ns",
+    "file_io_included": false,
+    "encoded_image_decode_included": false,
+    "model_load_included": false,
+    "fit_included": false,
+    "artifact_write_included": false,
+    "ecc_hog_boundary": "decoded_grayscale_uint8_to_score",
+    "dinov2_boundary": "decoded_bgr_adapter_plus_isolated_rgb512_to_score",
+    "dinov2_duration_rule": "adapter_ns_plus_scorer_ns",
+    "interprocess_transfer_included": false,
+    "warmup_passes": 1,
+    "timed_passes": 3,
+    "median_rule": "mean_middle_pair_when_even",
+    "p95_quantile": 0.95,
+    "p95_rule": "nearest_rank",
+    "include_failed_score_timings": true,
+    "duration_unit": "nanoseconds",
+    "preflight_latency_is_final_gate": false
+  },
+  "reproduction": {
+    "phase": "after_committed_label_free_scoring_before_reveal",
+    "fresh_process": true,
+    "offline": true,
+    "asset_selection": "first_10_opaque_asset_ids",
+    "asset_count": 10,
+    "absolute_score_tolerance": 0.000001,
+    "status_and_failure_code_must_match": true,
+    "network_allowed": false,
+    "failed_check_rerun_allowed": false
+  },
+  "metrics": {
+    "positive_class": "anomaly",
+    "image_level_auroc": "descriptive",
+    "image_level_auprc": "descriptive",
+    "normal_false_positive_rate": "hard_gate",
+    "anomaly_recall": "hard_gate",
+    "confusion_counts_required": true,
+    "score_failure_count_required": true,
+    "cpu_median_latency": "descriptive_and_tie_break",
+    "cpu_p95_latency": "hard_gate",
+    "pixel_level_metrics": false,
+    "confidence_intervals": false,
+    "weighted_score": false
+  },
+  "failure_selection": {
+    "max_cases_per_type": 5,
+    "false_positive_order": "anomaly_score_descending",
+    "false_negative_order": "anomaly_score_ascending",
+    "tie_breaker": "opaque_asset_id_ascending",
+    "image_access_during_selection": false,
+    "review_only_after_committed_metrics_and_selection": true,
+    "allowed_review_dispositions": [
+      "no_material_boundary",
+      "guardrail_required",
+      "intended_use_contradicted"
+    ],
+    "public_image_pixels_by_default": false
+  },
+  "hard_gates": {
+    "order": [
+      "method_fit",
+      "test_leakage",
+      "final_test_normal_fpr",
+      "final_test_anomaly_recall",
+      "cpu_p95_scoring_latency",
+      "normal_reference_count",
+      "anomaly_training_labels",
+      "reproducibility"
+    ],
+    "normal_fpr_max": 0.05,
+    "anomaly_recall_min": 0.90,
+    "cpu_p95_latency_seconds_max": 1.0,
+    "normal_reference_count_required": 20,
+    "anomaly_training_labels_used": false,
+    "reproducibility_required": true,
+    "weighted_score_allowed": false,
+    "hard_gate_waiver_allowed": false
+  },
+  "decision": {
+    "allowed_method_decisions": [
+      "ADOPT",
+      "ADOPT WITH CONDITIONS",
+      "REJECT"
+    ],
+    "project_selection_order": [
+      "decision_adopt_before_conditional",
+      "anomaly_recall_descending",
+      "normal_fpr_ascending",
+      "cpu_p95_latency_ascending",
+      "cpu_median_latency_ascending",
+      "method_complexity_order"
+    ],
+    "method_complexity_order": [
+      "ecc_residual",
+      "patch_hog_ocsvm",
+      "dinov2_vits14_224_nn"
+    ],
+    "adopt_meaning": "advance_to_next_controlled_validation",
+    "deployment_claim_allowed": false
+  },
+  "artifact_contract": {
+    "contract_version": "evaluation-artifacts/v0.2",
+    "schema_path": "schemas/v0.2/evaluation-artifacts.json",
+    "artifact_root_template": "artifacts/v0.2/evaluation/{run_id}",
+    "stage_order": [
+      "boundary_preparation",
+      "pre_evaluation_freeze",
+      "fit_and_calibration",
+      "label_free_scoring",
+      "offline_reproduction",
+      "pre_reveal_checkpoint",
+      "label_reveal_and_metrics",
+      "decision",
+      "public_report",
+      "bundle_manifest"
+    ],
+    "overwrite_allowed": false,
+    "absolute_paths_allowed": false,
+    "non_finite_numbers_allowed": false,
+    "timestamps_allowed": false,
+    "raw_dataset_content_allowed": false
+  }
+}

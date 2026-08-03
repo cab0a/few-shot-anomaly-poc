@@ -1,0 +1,1212 @@
+{
+  "contract_version": "evaluation-artifacts/v0.2",
+  "status": "frozen_before_boundary_preparation",
+  "artifact_root_template": "artifacts/v0.2/evaluation/{run_id}",
+  "run_id_pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+  "allowed_run_kinds": [
+    "synthetic",
+    "final_test"
+  ],
+  "allowed_methods": [
+    "ecc_residual",
+    "patch_hog_ocsvm",
+    "dinov2_vits14_224_nn"
+  ],
+  "serialization": {
+    "text_encoding": "UTF-8",
+    "line_ending": "LF",
+    "final_newline": true,
+    "json": {
+      "indent": 2,
+      "sort_keys": true,
+      "ensure_ascii": false,
+      "allow_nan": false
+    },
+    "csv": {
+      "dialect": "RFC 4180",
+      "delimiter": ",",
+      "header": true,
+      "quoting": "minimal",
+      "null": "",
+      "boolean_true": "true",
+      "boolean_false": "false",
+      "finite_float": "CPython 3.13 shortest round-trip decimal"
+    }
+  },
+  "common_rules": {
+    "relative_paths_only": true,
+    "absolute_paths_forbidden": true,
+    "timestamps_forbidden": true,
+    "non_finite_numbers_forbidden": true,
+    "duplicate_primary_keys_forbidden": true,
+    "row_order_must_match_sort_key": true,
+    "overwrite_forbidden": true,
+    "raw_dataset_content_forbidden": true,
+    "source_or_model_assets_forbidden": true
+  },
+  "final_test_label_free_contracts": [
+    "score",
+    "classification",
+    "latency_observation",
+    "reproduction"
+  ],
+  "final_test_label_free_forbidden_fields": [
+    "true_class",
+    "class_label",
+    "source_path",
+    "official_split",
+    "sealed_mapping",
+    "hmac_key"
+  ],
+  "method_score_rules": {
+    "ecc_residual": {
+      "success_minimum": 0.0,
+      "success_minimum_inclusive": true,
+      "success_maximum": 1.0,
+      "success_maximum_inclusive": true,
+      "failure_score": 1.0
+    },
+    "patch_hog_ocsvm": {
+      "success_minimum": -1000000000000.0,
+      "success_minimum_inclusive": false,
+      "success_maximum": 1000000000000.0,
+      "success_maximum_inclusive": false,
+      "failure_score": 1000000000000.0
+    },
+    "dinov2_vits14_224_nn": {
+      "success_minimum": 0.0,
+      "success_minimum_inclusive": true,
+      "success_maximum": 2.0,
+      "success_maximum_inclusive": true,
+      "failure_score": 2.0
+    }
+  },
+  "contracts": {
+    "boundary_record": {
+      "format": "json",
+      "label_boundary": "sealed",
+      "path_template": "boundary/boundary-record.json",
+      "required_keys": [
+        "contract_version",
+        "run_id",
+        "run_kind",
+        "preregistration_commit",
+        "preregistration_document_sha256",
+        "archive_sha256",
+        "split_sha256",
+        "reference_count",
+        "calibration_count",
+        "final_test_count",
+        "scoring_manifest_sha256",
+        "sealed_mapping_sha256",
+        "final_test_class_counts_published",
+        "raw_data_in_git"
+      ],
+      "field_types": {
+        "contract_version": "string",
+        "run_id": "string",
+        "run_kind": "string",
+        "preregistration_commit": "commit",
+        "preregistration_document_sha256": "sha256",
+        "archive_sha256": "sha256",
+        "split_sha256": "sha256",
+        "reference_count": "integer",
+        "calibration_count": "integer",
+        "final_test_count": "integer",
+        "scoring_manifest_sha256": "sha256",
+        "sealed_mapping_sha256": "sha256",
+        "final_test_class_counts_published": "boolean",
+        "raw_data_in_git": "boolean"
+      },
+      "field_enums": {
+        "contract_version": [
+          "evaluation-artifacts/v0.2"
+        ],
+        "run_kind": [
+          "synthetic",
+          "final_test"
+        ],
+        "final_test_class_counts_published": [
+          false
+        ],
+        "raw_data_in_git": [
+          false
+        ]
+      },
+      "nullable_keys": [],
+      "additional_keys_allowed": false
+    },
+    "pre_evaluation_freeze": {
+      "format": "json",
+      "label_boundary": "sealed",
+      "path_template": "freeze/pre-evaluation-freeze.json",
+      "required_keys": [
+        "contract_version",
+        "run_id",
+        "run_kind",
+        "source_commit",
+        "config_sha256",
+        "schema_sha256",
+        "preregistration_commit",
+        "preregistration_document_sha256",
+        "reference_manifest_sha256",
+        "calibration_manifest_sha256",
+        "scoring_manifest_sha256",
+        "sealed_mapping_sha256",
+        "method_order",
+        "hard_gate_order",
+        "label_reveal_completed"
+      ],
+      "field_types": {
+        "contract_version": "string",
+        "run_id": "string",
+        "run_kind": "string",
+        "source_commit": "commit",
+        "config_sha256": "sha256",
+        "schema_sha256": "sha256",
+        "preregistration_commit": "commit",
+        "preregistration_document_sha256": "sha256",
+        "reference_manifest_sha256": "sha256",
+        "calibration_manifest_sha256": "sha256",
+        "scoring_manifest_sha256": "sha256",
+        "sealed_mapping_sha256": "sha256",
+        "method_order": "string_array",
+        "hard_gate_order": "string_array",
+        "label_reveal_completed": "boolean"
+      },
+      "field_enums": {
+        "contract_version": [
+          "evaluation-artifacts/v0.2"
+        ],
+        "run_kind": [
+          "synthetic",
+          "final_test"
+        ],
+        "label_reveal_completed": [
+          false
+        ]
+      },
+      "nullable_keys": [],
+      "additional_keys_allowed": false
+    },
+    "fit": {
+      "format": "json",
+      "label_boundary": "normal_only",
+      "path_template": "{method}/fit.json",
+      "required_keys": [
+        "contract_version",
+        "run_id",
+        "run_kind",
+        "method",
+        "status",
+        "reference_count",
+        "successful_reference_count",
+        "failed_reference_count",
+        "reference_manifest_sha256",
+        "fitted_state_sha256",
+        "failure_code"
+      ],
+      "field_types": {
+        "contract_version": "string",
+        "run_id": "string",
+        "run_kind": "string",
+        "method": "string",
+        "status": "string",
+        "reference_count": "integer",
+        "successful_reference_count": "integer",
+        "failed_reference_count": "integer",
+        "reference_manifest_sha256": "sha256",
+        "fitted_state_sha256": "sha256",
+        "failure_code": "string"
+      },
+      "field_enums": {
+        "contract_version": [
+          "evaluation-artifacts/v0.2"
+        ],
+        "run_kind": [
+          "synthetic",
+          "final_test"
+        ],
+        "method": [
+          "ecc_residual",
+          "patch_hog_ocsvm",
+          "dinov2_vits14_224_nn"
+        ],
+        "status": [
+          "fit_ok",
+          "fit_failed"
+        ]
+      },
+      "nullable_keys": [
+        "fitted_state_sha256",
+        "failure_code"
+      ],
+      "additional_keys_allowed": false
+    },
+    "calibration_score": {
+      "format": "csv",
+      "label_boundary": "normal_only",
+      "path_template": "{method}/calibration-scores.csv",
+      "primary_key": [
+        "run_id",
+        "method",
+        "source_path"
+      ],
+      "sort_key": [
+        "method",
+        "source_path"
+      ],
+      "columns": [
+        {
+          "name": "contract_version",
+          "type": "string",
+          "nullable": false,
+          "fixed": "evaluation-artifacts/v0.2"
+        },
+        {
+          "name": "run_id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "run_kind",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "synthetic",
+            "final_test"
+          ]
+        },
+        {
+          "name": "method",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "ecc_residual",
+            "patch_hog_ocsvm",
+            "dinov2_vits14_224_nn"
+          ]
+        },
+        {
+          "name": "source_path",
+          "type": "relative_path",
+          "nullable": false
+        },
+        {
+          "name": "score_status",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "ok",
+            "failed"
+          ]
+        },
+        {
+          "name": "score_failure_code",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "anomaly_score",
+          "type": "number",
+          "nullable": false
+        }
+      ]
+    },
+    "calibration_summary": {
+      "format": "json",
+      "label_boundary": "normal_only",
+      "path_template": "{method}/calibration-summary.json",
+      "required_keys": [
+        "contract_version",
+        "run_id",
+        "run_kind",
+        "method",
+        "sample_count",
+        "rank",
+        "quantile",
+        "threshold",
+        "threshold_source_path",
+        "predicted_anomalous_count",
+        "score_failure_count",
+        "realized_normal_fpr"
+      ],
+      "field_types": {
+        "contract_version": "string",
+        "run_id": "string",
+        "run_kind": "string",
+        "method": "string",
+        "sample_count": "integer",
+        "rank": "integer",
+        "quantile": "number",
+        "threshold": "number",
+        "threshold_source_path": "relative_path",
+        "predicted_anomalous_count": "integer",
+        "score_failure_count": "integer",
+        "realized_normal_fpr": "number"
+      },
+      "field_enums": {
+        "contract_version": [
+          "evaluation-artifacts/v0.2"
+        ],
+        "run_kind": [
+          "synthetic",
+          "final_test"
+        ],
+        "method": [
+          "ecc_residual",
+          "patch_hog_ocsvm",
+          "dinov2_vits14_224_nn"
+        ],
+        "quantile": [
+          0.95
+        ]
+      },
+      "nullable_keys": [],
+      "additional_keys_allowed": false
+    },
+    "score": {
+      "format": "csv",
+      "label_boundary": "final_test_label_free",
+      "path_template": "{method}/scores.csv",
+      "primary_key": [
+        "run_id",
+        "method",
+        "asset_id"
+      ],
+      "sort_key": [
+        "method",
+        "asset_id"
+      ],
+      "columns": [
+        {
+          "name": "contract_version",
+          "type": "string",
+          "nullable": false,
+          "fixed": "evaluation-artifacts/v0.2"
+        },
+        {
+          "name": "run_id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "run_kind",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "synthetic",
+            "final_test"
+          ]
+        },
+        {
+          "name": "method",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "ecc_residual",
+            "patch_hog_ocsvm",
+            "dinov2_vits14_224_nn"
+          ]
+        },
+        {
+          "name": "asset_id",
+          "type": "asset_id",
+          "nullable": false
+        },
+        {
+          "name": "score_status",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "ok",
+            "failed"
+          ]
+        },
+        {
+          "name": "score_failure_code",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "anomaly_score",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "name": "diagnostics_json",
+          "type": "canonical_json_object",
+          "nullable": false
+        }
+      ]
+    },
+    "classification": {
+      "format": "csv",
+      "label_boundary": "final_test_label_free",
+      "path_template": "{method}/classifications.csv",
+      "primary_key": [
+        "run_id",
+        "method",
+        "asset_id"
+      ],
+      "sort_key": [
+        "method",
+        "asset_id"
+      ],
+      "columns": [
+        {
+          "name": "contract_version",
+          "type": "string",
+          "nullable": false,
+          "fixed": "evaluation-artifacts/v0.2"
+        },
+        {
+          "name": "run_id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "run_kind",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "synthetic",
+            "final_test"
+          ]
+        },
+        {
+          "name": "method",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "ecc_residual",
+            "patch_hog_ocsvm",
+            "dinov2_vits14_224_nn"
+          ]
+        },
+        {
+          "name": "asset_id",
+          "type": "asset_id",
+          "nullable": false
+        },
+        {
+          "name": "score_status",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "ok",
+            "failed"
+          ]
+        },
+        {
+          "name": "score_failure_code",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "anomaly_score",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "name": "threshold",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "name": "predicted_class",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "normal",
+            "anomalous"
+          ]
+        },
+        {
+          "name": "is_anomalous",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "decision_reason",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "score_strictly_greater_than_threshold",
+            "score_not_greater_than_threshold",
+            "score_failed"
+          ]
+        },
+        {
+          "name": "score_margin",
+          "type": "number",
+          "nullable": false
+        }
+      ]
+    },
+    "latency_observation": {
+      "format": "csv",
+      "label_boundary": "final_test_label_free",
+      "path_template": "{method}/latency-observations.csv",
+      "primary_key": [
+        "run_id",
+        "method",
+        "pass_index",
+        "asset_id"
+      ],
+      "sort_key": [
+        "method",
+        "pass_index",
+        "asset_id"
+      ],
+      "columns": [
+        {
+          "name": "contract_version",
+          "type": "string",
+          "nullable": false,
+          "fixed": "evaluation-artifacts/v0.2"
+        },
+        {
+          "name": "run_id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "run_kind",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "synthetic",
+            "final_test"
+          ]
+        },
+        {
+          "name": "method",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "ecc_residual",
+            "patch_hog_ocsvm",
+            "dinov2_vits14_224_nn"
+          ]
+        },
+        {
+          "name": "pass_index",
+          "type": "integer",
+          "nullable": false,
+          "minimum": 0,
+          "maximum": 2
+        },
+        {
+          "name": "asset_id",
+          "type": "asset_id",
+          "nullable": false
+        },
+        {
+          "name": "adapter_duration_ns",
+          "type": "integer",
+          "nullable": true,
+          "minimum": 1
+        },
+        {
+          "name": "scorer_duration_ns",
+          "type": "integer",
+          "nullable": false,
+          "minimum": 1
+        },
+        {
+          "name": "duration_ns",
+          "type": "integer",
+          "nullable": false,
+          "minimum": 1
+        },
+        {
+          "name": "score_status",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "ok",
+            "failed"
+          ]
+        },
+        {
+          "name": "score_failure_code",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "anomaly_score",
+          "type": "number",
+          "nullable": false
+        }
+      ]
+    },
+    "reproduction": {
+      "format": "csv",
+      "label_boundary": "final_test_label_free",
+      "path_template": "{method}/offline-reproduction.csv",
+      "primary_key": [
+        "run_id",
+        "method",
+        "asset_id"
+      ],
+      "sort_key": [
+        "method",
+        "asset_id"
+      ],
+      "columns": [
+        {
+          "name": "contract_version",
+          "type": "string",
+          "nullable": false,
+          "fixed": "evaluation-artifacts/v0.2"
+        },
+        {
+          "name": "run_id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "run_kind",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "synthetic",
+            "final_test"
+          ]
+        },
+        {
+          "name": "method",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "ecc_residual",
+            "patch_hog_ocsvm",
+            "dinov2_vits14_224_nn"
+          ]
+        },
+        {
+          "name": "asset_id",
+          "type": "asset_id",
+          "nullable": false
+        },
+        {
+          "name": "expected_score_status",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "ok",
+            "failed"
+          ]
+        },
+        {
+          "name": "reproduced_score_status",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "ok",
+            "failed"
+          ]
+        },
+        {
+          "name": "expected_failure_code",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "reproduced_failure_code",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "expected_score",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "name": "reproduced_score",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "name": "absolute_difference",
+          "type": "number",
+          "nullable": false,
+          "minimum": 0.0
+        },
+        {
+          "name": "within_tolerance",
+          "type": "boolean",
+          "nullable": false
+        }
+      ]
+    },
+    "pre_reveal_checkpoint": {
+      "format": "json",
+      "label_boundary": "final_test_label_free",
+      "path_template": "pre-reveal-checkpoint.json",
+      "required_keys": [
+        "contract_version",
+        "run_id",
+        "run_kind",
+        "source_commit",
+        "label_free_bundle_sha256",
+        "method_order",
+        "method_score_counts",
+        "reproduction_status",
+        "git_commit",
+        "git_push_verified",
+        "labels_accessed"
+      ],
+      "field_types": {
+        "contract_version": "string",
+        "run_id": "string",
+        "run_kind": "string",
+        "source_commit": "commit",
+        "label_free_bundle_sha256": "sha256",
+        "method_order": "string_array",
+        "method_score_counts": "object",
+        "reproduction_status": "object",
+        "git_commit": "commit",
+        "git_push_verified": "boolean",
+        "labels_accessed": "boolean"
+      },
+      "field_enums": {
+        "contract_version": [
+          "evaluation-artifacts/v0.2"
+        ],
+        "run_kind": [
+          "synthetic",
+          "final_test"
+        ],
+        "git_push_verified": [
+          true
+        ],
+        "labels_accessed": [
+          false
+        ]
+      },
+      "nullable_keys": [],
+      "additional_keys_allowed": false
+    },
+    "label_reveal": {
+      "format": "csv",
+      "label_boundary": "revealed",
+      "path_template": "revealed-labels.csv",
+      "primary_key": [
+        "run_id",
+        "asset_id"
+      ],
+      "sort_key": [
+        "asset_id"
+      ],
+      "columns": [
+        {
+          "name": "contract_version",
+          "type": "string",
+          "nullable": false,
+          "fixed": "evaluation-artifacts/v0.2"
+        },
+        {
+          "name": "run_id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "run_kind",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "synthetic",
+            "final_test"
+          ]
+        },
+        {
+          "name": "asset_id",
+          "type": "asset_id",
+          "nullable": false
+        },
+        {
+          "name": "source_path",
+          "type": "relative_path",
+          "nullable": false
+        },
+        {
+          "name": "true_class",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "normal",
+            "anomaly"
+          ]
+        }
+      ]
+    },
+    "metrics": {
+      "format": "json",
+      "label_boundary": "revealed",
+      "path_template": "{method}/metrics.json",
+      "required_keys": [
+        "contract_version",
+        "run_id",
+        "run_kind",
+        "method",
+        "positive_class",
+        "item_count",
+        "normal_count",
+        "anomaly_count",
+        "true_positive_count",
+        "false_negative_count",
+        "true_negative_count",
+        "false_positive_count",
+        "score_failure_count",
+        "image_level_auroc",
+        "image_level_auprc",
+        "normal_false_positive_rate",
+        "anomaly_recall",
+        "threshold"
+      ],
+      "field_types": {
+        "contract_version": "string",
+        "run_id": "string",
+        "run_kind": "string",
+        "method": "string",
+        "positive_class": "string",
+        "item_count": "integer",
+        "normal_count": "integer",
+        "anomaly_count": "integer",
+        "true_positive_count": "integer",
+        "false_negative_count": "integer",
+        "true_negative_count": "integer",
+        "false_positive_count": "integer",
+        "score_failure_count": "integer",
+        "image_level_auroc": "number",
+        "image_level_auprc": "number",
+        "normal_false_positive_rate": "number",
+        "anomaly_recall": "number",
+        "threshold": "number"
+      },
+      "field_enums": {
+        "contract_version": [
+          "evaluation-artifacts/v0.2"
+        ],
+        "run_kind": [
+          "synthetic",
+          "final_test"
+        ],
+        "method": [
+          "ecc_residual",
+          "patch_hog_ocsvm",
+          "dinov2_vits14_224_nn"
+        ],
+        "positive_class": [
+          "anomaly"
+        ]
+      },
+      "nullable_keys": [],
+      "additional_keys_allowed": false
+    },
+    "failure_case": {
+      "format": "csv",
+      "label_boundary": "revealed",
+      "path_template": "{method}/failure-cases.csv",
+      "primary_key": [
+        "run_id",
+        "method",
+        "case_type",
+        "rank"
+      ],
+      "sort_key": [
+        "method",
+        "case_type_false_positive_first",
+        "rank"
+      ],
+      "columns": [
+        {
+          "name": "contract_version",
+          "type": "string",
+          "nullable": false,
+          "fixed": "evaluation-artifacts/v0.2"
+        },
+        {
+          "name": "run_id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "run_kind",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "synthetic",
+            "final_test"
+          ]
+        },
+        {
+          "name": "method",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "ecc_residual",
+            "patch_hog_ocsvm",
+            "dinov2_vits14_224_nn"
+          ]
+        },
+        {
+          "name": "case_type",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "false_positive",
+            "false_negative"
+          ]
+        },
+        {
+          "name": "rank",
+          "type": "integer",
+          "nullable": false,
+          "minimum": 1,
+          "maximum": 5
+        },
+        {
+          "name": "asset_id",
+          "type": "asset_id",
+          "nullable": false
+        },
+        {
+          "name": "source_path",
+          "type": "relative_path",
+          "nullable": false
+        },
+        {
+          "name": "true_class",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "normal",
+            "anomaly"
+          ]
+        },
+        {
+          "name": "predicted_class",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "normal",
+            "anomalous"
+          ]
+        },
+        {
+          "name": "anomaly_score",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "name": "threshold",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "name": "score_margin",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "name": "score_status",
+          "type": "string",
+          "nullable": false,
+          "enum": [
+            "ok",
+            "failed"
+          ]
+        },
+        {
+          "name": "score_failure_code",
+          "type": "string",
+          "nullable": true
+        }
+      ]
+    },
+    "method_decision": {
+      "format": "json",
+      "label_boundary": "revealed",
+      "path_template": "{method}/decision.json",
+      "required_keys": [
+        "contract_version",
+        "run_id",
+        "run_kind",
+        "method",
+        "decision",
+        "gate_outcomes",
+        "first_failed_gate",
+        "failure_review_disposition",
+        "failure_review_rationale",
+        "condition",
+        "decision_reason",
+        "weighted_score_used",
+        "hard_gate_waiver_used"
+      ],
+      "field_types": {
+        "contract_version": "string",
+        "run_id": "string",
+        "run_kind": "string",
+        "method": "string",
+        "decision": "string",
+        "gate_outcomes": "array",
+        "first_failed_gate": "string",
+        "failure_review_disposition": "string",
+        "failure_review_rationale": "string",
+        "condition": "string",
+        "decision_reason": "string",
+        "weighted_score_used": "boolean",
+        "hard_gate_waiver_used": "boolean"
+      },
+      "field_enums": {
+        "contract_version": [
+          "evaluation-artifacts/v0.2"
+        ],
+        "run_kind": [
+          "synthetic",
+          "final_test"
+        ],
+        "method": [
+          "ecc_residual",
+          "patch_hog_ocsvm",
+          "dinov2_vits14_224_nn"
+        ],
+        "decision": [
+          "ADOPT",
+          "ADOPT WITH CONDITIONS",
+          "REJECT"
+        ],
+        "failure_review_disposition": [
+          "no_material_boundary",
+          "guardrail_required",
+          "intended_use_contradicted"
+        ],
+        "weighted_score_used": [
+          false
+        ],
+        "hard_gate_waiver_used": [
+          false
+        ]
+      },
+      "nullable_keys": [
+        "first_failed_gate",
+        "failure_review_rationale",
+        "condition"
+      ],
+      "additional_keys_allowed": false,
+      "gate_outcome_required_keys": [
+        "order",
+        "name",
+        "status",
+        "observed",
+        "operator",
+        "requirement"
+      ]
+    },
+    "project_decision": {
+      "format": "json",
+      "label_boundary": "revealed",
+      "path_template": "project-decision.json",
+      "required_keys": [
+        "contract_version",
+        "run_id",
+        "run_kind",
+        "decision",
+        "selected_method",
+        "method_decisions",
+        "selection_trace",
+        "decision_reason",
+        "next_validation",
+        "weighted_score_used"
+      ],
+      "field_types": {
+        "contract_version": "string",
+        "run_id": "string",
+        "run_kind": "string",
+        "decision": "string",
+        "selected_method": "string",
+        "method_decisions": "object",
+        "selection_trace": "array",
+        "decision_reason": "string",
+        "next_validation": "string",
+        "weighted_score_used": "boolean"
+      },
+      "field_enums": {
+        "contract_version": [
+          "evaluation-artifacts/v0.2"
+        ],
+        "run_kind": [
+          "synthetic",
+          "final_test"
+        ],
+        "decision": [
+          "ADOPT",
+          "ADOPT WITH CONDITIONS",
+          "REJECT"
+        ],
+        "weighted_score_used": [
+          false
+        ]
+      },
+      "nullable_keys": [
+        "selected_method"
+      ],
+      "additional_keys_allowed": false
+    },
+    "bundle_manifest": {
+      "format": "json",
+      "label_boundary": "revealed",
+      "path_template": "artifact-manifest.json",
+      "required_keys": [
+        "contract_version",
+        "run_id",
+        "run_kind",
+        "source_commit",
+        "config_sha256",
+        "schema_sha256",
+        "preregistration_commit",
+        "preregistration_document_sha256",
+        "scoring_manifest_sha256",
+        "sealed_mapping_sha256",
+        "files"
+      ],
+      "field_types": {
+        "contract_version": "string",
+        "run_id": "string",
+        "run_kind": "string",
+        "source_commit": "commit",
+        "config_sha256": "sha256",
+        "schema_sha256": "sha256",
+        "preregistration_commit": "commit",
+        "preregistration_document_sha256": "sha256",
+        "scoring_manifest_sha256": "sha256",
+        "sealed_mapping_sha256": "sha256",
+        "files": "array"
+      },
+      "field_enums": {
+        "contract_version": [
+          "evaluation-artifacts/v0.2"
+        ],
+        "run_kind": [
+          "synthetic",
+          "final_test"
+        ]
+      },
+      "nullable_keys": [],
+      "additional_keys_allowed": false,
+      "file_entry_required_keys": [
+        "artifact_type",
+        "method",
+        "relative_path",
+        "sha256",
+        "record_count"
+      ],
+      "file_entry_sort_key": [
+        "relative_path"
+      ]
+    }
+  }
+}
