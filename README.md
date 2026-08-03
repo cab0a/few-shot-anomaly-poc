@@ -6,7 +6,7 @@
 
 v0.1ではECC残差法とPatch HOG + One-Class SVMを事前固定した基準で比較し、両方式とも`REJECT`となった結果を変更せず公開しています。正常データだけの閾値校正、最終評価、失敗例、処理時間、hard-gate判断をチェックサム付きで保存しました。
 
-v0.2ではDINOv2のCPU timing、224のoffline score再現、未使用評価境界の実現可能性確認を完了しました。224はp95 0.6795秒で通過、448は3.6253秒で不通過です。条件1〜10はすべて通過し最終preflightは`PROCEED`ですが、許可範囲は次のmethod/evaluation preregistration作成だけで、精度評価やDINOv2採用はまだ行っていません。詳細は以下の英語本文を参照してください。
+v0.2ではDINOv2のCPU preflightを完了し、224はp95 0.6795秒で通過、448は3.6253秒で不通過でした。最終preflightの`PROCEED`を受け、未使用の`pcb2`でDINOv2 224と古典2方式を比較するmethod/evaluation preregistrationを固定しました。実データ境界の準備、精度評価、DINOv2採用はまだ行っていません。詳細は以下の英語本文を参照してください。
 
 ---
 
@@ -18,9 +18,9 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > Neither method passed every fixed operating-point gate. The thresholds and gates were not revised after the result.
 
-> **v0.2 status: final preflight `PROCEED` — performance evaluation not started**
+> **v0.2 status: method and evaluation preregistered — `pcb2` boundary untouched**
 >
-> Conditions 1 through 10 passed in their preregistered order. The selected `224` candidate passed the CPU gate and reproduced its first 10 scores exactly; `448` remains a failed latency result. A synthetic-only checkpoint verified that opaque HMAC ordering, a four-field label-free scoring manifest, sealed source/label mapping, copy identity, scorer isolation, and non-overwrite controls are implementable. No VisA archive, official split row, label, decoded image, calibration threshold, or final-test score was accessed. `PROCEED` authorizes only a separate v0.2 method-and-evaluation preregistration; it does not adopt DINOv2. See the [final preflight record](docs/v0.2-final-preflight-decision.md) and [committed decision artifacts](artifacts/v0.2/preflight/final-decision/).
+> The study now fixes DINOv2 ViT-S/14 at `224 x 224`, both unchanged classical comparators, one shared 20-image normal reference set, normal-only thresholds, opaque label-free scoring, final-test CPU timing, first-10 offline reproduction, image-level metrics, mechanical error selection, and ordered hard gates. No VisA archive, official split row, label, image, score, or metric was accessed while writing it. See the [method and evaluation preregistration](docs/v0.2-method-and-evaluation-preregistration.md), [final preflight record](docs/v0.2-final-preflight-decision.md), and [committed preflight artifacts](artifacts/v0.2/preflight/final-decision/).
 
 ## Representative Result
 
@@ -235,6 +235,7 @@ See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md)
 | [v0.2 Offline Score-Reproduction Runner](docs/v0.2-offline-score-reproduction-runner.md) | Fixed 224 baseline identities, fresh offline process, first-10 comparison, failure preservation, output contract, and unexecuted formal boundary |
 | [v0.2 First Fixed Offline Score-Reproduction Run](docs/v0.2-first-offline-score-reproduction-run.md) | Formal first-10 comparison, exact identity matches, condition-9 pass, and the preserved boundary entering final preflight |
 | [v0.2 Untouched Evaluation-Boundary Feasibility and Final Preflight Decision](docs/v0.2-final-preflight-decision.md) | Synthetic opaque-boundary checks, ordered conditions 1–10, untouched-data evidence, scoped `PROCEED` outcome, and next preregistration boundary |
+| [v0.2 Method and Evaluation Preregistration](docs/v0.2-method-and-evaluation-preregistration.md) | Fixed `pcb2` partitions, three methods, normal-only calibration, opaque scoring and reveal, CPU timing, metrics, failure review, hard gates, artifact order, and change control |
 | [Method Specification](docs/method-specification.md) | Fixed preprocessing, parameters, scoring, and failure rules |
 | [Evaluation Plan](docs/evaluation-plan.md) | Partitions, metrics, latency, error selection, and decision logic |
 | [Evaluation Artifact Schema](docs/evaluation-artifact-schema.md) | JSON/CSV contract, deterministic serialization, and integrity |
