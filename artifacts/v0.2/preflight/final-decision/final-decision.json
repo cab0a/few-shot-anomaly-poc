@@ -1,0 +1,234 @@
+{
+  "boundary": {
+    "dataset_access": false,
+    "dataset_labels_accessed": false,
+    "final_test_scoring_performed": false,
+    "image_decode_performed": false,
+    "official_split_access": false,
+    "synthetic_boundary_fixture_only": true
+  },
+  "conditions": [
+    {
+      "condition": 1,
+      "evidence": [
+        {
+          "expected_sha256": "19d4cf4079c6df7c9042be464859ccf98d41108656ba0259c8940ace740ebf42",
+          "observed_sha256": "19d4cf4079c6df7c9042be464859ccf98d41108656ba0259c8940ace740ebf42",
+          "path": "docs/v0.2-preflight-preregistration.md",
+          "verification": "pass"
+        },
+        {
+          "expected_sha256": "8d2d055d6f311719e28f52fb7e8f2f87fb3202c04414b56440d0a420832658ba",
+          "observed_sha256": "8d2d055d6f311719e28f52fb7e8f2f87fb3202c04414b56440d0a420832658ba",
+          "path": "docs/v0.2-memory-bounded-cpu-preflight.md",
+          "verification": "pass"
+        }
+      ],
+      "name": "preregistration_identity",
+      "reason": "Both controlling preregistrations are exact and the execution commit is clean.",
+      "status": "pass"
+    },
+    {
+      "condition": 2,
+      "evidence": [
+        {
+          "expected_sha256": "ba976ed08369fd80423d241129b8a86b05fcef650a39befa4ee67c8314233dac",
+          "observed_sha256": "ba976ed08369fd80423d241129b8a86b05fcef650a39befa4ee67c8314233dac",
+          "path": "artifacts/v0.2/model-assets/acquisition.json",
+          "verification": "pass"
+        }
+      ],
+      "name": "source_and_license",
+      "reason": "The fixed non-register DINOv2 source and Apache-2.0 boundary are verified.",
+      "status": "pass"
+    },
+    {
+      "condition": 3,
+      "evidence": [
+        {
+          "expected_sha256": "402e35c32a7c31e2fd2470877f8047685a372e933d48167046366553eea1d0ad",
+          "observed_sha256": "402e35c32a7c31e2fd2470877f8047685a372e933d48167046366553eea1d0ad",
+          "path": "artifacts/v0.2/dependencies/wheel-inspection.json",
+          "verification": "pass"
+        },
+        {
+          "expected_sha256": "28a0878f3425bf6ea6fcc1631b168d67e6ddcc747d71f9c92c85b3aa9c706ec8",
+          "observed_sha256": "28a0878f3425bf6ea6fcc1631b168d67e6ddcc747d71f9c92c85b3aa9c706ec8",
+          "path": "environments/v0.2-preflight/uv.lock",
+          "verification": "pass"
+        },
+        {
+          "expected_sha256": "b0f38afb103f7084a0e5e09e8fd00e4cf2e0e5825d7a3fe8d5e3b48afd7b1f74",
+          "observed_sha256": "b0f38afb103f7084a0e5e09e8fd00e4cf2e0e5825d7a3fe8d5e3b48afd7b1f74",
+          "path": "artifacts/v0.2/environment/import-smoke.json",
+          "verification": "pass"
+        }
+      ],
+      "name": "dependency_resolution",
+      "reason": "The exact CPU-only lock, inspected wheels, and isolated imports are verified.",
+      "status": "pass"
+    },
+    {
+      "condition": 4,
+      "evidence": [
+        {
+          "expected_sha256": "ba976ed08369fd80423d241129b8a86b05fcef650a39befa4ee67c8314233dac",
+          "observed_sha256": "ba976ed08369fd80423d241129b8a86b05fcef650a39befa4ee67c8314233dac",
+          "path": "artifacts/v0.2/model-assets/acquisition.json",
+          "verification": "pass"
+        },
+        {
+          "expected_sha256": "4491f2fb472df813642d296d92d396e62476a2fd257d6b9da431c3a90b6aa604",
+          "observed_sha256": "4491f2fb472df813642d296d92d396e62476a2fd257d6b9da431c3a90b6aa604",
+          "path": "artifacts/v0.2/model-compatibility/strict-load.json",
+          "verification": "pass"
+        }
+      ],
+      "name": "checkpoint_acquisition",
+      "reason": "The observed checkpoint identity and weights-only strict load are verified.",
+      "status": "pass"
+    },
+    {
+      "condition": 5,
+      "evidence": [
+        {
+          "expected_sha256": "402e35c32a7c31e2fd2470877f8047685a372e933d48167046366553eea1d0ad",
+          "observed_sha256": "402e35c32a7c31e2fd2470877f8047685a372e933d48167046366553eea1d0ad",
+          "path": "artifacts/v0.2/dependencies/wheel-inspection.json",
+          "verification": "pass"
+        },
+        {
+          "expected_sha256": "ee44271a23ca396eebffe82a73fe96242d811aea6385a6bf608a4a703e06cb2a",
+          "observed_sha256": "ee44271a23ca396eebffe82a73fe96242d811aea6385a6bf608a4a703e06cb2a",
+          "path": "docs/v0.2-dependencies-and-licenses.md",
+          "verification": "pass"
+        }
+      ],
+      "name": "third_party_separation",
+      "reason": "Every locked wheel has inventoried license material under separate terms.",
+      "status": "pass"
+    },
+    {
+      "condition": 6,
+      "evidence": [
+        {
+          "expected_sha256": "f9befbd3df1c980f1dc0a8dc48563fd4dffbecd24530b2a4e2b413b4e688715d",
+          "observed_sha256": "f9befbd3df1c980f1dc0a8dc48563fd4dffbecd24530b2a4e2b413b4e688715d",
+          "path": "artifacts/v0.2/cpu-preflight/attempt-002-memory-bounded-pass.json",
+          "verification": "pass"
+        }
+      ],
+      "name": "target_machine",
+      "reason": "The fixed CPU boundary passed the memory-bounded precondition check.",
+      "status": "pass"
+    },
+    {
+      "condition": 7,
+      "evidence": [
+        {
+          "expected_sha256": "56b5f342c3b8875df6c9baec61fdd8339c0f40d1f69c83245bdbf580ac23f7b8",
+          "observed_sha256": "56b5f342c3b8875df6c9baec61fdd8339c0f40d1f69c83245bdbf580ac23f7b8",
+          "path": "artifacts/v0.2/scoring-path/synthetic-smoke.json",
+          "verification": "pass"
+        },
+        {
+          "expected_sha256": "64f8ca7b56ad861f8b3dd821f1b0d07dac3cff6809fa331e1042dbae7a9dfd71",
+          "observed_sha256": "64f8ca7b56ad861f8b3dd821f1b0d07dac3cff6809fa331e1042dbae7a9dfd71",
+          "path": "artifacts/v0.2/cpu-timing/first-fixed-memory-bounded-run/summary.json",
+          "verification": "pass"
+        },
+        {
+          "expected_sha256": "2c0820771cc435f23b79c053d1c705f2bf1fcd875a7bb46a9d12706fddc4c3d4",
+          "observed_sha256": "2c0820771cc435f23b79c053d1c705f2bf1fcd875a7bb46a9d12706fddc4c3d4",
+          "path": "artifacts/v0.2/cpu-timing/first-fixed-memory-bounded-run/resolution-224.json",
+          "verification": "pass"
+        },
+        {
+          "expected_sha256": "7988270f82eb2a6e34b7f429fe755dd55d8b1e287fefbd2353191e50966c875a",
+          "observed_sha256": "7988270f82eb2a6e34b7f429fe755dd55d8b1e287fefbd2353191e50966c875a",
+          "path": "artifacts/v0.2/cpu-timing/first-fixed-memory-bounded-run/resolution-448.json",
+          "verification": "pass"
+        }
+      ],
+      "name": "execution_integrity",
+      "reason": "The fixed scorer and both fresh timing workers retained the registered controls.",
+      "status": "pass"
+    },
+    {
+      "condition": 8,
+      "evidence": [
+        {
+          "expected_sha256": "64f8ca7b56ad861f8b3dd821f1b0d07dac3cff6809fa331e1042dbae7a9dfd71",
+          "observed_sha256": "64f8ca7b56ad861f8b3dd821f1b0d07dac3cff6809fa331e1042dbae7a9dfd71",
+          "path": "artifacts/v0.2/cpu-timing/first-fixed-memory-bounded-run/summary.json",
+          "verification": "pass"
+        },
+        {
+          "expected_sha256": "2c0820771cc435f23b79c053d1c705f2bf1fcd875a7bb46a9d12706fddc4c3d4",
+          "observed_sha256": "2c0820771cc435f23b79c053d1c705f2bf1fcd875a7bb46a9d12706fddc4c3d4",
+          "path": "artifacts/v0.2/cpu-timing/first-fixed-memory-bounded-run/resolution-224.json",
+          "verification": "pass"
+        },
+        {
+          "expected_sha256": "7988270f82eb2a6e34b7f429fe755dd55d8b1e287fefbd2353191e50966c875a",
+          "observed_sha256": "7988270f82eb2a6e34b7f429fe755dd55d8b1e287fefbd2353191e50966c875a",
+          "path": "artifacts/v0.2/cpu-timing/first-fixed-memory-bounded-run/resolution-448.json",
+          "verification": "pass"
+        }
+      ],
+      "name": "cpu_result",
+      "reason": "At least one preregistered resolution passed; 224 passed and 448 failed.",
+      "status": "pass"
+    },
+    {
+      "condition": 9,
+      "evidence": [
+        {
+          "expected_sha256": "c6036f0214bf55cb0d7b208f51d54304aef9a3fe9688e4afffaf2dcbc0eafdd3",
+          "observed_sha256": "c6036f0214bf55cb0d7b208f51d54304aef9a3fe9688e4afffaf2dcbc0eafdd3",
+          "path": "artifacts/v0.2/offline-reproduction/first-fixed-run/summary.json",
+          "verification": "pass"
+        },
+        {
+          "expected_sha256": "3b53ad4370377fa86394bb757b204f9f6dc05c38448e203d16d77ace8bf89aeb",
+          "observed_sha256": "3b53ad4370377fa86394bb757b204f9f6dc05c38448e203d16d77ace8bf89aeb",
+          "path": "artifacts/v0.2/offline-reproduction/first-fixed-run/reproduction.json",
+          "verification": "pass"
+        }
+      ],
+      "name": "reproducibility",
+      "reason": "The selected 224 scores were regenerated offline within the fixed tolerance.",
+      "status": "pass"
+    },
+    {
+      "condition": 10,
+      "evidence": [
+        {
+          "schema_version": "v0.2-opaque-boundary-feasibility-v1",
+          "verification": "pass"
+        }
+      ],
+      "name": "evaluation_boundary",
+      "reason": "A synthetic no-data checkpoint verified opaque ordering, manifest separation, copy identity, scorer isolation, and non-overwrite behavior.",
+      "status": "pass"
+    }
+  ],
+  "decision": {
+    "first_failed_condition": null,
+    "next_step": "CREATE_SEPARATE_V0_2_METHOD_AND_EVALUATION_PREREGISTRATION",
+    "outcome": "PROCEED",
+    "scope": "Authorizes only a separate v0.2 method-and-evaluation preregistration; it does not adopt DINOv2 or authorize unregistered performance claims.",
+    "weighted_score_used": false
+  },
+  "execution": {
+    "execution_commit": "2c075087dc8313a4e6fcc5c968232a921379e857",
+    "verification_date": "2026-08-03",
+    "worktree_clean": true
+  },
+  "preregistration": {
+    "base_id": "v0.2-dinov2-cpu-preflight-1",
+    "id": "v0.2-dinov2-cpu-preflight-2",
+    "ordered_hard_gate": true
+  },
+  "schema_version": "v0.2-final-preflight-decision-v1"
+}

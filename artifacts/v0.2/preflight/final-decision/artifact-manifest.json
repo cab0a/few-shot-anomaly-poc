@@ -1,0 +1,16 @@
+{
+  "artifacts": [
+    {
+      "byte_count": 1952,
+      "path": "boundary-feasibility.json",
+      "sha256": "12960eb2f05d5e5928e6fea14afe59e062bf607db85ab3cd38bb87f0cb5a01c0"
+    },
+    {
+      "byte_count": 9861,
+      "path": "final-decision.json",
+      "sha256": "04da3c64f181c05411b8fdaec2b56db15a38812978815f4c2a1fcac37a9e0298"
+    }
+  ],
+  "execution_commit": "2c075087dc8313a4e6fcc5c968232a921379e857",
+  "schema_version": "v0.2-final-preflight-artifact-manifest-v1"
+}
