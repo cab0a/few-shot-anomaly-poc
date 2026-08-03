@@ -1,0 +1,16 @@
+{
+  "archive_sha256": "2eb8690c803ab37de0324772964100169ec8ba1fa3f7e94291c9ca673f40f362",
+  "calibration_count": 881,
+  "contract_version": "evaluation-artifacts/v0.2",
+  "final_test_class_counts_published": false,
+  "final_test_count": 200,
+  "preregistration_commit": "b873bacc4f677a4c82f3944c09a7374037cb7c50",
+  "preregistration_document_sha256": "6306c2122f69aa96dcfe1f377518e7c6795a096eceb085be5b829262b55482b9",
+  "raw_data_in_git": false,
+  "reference_count": 20,
+  "run_id": "visa-pcb2-v0-2-final",
+  "run_kind": "final_test",
+  "scoring_manifest_sha256": "32ea52ed1b9872f39ae27f5d58a353ea84b8b143642e3a7f0fabe940184705e8",
+  "sealed_mapping_sha256": "0e40e3777e797fd5099fd7ea8fd307547e396785dc33219f0bc0b3120e3dfe39",
+  "split_sha256": "a48557e6033318cb90556f706196bc9d247a776a23ea51aecee5a80dd0332995"
+}

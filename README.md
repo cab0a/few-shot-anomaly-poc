@@ -6,7 +6,7 @@
 
 v0.1ではECC残差法とPatch HOG + One-Class SVMを事前固定した基準で比較し、両方式とも`REJECT`となった結果を変更せず公開しています。正常データだけの閾値校正、最終評価、失敗例、処理時間、hard-gate判断をチェックサム付きで保存しました。
 
-v0.2ではDINOv2のCPU preflightを完了し、224はp95 0.6795秒で通過、448は3.6253秒で不通過でした。その後、未使用の`pcb2`でDINOv2 224と古典2方式を比べる事前登録を、設定・成果物スキーマ・検証器・合成契約テストへ変換しました。実データ境界の準備、精度評価、DINOv2採用はまだ行っていません。詳細は以下の英語本文を参照してください。
+v0.2ではDINOv2 CPU preflightで224を通過、448を不通過とし、DINOv2 224と古典2方式の比較を事前登録・契約化しました。未使用の`pcb2`から正常参照20枚、正常校正881枚、opaque final-test 200枚の境界を固定済みです。画像decode、fit、scoring、label reveal、採用判断は未実施です。詳細は以下の英語本文を参照してください。
 
 ---
 
@@ -18,9 +18,9 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > Neither method passed every fixed operating-point gate. The thresholds and gates were not revised after the result.
 
-> **v0.2 status: machine-readable evaluation contract fixed — `pcb2` boundary untouched**
+> **v0.2 status: `pcb2` boundary prepared — pre-evaluation freeze pending**
 >
-> The study fixes DINOv2 ViT-S/14 at `224 x 224`, both unchanged classical comparators, one shared 20-image normal reference set, normal-only thresholds, opaque label-free scoring, final-test CPU timing, first-10 offline reproduction, image-level metrics, mechanical error selection, and ordered hard gates. The preregistration is now represented by an exact config, JSON/CSV artifact schema, standard-library validator, and synthetic rejection tests. No VisA archive, official split row, label, image, score, or metric was accessed while defining this contract. See the [machine-readable evaluation contract](docs/v0.2-machine-readable-evaluation-contract.md), [method and evaluation preregistration](docs/v0.2-method-and-evaluation-preregistration.md), and [final preflight record](docs/v0.2-final-preflight-decision.md).
+> The first fixed boundary run verified the exact VisA archive and official split, selected 20 normal references and 881 normal calibration inputs, and staged all 200 final-test inputs under opaque IDs. Raw bytes, normal manifests, source paths, labels, the HMAC key, and the sealed mapping remain outside Git. No image was decoded, fitted, calibrated, scored, displayed, or evaluated. See the [boundary preparation record](docs/v0.2-boundary-preparation.md), [machine-readable evaluation contract](docs/v0.2-machine-readable-evaluation-contract.md), and [method and evaluation preregistration](docs/v0.2-method-and-evaluation-preregistration.md).
 
 ## Representative Result
 
@@ -59,6 +59,7 @@ uv run --locked --no-sync python scripts/render_v0_1_summary.py
 
 | Evidence | Location | What it preserves |
 | --- | --- | --- |
+| v0.2 boundary record | [`artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/boundary/`](artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/boundary/) | Fixed archive, split, partition counts, opaque scoring-manifest identity, sealed-mapping identity, and explicit no-class-count/no-raw-data assertions |
 | v0.2 final preflight decision | [`artifacts/v0.2/preflight/final-decision/`](artifacts/v0.2/preflight/final-decision/) | Synthetic opaque-boundary feasibility, untouched-data flags, exact evidence identities, ordered conditions 1–10, and the scoped `PROCEED` decision |
 | v0.2 first fixed offline score reproduction | [`artifacts/v0.2/offline-reproduction/first-fixed-run/`](artifacts/v0.2/offline-reproduction/first-fixed-run/) | Regenerated input identities, ten exact score comparisons, fixed asset and configuration identities, fresh-worker validation, boundary, and condition-9 result |
 | v0.2 first fixed memory-bounded CPU timing | [`artifacts/v0.2/cpu-timing/first-fixed-memory-bounded-run/`](artifacts/v0.2/cpu-timing/first-fixed-memory-bounded-run/) | Fixed synthetic input identities, 600 per-invocation observations, independently checked median and p95, peak RSS, both resolution outcomes, and the untouched dataset boundary |
@@ -110,7 +111,7 @@ Both v0.1 methods use a nearest-rank 95th percentile of 884 normal calibration s
 
 Implementation details and stable failure codes are kept in the [method specification](docs/method-specification.md). The v0.1 machine-readable artifact contract is defined by [`schemas/v0.1/evaluation-artifacts.json`](schemas/v0.1/evaluation-artifacts.json) and explained in the [artifact schema guide](docs/evaluation-artifact-schema.md).
 
-The v0.2 study adds DINOv2 ViT-S/14 at `224 x 224` without changing either classical comparator. Its fixed configuration is [`configs/v0.2.yaml`](configs/v0.2.yaml), and its staged JSON/CSV evidence contract is [`schemas/v0.2/evaluation-artifacts.json`](schemas/v0.2/evaluation-artifacts.json). The [machine-readable contract record](docs/v0.2-machine-readable-evaluation-contract.md) explains exact identities, protected label-free fields, fixed finite failure scores, three-pass CPU timing, first-ten reproduction, hard-gate ordering, and the still-unentered `pcb2` boundary.
+The v0.2 study adds DINOv2 ViT-S/14 at `224 x 224` without changing either classical comparator. Its fixed configuration is [`configs/v0.2.yaml`](configs/v0.2.yaml), and its staged JSON/CSV evidence contract is [`schemas/v0.2/evaluation-artifacts.json`](schemas/v0.2/evaluation-artifacts.json). The [machine-readable contract record](docs/v0.2-machine-readable-evaluation-contract.md) explains exact identities, protected label-free fields, fixed finite failure scores, three-pass CPU timing, first-ten reproduction, and hard-gate ordering. The [completed boundary record](docs/v0.2-boundary-preparation.md) fixes the external normal manifests and opaque `pcb2` asset identities before fitting begins.
 
 ## Evaluation Methodology
 
@@ -239,7 +240,8 @@ See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md)
 | [v0.2 First Fixed Offline Score-Reproduction Run](docs/v0.2-first-offline-score-reproduction-run.md) | Formal first-10 comparison, exact identity matches, condition-9 pass, and the preserved boundary entering final preflight |
 | [v0.2 Untouched Evaluation-Boundary Feasibility and Final Preflight Decision](docs/v0.2-final-preflight-decision.md) | Synthetic opaque-boundary checks, ordered conditions 1–10, untouched-data evidence, scoped `PROCEED` outcome, and next preregistration boundary |
 | [v0.2 Method and Evaluation Preregistration](docs/v0.2-method-and-evaluation-preregistration.md) | Fixed `pcb2` partitions, three methods, normal-only calibration, opaque scoring and reveal, CPU timing, metrics, failure review, hard gates, artifact order, and change control |
-| [v0.2 Machine-Readable Evaluation Contract](docs/v0.2-machine-readable-evaluation-contract.md) | Exact config and schema identities, label-free artifact boundary, standard-library validation rules, synthetic rejection tests, and the unentered `pcb2` boundary |
+| [v0.2 Machine-Readable Evaluation Contract](docs/v0.2-machine-readable-evaluation-contract.md) | Exact config and schema identities, label-free artifact boundary, standard-library validation rules, synthetic rejection tests, and the rules fixed before `pcb2` entry |
+| [v0.2 Boundary Preparation](docs/v0.2-boundary-preparation.md) | Fixed archive and split verification, normal reference/calibration identities, opaque final-test staging, protected local layout, public boundary record, and unchanged no-score boundary |
 | [Method Specification](docs/method-specification.md) | Fixed preprocessing, parameters, scoring, and failure rules |
 | [Evaluation Plan](docs/evaluation-plan.md) | Partitions, metrics, latency, error selection, and decision logic |
 | [Evaluation Artifact Schema](docs/evaluation-artifact-schema.md) | JSON/CSV contract, deterministic serialization, and integrity |
