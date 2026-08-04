@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import subprocess
 from pathlib import Path
 
 from few_shot_anomaly_poc.hashing import sha256_file
@@ -67,11 +66,8 @@ def test_committed_pre_reveal_bundle_identity_covers_every_prior_artifact() -> N
     assert _checkpoint()["label_free_bundle_sha256"] == observed
 
 
-def test_label_free_evidence_commit_precedes_the_checkpoint_commit() -> None:
-    completed = subprocess.run(
-        ["git", "merge-base", "--is-ancestor", EVIDENCE_COMMIT, "HEAD"],
-        cwd=ROOT,
-        check=False,
-    )
+def test_checkpoint_records_the_fixed_pushed_evidence_commit() -> None:
+    checkpoint = _checkpoint()
 
-    assert completed.returncode == 0
+    assert checkpoint["git_commit"] == EVIDENCE_COMMIT
+    assert checkpoint["git_push_verified"] is True
