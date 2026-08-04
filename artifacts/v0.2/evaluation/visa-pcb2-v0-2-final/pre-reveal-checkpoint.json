@@ -1,0 +1,25 @@
+{
+  "contract_version": "evaluation-artifacts/v0.2",
+  "git_commit": "30e830e3f805f2410c669c0b8c2da6cb27894ca5",
+  "git_push_verified": true,
+  "label_free_bundle_sha256": "b3fb2a1283117350cf3c016ae284d3558aa7ff9ea1cf1c6beb65eba54c5cb389",
+  "labels_accessed": false,
+  "method_order": [
+    "ecc_residual",
+    "patch_hog_ocsvm",
+    "dinov2_vits14_224_nn"
+  ],
+  "method_score_counts": {
+    "dinov2_vits14_224_nn": 200,
+    "ecc_residual": 200,
+    "patch_hog_ocsvm": 200
+  },
+  "reproduction_status": {
+    "dinov2_vits14_224_nn": "pass",
+    "ecc_residual": "pass",
+    "patch_hog_ocsvm": "pass"
+  },
+  "run_id": "visa-pcb2-v0-2-final",
+  "run_kind": "final_test",
+  "source_commit": "ba23a2fe12a715161b420bc7d73d42f4de3bfc8c"
+}
