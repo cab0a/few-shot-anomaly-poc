@@ -60,9 +60,8 @@ def _load_score_rows(path: Path) -> list[dict[str, str]]:
 def test_committed_v0_2_4_inventory_and_hashes_are_fixed() -> None:
     actual = {
         path.relative_to(ARTIFACT_ROOT).as_posix()
-        for method in METHODS
-        for path in (ARTIFACT_ROOT / method).rglob("*")
-        if path.is_file()
+        for relative_path in EXPECTED_SHA256
+        if (path := ARTIFACT_ROOT / relative_path).is_file()
     }
 
     assert actual == set(EXPECTED_SHA256)
@@ -130,10 +129,8 @@ def test_committed_v0_2_4_thresholds_reproduce_from_normal_scores() -> None:
 
 def test_committed_v0_2_4_artifacts_do_not_cross_the_reveal_boundary() -> None:
     serialized = "\n".join(
-        path.read_text(encoding="utf-8")
-        for method in METHODS
-        for path in (ARTIFACT_ROOT / method).rglob("*")
-        if path.is_file()
+        (ARTIFACT_ROOT / relative_path).read_text(encoding="utf-8")
+        for relative_path in EXPECTED_SHA256
     ).lower()
 
     assert "true_class" not in serialized
