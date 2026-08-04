@@ -356,13 +356,13 @@ def read_method_scoring_artifacts(
     schema: Mapping[str, Any],
 ) -> MethodScoringArtifacts:
     """Read back and contract-validate one serialized method bundle."""
-    if (
-        not method_root.is_dir()
-        or method_root.is_symlink()
-        or {path.name for path in method_root.iterdir() if path.is_file()}
-        != {"scores.csv", "classifications.csv", "latency-observations.csv"}
-    ):
+    required_names = {"scores.csv", "classifications.csv", "latency-observations.csv"}
+    if not method_root.is_dir() or method_root.is_symlink():
         raise V0_2ScoringArtifactError("serialized method artifact inventory is invalid")
+    for name in required_names:
+        path = method_root / name
+        if not path.is_file() or path.is_symlink():
+            raise V0_2ScoringArtifactError("serialized method artifact inventory is invalid")
     score_records = [
         {
             **row,
