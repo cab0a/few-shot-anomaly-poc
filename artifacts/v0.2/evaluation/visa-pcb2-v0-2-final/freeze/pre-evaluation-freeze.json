@@ -1,0 +1,30 @@
+{
+  "calibration_manifest_sha256": "77d5adb588e7d463e7fcab1c10b841b9ad23d827b51138c31f42dac35bd99ca3",
+  "config_sha256": "9ea3a7156aeb3c6efc87c8ae3811444421bd3e86ea25b7ac014893c7e5892265",
+  "contract_version": "evaluation-artifacts/v0.2",
+  "hard_gate_order": [
+    "method_fit",
+    "test_leakage",
+    "final_test_normal_fpr",
+    "final_test_anomaly_recall",
+    "cpu_p95_scoring_latency",
+    "normal_reference_count",
+    "anomaly_training_labels",
+    "reproducibility"
+  ],
+  "label_reveal_completed": false,
+  "method_order": [
+    "ecc_residual",
+    "patch_hog_ocsvm",
+    "dinov2_vits14_224_nn"
+  ],
+  "preregistration_commit": "b873bacc4f677a4c82f3944c09a7374037cb7c50",
+  "preregistration_document_sha256": "6306c2122f69aa96dcfe1f377518e7c6795a096eceb085be5b829262b55482b9",
+  "reference_manifest_sha256": "e587f1808262480261ae8a7b940faff0d9ef5f83cf215028b31490ba48369b99",
+  "run_id": "visa-pcb2-v0-2-final",
+  "run_kind": "final_test",
+  "schema_sha256": "4178d24f7210f8f859f6c99386204022ac3b2e4ffe4b7b63cdfea00d0c79f31d",
+  "scoring_manifest_sha256": "32ea52ed1b9872f39ae27f5d58a353ea84b8b143642e3a7f0fabe940184705e8",
+  "sealed_mapping_sha256": "0e40e3777e797fd5099fd7ea8fd307547e396785dc33219f0bc0b3120e3dfe39",
+  "source_commit": "462738321da403ce1f77ef23b0cb823008c32694"
+}
