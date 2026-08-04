@@ -815,6 +815,18 @@ def _validate_json_semantics(
         _require(
             record["realized_normal_fpr"] == anomalous / count, "calibration FPR is inconsistent"
         )
+    elif contract_name == "pre_reveal_checkpoint":
+        _require(record["method_order"] == list(METHODS), "checkpoint method order changed")
+        counts = _mapping(record["method_score_counts"], label="method score counts")
+        statuses = _mapping(record["reproduction_status"], label="reproduction status")
+        _require(set(counts) == set(METHODS), "checkpoint score-count methods changed")
+        _require(set(statuses) == set(METHODS), "checkpoint reproduction methods changed")
+        for method in METHODS:
+            _integer(counts[method], label=f"method_score_counts.{method}", minimum=1)
+            _require(
+                statuses[method] in {"pass", "fail"},
+                f"reproduction_status.{method} is invalid",
+            )
     elif contract_name == "metrics":
         item_count = record["item_count"]
         normal_count = record["normal_count"]

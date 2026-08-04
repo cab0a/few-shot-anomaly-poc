@@ -552,6 +552,37 @@ def test_project_decision_and_manifest_enforce_selection_and_provenance() -> Non
         )
 
 
+def test_pre_reveal_checkpoint_requires_all_fixed_methods_and_statuses() -> None:
+    config, schema = _repository_contract()
+    checkpoint = {
+        **_json_common(),
+        "source_commit": COMMIT,
+        "label_free_bundle_sha256": SHA256,
+        "method_order": list(METHODS),
+        "method_score_counts": {method: 200 for method in METHODS},
+        "reproduction_status": {method: "pass" for method in METHODS},
+        "git_commit": COMMIT,
+        "git_push_verified": True,
+        "labels_accessed": False,
+    }
+
+    validate_json_artifact(
+        "pre_reveal_checkpoint",
+        checkpoint,
+        config=config,
+        schema=schema,
+    )
+    changed = deepcopy(checkpoint)
+    changed["reproduction_status"]["ecc_residual"] = "retry"
+    with pytest.raises(V0_2EvaluationContractError, match="is invalid"):
+        validate_json_artifact(
+            "pre_reveal_checkpoint",
+            changed,
+            config=config,
+            schema=schema,
+        )
+
+
 def test_contract_validation_does_not_create_evaluation_artifacts(tmp_path: Path) -> None:
     config, schema = _repository_contract()
     validate_tabular_record("score", _score_record(), schema=schema)
