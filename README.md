@@ -6,7 +6,7 @@
 
 v0.1ではECC残差法とPatch HOG + One-Class SVMを事前登録条件で比較し、両方式の`REJECT`判断と正常のみの校正、評価、失敗例、latency、hard-gate証拠を公開しています。
 
-v0.2ではDINOv2 224を加え、現在は`v0.2.5`まで完了しています。正常参照20枚でfitした3方式をlabelのないfinal-test 200枚へ適用し、各方式の200 score・200 classification・600 CPU latency observationを固定しました。score failureと3 pass間のscore差は全方式0件で、CPU p95は事前登録済み1秒上限未満です。label reveal、性能指標、FP/FN、採用判断は未実施です。詳細は英語本文を参照してください。
+v0.2ではDINOv2 224を加え、現在は`v0.2.6`まで完了しています。3方式のlabel-free final-test scoreとCPU latencyを固定した後、各方式の先頭10 opaque assetを新規offline processで再計算し、全30 scoreを最大絶対差`0.0`で再現しました。全23件のlabel-free成果物はpushed commitとbundle SHA-256へ固定済みです。label reveal、性能指標、FP/FN、採用判断は未実施です。詳細は英語本文を参照してください。
 
 ---
 
@@ -18,9 +18,9 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > Neither method passed every fixed operating-point gate. The thresholds and gates were not revised after the result.
 
-> **v0.2.5 complete: label-free final-test scores and CPU latency recorded — v0.2.6 reproduction pending**
+> **v0.2.6 complete: first-ten offline reproduction passed and pre-reveal evidence frozen**
 >
-> All three fixed methods scored the 200 opaque final-test assets without a scoring failure and produced the complete three-pass CPU timing evidence. Their p95 latencies were `663.889 ms` for ECC residual, `545.040 ms` for Patch HOG + One-Class SVM, and `461.051 ms` for DINOv2 224 on the fixed machine. These are label-free scoring and latency results, not accuracy claims. Final-test labels, semantic paths, metrics, failure cases, and decisions remain inaccessible. See the [v0.2.5 execution record](docs/v0.2.5-label-free-scoring-and-cpu-latency.md), [v0.2.x milestone map](docs/v0.2-milestone-map.md), and [machine-readable evaluation contract](docs/v0.2-machine-readable-evaluation-contract.md).
+> Each frozen method regenerated its first ten committed opaque scores in a separate fresh offline process. All 30 status/failure-code comparisons matched and every absolute score difference was `0.0` against the fixed `1e-6` tolerance. The complete 23-file label-free evidence set is bound to pushed commit `30e830e3…` and bundle SHA-256 `b3fb2a12…`. This is reproducibility evidence, not accuracy evidence. Final-test labels, semantic paths, metrics, failure cases, and decisions remain inaccessible. See the [v0.2.6 execution record](docs/v0.2.6-offline-reproduction-and-pre-reveal-checkpoint.md), [v0.2.x milestone map](docs/v0.2-milestone-map.md), and [machine-readable evaluation contract](docs/v0.2-machine-readable-evaluation-contract.md).
 
 ## Representative Result
 
@@ -59,6 +59,7 @@ uv run --locked --no-sync python scripts/render_v0_1_summary.py
 
 | Evidence | Location | What it preserves |
 | --- | --- | --- |
+| v0.2.6 offline reproduction and pre-reveal checkpoint | [`artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/`](artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/) | Three first-ten offline reproduction files, exact score/status/failure comparisons, pushed label-free evidence commit, 23-file bundle identity, and the closed label boundary |
 | v0.2.5 label-free final-test scoring and CPU latency | [`artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/`](artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/) | Three per-method label-free bundles with 200 canonical scores, 200 fixed-threshold classifications, 600 CPU observations, exact repeated-score evidence, and an unrevealed label boundary |
 | v0.2.4 reference fitting and normal-only calibration | [`artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/`](artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/) | Per-method fit status and external state identity, all 881 normal-calibration scores, fixed thresholds, realized calibration FPR, zero-failure evidence, and an unrevealed final-test boundary |
 | v0.2.3 pre-evaluation freeze | [`artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/freeze/`](artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/freeze/) | Pushed source, exact config and schema, normal partition identities, opaque final-test identities, method order, hard-gate order, and the unrevealed-label assertion fixed before fitting |
@@ -114,7 +115,7 @@ Both v0.1 methods use a nearest-rank 95th percentile of 884 normal calibration s
 
 Implementation details and stable failure codes are kept in the [method specification](docs/method-specification.md). The v0.1 machine-readable artifact contract is defined by [`schemas/v0.1/evaluation-artifacts.json`](schemas/v0.1/evaluation-artifacts.json) and explained in the [artifact schema guide](docs/evaluation-artifact-schema.md).
 
-The v0.2 study adds DINOv2 ViT-S/14 at `224 x 224` without changing either classical comparator. Its fixed configuration is [`configs/v0.2.yaml`](configs/v0.2.yaml), and its staged JSON/CSV evidence contract is [`schemas/v0.2/evaluation-artifacts.json`](schemas/v0.2/evaluation-artifacts.json). The [machine-readable contract record](docs/v0.2-machine-readable-evaluation-contract.md) explains exact identities, protected label-free fields, fixed finite failure scores, three-pass CPU timing, first-ten reproduction, and hard-gate ordering. The [completed boundary record](docs/v0.2-boundary-preparation.md) fixes the external normal manifests and opaque `pcb2` asset identities, the [v0.2.3 freeze](docs/v0.2.3-pre-evaluation-freeze.md) binds the pre-fit protocol identities, the [v0.2.4 execution record](docs/v0.2.4-reference-fitting-and-normal-only-calibration.md) preserves the successful fits and normal-only thresholds, and the [v0.2.5 execution record](docs/v0.2.5-label-free-scoring-and-cpu-latency.md) fixes the opaque scores, classifications, and CPU observations before reveal.
+The v0.2 study adds DINOv2 ViT-S/14 at `224 x 224` without changing either classical comparator. Its fixed configuration is [`configs/v0.2.yaml`](configs/v0.2.yaml), and its staged JSON/CSV evidence contract is [`schemas/v0.2/evaluation-artifacts.json`](schemas/v0.2/evaluation-artifacts.json). The [machine-readable contract record](docs/v0.2-machine-readable-evaluation-contract.md) explains exact identities, protected label-free fields, fixed finite failure scores, three-pass CPU timing, first-ten reproduction, and hard-gate ordering. The [completed boundary record](docs/v0.2-boundary-preparation.md) fixes the external normal manifests and opaque `pcb2` asset identities, the [v0.2.3 freeze](docs/v0.2.3-pre-evaluation-freeze.md) binds the pre-fit protocol identities, the [v0.2.4 execution record](docs/v0.2.4-reference-fitting-and-normal-only-calibration.md) preserves the successful fits and normal-only thresholds, the [v0.2.5 execution record](docs/v0.2.5-label-free-scoring-and-cpu-latency.md) fixes the opaque scores, classifications, and CPU observations, and the [v0.2.6 execution record](docs/v0.2.6-offline-reproduction-and-pre-reveal-checkpoint.md) binds exact first-ten reproduction and the complete pushed label-free evidence set before reveal.
 
 ## Evaluation Methodology
 
@@ -249,6 +250,7 @@ See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md)
 | [v0.2.3 Pre-Evaluation Freeze](docs/v0.2.3-pre-evaluation-freeze.md) | Pushed source commit, exact contract and partition identities, method and gate order, unrevealed-label assertion, non-overwrite rule, and the next authorized stage |
 | [v0.2.4 Reference Fitting and Normal-Only Calibration](docs/v0.2.4-reference-fitting-and-normal-only-calibration.md) | Fixed reference fits, all normal-calibration scores and thresholds, external state identities, execution-source note, protected boundary, and next scoring stage |
 | [v0.2.5 Label-Free Final-Test Scoring and CPU Latency](docs/v0.2.5-label-free-scoring-and-cpu-latency.md) | Opaque score and classification bundles, three-pass CPU observations, repeated-score identity, label-free interpretation, fixed hashes, and the next reproduction boundary |
+| [v0.2.6 Offline Reproduction and Pre-Reveal Checkpoint](docs/v0.2.6-offline-reproduction-and-pre-reveal-checkpoint.md) | Fresh-process first-ten comparisons, exact reproduction result, pushed evidence commit, 23-file bundle identity, closed reveal boundary, and next exact-ID join |
 | [v0.2.x Milestone Map](docs/v0.2-milestone-map.md) | Parent protocol identity, milestone labels `v0.2.0`–`v0.2.8`, completion boundaries, current position, and identity-preservation rules |
 | [Method Specification](docs/method-specification.md) | Fixed preprocessing, parameters, scoring, and failure rules |
 | [Evaluation Plan](docs/evaluation-plan.md) | Partitions, metrics, latency, error selection, and decision logic |
