@@ -94,6 +94,7 @@ def test_v0_2_scoring_stays_isolated_and_deferred_methods_remain_out_of_scope() 
         "dinov2_timing.py",
         "dinov2_timing_preflight.py",
         "v0_2_dinov2_calibration.py",
+        "v0_2_dinov2_scoring_run.py",
     }
     assert not any(
         token in name for name in source_names for token in ("anomalydino", "patchcore")
