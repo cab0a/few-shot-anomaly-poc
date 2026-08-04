@@ -6,7 +6,7 @@
 
 v0.1ではECC残差法とPatch HOG + One-Class SVMを事前固定した基準で比較し、両方式とも`REJECT`となった結果を変更せず公開しています。正常データだけの閾値校正、最終評価、失敗例、処理時間、hard-gate判断をチェックサム付きで保存しました。
 
-v0.2ではDINOv2 224と古典2方式の比較を事前登録し、進捗を`v0.2.x`へ細分化しました。現在は`v0.2.3`として、正常参照20枚、正常校正881枚、opaque final-test 200枚、実行source、設定、schema、method順、hard-gate順を評価前に固定済みです。画像decode、fit、threshold calibration、scoring、label reveal、判断は未実施です。詳細は英語本文を参照してください。
+v0.2ではDINOv2 224と古典2方式の比較を事前登録し、進捗を`v0.2.x`へ細分化しました。現在は`v0.2.4`として、正常参照20枚だけで3方式をfitし、分離済み正常校正881枚だけから固定閾値を生成済みです。3方式ともfitと全校正scoreに成功しましたが、これはfinal-test性能ではありません。final-test画像、label reveal、評価指標、latency、判断は未実施です。詳細は英語本文を参照してください。
 
 ---
 
@@ -18,9 +18,9 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > Neither method passed every fixed operating-point gate. The thresholds and gates were not revised after the result.
 
-> **v0.2.3 complete: pre-evaluation freeze recorded — v0.2.4 fitting pending**
+> **v0.2.4 complete: reference fitting and normal-only calibration recorded — v0.2.5 scoring pending**
 >
-> The freeze binds pushed source commit `462738321da403ce1f77ef23b0cb823008c32694`, the exact config and schema, 20 normal-reference identities, 881 normal-calibration identities, the opaque 200-image final-test boundary, method order, and hard-gate order. Raw bytes, normal manifests, source paths, labels, the HMAC key, and the sealed mapping remain outside Git. No image was decoded, fitted, calibrated, scored, displayed, or evaluated. The parent protocol remains `v0.2`; the [v0.2.x milestone map](docs/v0.2-milestone-map.md) distinguishes each bounded stage. See the [pre-evaluation freeze record](docs/v0.2.3-pre-evaluation-freeze.md), [boundary preparation record](docs/v0.2-boundary-preparation.md), and [machine-readable evaluation contract](docs/v0.2-machine-readable-evaluation-contract.md).
+> All three fixed methods fitted successfully from 20 known-normal references and produced 881 normal-calibration scores without a scoring failure. Their nearest-rank 95th-percentile thresholds are now fixed. These are calibration results, not final-test performance claims. Final-test labels, semantic paths, the HMAC key, and the sealed mapping remain inaccessible. The parent protocol remains `v0.2`; the [v0.2.x milestone map](docs/v0.2-milestone-map.md) distinguishes each bounded stage. See the [v0.2.4 execution record](docs/v0.2.4-reference-fitting-and-normal-only-calibration.md), [pre-evaluation freeze record](docs/v0.2.3-pre-evaluation-freeze.md), and [machine-readable evaluation contract](docs/v0.2-machine-readable-evaluation-contract.md).
 
 ## Representative Result
 
@@ -59,6 +59,7 @@ uv run --locked --no-sync python scripts/render_v0_1_summary.py
 
 | Evidence | Location | What it preserves |
 | --- | --- | --- |
+| v0.2.4 reference fitting and normal-only calibration | [`artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/`](artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/) | Per-method fit status and external state identity, all 881 normal-calibration scores, fixed thresholds, realized calibration FPR, zero-failure evidence, and an unrevealed final-test boundary |
 | v0.2.3 pre-evaluation freeze | [`artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/freeze/`](artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/freeze/) | Pushed source, exact config and schema, normal partition identities, opaque final-test identities, method order, hard-gate order, and the unrevealed-label assertion fixed before fitting |
 | v0.2.2 boundary record | [`artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/boundary/`](artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/boundary/) | Fixed archive, split, partition counts, opaque scoring-manifest identity, sealed-mapping identity, and explicit no-class-count/no-raw-data assertions |
 | v0.2.0 final preflight decision | [`artifacts/v0.2/preflight/final-decision/`](artifacts/v0.2/preflight/final-decision/) | Synthetic opaque-boundary feasibility, untouched-data flags, exact evidence identities, ordered conditions 1–10, and the scoped `PROCEED` decision |
@@ -112,7 +113,7 @@ Both v0.1 methods use a nearest-rank 95th percentile of 884 normal calibration s
 
 Implementation details and stable failure codes are kept in the [method specification](docs/method-specification.md). The v0.1 machine-readable artifact contract is defined by [`schemas/v0.1/evaluation-artifacts.json`](schemas/v0.1/evaluation-artifacts.json) and explained in the [artifact schema guide](docs/evaluation-artifact-schema.md).
 
-The v0.2 study adds DINOv2 ViT-S/14 at `224 x 224` without changing either classical comparator. Its fixed configuration is [`configs/v0.2.yaml`](configs/v0.2.yaml), and its staged JSON/CSV evidence contract is [`schemas/v0.2/evaluation-artifacts.json`](schemas/v0.2/evaluation-artifacts.json). The [machine-readable contract record](docs/v0.2-machine-readable-evaluation-contract.md) explains exact identities, protected label-free fields, fixed finite failure scores, three-pass CPU timing, first-ten reproduction, and hard-gate ordering. The [completed boundary record](docs/v0.2-boundary-preparation.md) fixes the external normal manifests and opaque `pcb2` asset identities, and the [v0.2.3 freeze](docs/v0.2.3-pre-evaluation-freeze.md) binds them to one pushed source commit before fitting begins.
+The v0.2 study adds DINOv2 ViT-S/14 at `224 x 224` without changing either classical comparator. Its fixed configuration is [`configs/v0.2.yaml`](configs/v0.2.yaml), and its staged JSON/CSV evidence contract is [`schemas/v0.2/evaluation-artifacts.json`](schemas/v0.2/evaluation-artifacts.json). The [machine-readable contract record](docs/v0.2-machine-readable-evaluation-contract.md) explains exact identities, protected label-free fields, fixed finite failure scores, three-pass CPU timing, first-ten reproduction, and hard-gate ordering. The [completed boundary record](docs/v0.2-boundary-preparation.md) fixes the external normal manifests and opaque `pcb2` asset identities, the [v0.2.3 freeze](docs/v0.2.3-pre-evaluation-freeze.md) binds the pre-fit protocol identities, and the [v0.2.4 execution record](docs/v0.2.4-reference-fitting-and-normal-only-calibration.md) preserves the successful fits and normal-only thresholds while disclosing the later stage-runner commit.
 
 ## Evaluation Methodology
 
@@ -244,6 +245,7 @@ See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md)
 | [v0.2.1 Machine-Readable Evaluation Contract](docs/v0.2-machine-readable-evaluation-contract.md) | Exact config and schema identities, label-free artifact boundary, standard-library validation rules, synthetic rejection tests, and the rules fixed before `pcb2` entry |
 | [v0.2.2 Boundary Preparation](docs/v0.2-boundary-preparation.md) | Fixed archive and split verification, normal reference/calibration identities, opaque final-test staging, protected local layout, public boundary record, and unchanged no-score boundary |
 | [v0.2.3 Pre-Evaluation Freeze](docs/v0.2.3-pre-evaluation-freeze.md) | Pushed source commit, exact contract and partition identities, method and gate order, unrevealed-label assertion, non-overwrite rule, and the next authorized stage |
+| [v0.2.4 Reference Fitting and Normal-Only Calibration](docs/v0.2.4-reference-fitting-and-normal-only-calibration.md) | Fixed reference fits, all normal-calibration scores and thresholds, external state identities, execution-source note, protected boundary, and next scoring stage |
 | [v0.2.x Milestone Map](docs/v0.2-milestone-map.md) | Parent protocol identity, milestone labels `v0.2.0`–`v0.2.8`, completion boundaries, current position, and identity-preservation rules |
 | [Method Specification](docs/method-specification.md) | Fixed preprocessing, parameters, scoring, and failure rules |
 | [Evaluation Plan](docs/evaluation-plan.md) | Partitions, metrics, latency, error selection, and decision logic |

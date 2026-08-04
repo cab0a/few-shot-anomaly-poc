@@ -1,0 +1,13 @@
+{
+  "contract_version": "evaluation-artifacts/v0.2",
+  "failed_reference_count": 0,
+  "failure_code": null,
+  "fitted_state_sha256": "ba7e1d47e8ff6fd7873edfce84c027c6ada37f6aab85d1b26cf92426463056f9",
+  "method": "patch_hog_ocsvm",
+  "reference_count": 20,
+  "reference_manifest_sha256": "e587f1808262480261ae8a7b940faff0d9ef5f83cf215028b31490ba48369b99",
+  "run_id": "visa-pcb2-v0-2-final",
+  "run_kind": "final_test",
+  "status": "fit_ok",
+  "successful_reference_count": 20
+}

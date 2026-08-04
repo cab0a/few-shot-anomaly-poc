@@ -1,0 +1,14 @@
+{
+  "contract_version": "evaluation-artifacts/v0.2",
+  "method": "patch_hog_ocsvm",
+  "predicted_anomalous_count": 44,
+  "quantile": 0.95,
+  "rank": 837,
+  "realized_normal_fpr": 0.049943246311010214,
+  "run_id": "visa-pcb2-v0-2-final",
+  "run_kind": "final_test",
+  "sample_count": 881,
+  "score_failure_count": 0,
+  "threshold": 0.14960269900890077,
+  "threshold_source_path": "pcb2/Data/Images/Normal/0702.JPG"
+}
