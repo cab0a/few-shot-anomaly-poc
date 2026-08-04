@@ -1,0 +1,11 @@
+contract_version,run_id,run_kind,method,asset_id,expected_score_status,reproduced_score_status,expected_failure_code,reproduced_failure_code,expected_score,reproduced_score,absolute_difference,within_tolerance
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,patch_hog_ocsvm,asset-000000,ok,ok,,,0.11261155113281675,0.11261155113281675,0.0,true
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,patch_hog_ocsvm,asset-000001,ok,ok,,,0.12391719081816299,0.12391719081816299,0.0,true
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,patch_hog_ocsvm,asset-000002,ok,ok,,,0.11928220567551885,0.11928220567551885,0.0,true
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,patch_hog_ocsvm,asset-000003,ok,ok,,,0.09732945867599611,0.09732945867599611,0.0,true
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,patch_hog_ocsvm,asset-000004,ok,ok,,,0.12125910127036295,0.12125910127036295,0.0,true
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,patch_hog_ocsvm,asset-000005,ok,ok,,,0.14094862361075813,0.14094862361075813,0.0,true
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,patch_hog_ocsvm,asset-000006,ok,ok,,,0.12676167259635795,0.12676167259635795,0.0,true
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,patch_hog_ocsvm,asset-000007,ok,ok,,,0.10752930400465004,0.10752930400465004,0.0,true
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,patch_hog_ocsvm,asset-000008,ok,ok,,,0.12402928942383667,0.12402928942383667,0.0,true
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,patch_hog_ocsvm,asset-000009,ok,ok,,,0.14323226761841196,0.14323226761841196,0.0,true
