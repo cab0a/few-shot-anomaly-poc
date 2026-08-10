@@ -1,0 +1,10 @@
+contract_version,run_id,run_kind,method,case_type,rank,asset_id,source_path,true_class,predicted_class,anomaly_score,threshold,score_margin,score_status,score_failure_code
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,ecc_residual,false_positive,1,asset-000141,pcb2/Data/Images/Normal/0974.JPG,normal,anomalous,0.657059681817952,0.6219927985456926,0.035066883272259486,ok,
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,ecc_residual,false_positive,2,asset-000090,pcb2/Data/Images/Normal/0617.JPG,normal,anomalous,0.6246958449923037,0.6219927985456926,0.0027030464466111237,ok,
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,ecc_residual,false_positive,3,asset-000169,pcb2/Data/Images/Normal/0648.JPG,normal,anomalous,0.6230196114079358,0.6219927985456926,0.0010268128622432648,ok,
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,ecc_residual,false_positive,4,asset-000046,pcb2/Data/Images/Normal/0196.JPG,normal,anomalous,0.6224118165074521,0.6219927985456926,0.0004190179617595824,ok,
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,ecc_residual,false_negative,1,asset-000095,pcb2/Data/Images/Anomaly/003.JPG,anomaly,normal,0.22199732276006928,0.6219927985456926,-0.3999954757856233,ok,
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,ecc_residual,false_negative,2,asset-000117,pcb2/Data/Images/Anomaly/000.JPG,anomaly,normal,0.2551811545483419,0.6219927985456926,-0.36681164399735067,ok,
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,ecc_residual,false_negative,3,asset-000027,pcb2/Data/Images/Anomaly/091.JPG,anomaly,normal,0.25617211927593003,0.6219927985456926,-0.3658206792697625,ok,
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,ecc_residual,false_negative,4,asset-000112,pcb2/Data/Images/Anomaly/022.JPG,anomaly,normal,0.2629944714815808,0.6219927985456926,-0.3589983270641118,ok,
+evaluation-artifacts/v0.2,visa-pcb2-v0-2-final,final_test,ecc_residual,false_negative,5,asset-000087,pcb2/Data/Images/Anomaly/068.JPG,anomaly,normal,0.27087556903372334,0.6219927985456926,-0.3511172295119692,ok,

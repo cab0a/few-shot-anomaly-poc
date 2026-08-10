@@ -1,0 +1,20 @@
+{
+  "anomaly_count": 100,
+  "anomaly_recall": 0.13,
+  "contract_version": "evaluation-artifacts/v0.2",
+  "false_negative_count": 87,
+  "false_positive_count": 4,
+  "image_level_auprc": 0.625826593883429,
+  "image_level_auroc": 0.664,
+  "item_count": 200,
+  "method": "ecc_residual",
+  "normal_count": 100,
+  "normal_false_positive_rate": 0.04,
+  "positive_class": "anomaly",
+  "run_id": "visa-pcb2-v0-2-final",
+  "run_kind": "final_test",
+  "score_failure_count": 0,
+  "threshold": 0.6219927985456926,
+  "true_negative_count": 96,
+  "true_positive_count": 13
+}
