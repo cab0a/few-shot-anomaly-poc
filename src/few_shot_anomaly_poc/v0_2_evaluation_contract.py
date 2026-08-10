@@ -737,6 +737,8 @@ def _validate_collection_completeness(
 
     if contract_name == "label_reveal":
         _require_contiguous_assets(records, label=contract_name)
+        if records[0]["run_kind"] == "final_test":
+            _require(len(records) == 200, "final-test label reveal count changed")
         return
     if contract_name in {"score", "classification", "reproduction"}:
         for method in METHODS:
@@ -776,6 +778,22 @@ def _validate_collection_completeness(
                         assets == expected_assets,
                         f"{method} latency passes cover different assets",
                     )
+        return
+    if contract_name == "failure_case":
+        for method in METHODS:
+            method_records = [record for record in records if record["method"] == method]
+            if not method_records:
+                continue
+            _require(
+                len({record["asset_id"] for record in method_records}) == len(method_records),
+                f"{method} failure-case assets are duplicated",
+            )
+            for case_type in ("false_positive", "false_negative"):
+                selected = [record for record in method_records if record["case_type"] == case_type]
+                _require(
+                    [record["rank"] for record in selected] == list(range(1, len(selected) + 1)),
+                    f"{method} {case_type} ranks are not contiguous",
+                )
 
 
 def _validate_json_semantics(
@@ -841,6 +859,12 @@ def _validate_json_semantics(
             "confusion counts are inconsistent",
         )
         _require(normal_count > 0 and anomaly_count > 0, "both metric classes are required")
+        _require(
+            0 <= record["score_failure_count"] <= item_count,
+            "metric score-failure count is inconsistent",
+        )
+        if record["run_kind"] == "final_test":
+            _require(item_count == 200, "final-test metric item count changed")
         _require(
             record["normal_false_positive_rate"] == fp / normal_count, "normal FPR is inconsistent"
         )

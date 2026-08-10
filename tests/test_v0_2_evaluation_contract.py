@@ -583,6 +583,40 @@ def test_pre_reveal_checkpoint_requires_all_fixed_methods_and_statuses() -> None
         )
 
 
+def test_final_test_metrics_require_fixed_count_and_valid_score_failure_count() -> None:
+    config, schema = _repository_contract()
+    record = {
+        **_json_common("ecc_residual"),
+        "run_kind": "final_test",
+        "positive_class": "anomaly",
+        "item_count": 200,
+        "normal_count": 100,
+        "anomaly_count": 100,
+        "true_positive_count": 90,
+        "false_negative_count": 10,
+        "true_negative_count": 95,
+        "false_positive_count": 5,
+        "score_failure_count": 0,
+        "image_level_auroc": 0.95,
+        "image_level_auprc": 0.94,
+        "normal_false_positive_rate": 0.05,
+        "anomaly_recall": 0.9,
+        "threshold": 0.2,
+    }
+
+    validate_json_artifact("metrics", record, config=config, schema=schema)
+    changed_count = deepcopy(record)
+    changed_count["item_count"] = 201
+    changed_count["normal_count"] = 101
+    changed_count["true_negative_count"] = 96
+    with pytest.raises(V0_2EvaluationContractError, match="item count changed"):
+        validate_json_artifact("metrics", changed_count, config=config, schema=schema)
+    changed_failures = deepcopy(record)
+    changed_failures["score_failure_count"] = 201
+    with pytest.raises(V0_2EvaluationContractError, match="score-failure"):
+        validate_json_artifact("metrics", changed_failures, config=config, schema=schema)
+
+
 def test_contract_validation_does_not_create_evaluation_artifacts(tmp_path: Path) -> None:
     config, schema = _repository_contract()
     validate_tabular_record("score", _score_record(), schema=schema)
