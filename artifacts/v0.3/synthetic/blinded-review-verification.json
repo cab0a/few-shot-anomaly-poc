@@ -1,0 +1,47 @@
+{
+  "all_checks_passed": true,
+  "boundary": {
+    "anomaly_scorer_executed": false,
+    "diagnostic_score_computed": false,
+    "image_displayed": false,
+    "raw_or_derived_image_committed": false,
+    "real_diagnostic_artifacts_modified": false,
+    "real_observation_written": false,
+    "synthetic_image_decoded": true,
+    "v0_3_selected_image_accessed": false,
+    "visa_image_accessed": false
+  },
+  "checks": {
+    "all_28_assets_processed_once": true,
+    "asset_order_fixed": true,
+    "completion_checkpoint_closed_before_join": true,
+    "csv_round_trip_exact": true,
+    "deterministic_csv_bytes": true,
+    "duplicate_inventory_rejected": true,
+    "fixed_form_fields_only": true,
+    "hash_mismatch_rejected": true,
+    "missing_inventory_rejected": true,
+    "original_extent_and_values_preserved": true,
+    "output_overwrite_rejected": true,
+    "pixels_read_only": true,
+    "protected_field_injection_rejected": true,
+    "protected_sentinel_absent": true,
+    "reordered_inventory_rejected": true,
+    "safe_view_fields_only": true,
+    "symlink_rejected": true,
+    "unselected_asset_rejected": true
+  },
+  "config_sha256": "e3108c837b3c9818b25b86594a7b103091e145f8ee6392e8424c7163f220f548",
+  "dependencies": {
+    "numpy": "2.5.1",
+    "opencv": "4.13.0"
+  },
+  "report_version": "v0.3.3-synthetic-blinded-review-verification-v1",
+  "schema_sha256": "173018d554380910147a826a42364dfc8499f0cb6ec6ff76dc1e24f233d87834",
+  "source_commit": "c2b5992863a861fd2baabd8a51121017cc0d0666",
+  "synthetic_asset_count": 28,
+  "synthetic_fixture_only": true,
+  "synthetic_observation_count": 28,
+  "synthetic_observation_csv_sha256": "8204328f8f78ef6524e766044551ca5b27254e94b94eee85a3d473d2c83dadbc",
+  "synthetic_review_completion_checkpoint_sha256": "98addd16c6298cdd467ecf85b990816d1e1eafcfd44743f626ce48889d5235ee"
+}

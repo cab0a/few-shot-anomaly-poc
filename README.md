@@ -6,7 +6,7 @@
 
 v0.1はECC残差法とPatch HOG + One-Class SVM、v0.2はDINOv2 224を加えた3方式を比較しました。opaque IDによるlabel-free scoring、offline reproduction、1回限りのlabel reveal、定量評価、順序付きhard gateを完了し、全方式とプロジェクトを`REJECT`としました。
 
-v0.3.2では、固定metadataだけから28件のopaque review inventory、29件の後段linkage、60件のnormal partitionを再構成し、pre-access checkpointへ固定しました。画像閲覧・score実行はまだ行っていません。詳細は英語本文を参照してください。
+v0.3.3では、reviewer入力をopaque ID・read-only pixels・固定formだけに限定するprimitiveを実装し、28件のsynthetic画像で検証しました。VisA画像閲覧・score実行・実観察はまだ行っていません。詳細は英語本文を参照してください。
 
 ---
 
@@ -18,9 +18,9 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > ECC residual and Patch HOG + One-Class SVM failed the fixed anomaly-recall gate. DINOv2 224 failed the earlier normal-FPR gate. All method decisions and the project decision are `REJECT`; no method is selected. See the [v0.2 evaluation report](docs/v0.2-evaluation-report.md) and [completion review](docs/v0.2-completion-review.md).
 
-> **v0.3.2 status: metadata-only inventories fixed; no image access**
+> **v0.3.3 status: blinded review primitive synthetically verified; real review not started**
 >
-> The fixed 28-asset safe review inventory, separate 29-row later linkage, 60-image normal-development partition, and closed pre-access checkpoint were reconstructed from verified metadata. No v0.3 selected image has been opened, no diagnostic score has been generated, and the completed v0.2 final test remains closed. See the [v0.3.0 preregistration](docs/v0.3-development-diagnostic-preregistration.md), [v0.3.1 contract record](docs/v0.3.1-machine-readable-diagnostic-contract.md), and [v0.3.2 inventory record](docs/v0.3.2-no-image-inventory-and-pre-access-checkpoint.md).
+> The positive-allowlist reviewer interface passed 18 checks with 28 temporary synthetic images. No VisA image was accessed, no real observation was written, no anomaly scorer ran, and the completed v0.2 final test remains closed. See the [v0.3.0 preregistration](docs/v0.3-development-diagnostic-preregistration.md), [v0.3.1 contract record](docs/v0.3.1-machine-readable-diagnostic-contract.md), [v0.3.2 inventory record](docs/v0.3.2-no-image-inventory-and-pre-access-checkpoint.md), and [v0.3.3 verification record](docs/v0.3.3-blinded-review-primitive-and-synthetic-verification.md).
 
 ## Representative Result
 
@@ -64,6 +64,7 @@ uv run --locked --no-sync python scripts/render_v0_1_summary.py
 
 | Evidence | Location | What it preserves |
 | --- | --- | --- |
+| v0.3.3 synthetic blinded-review verification | [`artifacts/v0.3/synthetic/blinded-review-verification.json`](artifacts/v0.3/synthetic/blinded-review-verification.json) | 18 passing interface, ordering, immutable-pixel, metadata-exclusion, deterministic-serialization, completion-checkpoint, and rejection checks with explicit no-VisA/no-scorer boundaries |
 | v0.3.2 no-image inventory and pre-access checkpoint | [`artifacts/v0.3/diagnostics/pcb2-development/`](artifacts/v0.3/diagnostics/pcb2-development/) | Exact 28 opaque review identities, separate 29-row later linkage, deterministic 60-normal development partition, parent hashes, and explicit zero v0.3 image-access/scoring state |
 | v0.2.8 decisions and complete manifest | [`artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/`](artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/) | Three ordered method decisions, all-reject project decision, no selected method, one next validation, and a 35-entry SHA-256 manifest |
 | v0.2.7 label reveal, metrics, and failure cases | [`artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/`](artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/) | Exact 200-ID label join, three method metrics, confusion counts, zero score-failure evidence, deterministic FP/FN selections, and the stage-local no-decision/no-image-access boundary |
@@ -125,7 +126,7 @@ Implementation details and stable failure codes are kept in the [method specific
 
 The v0.2 study adds DINOv2 ViT-S/14 at `224 x 224` without changing either classical comparator. Its fixed configuration is [`configs/v0.2.yaml`](configs/v0.2.yaml), and its staged JSON/CSV evidence contract is [`schemas/v0.2/evaluation-artifacts.json`](schemas/v0.2/evaluation-artifacts.json). The [machine-readable contract record](docs/v0.2-machine-readable-evaluation-contract.md) explains exact identities, protected label-free fields, fixed finite failure scores, three-pass CPU timing, first-ten reproduction, and hard-gate ordering. The [completed boundary record](docs/v0.2-boundary-preparation.md) fixes the external normal manifests and opaque `pcb2` asset identities. Records for [v0.2.3](docs/v0.2.3-pre-evaluation-freeze.md), [v0.2.4](docs/v0.2.4-reference-fitting-and-normal-only-calibration.md), [v0.2.5](docs/v0.2.5-label-free-scoring-and-cpu-latency.md), [v0.2.6](docs/v0.2.6-offline-reproduction-and-pre-reveal-checkpoint.md), and [v0.2.7](docs/v0.2.7-label-reveal-metrics-and-failure-cases.md) preserve the freeze, normal-only fitting, label-free scoring, offline reproduction, reveal, metrics, and mechanical error selection. The [v0.2 public report](docs/v0.2-evaluation-report.md) and [completion review](docs/v0.2-completion-review.md) close the sequence with the ordered `REJECT` decisions and release audit.
 
-The [v0.3.0 development diagnostic preregistration](docs/v0.3-development-diagnostic-preregistration.md) defines a separate, non-confirmatory study. It freezes the only final-test images that may later be viewed, first-pass metadata blinding, a 60-image controlled-normal partition rule, fixed perturbations and summaries, evidence thresholds, and invalidation conditions before any diagnostic image access or scoring. The [v0.3.1 contract record](docs/v0.3.1-machine-readable-diagnostic-contract.md), [`configs/v0.3.yaml`](configs/v0.3.yaml), and [`schemas/v0.3/diagnostic-artifacts.json`](schemas/v0.3/diagnostic-artifacts.json) encode those rules. The [v0.3.2 inventory record](docs/v0.3.2-no-image-inventory-and-pre-access-checkpoint.md) fixes the review and normal-development identities from metadata without opening image files.
+The [v0.3.0 development diagnostic preregistration](docs/v0.3-development-diagnostic-preregistration.md) defines a separate, non-confirmatory study. It freezes the only final-test images that may later be viewed, first-pass metadata blinding, a 60-image controlled-normal partition rule, fixed perturbations and summaries, evidence thresholds, and invalidation conditions before any diagnostic image access or scoring. The [v0.3.1 contract record](docs/v0.3.1-machine-readable-diagnostic-contract.md), [`configs/v0.3.yaml`](configs/v0.3.yaml), and [`schemas/v0.3/diagnostic-artifacts.json`](schemas/v0.3/diagnostic-artifacts.json) encode those rules. The [v0.3.2 inventory record](docs/v0.3.2-no-image-inventory-and-pre-access-checkpoint.md) fixes the review and normal-development identities from metadata without opening image files. The [v0.3.3 verification record](docs/v0.3.3-blinded-review-primitive-and-synthetic-verification.md) proves the positive-allowlist interface and serialization behavior only against generated fixtures; real review remains pending.
 
 ## Evaluation Methodology
 
