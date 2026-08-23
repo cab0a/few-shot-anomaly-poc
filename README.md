@@ -4,9 +4,9 @@
 
 このリポジトリは、正常画像20枚・CPU・異常学習ラベルなしで、外観異常検知を次工程へ進めるか判定する公開PoCです。
 
-v0.1ではECC残差法とPatch HOG + One-Class SVMを比較し、両方式の`REJECT`と校正、評価、失敗例、latency、hard-gate証拠を公開しています。
+v0.1はECC残差法とPatch HOG + One-Class SVM、v0.2はDINOv2 224を加えた3方式を比較しました。opaque IDによるlabel-free scoring、offline reproduction、1回限りのlabel reveal、定量評価、順序付きhard gateを完了し、全方式とプロジェクトを`REJECT`としました。
 
-v0.2ではDINOv2 224を加え、opaque IDによるlabel-free scoring、offline reproduction、1回限りのlabel reveal、定量評価、順序付きhard gateまで完了しました。anomaly recallはECC残差法`0.13`、Patch HOG + One-Class SVM`0.16`、DINOv2`0.34`で、DINOv2は先行するnormal FPR条件も満たしませんでした。3方式とプロジェクトの最終判断はすべて`REJECT`です。画像内容は確認せず、閾値や合格条件も変更していません。詳細は英語本文を参照してください。
+v0.3.0では、v0.2を再評価せず、機械選択済み28画像のblind observationとdevelopment-only normal 60画像のcontrolled score-stability probeを事前登録しました。画像閲覧・score実行はまだ行っていません。詳細は英語本文を参照してください。
 
 ---
 
@@ -17,6 +17,10 @@ This is a source-available, noncommercially licensed public portfolio project.
 > **Status: v0.2 complete — `REJECT`**
 >
 > ECC residual and Patch HOG + One-Class SVM failed the fixed anomaly-recall gate. DINOv2 224 failed the earlier normal-FPR gate. All method decisions and the project decision are `REJECT`; no method is selected. See the [v0.2 evaluation report](docs/v0.2-evaluation-report.md) and [completion review](docs/v0.2-completion-review.md).
+
+> **v0.3.0 status: development-only diagnostic preregistered; not started**
+>
+> The next study is limited to blinded observation of the 28 mechanically selected assets and a fixed controlled-normal probe. No image has been opened, no diagnostic score has been generated, and the completed v0.2 final test remains closed. See the [v0.3.0 preregistration](docs/v0.3-development-diagnostic-preregistration.md).
 
 ## Representative Result
 
@@ -119,6 +123,8 @@ Both v0.1 methods use a nearest-rank 95th percentile of 884 normal calibration s
 Implementation details and stable failure codes are kept in the [method specification](docs/method-specification.md). The v0.1 machine-readable artifact contract is defined by [`schemas/v0.1/evaluation-artifacts.json`](schemas/v0.1/evaluation-artifacts.json) and explained in the [artifact schema guide](docs/evaluation-artifact-schema.md).
 
 The v0.2 study adds DINOv2 ViT-S/14 at `224 x 224` without changing either classical comparator. Its fixed configuration is [`configs/v0.2.yaml`](configs/v0.2.yaml), and its staged JSON/CSV evidence contract is [`schemas/v0.2/evaluation-artifacts.json`](schemas/v0.2/evaluation-artifacts.json). The [machine-readable contract record](docs/v0.2-machine-readable-evaluation-contract.md) explains exact identities, protected label-free fields, fixed finite failure scores, three-pass CPU timing, first-ten reproduction, and hard-gate ordering. The [completed boundary record](docs/v0.2-boundary-preparation.md) fixes the external normal manifests and opaque `pcb2` asset identities. Records for [v0.2.3](docs/v0.2.3-pre-evaluation-freeze.md), [v0.2.4](docs/v0.2.4-reference-fitting-and-normal-only-calibration.md), [v0.2.5](docs/v0.2.5-label-free-scoring-and-cpu-latency.md), [v0.2.6](docs/v0.2.6-offline-reproduction-and-pre-reveal-checkpoint.md), and [v0.2.7](docs/v0.2.7-label-reveal-metrics-and-failure-cases.md) preserve the freeze, normal-only fitting, label-free scoring, offline reproduction, reveal, metrics, and mechanical error selection. The [v0.2 public report](docs/v0.2-evaluation-report.md) and [completion review](docs/v0.2-completion-review.md) close the sequence with the ordered `REJECT` decisions and release audit.
+
+The [v0.3.0 development diagnostic preregistration](docs/v0.3-development-diagnostic-preregistration.md) defines a separate, non-confirmatory study. It freezes the only final-test images that may later be viewed, first-pass metadata blinding, a 60-image controlled-normal partition rule, fixed perturbations and summaries, evidence thresholds, and invalidation conditions before any diagnostic image access or scoring.
 
 ## Evaluation Methodology
 
@@ -261,6 +267,7 @@ See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md)
 | [v0.2.7 Label Reveal, Metrics, and Failure Cases](docs/v0.2.7-label-reveal-metrics-and-failure-cases.md) | One-way exact-ID label join, image-level metrics, confusion counts, deterministic FP/FN records, fixed hashes, no-image-access boundary, and deferred decision |
 | [v0.2 Public Evaluation Report](docs/v0.2-evaluation-report.md) | Three-method results, ordered gate failures, all-reject project decision, limitations, next validation, and license boundary |
 | [v0.2 Completion Review](docs/v0.2-completion-review.md) | Completion criteria, decision audit, reproduction boundary, artifact and license audits, claim review, and deferred scope |
+| [v0.3.0 Development-Only Diagnostic Preregistration](docs/v0.3-development-diagnostic-preregistration.md) | Fixed selected-image review boundary, blind observation fields, controlled-normal probe, diagnostic signal rule, stop conditions, and non-goals |
 | [v0.2.x Milestone Map](docs/v0.2-milestone-map.md) | Parent protocol identity, milestone labels `v0.2.0`–`v0.2.8`, completion boundaries, current position, and identity-preservation rules |
 | [Method Specification](docs/method-specification.md) | Fixed preprocessing, parameters, scoring, and failure rules |
 | [Evaluation Plan](docs/evaluation-plan.md) | Partitions, metrics, latency, error selection, and decision logic |
