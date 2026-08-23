@@ -1,0 +1,19 @@
+{
+  "contract_version": "evaluation-artifacts/v0.2",
+  "decision": "REJECT",
+  "decision_reason": "No fixed method passed every preregistered hard gate, so the project decision is REJECT.",
+  "method_decisions": {
+    "dinov2_vits14_224_nn": "REJECT",
+    "ecc_residual": "REJECT",
+    "patch_hog_ocsvm": "REJECT"
+  },
+  "next_validation": "Preregister a development-only pcb2 diagnostic study that reviews only the mechanically selected v0.2.7 cases and evaluates normal-score transfer without tuning or rescoring the completed final-test boundary.",
+  "run_id": "visa-pcb2-v0-2-final",
+  "run_kind": "final_test",
+  "selected_method": null,
+  "selection_trace": [
+    "All three fixed methods are REJECT under their first failed ordered hard gate.",
+    "No method is selected; descriptive ranking metrics and latency cannot waive a failure."
+  ],
+  "weighted_score_used": false
+}

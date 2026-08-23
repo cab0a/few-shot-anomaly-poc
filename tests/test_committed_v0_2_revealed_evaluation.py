@@ -109,8 +109,6 @@ def test_committed_metrics_and_failures_preserve_the_label_free_join() -> None:
             assert failure["score_margin"] == classification["score_margin"]
 
 
-def test_v0_2_7_contains_no_decision_or_image_artifact() -> None:
-    assert not (ARTIFACT_ROOT / "project-decision.json").exists()
-    assert not any((ARTIFACT_ROOT / method / "decision.json").exists() for method in METHODS)
+def test_revealed_evaluation_bundle_contains_no_image_artifact() -> None:
     suffixes = {path.suffix.lower() for path in ARTIFACT_ROOT.rglob("*") if path.is_file()}
     assert suffixes == {".csv", ".json"}

@@ -1,0 +1,259 @@
+{
+  "config_sha256": "9ea3a7156aeb3c6efc87c8ae3811444421bd3e86ea25b7ac014893c7e5892265",
+  "contract_version": "evaluation-artifacts/v0.2",
+  "files": [
+    {
+      "artifact_type": "boundary_record",
+      "method": null,
+      "record_count": 1,
+      "relative_path": "boundary/boundary-record.json",
+      "sha256": "e122bfa51ce618e0588a580f2cf66447c44a2cf801f08f851cce9d5271a4c698"
+    },
+    {
+      "artifact_type": "calibration_score",
+      "method": "dinov2_vits14_224_nn",
+      "record_count": 881,
+      "relative_path": "dinov2_vits14_224_nn/calibration-scores.csv",
+      "sha256": "dc99f12c1a76c1421a9dd6258d14231afa82e75ebf1d2d22a20a20a4b09ba1bc"
+    },
+    {
+      "artifact_type": "calibration_summary",
+      "method": "dinov2_vits14_224_nn",
+      "record_count": 1,
+      "relative_path": "dinov2_vits14_224_nn/calibration-summary.json",
+      "sha256": "0a89bcb834f5e38a601bb956d9b099c613786187adbbd2ef8ba75226e2a75da7"
+    },
+    {
+      "artifact_type": "classification",
+      "method": "dinov2_vits14_224_nn",
+      "record_count": 200,
+      "relative_path": "dinov2_vits14_224_nn/classifications.csv",
+      "sha256": "71f4ae76d453583d030646ffbdf746683603d6d4eacad5784e3792d39cd468ba"
+    },
+    {
+      "artifact_type": "method_decision",
+      "method": "dinov2_vits14_224_nn",
+      "record_count": 1,
+      "relative_path": "dinov2_vits14_224_nn/decision.json",
+      "sha256": "31be925290499723016322aed12bb8b7ccb81f8140f26ebcd246a6173cec448b"
+    },
+    {
+      "artifact_type": "failure_case",
+      "method": "dinov2_vits14_224_nn",
+      "record_count": 10,
+      "relative_path": "dinov2_vits14_224_nn/failure-cases.csv",
+      "sha256": "ad8f05152f936b8b9da5a6d94f2f8dc9eab43035373836f949dbb3a7887c22e9"
+    },
+    {
+      "artifact_type": "fit",
+      "method": "dinov2_vits14_224_nn",
+      "record_count": 1,
+      "relative_path": "dinov2_vits14_224_nn/fit.json",
+      "sha256": "ba2bc1b5d2b974cf6d700d775ac6c94a4b14d407e9e7fd6a8832a7b9877ef4e6"
+    },
+    {
+      "artifact_type": "latency_observation",
+      "method": "dinov2_vits14_224_nn",
+      "record_count": 600,
+      "relative_path": "dinov2_vits14_224_nn/latency-observations.csv",
+      "sha256": "1477493dac4a645283dc349d811d92bfcb8739c240a880ab9067e09d823ff63f"
+    },
+    {
+      "artifact_type": "metrics",
+      "method": "dinov2_vits14_224_nn",
+      "record_count": 1,
+      "relative_path": "dinov2_vits14_224_nn/metrics.json",
+      "sha256": "22f5cca3187d974d69efde8f495c70cbcef45c193123704010c10534f1a2fb29"
+    },
+    {
+      "artifact_type": "reproduction",
+      "method": "dinov2_vits14_224_nn",
+      "record_count": 10,
+      "relative_path": "dinov2_vits14_224_nn/offline-reproduction.csv",
+      "sha256": "f75976fb3ef3c17db6f5ee4150bcba4a9c3bb79d6172920e22345f9e59c93dd5"
+    },
+    {
+      "artifact_type": "score",
+      "method": "dinov2_vits14_224_nn",
+      "record_count": 200,
+      "relative_path": "dinov2_vits14_224_nn/scores.csv",
+      "sha256": "38885820447538763850bbc8820657ff75a8980e6e39ff09416970f32be6b282"
+    },
+    {
+      "artifact_type": "calibration_score",
+      "method": "ecc_residual",
+      "record_count": 881,
+      "relative_path": "ecc_residual/calibration-scores.csv",
+      "sha256": "b0b513f16b6ce0d068658d43a34f474106095bbd52e57cbc388927cde6f21c26"
+    },
+    {
+      "artifact_type": "calibration_summary",
+      "method": "ecc_residual",
+      "record_count": 1,
+      "relative_path": "ecc_residual/calibration-summary.json",
+      "sha256": "e68f519abaa6f1f08a1376eec444cae5777736e3414b882ed93bf73f93345735"
+    },
+    {
+      "artifact_type": "classification",
+      "method": "ecc_residual",
+      "record_count": 200,
+      "relative_path": "ecc_residual/classifications.csv",
+      "sha256": "4e6b24d3553507a8d403900a209840c4d0e4d16ab3882001435e8875d93fb8c8"
+    },
+    {
+      "artifact_type": "method_decision",
+      "method": "ecc_residual",
+      "record_count": 1,
+      "relative_path": "ecc_residual/decision.json",
+      "sha256": "dcd80fd82ba206fdf0610ca9e3d735fcb2a3835496734d7dbb1f76706c8dd588"
+    },
+    {
+      "artifact_type": "failure_case",
+      "method": "ecc_residual",
+      "record_count": 9,
+      "relative_path": "ecc_residual/failure-cases.csv",
+      "sha256": "1bd73cf3b0050b3eff934467625ba118d662e442ceaa5829f8a47344b4f390e8"
+    },
+    {
+      "artifact_type": "fit",
+      "method": "ecc_residual",
+      "record_count": 1,
+      "relative_path": "ecc_residual/fit.json",
+      "sha256": "fee3b96824987a6d03f279f5fefc8cfe15a0c807050ec6a35700d4c2e567ae3d"
+    },
+    {
+      "artifact_type": "latency_observation",
+      "method": "ecc_residual",
+      "record_count": 600,
+      "relative_path": "ecc_residual/latency-observations.csv",
+      "sha256": "3d2be6bab3bcbe35910b102c87dfed9e70786b0072b49d81d63dfc493fa2e50b"
+    },
+    {
+      "artifact_type": "metrics",
+      "method": "ecc_residual",
+      "record_count": 1,
+      "relative_path": "ecc_residual/metrics.json",
+      "sha256": "c7ff3c98e9c350d33406d647c1ea5100e25addb128c9baf39a78e02a25a286a7"
+    },
+    {
+      "artifact_type": "reproduction",
+      "method": "ecc_residual",
+      "record_count": 10,
+      "relative_path": "ecc_residual/offline-reproduction.csv",
+      "sha256": "beb6a4211885e12623b53739aca23dabe62ad6968296cc6364dbb019b1341833"
+    },
+    {
+      "artifact_type": "score",
+      "method": "ecc_residual",
+      "record_count": 200,
+      "relative_path": "ecc_residual/scores.csv",
+      "sha256": "43545c1ec1c75039a7fd73389861fa7de4a6125fd264901b1e367ee1170b22c4"
+    },
+    {
+      "artifact_type": "pre_evaluation_freeze",
+      "method": null,
+      "record_count": 1,
+      "relative_path": "freeze/pre-evaluation-freeze.json",
+      "sha256": "ae552d805dd9648163a48683bad828c7e1b7ecc4f1d69f1fa28511363b08ce3b"
+    },
+    {
+      "artifact_type": "calibration_score",
+      "method": "patch_hog_ocsvm",
+      "record_count": 881,
+      "relative_path": "patch_hog_ocsvm/calibration-scores.csv",
+      "sha256": "f6c40c3e4af1979f67ddf8916889887e022b58da0cd9fa04561c00f171a84d8e"
+    },
+    {
+      "artifact_type": "calibration_summary",
+      "method": "patch_hog_ocsvm",
+      "record_count": 1,
+      "relative_path": "patch_hog_ocsvm/calibration-summary.json",
+      "sha256": "9e687e80437de5f38f848677ad9372104c1bc78275ae536a7c58f4b02bdee356"
+    },
+    {
+      "artifact_type": "classification",
+      "method": "patch_hog_ocsvm",
+      "record_count": 200,
+      "relative_path": "patch_hog_ocsvm/classifications.csv",
+      "sha256": "b17a977a570b1d2becfb9359941fe09d2936efc474253be1c11d133e369b95fa"
+    },
+    {
+      "artifact_type": "method_decision",
+      "method": "patch_hog_ocsvm",
+      "record_count": 1,
+      "relative_path": "patch_hog_ocsvm/decision.json",
+      "sha256": "c5ba75cbe93d2f921cdf80d9a277fa208eb5f914c836eb7aaf18a8deaf49093e"
+    },
+    {
+      "artifact_type": "failure_case",
+      "method": "patch_hog_ocsvm",
+      "record_count": 10,
+      "relative_path": "patch_hog_ocsvm/failure-cases.csv",
+      "sha256": "7edde3c32fd23e9d53db0c665595bb3c6789a1ce52bf039810b9d7646d3387ff"
+    },
+    {
+      "artifact_type": "fit",
+      "method": "patch_hog_ocsvm",
+      "record_count": 1,
+      "relative_path": "patch_hog_ocsvm/fit.json",
+      "sha256": "d8da4c0704736e45495501618fcaa57d654e97acf4d3d10e12084e112e29b432"
+    },
+    {
+      "artifact_type": "latency_observation",
+      "method": "patch_hog_ocsvm",
+      "record_count": 600,
+      "relative_path": "patch_hog_ocsvm/latency-observations.csv",
+      "sha256": "5ff7424018220a7a8dd79e3dd646225de205a43373ff74c13b569100af45d1cb"
+    },
+    {
+      "artifact_type": "metrics",
+      "method": "patch_hog_ocsvm",
+      "record_count": 1,
+      "relative_path": "patch_hog_ocsvm/metrics.json",
+      "sha256": "fd8c61a99e00109e8f5ec8c68fbbb8138042d908cda286b38ec06b67bf79d233"
+    },
+    {
+      "artifact_type": "reproduction",
+      "method": "patch_hog_ocsvm",
+      "record_count": 10,
+      "relative_path": "patch_hog_ocsvm/offline-reproduction.csv",
+      "sha256": "7fa501f12c3ab76bbfc1bf2d88ca79d74df8eb82b0b8e61e9544017122578f0d"
+    },
+    {
+      "artifact_type": "score",
+      "method": "patch_hog_ocsvm",
+      "record_count": 200,
+      "relative_path": "patch_hog_ocsvm/scores.csv",
+      "sha256": "fd403f19584c3170b15b4f9c3bef320ac8fbea23a0d715b26188bf850aef46e2"
+    },
+    {
+      "artifact_type": "pre_reveal_checkpoint",
+      "method": null,
+      "record_count": 1,
+      "relative_path": "pre-reveal-checkpoint.json",
+      "sha256": "4bf7d63da308868933a8967a6922fc439f95a524bf54cd8a38ff39f894219b07"
+    },
+    {
+      "artifact_type": "project_decision",
+      "method": null,
+      "record_count": 1,
+      "relative_path": "project-decision.json",
+      "sha256": "aad34c5e3f0c085cd0f218e61d504df9539ddc68764694cc3d53ed0f4ec729e2"
+    },
+    {
+      "artifact_type": "label_reveal",
+      "method": null,
+      "record_count": 200,
+      "relative_path": "revealed-labels.csv",
+      "sha256": "f1602ebf21241e7579f9be9092b90db8e9ca1fc9822b984130eb464d804d595c"
+    }
+  ],
+  "preregistration_commit": "b873bacc4f677a4c82f3944c09a7374037cb7c50",
+  "preregistration_document_sha256": "6306c2122f69aa96dcfe1f377518e7c6795a096eceb085be5b829262b55482b9",
+  "run_id": "visa-pcb2-v0-2-final",
+  "run_kind": "final_test",
+  "schema_sha256": "4178d24f7210f8f859f6c99386204022ac3b2e4ffe4b7b63cdfea00d0c79f31d",
+  "scoring_manifest_sha256": "32ea52ed1b9872f39ae27f5d58a353ea84b8b143642e3a7f0fabe940184705e8",
+  "sealed_mapping_sha256": "0e40e3777e797fd5099fd7ea8fd307547e396785dc33219f0bc0b3120e3dfe39",
+  "source_commit": "47e565e722c769fed060312725d14b4135fefbaf"
+}

@@ -1,0 +1,80 @@
+{
+  "condition": null,
+  "contract_version": "evaluation-artifacts/v0.2",
+  "decision": "REJECT",
+  "decision_reason": "The first failed ordered hard gate was final_test_anomaly_recall: observed 0.16 with requirement greater_than_or_equal 0.9. Later gates were not evaluated. Selected images were not reviewed because this method was not otherwise gate-passing.",
+  "failure_review_disposition": "no_material_boundary",
+  "failure_review_rationale": null,
+  "first_failed_gate": "final_test_anomaly_recall",
+  "gate_outcomes": [
+    {
+      "name": "method_fit",
+      "observed": "fit_ok",
+      "operator": "equal",
+      "order": 1,
+      "requirement": "fit_ok",
+      "status": "pass"
+    },
+    {
+      "name": "test_leakage",
+      "observed": false,
+      "operator": "equal",
+      "order": 2,
+      "requirement": false,
+      "status": "pass"
+    },
+    {
+      "name": "final_test_normal_fpr",
+      "observed": 0.05,
+      "operator": "less_than_or_equal",
+      "order": 3,
+      "requirement": 0.05,
+      "status": "pass"
+    },
+    {
+      "name": "final_test_anomaly_recall",
+      "observed": 0.16,
+      "operator": "greater_than_or_equal",
+      "order": 4,
+      "requirement": 0.9,
+      "status": "fail"
+    },
+    {
+      "name": "cpu_p95_scoring_latency",
+      "observed": null,
+      "operator": "less_than_or_equal",
+      "order": 5,
+      "requirement": 1.0,
+      "status": "not_evaluated"
+    },
+    {
+      "name": "normal_reference_count",
+      "observed": null,
+      "operator": "equal",
+      "order": 6,
+      "requirement": 20,
+      "status": "not_evaluated"
+    },
+    {
+      "name": "anomaly_training_labels",
+      "observed": null,
+      "operator": "equal",
+      "order": 7,
+      "requirement": false,
+      "status": "not_evaluated"
+    },
+    {
+      "name": "reproducibility",
+      "observed": null,
+      "operator": "equal",
+      "order": 8,
+      "requirement": true,
+      "status": "not_evaluated"
+    }
+  ],
+  "hard_gate_waiver_used": false,
+  "method": "patch_hog_ocsvm",
+  "run_id": "visa-pcb2-v0-2-final",
+  "run_kind": "final_test",
+  "weighted_score_used": false
+}
