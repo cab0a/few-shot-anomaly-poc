@@ -2,11 +2,11 @@
 
 ## 日本語概要
 
-このリポジトリは、正常画像20枚以内・CPU実行・異常ラベルを学習に使わない条件で、少数例の外観異常検知が次段階の検証に値するかを判定する公開技術検証です。
+このリポジトリは、正常画像20枚・CPU・異常学習ラベルなしで、外観異常検知を次工程へ進めるか判定する公開PoCです。
 
-v0.1ではECC残差法とPatch HOG + One-Class SVMを事前登録条件で比較し、両方式の`REJECT`判断と正常のみの校正、評価、失敗例、latency、hard-gate証拠を公開しています。
+v0.1ではECC残差法とPatch HOG + One-Class SVMを比較し、両方式の`REJECT`と校正、評価、失敗例、latency、hard-gate証拠を公開しています。
 
-v0.2ではDINOv2 224を加え、現在は`v0.2.7`まで完了しています。commit・push済みのlabel-free成果物へ200件のlabelをexact opaque IDで1回だけ結合し、3方式の指標と機械的FP/FN選択を固定しました。anomaly recallはECC残差法`0.13`、Patch HOG + One-Class SVM`0.16`、DINOv2`0.34`で、事前登録済み`0.90`には届きませんでした。画像内容の確認と最終採用判断は未実施です。詳細は英語本文を参照してください。
+v0.2ではDINOv2 224を加え、opaque IDによるlabel-free scoring、offline reproduction、1回限りのlabel reveal、定量評価、順序付きhard gateまで完了しました。anomaly recallはECC残差法`0.13`、Patch HOG + One-Class SVM`0.16`、DINOv2`0.34`で、DINOv2は先行するnormal FPR条件も満たしませんでした。3方式とプロジェクトの最終判断はすべて`REJECT`です。画像内容は確認せず、閾値や合格条件も変更していません。詳細は英語本文を参照してください。
 
 ---
 
@@ -14,24 +14,25 @@ A preregistered CPU-only evaluation that turns normal-only visual anomaly method
 
 This is a source-available, noncommercially licensed public portfolio project.
 
-> **Status: v0.1 complete — `REJECT`**
+> **Status: v0.2 complete — `REJECT`**
 >
-> Neither method passed every fixed operating-point gate. The thresholds and gates were not revised after the result.
-
-> **v0.2.7 complete: labels revealed once, metrics fixed, and failure records selected**
->
-> The fixed 200-image label boundary was crossed once by exact opaque ID after all score-side evidence was pushed. ECC residual, Patch HOG + One-Class SVM, and DINOv2 224 produced AUROC `0.6640`, `0.7147`, and `0.7943`, but anomaly recall was only `0.13`, `0.16`, and `0.34` at their unchanged normal-only thresholds. DINOv2 normal FPR was `0.07`; ECC and Patch HOG were `0.04` and `0.05`. No method met both preregistered FPR and recall conditions. No image was reviewed, and the ordered hard-gate decisions remain deferred to v0.2.8. See the [v0.2.7 execution record](docs/v0.2.7-label-reveal-metrics-and-failure-cases.md), [v0.2.x milestone map](docs/v0.2-milestone-map.md), and [machine-readable evaluation contract](docs/v0.2-machine-readable-evaluation-contract.md).
+> ECC residual and Patch HOG + One-Class SVM failed the fixed anomaly-recall gate. DINOv2 224 failed the earlier normal-FPR gate. All method decisions and the project decision are `REJECT`; no method is selected. See the [v0.2 evaluation report](docs/v0.2-evaluation-report.md) and [completion review](docs/v0.2-completion-review.md).
 
 ## Representative Result
 
+| Method | AUROC | AUPRC | Normal FPR | Anomaly recall | CPU p95 | Decision |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| ECC residual | `0.6640` | `0.6258` | `0.04` | `0.13` | `0.6639 s` | `REJECT` |
+| Patch HOG + One-Class SVM | `0.7147` | `0.6983` | `0.05` | `0.16` | `0.5450 s` | `REJECT` |
+| DINOv2 ViT-S/14 224 NN | `0.7943` | `0.7572` | `0.07` | `0.34` | `0.4611 s` | `REJECT` |
+
+AUROC and AUPRC describe ranking; neither can override a failed operating-point gate. The fixed procedure stopped at the first failure, so latency and later process gates were not evaluated as decision gates even though their evidence remains public.
+
+### v0.1 baseline result
+
 ![Two anomaly-detection methods compared against preregistered false-positive, recall, and CPU latency gates](docs/assets/v0.1-gate-summary.svg)
 
-| Method | AUROC | Normal FPR | Anomaly recall | CPU p95 | Decision |
-| --- | ---: | ---: | ---: | ---: | --- |
-| ECC residual | `0.8141` | `0.09` | `0.21` | `1.2470 s` | `REJECT` |
-| Patch HOG + One-Class SVM | `0.7838` | `0.10` | `0.19` | `0.5658 s` | `REJECT` |
-
-AUROC describes ranking, but it was not an acceptance gate. The fixed operating points missed the required normal FPR of at most `0.05` and anomaly recall of at least `0.90`.
+The earlier `pcb1` baseline also ended in `REJECT` for both classical methods. Its separate thresholds, metrics, and decisions remain in the [v0.1 public report](docs/v0.1-evaluation-report.md).
 
 ## Quick Start
 
@@ -59,7 +60,8 @@ uv run --locked --no-sync python scripts/render_v0_1_summary.py
 
 | Evidence | Location | What it preserves |
 | --- | --- | --- |
-| v0.2.7 label reveal, metrics, and failure cases | [`artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/`](artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/) | Exact 200-ID label join, three method metrics, confusion counts, zero score-failure evidence, deterministic FP/FN selections, and no-decision/no-image-access boundary |
+| v0.2.8 decisions and complete manifest | [`artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/`](artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/) | Three ordered method decisions, all-reject project decision, no selected method, one next validation, and a 35-entry SHA-256 manifest |
+| v0.2.7 label reveal, metrics, and failure cases | [`artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/`](artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/) | Exact 200-ID label join, three method metrics, confusion counts, zero score-failure evidence, deterministic FP/FN selections, and the stage-local no-decision/no-image-access boundary |
 | v0.2.6 offline reproduction and pre-reveal checkpoint | [`artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/`](artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/) | Three first-ten offline reproduction files, exact score/status/failure comparisons, pushed label-free evidence commit, 23-file bundle identity, and the closed label boundary |
 | v0.2.5 label-free final-test scoring and CPU latency | [`artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/`](artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/) | Three per-method label-free bundles with 200 canonical scores, 200 fixed-threshold classifications, 600 CPU observations, exact repeated-score evidence, and an unrevealed label boundary |
 | v0.2.4 reference fitting and normal-only calibration | [`artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/`](artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/) | Per-method fit status and external state identity, all 881 normal-calibration scores, fixed thresholds, realized calibration FPR, zero-failure evidence, and an unrevealed final-test boundary |
@@ -84,7 +86,7 @@ uv run --locked --no-sync python scripts/render_v0_1_summary.py
 
 ## Overview
 
-This public case study asks whether either of two deliberately small visual anomaly methods justifies a follow-up prototype under a constrained, hypothetical inspection scenario:
+This public case study asks whether any of three fixed normal-only visual anomaly methods justifies a follow-up prototype under a constrained, hypothetical inspection scenario:
 
 - fit from no more than 20 normal reference images;
 - use no anomalous training labels;
@@ -92,7 +94,7 @@ This public case study asks whether either of two deliberately small visual anom
 - calibrate the operating threshold from normal images only; and
 - preserve enough evidence to reconstruct the decision.
 
-The repository covers the full path from requirements and method selection through implementation, evaluation, error selection, and a negative decision. It does not represent a customer engagement, private dataset, production requirement, or deployed inspection system.
+The repository covers the full path from requirements and method selection through implementation, evaluation, error selection, and two completed negative decisions: the v0.1 classical baseline on `pcb1` and the v0.2 three-method comparison on `pcb2`. It does not represent a customer engagement, private dataset, production requirement, or deployed inspection system.
 
 ## Key Features
 
@@ -102,7 +104,7 @@ The repository covers the full path from requirements and method selection throu
 - Both favorable and unfavorable results remain committed; failed gates cannot be waived by an aggregate score.
 - JSON and CSV contracts fix required fields, ordering, finite-number rules, relative paths, and non-overwrite behavior.
 - The v0.2 contract rejects protected final-test label fields, changed method score ranges, incomplete timing passes, inconsistent metric arithmetic, and out-of-order hard-gate traces before real boundary preparation.
-- The final manifest records artifact counts, source and configuration identities, and SHA-256 values.
+- The v0.2 final manifest records all 35 other run artifacts, record counts, source and configuration identities, and SHA-256 values.
 - Tests cover deterministic primitives, leakage boundaries, frozen identities, exact committed metrics, gate order, and byte reproduction.
 
 ## Technical Design
@@ -116,21 +118,21 @@ Both v0.1 methods use a nearest-rank 95th percentile of 884 normal calibration s
 
 Implementation details and stable failure codes are kept in the [method specification](docs/method-specification.md). The v0.1 machine-readable artifact contract is defined by [`schemas/v0.1/evaluation-artifacts.json`](schemas/v0.1/evaluation-artifacts.json) and explained in the [artifact schema guide](docs/evaluation-artifact-schema.md).
 
-The v0.2 study adds DINOv2 ViT-S/14 at `224 x 224` without changing either classical comparator. Its fixed configuration is [`configs/v0.2.yaml`](configs/v0.2.yaml), and its staged JSON/CSV evidence contract is [`schemas/v0.2/evaluation-artifacts.json`](schemas/v0.2/evaluation-artifacts.json). The [machine-readable contract record](docs/v0.2-machine-readable-evaluation-contract.md) explains exact identities, protected label-free fields, fixed finite failure scores, three-pass CPU timing, first-ten reproduction, and hard-gate ordering. The [completed boundary record](docs/v0.2-boundary-preparation.md) fixes the external normal manifests and opaque `pcb2` asset identities, the [v0.2.3 freeze](docs/v0.2.3-pre-evaluation-freeze.md) binds the pre-fit protocol identities, the [v0.2.4 execution record](docs/v0.2.4-reference-fitting-and-normal-only-calibration.md) preserves the successful fits and normal-only thresholds, the [v0.2.5 execution record](docs/v0.2.5-label-free-scoring-and-cpu-latency.md) fixes the opaque scores, classifications, and CPU observations, the [v0.2.6 execution record](docs/v0.2.6-offline-reproduction-and-pre-reveal-checkpoint.md) binds exact first-ten reproduction and the complete pushed label-free evidence set, and the [v0.2.7 execution record](docs/v0.2.7-label-reveal-metrics-and-failure-cases.md) preserves the exact label join, method metrics, and mechanical error selection without a decision or image review.
+The v0.2 study adds DINOv2 ViT-S/14 at `224 x 224` without changing either classical comparator. Its fixed configuration is [`configs/v0.2.yaml`](configs/v0.2.yaml), and its staged JSON/CSV evidence contract is [`schemas/v0.2/evaluation-artifacts.json`](schemas/v0.2/evaluation-artifacts.json). The [machine-readable contract record](docs/v0.2-machine-readable-evaluation-contract.md) explains exact identities, protected label-free fields, fixed finite failure scores, three-pass CPU timing, first-ten reproduction, and hard-gate ordering. The [completed boundary record](docs/v0.2-boundary-preparation.md) fixes the external normal manifests and opaque `pcb2` asset identities. Records for [v0.2.3](docs/v0.2.3-pre-evaluation-freeze.md), [v0.2.4](docs/v0.2.4-reference-fitting-and-normal-only-calibration.md), [v0.2.5](docs/v0.2.5-label-free-scoring-and-cpu-latency.md), [v0.2.6](docs/v0.2.6-offline-reproduction-and-pre-reveal-checkpoint.md), and [v0.2.7](docs/v0.2.7-label-reveal-metrics-and-failure-cases.md) preserve the freeze, normal-only fitting, label-free scoring, offline reproduction, reveal, metrics, and mechanical error selection. The [v0.2 public report](docs/v0.2-evaluation-report.md) and [completion review](docs/v0.2-completion-review.md) close the sequence with the ordered `REJECT` decisions and release audit.
 
 ## Evaluation Methodology
 
-### Fixed data boundary
+### Fixed v0.2 data boundary
 
-v0.1 uses the official VisA `pcb1` one-class split.
+v0.2 uses the official VisA `pcb2` one-class split.
 
 | Partition | Purpose | Count | Label boundary |
 | --- | --- | ---: | --- |
-| Normal reference | Fit both methods | 20 | Normal status only |
-| Normal calibration | Fix one threshold per method | 884 | Normal status only |
-| Final test | One fixed scoring and decision run | 200: 100 normal, 100 anomaly | Classes joined only during evaluation |
+| Normal reference | Fit all three methods | 20 | Known normal only |
+| Normal calibration | Fix one threshold per method | 881 | Known normal only |
+| Final test | One label-free scoring run, then evaluation | 200: 100 normal, 100 anomaly | Exact opaque-ID join after score evidence was pushed |
 
-Seed `42` and a version-independent SHA-256 path-ranking rule fixed the reference IDs. The three path sets were checked for overlap. Raw images, masks, and local fitted state remain outside Git.
+Seed `42` and the frozen SHA-256 path-ranking rule fixed the reference IDs. Reference, calibration, and final-test records were checked for overlap and duplicates. Scorers received opaque asset IDs and no class, semantic path, split, sealed mapping, or ordering key. Raw images, masks, model assets, and fitted state remain outside Git.
 
 ### Preregistered hard gates
 
@@ -138,41 +140,44 @@ A method could pass only if every gate passed, in this order:
 
 | Order | Gate | Pass condition |
 | ---: | --- | --- |
-| 1 | Final-test normal FPR | `<= 0.05` |
-| 2 | Final-test anomaly recall | `>= 0.90` |
-| 3 | CPU p95 scoring latency | `<= 1.0 s/image` |
-| 4 | Normal reference count | `<= 20` |
-| 5 | Anomaly training labels | None used |
-| 6 | Reproducibility | Verified |
+| 1 | Method fit | complete fixed fitted state |
+| 2 | Test leakage | none detected |
+| 3 | Final-test normal FPR | `<= 0.05` |
+| 4 | Final-test anomaly recall | `>= 0.90` |
+| 5 | CPU p95 scoring latency | `<= 1.0 s/image` |
+| 6 | Normal reference count | exactly 20 |
+| 7 | Anomaly training labels | none used |
+| 8 | Reproducibility | fixed first-10 offline check passes |
 
-AUROC and AUPRC were descriptive ranking metrics. They could not override a failed gate. The complete protocol, measurement rules, and change control are in the [evaluation plan](docs/evaluation-plan.md) and [pre-evaluation freeze](docs/pre-evaluation-freeze.md).
+The procedure stops at the first failed gate. AUROC, AUPRC, later evidence, another method, and visual review cannot override that failure. The complete rules and change control are in the [v0.2 preregistration](docs/v0.2-method-and-evaluation-preregistration.md).
 
 ## Results
 
-Both methods scored all 200 final-test images without a score-generation failure.
+All three methods scored all 200 final-test images without a score-generation failure.
 
-| Method | AUPRC | FP | FN | CPU median | Passed performance gates |
-| --- | ---: | ---: | ---: | ---: | --- |
-| ECC residual | `0.7513` | 9 | 79 | `0.4370 s` | 0 of 3 |
-| Patch HOG + One-Class SVM | `0.7242` | 10 | 81 | `0.4327 s` | 1 of 3 |
+| Method | Normal FPR | Anomaly recall | FP | FN | CPU median | First failed gate |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| ECC residual | `0.04` | `0.13` | 4 | 87 | `0.2909 s` | anomaly recall |
+| Patch HOG + One-Class SVM | `0.05` | `0.16` | 5 | 84 | `0.4241 s` | anomaly recall |
+| DINOv2 ViT-S/14 224 NN | `0.07` | `0.34` | 7 | 66 | `0.3881 s` | normal FPR |
 
-The normal-only calibration FPR was approximately `4.98%` for both methods, but final-test normal FPR rose to `9%` and `10%`. At those fixed thresholds, anomaly recall was only `21%` and `19%`. This supports the `REJECT` decision under the stated gates; it does not identify the cause of the transfer gap.
+The normal-only calibration FPR was approximately `4.99%` for every method. DINOv2 provided the strongest ranking and recall, but missed 66 of 100 anomalies and exceeded the normal-FPR limit. The two classical methods met the FPR condition but detected only 13 and 16 anomalies.
 
-For each method, the evaluator mechanically selected the five highest-scoring false positives and five lowest-scoring false negatives. Image content was not reviewed, so the repository does not claim that alignment, illumination, layout, defect size, or another visual factor caused those errors.
+The evaluator mechanically selected the highest-scoring false positives and lowest-scoring false negatives. No selected image was opened, so the repository does not claim a visual cause. Every method is `REJECT`; because all methods are rejected, the project is `REJECT` with no selected method.
 
-During the final run, the CLI atomically wrote and validated the complete bundle, then failed while printing a summary because it expected outdated key names. The bundle was retained, the printing defect was corrected after boundary review, and final scoring was not rerun. The sequence is recorded in [Final Evaluation and Decision](docs/final-evaluation-and-decision.md).
-
-See the [public evaluation report](docs/v0.1-evaluation-report.md) for thresholds, confusion counts, gate outcomes, interpretation, and evidence links.
+See the [v0.2 public evaluation report](docs/v0.2-evaluation-report.md) for thresholds, AUPRC, confusion counts, latency boundaries, gate traces, interpretation, and evidence links.
 
 ## Limitations
 
-- Only one dataset category, one official split, one seed, and one 20-image reference set were evaluated.
+- Only one v0.2 dataset category, one official split, one seed, and one 20-image reference set were evaluated.
 - No confidence interval, repeated-reference-set analysis, or statistical-significance claim is provided.
-- VisA paths contain class-semantic directory names. The scorer did not receive a class field or branch on class, but this is not a double-blind protocol.
-- CPU latency is specific to the recorded hardware, software environment, and decoded-grayscale-to-score boundary.
+- CPU latency is specific to the recorded hardware, software environments, and fixed method boundaries.
+- DINOv2 timing excludes inter-process transfer, file I/O, encoded-image decoding, model loading, and fitting.
 - Selected failure records were not followed by an image-content review, so no causal error taxonomy is claimed.
 - Image-level metrics do not measure anomaly localization.
 - Synthetic evaluation artifacts test pipeline behavior, not VisA performance.
+- DINOv2 was evaluated only at 224 resolution with one frozen feature and aggregation rule.
+- The revealed final test cannot be reused as an untouched tuning or confirmatory boundary.
 - Results do not generalize to other VisA categories, production cameras, processes, or defect distributions.
 
 ## Reproducibility
@@ -189,7 +194,7 @@ uv run --locked --no-sync python scripts/render_v0_1_summary.py
 git diff --exit-code -- docs/assets/v0.1-gate-summary.svg
 ```
 
-A complete image-level rerun additionally requires the official `VisA_20220922.tar`, pinned split revision, local storage, and clean checkouts of the recorded stage commits. Each runner refuses to overwrite an existing output. Follow the [data preparation guide](data/README.md), [acquisition record](docs/data-acquisition-record.md), [calibration record](docs/normal-only-calibration.md), [scoring record](docs/first-fixed-final-test-scoring.md), and [final evaluation record](docs/final-evaluation-and-decision.md).
+A raw-image execution additionally requires the official `VisA_20220922.tar`, pinned split revision, local storage, fixed external manifests and fitted state, the isolated DINOv2 environment, and the recorded clean stage commits. Each runner refuses overwrite. The completed v0.2 label reveal and decision must not be rerun under the same preregistration; clone-only verification uses the committed JSON/CSV evidence. See the [v0.2 completion review](docs/v0.2-completion-review.md) and [data preparation guide](data/README.md).
 
 The committed metrics can be reconstructed from preserved scoring evidence. A second raw-image scoring run was not performed, and latency is not expected to reproduce byte-for-byte on different hardware.
 
@@ -210,7 +215,8 @@ A separate shared workflow checks every Markdown file for the Japanese and Engli
 - **Python:** exactly CPython `3.13.14`
 - **Environment manager:** exactly uv `0.11.32`
 - **Recorded execution environment:** Ubuntu 24.04 on WSL2, x86-64
-- **Evaluation boundary:** decoded grayscale `uint8` input through image score; file I/O and one-time fitting are excluded from latency
+- **Classical latency boundary:** decoded grayscale `uint8` input through image score
+- **DINOv2 latency boundary:** decoded BGR adapter plus isolated RGB-array scorer; inter-process transfer is excluded
 
 Other Python, operating-system, CPU, or dependency combinations are not claimed as supported.
 
@@ -253,9 +259,11 @@ See [`LICENSE`](LICENSE) for the controlling terms. See [`NOTICE.md`](NOTICE.md)
 | [v0.2.5 Label-Free Final-Test Scoring and CPU Latency](docs/v0.2.5-label-free-scoring-and-cpu-latency.md) | Opaque score and classification bundles, three-pass CPU observations, repeated-score identity, label-free interpretation, fixed hashes, and the next reproduction boundary |
 | [v0.2.6 Offline Reproduction and Pre-Reveal Checkpoint](docs/v0.2.6-offline-reproduction-and-pre-reveal-checkpoint.md) | Fresh-process first-ten comparisons, exact reproduction result, pushed evidence commit, 23-file bundle identity, closed reveal boundary, and next exact-ID join |
 | [v0.2.7 Label Reveal, Metrics, and Failure Cases](docs/v0.2.7-label-reveal-metrics-and-failure-cases.md) | One-way exact-ID label join, image-level metrics, confusion counts, deterministic FP/FN records, fixed hashes, no-image-access boundary, and deferred decision |
+| [v0.2 Public Evaluation Report](docs/v0.2-evaluation-report.md) | Three-method results, ordered gate failures, all-reject project decision, limitations, next validation, and license boundary |
+| [v0.2 Completion Review](docs/v0.2-completion-review.md) | Completion criteria, decision audit, reproduction boundary, artifact and license audits, claim review, and deferred scope |
 | [v0.2.x Milestone Map](docs/v0.2-milestone-map.md) | Parent protocol identity, milestone labels `v0.2.0`–`v0.2.8`, completion boundaries, current position, and identity-preservation rules |
 | [Method Specification](docs/method-specification.md) | Fixed preprocessing, parameters, scoring, and failure rules |
 | [Evaluation Plan](docs/evaluation-plan.md) | Partitions, metrics, latency, error selection, and decision logic |
 | [Evaluation Artifact Schema](docs/evaluation-artifact-schema.md) | JSON/CSV contract, deterministic serialization, and integrity |
-| [Public Evaluation Report](docs/v0.1-evaluation-report.md) | Results, interpretation, limitations, and recommended next study |
-| [Completion Review](docs/v0.1-completion-review.md) | Release evidence, reproduction boundary, content audit, and claim review |
+| [v0.1 Public Evaluation Report](docs/v0.1-evaluation-report.md) | Earlier `pcb1` baseline results, interpretation, limitations, and recommended next study |
+| [v0.1 Completion Review](docs/v0.1-completion-review.md) | Earlier release evidence, reproduction boundary, content audit, and claim review |
