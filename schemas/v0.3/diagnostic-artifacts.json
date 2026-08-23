@@ -1,0 +1,256 @@
+{
+  "contract_version": "diagnostic-artifacts/v0.3",
+  "status": "frozen_before_diagnostic_access",
+  "common_rules": {
+    "additional_fields_allowed": false,
+    "absolute_paths_forbidden": true,
+    "duplicate_primary_keys_forbidden": true,
+    "non_finite_numbers_forbidden": true,
+    "overwrite_forbidden": true,
+    "raw_or_derived_image_content_forbidden": true,
+    "timestamps_forbidden": true
+  },
+  "protected_first_pass_fields": [
+    "method",
+    "case_type",
+    "true_class",
+    "predicted_class",
+    "anomaly_score",
+    "threshold",
+    "score_margin",
+    "rank",
+    "source_path",
+    "other_method_selection"
+  ],
+  "contracts": {
+    "review_asset": {
+      "format": "csv",
+      "path": "review-assets.csv",
+      "primary_key": ["asset_id"],
+      "sort_key": ["asset_id"],
+      "columns": [
+        {"name": "contract_version", "type": "string", "nullable": false},
+        {"name": "diagnostic_id", "type": "string", "nullable": false},
+        {"name": "asset_id", "type": "asset_id", "nullable": false},
+        {"name": "byte_count", "type": "integer", "nullable": false},
+        {"name": "sha256", "type": "sha256", "nullable": false}
+      ],
+      "record_count": 28,
+      "label_boundary": "opaque_identity_only"
+    },
+    "review_case_link": {
+      "format": "csv",
+      "path": "review-case-linkage.csv",
+      "primary_key": ["method", "case_type", "rank"],
+      "sort_key": ["method_order", "case_type_order", "rank"],
+      "columns": [
+        {"name": "contract_version", "type": "string", "nullable": false},
+        {"name": "diagnostic_id", "type": "string", "nullable": false},
+        {"name": "method", "type": "method", "nullable": false},
+        {"name": "case_type", "type": "case_type", "nullable": false},
+        {"name": "rank", "type": "integer", "nullable": false},
+        {"name": "asset_id", "type": "asset_id", "nullable": false},
+        {"name": "parent_failure_sha256", "type": "sha256", "nullable": false}
+      ],
+      "record_count": 29,
+      "label_boundary": "post_review_join_only"
+    },
+    "normal_partition": {
+      "format": "csv",
+      "path": "normal-diagnostic-partition.csv",
+      "primary_key": ["relative_path"],
+      "sort_key": ["selection_rank"],
+      "columns": [
+        {"name": "contract_version", "type": "string", "nullable": false},
+        {"name": "diagnostic_id", "type": "string", "nullable": false},
+        {"name": "selection_rank", "type": "integer", "nullable": false},
+        {"name": "selection_sha256", "type": "sha256", "nullable": false},
+        {"name": "relative_path", "type": "relative_path", "nullable": false},
+        {"name": "byte_count", "type": "integer", "nullable": false},
+        {"name": "sha256", "type": "sha256", "nullable": false}
+      ],
+      "record_count": 60,
+      "label_boundary": "known_normal_development_only"
+    },
+    "pre_access_checkpoint": {
+      "format": "json",
+      "path": "pre-access-checkpoint.json",
+      "required_keys": [
+        "contract_version",
+        "diagnostic_id",
+        "source_commit",
+        "config_sha256",
+        "schema_sha256",
+        "preregistration_commit",
+        "preregistration_document_sha256",
+        "parent_artifact_manifest_sha256",
+        "opaque_scoring_manifest_sha256",
+        "normal_calibration_manifest_sha256",
+        "normal_reference_manifest_sha256",
+        "ecc_failure_cases_sha256",
+        "patch_hog_failure_cases_sha256",
+        "dinov2_failure_cases_sha256",
+        "review_assets_sha256",
+        "review_case_linkage_sha256",
+        "normal_partition_sha256",
+        "review_asset_count",
+        "method_case_count",
+        "normal_partition_count",
+        "diagnostic_image_accessed",
+        "diagnostic_image_decoded",
+        "diagnostic_image_displayed",
+        "diagnostic_score_computed",
+        "v0_2_final_test_rescored",
+        "unselected_final_test_image_accessed",
+        "protected_metadata_exposed",
+        "v0_2_artifacts_modified",
+        "preexisting_output_detected",
+        "output_overwrite_performed",
+        "raw_data_in_git"
+      ],
+      "label_boundary": "no_diagnostic_access"
+    },
+    "blind_observation": {
+      "format": "csv",
+      "path": "blind-observations.csv",
+      "primary_key": ["asset_id"],
+      "sort_key": ["asset_id"],
+      "columns": [
+        {"name": "contract_version", "type": "string", "nullable": false},
+        {"name": "diagnostic_id", "type": "string", "nullable": false},
+        {"name": "asset_id", "type": "asset_id", "nullable": false},
+        {"name": "review_status", "type": "review_status", "nullable": false},
+        {"name": "framing_or_crop_difference_visible", "type": "visibility", "nullable": false},
+        {"name": "pose_or_registration_offset_visible", "type": "visibility", "nullable": false},
+        {"name": "global_exposure_difference_visible", "type": "visibility", "nullable": false},
+        {"name": "blur_visible", "type": "visibility", "nullable": false},
+        {"name": "localized_change_visible", "type": "visibility", "nullable": false},
+        {"name": "diffuse_change_visible", "type": "visibility", "nullable": false},
+        {"name": "no_obvious_visible_change", "type": "visibility", "nullable": false},
+        {"name": "visible_observation", "type": "note_1_300", "nullable": false},
+        {"name": "inferred_cause", "type": "note_1_300", "nullable": true}
+      ],
+      "record_count": 28,
+      "label_boundary": "first_pass_blinded"
+    },
+    "review_completion_checkpoint": {
+      "format": "json",
+      "path": "review-completion-checkpoint.json",
+      "required_keys": [
+        "contract_version",
+        "diagnostic_id",
+        "review_assets_sha256",
+        "blind_observations_sha256",
+        "expected_asset_count",
+        "attempted_asset_count",
+        "unique_asset_count",
+        "asset_order",
+        "first_pass_complete",
+        "protected_metadata_exposed",
+        "method_metadata_joined"
+      ],
+      "label_boundary": "completed_first_pass_before_join"
+    },
+    "observation_join": {
+      "format": "csv",
+      "path": "observation-case-join.csv",
+      "primary_key": ["method", "case_type", "rank"],
+      "sort_key": ["method_order", "case_type_order", "rank"],
+      "columns": [
+        {"name": "contract_version", "type": "string", "nullable": false},
+        {"name": "diagnostic_id", "type": "string", "nullable": false},
+        {"name": "method", "type": "method", "nullable": false},
+        {"name": "case_type", "type": "case_type", "nullable": false},
+        {"name": "rank", "type": "integer", "nullable": false},
+        {"name": "asset_id", "type": "asset_id", "nullable": false},
+        {"name": "review_status", "type": "review_status", "nullable": false},
+        {"name": "framing_or_crop_difference_visible", "type": "visibility", "nullable": false},
+        {"name": "pose_or_registration_offset_visible", "type": "visibility", "nullable": false},
+        {"name": "global_exposure_difference_visible", "type": "visibility", "nullable": false},
+        {"name": "blur_visible", "type": "visibility", "nullable": false},
+        {"name": "localized_change_visible", "type": "visibility", "nullable": false},
+        {"name": "diffuse_change_visible", "type": "visibility", "nullable": false},
+        {"name": "no_obvious_visible_change", "type": "visibility", "nullable": false},
+        {"name": "visible_observation", "type": "note_1_300", "nullable": false},
+        {"name": "inferred_cause", "type": "note_1_300", "nullable": true}
+      ],
+      "record_count": 29,
+      "label_boundary": "after_immutable_blind_observations"
+    },
+    "diagnostic_score": {
+      "format": "csv",
+      "path": "controlled-scores.csv",
+      "primary_key": ["method", "selection_rank", "condition"],
+      "sort_key": ["method_order", "selection_rank", "condition_order"],
+      "columns": [
+        {"name": "contract_version", "type": "string", "nullable": false},
+        {"name": "diagnostic_id", "type": "string", "nullable": false},
+        {"name": "method", "type": "method", "nullable": false},
+        {"name": "selection_rank", "type": "integer", "nullable": false},
+        {"name": "condition", "type": "condition", "nullable": false},
+        {"name": "base_image_sha256", "type": "sha256", "nullable": false},
+        {"name": "score_status", "type": "score_status", "nullable": false},
+        {"name": "score_failure_code", "type": "string", "nullable": true},
+        {"name": "anomaly_score", "type": "number", "nullable": false},
+        {"name": "threshold", "type": "number", "nullable": false},
+        {"name": "above_threshold", "type": "boolean", "nullable": false}
+      ],
+      "record_count": 900,
+      "label_boundary": "known_normal_development_only"
+    },
+    "condition_summary": {
+      "format": "csv",
+      "path": "condition-summaries.csv",
+      "primary_key": ["method", "condition"],
+      "sort_key": ["method_order", "condition_order"],
+      "columns": [
+        {"name": "contract_version", "type": "string", "nullable": false},
+        {"name": "diagnostic_id", "type": "string", "nullable": false},
+        {"name": "method", "type": "method", "nullable": false},
+        {"name": "condition", "type": "condition", "nullable": false},
+        {"name": "attempted_count", "type": "integer", "nullable": false},
+        {"name": "successful_count", "type": "integer", "nullable": false},
+        {"name": "failed_count", "type": "integer", "nullable": false},
+        {"name": "median_signed_delta", "type": "number", "nullable": true},
+        {"name": "median_absolute_delta", "type": "number", "nullable": true},
+        {"name": "nearest_rank_p95_absolute_delta", "type": "number", "nullable": true},
+        {"name": "above_threshold_count", "type": "integer", "nullable": false},
+        {"name": "above_threshold_rate", "type": "number", "nullable": false},
+        {"name": "normal_to_anomalous_crossing_count", "type": "integer", "nullable": false},
+        {"name": "anomalous_to_normal_crossing_count", "type": "integer", "nullable": false}
+      ],
+      "record_count": 15,
+      "label_boundary": "known_normal_development_only"
+    },
+    "diagnostic_decision": {
+      "format": "json",
+      "path": "diagnostic-decision.json",
+      "required_keys": [
+        "contract_version",
+        "diagnostic_id",
+        "status",
+        "decision",
+        "selected_family",
+        "family_evaluations",
+        "reason",
+        "weighted_score_used",
+        "v0_2_decision_changed",
+        "performance_claim_made"
+      ],
+      "label_boundary": "development_only"
+    },
+    "bundle_manifest": {
+      "format": "json",
+      "path": "artifact-manifest.json",
+      "required_keys": [
+        "contract_version",
+        "diagnostic_id",
+        "source_commit",
+        "config_sha256",
+        "schema_sha256",
+        "files"
+      ],
+      "label_boundary": "development_only"
+    }
+  }
+}

@@ -6,7 +6,7 @@
 
 v0.1はECC残差法とPatch HOG + One-Class SVM、v0.2はDINOv2 224を加えた3方式を比較しました。opaque IDによるlabel-free scoring、offline reproduction、1回限りのlabel reveal、定量評価、順序付きhard gateを完了し、全方式とプロジェクトを`REJECT`としました。
 
-v0.3.0では、v0.2を再評価せず、機械選択済み28画像のblind observationとdevelopment-only normal 60画像のcontrolled score-stability probeを事前登録しました。画像閲覧・score実行はまだ行っていません。詳細は英語本文を参照してください。
+v0.3.1では、その診断をmachine-readable contract、artifact schema、synthetic contract testへ固定しました。画像閲覧・score実行はまだ行っていません。詳細は英語本文を参照してください。
 
 ---
 
@@ -18,9 +18,9 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > ECC residual and Patch HOG + One-Class SVM failed the fixed anomaly-recall gate. DINOv2 224 failed the earlier normal-FPR gate. All method decisions and the project decision are `REJECT`; no method is selected. See the [v0.2 evaluation report](docs/v0.2-evaluation-report.md) and [completion review](docs/v0.2-completion-review.md).
 
-> **v0.3.0 status: development-only diagnostic preregistered; not started**
+> **v0.3.1 status: machine-readable diagnostic contract complete; no image access**
 >
-> The next study is limited to blinded observation of the 28 mechanically selected assets and a fixed controlled-normal probe. No image has been opened, no diagnostic score has been generated, and the completed v0.2 final test remains closed. See the [v0.3.0 preregistration](docs/v0.3-development-diagnostic-preregistration.md).
+> The fixed 28-asset review boundary, 60-image normal selection rule, observation schema, controlled conditions, signal rule, and stop behavior are hash-bound and synthetically tested. No v0.3 selected image has been opened, no diagnostic score has been generated, and the completed v0.2 final test remains closed. See the [v0.3.0 preregistration](docs/v0.3-development-diagnostic-preregistration.md) and [v0.3.1 contract record](docs/v0.3.1-machine-readable-diagnostic-contract.md).
 
 ## Representative Result
 
@@ -124,7 +124,7 @@ Implementation details and stable failure codes are kept in the [method specific
 
 The v0.2 study adds DINOv2 ViT-S/14 at `224 x 224` without changing either classical comparator. Its fixed configuration is [`configs/v0.2.yaml`](configs/v0.2.yaml), and its staged JSON/CSV evidence contract is [`schemas/v0.2/evaluation-artifacts.json`](schemas/v0.2/evaluation-artifacts.json). The [machine-readable contract record](docs/v0.2-machine-readable-evaluation-contract.md) explains exact identities, protected label-free fields, fixed finite failure scores, three-pass CPU timing, first-ten reproduction, and hard-gate ordering. The [completed boundary record](docs/v0.2-boundary-preparation.md) fixes the external normal manifests and opaque `pcb2` asset identities. Records for [v0.2.3](docs/v0.2.3-pre-evaluation-freeze.md), [v0.2.4](docs/v0.2.4-reference-fitting-and-normal-only-calibration.md), [v0.2.5](docs/v0.2.5-label-free-scoring-and-cpu-latency.md), [v0.2.6](docs/v0.2.6-offline-reproduction-and-pre-reveal-checkpoint.md), and [v0.2.7](docs/v0.2.7-label-reveal-metrics-and-failure-cases.md) preserve the freeze, normal-only fitting, label-free scoring, offline reproduction, reveal, metrics, and mechanical error selection. The [v0.2 public report](docs/v0.2-evaluation-report.md) and [completion review](docs/v0.2-completion-review.md) close the sequence with the ordered `REJECT` decisions and release audit.
 
-The [v0.3.0 development diagnostic preregistration](docs/v0.3-development-diagnostic-preregistration.md) defines a separate, non-confirmatory study. It freezes the only final-test images that may later be viewed, first-pass metadata blinding, a 60-image controlled-normal partition rule, fixed perturbations and summaries, evidence thresholds, and invalidation conditions before any diagnostic image access or scoring.
+The [v0.3.0 development diagnostic preregistration](docs/v0.3-development-diagnostic-preregistration.md) defines a separate, non-confirmatory study. It freezes the only final-test images that may later be viewed, first-pass metadata blinding, a 60-image controlled-normal partition rule, fixed perturbations and summaries, evidence thresholds, and invalidation conditions before any diagnostic image access or scoring. The [v0.3.1 contract record](docs/v0.3.1-machine-readable-diagnostic-contract.md), [`configs/v0.3.yaml`](configs/v0.3.yaml), and [`schemas/v0.3/diagnostic-artifacts.json`](schemas/v0.3/diagnostic-artifacts.json) encode those rules and the pre-access artifact boundary.
 
 ## Evaluation Methodology
 
