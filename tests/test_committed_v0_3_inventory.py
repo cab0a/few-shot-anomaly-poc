@@ -30,6 +30,14 @@ EXPECTED_HASHES = {
         "a8cade456af699df734007e3b575babd1f624f390dbf19728f912e8a43960df0"
     ),
 }
+OBSERVATION_HASHES = {
+    "blind-observations.csv": (
+        "93a6303824dc9b24819b4027f409b1acb3752086ca72921ac30a2cebbe6783f3"
+    ),
+    "review-completion-checkpoint.json": (
+        "3c9b56ecd9761ca2a35b3bfbb17fefff5021776b33cc082f8cf1c15e72767dbd"
+    ),
+}
 
 
 def _read_csv(name: str) -> list[dict[str, str]]:
@@ -62,19 +70,18 @@ def _typed_normal(record: dict[str, str]) -> dict:
 def test_committed_v0_3_2_file_inventory_and_hashes_are_exact() -> None:
     files = sorted(path.name for path in ARTIFACT_ROOT.iterdir() if path.is_file())
 
-    review_files = {"blind-observations.csv", "review-completion-checkpoint.json"}
-    assert set(files) in (set(EXPECTED_HASHES), set(EXPECTED_HASHES) | review_files)
+    assert set(files) == set(EXPECTED_HASHES) | set(OBSERVATION_HASHES)
     assert {name: sha256_file(ARTIFACT_ROOT / name) for name in EXPECTED_HASHES} == EXPECTED_HASHES
     assert not list(ARTIFACT_ROOT.rglob("*.jpg"))
     assert not list(ARTIFACT_ROOT.rglob("*.png"))
 
 
-def test_later_observations_are_absent_or_complete_and_hash_bound() -> None:
+def test_committed_v0_3_4_observations_are_immutable_complete_and_hash_bound() -> None:
     observation_path = ARTIFACT_ROOT / "blind-observations.csv"
     checkpoint_path = ARTIFACT_ROOT / "review-completion-checkpoint.json"
-    assert observation_path.exists() == checkpoint_path.exists()
-    if not observation_path.exists():
-        return
+    assert {
+        name: sha256_file(ARTIFACT_ROOT / name) for name in OBSERVATION_HASHES
+    } == OBSERVATION_HASHES
     checkpoint = validate_review_completion_checkpoint(
         json.loads(checkpoint_path.read_text("utf-8"))
     )
@@ -85,6 +92,8 @@ def test_later_observations_are_absent_or_complete_and_hash_bound() -> None:
         schema=SCHEMA,
     )
     assert [record["asset_id"] for record in records] == list(EXPECTED_ASSET_IDS)
+    assert all(record["review_status"] == "reviewed" for record in records)
+    assert all(record["inferred_cause"] is None for record in records)
 
 
 def test_committed_review_assets_are_exact_safe_ordered_identities() -> None:

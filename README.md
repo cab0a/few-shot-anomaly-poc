@@ -6,7 +6,7 @@
 
 v0.1はECC残差法とPatch HOG + One-Class SVM、v0.2はDINOv2 224を加えた3方式を比較しました。opaque IDによるlabel-free scoring、offline reproduction、1回限りのlabel reveal、定量評価、順序付きhard gateを完了し、全方式とプロジェクトを`REJECT`としました。
 
-v0.3.4の実観察ランナーを準備し、合成画像で検証しました。観察者への入力はopaque ID・画像・固定formに限定します。実データはDriveから復元済みで、選定済み28画像の観察は未実行です。詳細は英語本文と実行手順を参照してください。
+v0.3.4では、Driveから復元した選定済み28画像を、履歴を引き継がない専用AI観察者1名が一度ずつブラインド観察しました。全28件の記録と完了チェックポイントを固定済みです。手法との結合や再採点は未実施で、原因・性能改善は主張しません。詳細は英語本文と実行報告を参照してください。
 
 ---
 
@@ -18,13 +18,13 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > ECC residual and Patch HOG + One-Class SVM failed the fixed anomaly-recall gate. DINOv2 224 failed the earlier normal-FPR gate. All method decisions and the project decision are `REJECT`; no method is selected. See the [v0.2 evaluation report](docs/v0.2-evaluation-report.md) and [completion review](docs/v0.2-completion-review.md).
 
-> **v0.3.3 status: blinded review primitive synthetically verified; real review not started**
+> **v0.3.3 historical milestone: blinded review primitive synthetically verified**
 >
-> The positive-allowlist reviewer interface passed 18 checks with 28 temporary synthetic images. No VisA image was accessed, no real observation was written, no anomaly scorer ran, and the completed v0.2 final test remains closed. See the [v0.3.0 preregistration](docs/v0.3-development-diagnostic-preregistration.md), [v0.3.1 contract record](docs/v0.3.1-machine-readable-diagnostic-contract.md), [v0.3.2 inventory record](docs/v0.3.2-no-image-inventory-and-pre-access-checkpoint.md), and [v0.3.3 verification record](docs/v0.3.3-blinded-review-primitive-and-synthetic-verification.md).
+> The positive-allowlist reviewer interface passed 18 checks with 28 temporary synthetic images. During that stage, no VisA image was accessed, no real observation was written, and no anomaly scorer ran. See the [v0.3.0 preregistration](docs/v0.3-development-diagnostic-preregistration.md), [v0.3.1 contract record](docs/v0.3.1-machine-readable-diagnostic-contract.md), [v0.3.2 inventory record](docs/v0.3.2-no-image-inventory-and-pre-access-checkpoint.md), and [v0.3.3 verification record](docs/v0.3.3-blinded-review-primitive-and-synthetic-verification.md).
 
-> **v0.3.4 status: external inputs restored; real review not started**
+> **v0.3.4 status: all 28 fixed blinded observations completed and hash-locked**
 >
-> The runner adds metadata/state preflight, sequential blinded file exchange, preserved stopped attempts, and a complete-only observation checkpoint. The external inputs have been [restored from Google Drive](docs/external-data-storage.md), and metadata/state preflight passed. No real observation or completion artifact exists yet. See the [operator and reviewer instructions](docs/v0.3.4-first-fixed-blinded-observation.md).
+> After the external inputs were [restored from Google Drive](docs/external-data-storage.md), one fresh AI reviewer observed each fixed image once using only its opaque ID, pixels, and blank form. All 28 records are complete, with zero unreadable images. The CSV and completion checkpoint are fixed before any method-case join. These descriptive observations provide no human validation, causal conclusion, or revised v0.2 decision. See the [execution report and preserved procedure](docs/v0.3.4-first-fixed-blinded-observation.md).
 
 ## Representative Result
 
@@ -68,6 +68,7 @@ uv run --locked --no-sync python scripts/render_v0_1_summary.py
 
 | Evidence | Location | What it preserves |
 | --- | --- | --- |
+| v0.3.4 first fixed blinded observation | [Observation CSV](artifacts/v0.3/diagnostics/pcb2-development/blind-observations.csv), [completion checkpoint](artifacts/v0.3/diagnostics/pcb2-development/review-completion-checkpoint.json), and [execution report](docs/v0.3.4-first-fixed-blinded-observation.md) | 28 immutable AI observations, exact inventory and observation hashes, complete first pass, and the closed method-join boundary |
 | v0.3.3 synthetic blinded-review verification | [`artifacts/v0.3/synthetic/blinded-review-verification.json`](artifacts/v0.3/synthetic/blinded-review-verification.json) | 18 passing interface, ordering, immutable-pixel, metadata-exclusion, deterministic-serialization, completion-checkpoint, and rejection checks with explicit no-VisA/no-scorer boundaries |
 | v0.3.2 no-image inventory and pre-access checkpoint | [`artifacts/v0.3/diagnostics/pcb2-development/`](artifacts/v0.3/diagnostics/pcb2-development/) | Exact 28 opaque review identities, separate 29-row later linkage, deterministic 60-normal development partition, parent hashes, and explicit zero v0.3 image-access/scoring state |
 | v0.2.8 decisions and complete manifest | [`artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/`](artifacts/v0.2/evaluation/visa-pcb2-v0-2-final/) | Three ordered method decisions, all-reject project decision, no selected method, one next validation, and a 35-entry SHA-256 manifest |
@@ -130,7 +131,7 @@ Implementation details and stable failure codes are kept in the [method specific
 
 The v0.2 study adds DINOv2 ViT-S/14 at `224 x 224` without changing either classical comparator. Its fixed configuration is [`configs/v0.2.yaml`](configs/v0.2.yaml), and its staged JSON/CSV evidence contract is [`schemas/v0.2/evaluation-artifacts.json`](schemas/v0.2/evaluation-artifacts.json). The [machine-readable contract record](docs/v0.2-machine-readable-evaluation-contract.md) explains exact identities, protected label-free fields, fixed finite failure scores, three-pass CPU timing, first-ten reproduction, and hard-gate ordering. The [completed boundary record](docs/v0.2-boundary-preparation.md) fixes the external normal manifests and opaque `pcb2` asset identities. Records for [v0.2.3](docs/v0.2.3-pre-evaluation-freeze.md), [v0.2.4](docs/v0.2.4-reference-fitting-and-normal-only-calibration.md), [v0.2.5](docs/v0.2.5-label-free-scoring-and-cpu-latency.md), [v0.2.6](docs/v0.2.6-offline-reproduction-and-pre-reveal-checkpoint.md), and [v0.2.7](docs/v0.2.7-label-reveal-metrics-and-failure-cases.md) preserve the freeze, normal-only fitting, label-free scoring, offline reproduction, reveal, metrics, and mechanical error selection. The [v0.2 public report](docs/v0.2-evaluation-report.md) and [completion review](docs/v0.2-completion-review.md) close the sequence with the ordered `REJECT` decisions and release audit.
 
-The [v0.3.0 development diagnostic preregistration](docs/v0.3-development-diagnostic-preregistration.md) defines a separate, non-confirmatory study. It freezes the only final-test images that may later be viewed, first-pass metadata blinding, a 60-image controlled-normal partition rule, fixed perturbations and summaries, evidence thresholds, and invalidation conditions before any diagnostic image access or scoring. The [v0.3.1 contract record](docs/v0.3.1-machine-readable-diagnostic-contract.md), [`configs/v0.3.yaml`](configs/v0.3.yaml), and [`schemas/v0.3/diagnostic-artifacts.json`](schemas/v0.3/diagnostic-artifacts.json) encode those rules. The [v0.3.2 inventory record](docs/v0.3.2-no-image-inventory-and-pre-access-checkpoint.md) fixes the review and normal-development identities from metadata without opening image files. The [v0.3.3 verification record](docs/v0.3.3-blinded-review-primitive-and-synthetic-verification.md) proves the positive-allowlist interface and serialization behavior only against generated fixtures; real review remains pending.
+The [v0.3.0 development diagnostic preregistration](docs/v0.3-development-diagnostic-preregistration.md) defines a separate, non-confirmatory study. It freezes the only final-test images that may later be viewed, first-pass metadata blinding, a 60-image controlled-normal partition rule, fixed perturbations and summaries, evidence thresholds, and invalidation conditions before any diagnostic image access or scoring. The [v0.3.1 contract record](docs/v0.3.1-machine-readable-diagnostic-contract.md), [`configs/v0.3.yaml`](configs/v0.3.yaml), and [`schemas/v0.3/diagnostic-artifacts.json`](schemas/v0.3/diagnostic-artifacts.json) encode those rules. The [v0.3.2 inventory record](docs/v0.3.2-no-image-inventory-and-pre-access-checkpoint.md) fixes the review and normal-development identities from metadata without opening image files. The [v0.3.3 verification record](docs/v0.3.3-blinded-review-primitive-and-synthetic-verification.md) verifies the positive-allowlist interface and serialization behavior against generated fixtures. The [v0.3.4 execution report](docs/v0.3.4-first-fixed-blinded-observation.md) records the completed 28-image AI observation before any method-case join or controlled-normal scoring.
 
 ## Evaluation Methodology
 
@@ -175,7 +176,7 @@ All three methods scored all 200 final-test images without a score-generation fa
 
 The normal-only calibration FPR was approximately `4.99%` for every method. DINOv2 provided the strongest ranking and recall, but missed 66 of 100 anomalies and exceeded the normal-FPR limit. The two classical methods met the FPR condition but detected only 13 and 16 anomalies.
 
-The evaluator mechanically selected the highest-scoring false positives and lowest-scoring false negatives. No selected image was opened, so the repository does not claim a visual cause. Every method is `REJECT`; because all methods are rejected, the project is `REJECT` with no selected method.
+The evaluator mechanically selected the highest-scoring false positives and lowest-scoring false negatives. No selected image was opened during v0.2. The later v0.3.4 blinded AI observations are descriptive and have not been joined to these method-case records; no visual cause is established. Every method is `REJECT`; because all methods are rejected, the project is `REJECT` with no selected method.
 
 See the [v0.2 public evaluation report](docs/v0.2-evaluation-report.md) for thresholds, AUPRC, confusion counts, latency boundaries, gate traces, interpretation, and evidence links.
 
@@ -185,7 +186,7 @@ See the [v0.2 public evaluation report](docs/v0.2-evaluation-report.md) for thre
 - No confidence interval, repeated-reference-set analysis, or statistical-significance claim is provided.
 - CPU latency is specific to the recorded hardware, software environments, and fixed method boundaries.
 - DINOv2 timing excludes inter-process transfer, file I/O, encoded-image decoding, model loading, and fitting.
-- Selected failure records were not followed by an image-content review, so no causal error taxonomy is claimed.
+- The later v0.3.4 image-content review uses one AI reviewer without comparison images, human validation, or inter-rater evidence; no causal error taxonomy is claimed.
 - Image-level metrics do not measure anomaly localization.
 - Synthetic evaluation artifacts test pipeline behavior, not VisA performance.
 - DINOv2 was evaluated only at 224 resolution with one frozen feature and aggregation rule.

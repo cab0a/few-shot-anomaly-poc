@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
 from dataclasses import asdict
 from pathlib import Path
 
@@ -246,10 +247,25 @@ def test_missing_external_metadata_stops_preflight_without_image_access(
     monkeypatch.setattr(
         module, "decode_verified_opaque_asset", lambda *_a, **_k: pytest.fail("decode")
     )
+    repository = tmp_path / "repository"
+    for relative in ("configs", "schemas", module.PARENT_ROOT):
+        shutil.copytree(ROOT / relative, repository / relative)
+    for relative in (
+        Path("docs/v0.3-development-diagnostic-preregistration.md"),
+        Path("uv.lock"),
+        Path("environments/v0.2-preflight/uv.lock"),
+        *(module.ARTIFACT_ROOT / name for name in INVENTORY_HASHES),
+    ):
+        destination = repository / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(ROOT / relative, destination)
     session = tmp_path / "session"
-    with pytest.raises(V0_3BlindedReviewError, match="required regular file is missing"):
+    with pytest.raises(
+        V0_3BlindedReviewError,
+        match=r"required regular file is missing: .*absent/scorer/scoring-manifest\.json",
+    ):
         module.preflight_review(
-            repository_root=ROOT,
+            repository_root=repository,
             external_root=tmp_path / "absent",
             fitted_state_root=tmp_path / "absent-state",
             session_root=session,

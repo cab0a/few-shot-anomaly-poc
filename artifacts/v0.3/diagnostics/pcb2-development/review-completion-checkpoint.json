@@ -1,0 +1,13 @@
+{
+  "asset_order": "asset_id_ascending",
+  "attempted_asset_count": 28,
+  "blind_observations_sha256": "93a6303824dc9b24819b4027f409b1acb3752086ca72921ac30a2cebbe6783f3",
+  "contract_version": "diagnostic-artifacts/v0.3",
+  "diagnostic_id": "v0.3.0-pcb2-development-diagnostic-1",
+  "expected_asset_count": 28,
+  "first_pass_complete": true,
+  "method_metadata_joined": false,
+  "protected_metadata_exposed": false,
+  "review_assets_sha256": "399ebef79498917ff0cf5b2bf83467541a5417dce74bdd8e0e462fec70a7fd58",
+  "unique_asset_count": 28
+}
