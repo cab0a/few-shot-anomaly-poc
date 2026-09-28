@@ -2,7 +2,7 @@
 
 ## 日本語概要
 
-本書は、実行データをGoogle Driveへ保存し、別PCで復元する運用を定めます。GitHubにはコード、設定、評価記録、固定checksumと転送コマンドを置き、元画像・外部manifest・学習済み状態はDriveで共有します。元データのあるPCで一度backupを実行し、他のPCではrestoreで所定の場所へ戻します。初回保存はまだ必要で、保存先フォルダの作成だけではバックアップ完了になりません。詳細は以下の英語本文を参照してください。
+本書は、実行データをGoogle Driveへ保存し、別PCで復元する運用を定めます。GitHubにはコード、設定、評価記録、固定checksumと転送コマンドを置き、元画像・外部manifest・学習済み状態はDriveで共有します。元データのあるPCで一度backupを実行し、他のPCではrestoreで所定の場所へ戻します。初回バックアップと1414ファイルの復元は完了し、観察前のmetadata・学習済み状態の検証も通過しました。詳細は以下の英語本文を参照してください。
 
 ---
 
@@ -144,9 +144,13 @@ python3 scripts/external_data.py status
 `status` reports missing required local files and local receipt presence;
 it does not claim a successful restore or a finished cloud upload.
 `init` creates only the store directory and its instruction file.
-When preparing this workflow, the store was initialized but the original
-external data was unavailable on this PC. The first real `backup` remains
-an action for the original data PC.
+The initial backup and restore are now complete: the user reported restoring
+1,414 files, `status` reports zero missing required files, and the v0.3.4
+metadata/state preflight passed. The synchronized receipt identifies
+348,068,817 archive bytes and 347,356,629 unpacked bytes. Its archive SHA-256 is
+`e60c5137b407d8e519eec2d7a481db4c89af661cecc33a76ef4e04a8ecdfd01d`.
+This does not constitute an image observation or authorize a reviewer to
+inspect the backup store.
 
 ## Scientific and License Boundaries
 

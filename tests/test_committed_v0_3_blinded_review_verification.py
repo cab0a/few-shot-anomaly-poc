@@ -7,7 +7,6 @@ from few_shot_anomaly_poc.v0_3_diagnostic_contract import sha256_file
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORT_PATH = ROOT / "artifacts/v0.3/synthetic/blinded-review-verification.json"
-REAL_DIAGNOSTIC_ROOT = ROOT / "artifacts/v0.3/diagnostics/pcb2-development"
 
 
 def test_committed_v0_3_3_report_identity_and_checks_are_exact() -> None:
@@ -41,8 +40,8 @@ def test_committed_v0_3_3_boundary_records_only_synthetic_decoding() -> None:
         "v0_3_selected_image_accessed": False,
         "visa_image_accessed": False,
     }
-    assert not (REAL_DIAGNOSTIC_ROOT / "blind-observations.csv").exists()
-    assert not (REAL_DIAGNOSTIC_ROOT / "review-completion-checkpoint.json").exists()
+    # This immutable report describes v0.3.3, not later authorized stages.
+    # Real observations, when present, are checked by test_committed_v0_3_inventory.py.
 
 
 def test_committed_v0_3_3_report_contains_no_paths_or_protected_sentinel() -> None:
