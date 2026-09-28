@@ -1,0 +1,12 @@
+{
+  "schema_version": "external-data-store-v1",
+  "drive_relative_path": "inefficiencylab/few-shot-anomaly-poc/external-data",
+  "archive_name": "visa-pcb2-v0-2-inputs.zip",
+  "receipt_name": "visa-pcb2-v0-2-inputs.json",
+  "roots": [
+    "data/external/v0.2/evaluation/visa-pcb2-v0-2-final",
+    "work/v0.2/evaluation/visa-pcb2-v0-2-final/fitted-state"
+  ],
+  "diagnostic_config_sha256": "e3108c837b3c9818b25b86594a7b103091e145f8ee6392e8424c7163f220f548",
+  "review_inventory_sha256": "399ebef79498917ff0cf5b2bf83467541a5417dce74bdd8e0e462fec70a7fd58"
+}

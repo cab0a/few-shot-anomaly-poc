@@ -10,6 +10,10 @@ This directory stores only documentation and, after an authorized local run,
 small provenance and manifest records. Raw VisA files stay outside Git under
 `data/external/`, which is ignored.
 
+Cross-PC storage uses Google Drive with the checked-in backup and restore
+commands. See the [external data storage guide](../docs/external-data-storage.md)
+before moving to another PC; `git pull` does not retrieve these external files.
+
 VisA is a third-party dataset released under CC BY 4.0. The repository's
 PolyForm Noncommercial License does not apply to VisA and does not add
 restrictions to it. See [`../NOTICE.md`](../NOTICE.md) for the license boundary.

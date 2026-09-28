@@ -24,7 +24,7 @@ This is a source-available, noncommercially licensed public portfolio project.
 
 > **v0.3.4 status: execution runner prepared; external data required**
 >
-> The runner adds metadata/state preflight, sequential blinded file exchange, preserved stopped attempts, and a complete-only observation checkpoint. Real review must run on the PC holding the original external data and fitted state. No real observation or completion artifact exists yet. See the [operator and reviewer instructions](docs/v0.3.4-first-fixed-blinded-observation.md).
+> The runner adds metadata/state preflight, sequential blinded file exchange, preserved stopped attempts, and a complete-only observation checkpoint. External data and fitted state can be [backed up to Google Drive and restored on another PC](docs/external-data-storage.md). The first backup still requires the original data PC. No real observation or completion artifact exists yet. See the [operator and reviewer instructions](docs/v0.3.4-first-fixed-blinded-observation.md).
 
 ## Representative Result
 
@@ -193,6 +193,12 @@ See the [v0.2 public evaluation report](docs/v0.2-evaluation-report.md) for thre
 - Results do not generalize to other VisA categories, production cameras, processes, or defect distributions.
 
 ## Reproducibility
+
+For cross-PC work, follow the [external data storage guide](docs/external-data-storage.md).
+The original data PC runs `python3 scripts/external_data.py backup` once;
+another PC runs `python3 scripts/external_data.py restore` after Drive synchronization.
+Both commands verify the fixed input identities and require only Python's standard library.
+Git stores the transfer configuration and commands; the Drive sync folder stores the image and state bundle.
 
 Clone-only verification checks the committed source, lock, synthetic fixture, freeze, and final numerical evidence:
 

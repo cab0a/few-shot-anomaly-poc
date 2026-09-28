@@ -9,6 +9,7 @@ dist/
 work/
 
 # VisA data and transient downloads remain outside Git.
+# Cross-PC storage and restoration: docs/external-data-storage.md (Google Drive).
 data/external/
 data/manifests/
 data/provenance/
