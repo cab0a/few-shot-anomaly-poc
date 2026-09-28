@@ -6,7 +6,7 @@
 
 v0.1はECC残差法とPatch HOG + One-Class SVM、v0.2はDINOv2 224を加えた3方式を比較しました。opaque IDによるlabel-free scoring、offline reproduction、1回限りのlabel reveal、定量評価、順序付きhard gateを完了し、全方式とプロジェクトを`REJECT`としました。
 
-v0.3.3では、reviewer入力をopaque ID・read-only pixels・固定formだけに限定するprimitiveを実装し、28件のsynthetic画像で検証しました。VisA画像閲覧・score実行・実観察はまだ行っていません。詳細は英語本文を参照してください。
+v0.3.4の実観察ランナーを準備し、合成画像で検証しました。観察者への入力はopaque ID・画像・固定formに限定します。実データは別PCにあり、選定済み28画像の観察は未実行です。詳細は英語本文と実行手順を参照してください。
 
 ---
 
@@ -21,6 +21,10 @@ This is a source-available, noncommercially licensed public portfolio project.
 > **v0.3.3 status: blinded review primitive synthetically verified; real review not started**
 >
 > The positive-allowlist reviewer interface passed 18 checks with 28 temporary synthetic images. No VisA image was accessed, no real observation was written, no anomaly scorer ran, and the completed v0.2 final test remains closed. See the [v0.3.0 preregistration](docs/v0.3-development-diagnostic-preregistration.md), [v0.3.1 contract record](docs/v0.3.1-machine-readable-diagnostic-contract.md), [v0.3.2 inventory record](docs/v0.3.2-no-image-inventory-and-pre-access-checkpoint.md), and [v0.3.3 verification record](docs/v0.3.3-blinded-review-primitive-and-synthetic-verification.md).
+
+> **v0.3.4 status: execution runner prepared; external data required**
+>
+> The runner adds metadata/state preflight, sequential blinded file exchange, preserved stopped attempts, and a complete-only observation checkpoint. Real review must run on the PC holding the original external data and fitted state. No real observation or completion artifact exists yet. See the [operator and reviewer instructions](docs/v0.3.4-first-fixed-blinded-observation.md).
 
 ## Representative Result
 

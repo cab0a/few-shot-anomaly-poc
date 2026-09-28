@@ -4,6 +4,10 @@ import csv
 import json
 from pathlib import Path
 
+from few_shot_anomaly_poc.v0_3_blinded_review import (
+    read_blind_observations_csv,
+    validate_review_completion_checkpoint,
+)
 from few_shot_anomaly_poc.v0_3_diagnostic_contract import (
     EXPECTED_ASSET_IDS,
     EXPECTED_METHOD_CASES,
@@ -18,9 +22,7 @@ ARTIFACT_ROOT = ROOT / "artifacts/v0.3/diagnostics/pcb2-development"
 SCHEMA = load_v0_3_schema(ROOT / "schemas/v0.3/diagnostic-artifacts.json")
 EXPECTED_HASHES = {
     "review-assets.csv": "399ebef79498917ff0cf5b2bf83467541a5417dce74bdd8e0e462fec70a7fd58",
-    "review-case-linkage.csv": (
-        "861cf3428808de3e300278d54be84de95fa42204393050358c9c2b592a638d7e"
-    ),
+    "review-case-linkage.csv": ("861cf3428808de3e300278d54be84de95fa42204393050358c9c2b592a638d7e"),
     "normal-diagnostic-partition.csv": (
         "39415c626652c4cbfb856e68d8b559d0f119392f869e0569d47165df5a48e110"
     ),
@@ -60,12 +62,29 @@ def _typed_normal(record: dict[str, str]) -> dict:
 def test_committed_v0_3_2_file_inventory_and_hashes_are_exact() -> None:
     files = sorted(path.name for path in ARTIFACT_ROOT.iterdir() if path.is_file())
 
-    assert files == sorted(EXPECTED_HASHES)
-    assert {
-        name: sha256_file(ARTIFACT_ROOT / name) for name in files
-    } == EXPECTED_HASHES
+    review_files = {"blind-observations.csv", "review-completion-checkpoint.json"}
+    assert set(files) in (set(EXPECTED_HASHES), set(EXPECTED_HASHES) | review_files)
+    assert {name: sha256_file(ARTIFACT_ROOT / name) for name in EXPECTED_HASHES} == EXPECTED_HASHES
     assert not list(ARTIFACT_ROOT.rglob("*.jpg"))
     assert not list(ARTIFACT_ROOT.rglob("*.png"))
+
+
+def test_later_observations_are_absent_or_complete_and_hash_bound() -> None:
+    observation_path = ARTIFACT_ROOT / "blind-observations.csv"
+    checkpoint_path = ARTIFACT_ROOT / "review-completion-checkpoint.json"
+    assert observation_path.exists() == checkpoint_path.exists()
+    if not observation_path.exists():
+        return
+    checkpoint = validate_review_completion_checkpoint(
+        json.loads(checkpoint_path.read_text("utf-8"))
+    )
+    assert checkpoint["review_assets_sha256"] == EXPECTED_HASHES["review-assets.csv"]
+    records = read_blind_observations_csv(
+        observation_path,
+        expected_sha256=checkpoint["blind_observations_sha256"],
+        schema=SCHEMA,
+    )
+    assert [record["asset_id"] for record in records] == list(EXPECTED_ASSET_IDS)
 
 
 def test_committed_review_assets_are_exact_safe_ordered_identities() -> None:
