@@ -1,0 +1,21 @@
+{
+  "anomaly_method_executed": false,
+  "condition_count": 5,
+  "generated_image_count": 60,
+  "implementation_sha256": {
+    "v0_3_controlled_probe.py": "7cd2721215f8e2828f5745c43cf22eb22f7d07061739bf65cb31b0cf928d566b",
+    "v0_3_dinov2_probe.py": "d0e60e6a1040609dbc261987cda71973ee2c39bc4d5121f611b3b5ccd61823aa",
+    "v0_3_probe_artifacts.py": "1faff592151a6381f42d486516ac29435aa7d8cd958baf0066e1d7e0fdd8506b",
+    "v0_3_probe_synthetic.py": "03748507b8fbd752c7d972a8e4528c1b8e91f924459fcdf425ae272ff13c655d"
+  },
+  "latency_measured": false,
+  "method_count": 3,
+  "model_or_fitted_state_loaded": false,
+  "real_probe_executed": false,
+  "schema_version": "v0.3.6-synthetic-probe-verification-v1",
+  "summary_count": 15,
+  "synthetic_condition_summaries_sha256": "9369a62c7fbf5a397cfe1564cfa26419876814e31a8b47fb19b30a9f7fe47602",
+  "synthetic_controlled_scores_sha256": "6563ed18d9d1a5a4069597bc84da85a3ce243d5ace9d0c7da2c4db3118d0ab1b",
+  "synthetic_score_count": 900,
+  "visa_images_accessed": false
+}

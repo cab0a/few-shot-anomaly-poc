@@ -6,7 +6,7 @@
 
 v0.1はECC残差法とPatch HOG + One-Class SVM、v0.2はDINOv2 224を加えた3方式を比較しました。opaque IDによるlabel-free scoring、offline reproduction、1回限りのlabel reveal、定量評価、順序付きhard gateを完了し、全方式とプロジェクトを`REJECT`としました。
 
-v0.3.4では、Driveから復元した選定済み28画像を専用AI観察者1名がブラインド観察し、記録を固定しました。v0.3.5で29件の手法別ケースとの結合を完了しましたが、全手法で事前登録の視覚条件に未達でした。正常画像の制御実験と正式な診断判定は未実施です。詳細は英語本文と実行報告を参照してください。
+v0.3.4で28画像のブラインド観察、v0.3.5で29件の手法別ケースとの結合を完了しました。全手法で事前登録の視覚条件に未達です。v0.3.6では正常60画像×5条件×3手法の制御実験を実装し、合成画像で900件の採点枠と15集計を検証しました。実画像の制御実験と正式な診断判定は未実施です。詳細は英語本文と各報告を参照してください。
 
 ---
 
@@ -29,6 +29,10 @@ This is a source-available, noncommercially licensed public portfolio project.
 > **v0.3.5 status: 29 method-case records joined to 28 immutable observations**
 >
 > The completed join preserves all original observation fields. Visual blur counts are 2 for ECC and 1 each for Patch HOG and DINOv2; no method-family reaches the required three visual-yes assets. The controlled-normal probe and formal diagnostic decision remain pending. See the [v0.3.5 execution report](docs/v0.3.5-observation-case-join.md). No image access or anomaly scoring occurred during this join.
+
+> **v0.3.6 status: controlled-probe implementation and synthetic verification complete**
+>
+> The runner implements the fixed 60-normal × 5-condition × 3-method experiment, immutable input checks, isolated DINOv2 execution, and paired summaries. Generated images and fake scorers exercised all 900 slots and 15 summaries. The real probe remains unrun; dependency preparation and metadata-only preflight do not load models or read image bytes. See the [implementation and preflight record](docs/v0.3.6-controlled-probe-implementation-and-preflight.md).
 
 ## Representative Result
 
@@ -72,6 +76,7 @@ uv run --locked --no-sync python scripts/render_v0_1_summary.py
 
 | Evidence | Location | What it preserves |
 | --- | --- | --- |
+| v0.3.6 controlled-probe synthetic verification | [Verification record](artifacts/v0.3/synthetic/controlled-probe-verification.json) and [implementation report](docs/v0.3.6-controlled-probe-implementation-and-preflight.md) | Generated 60-image input, 900 fake scores, 15 paired summaries, implementation hashes, and explicit no-VisA/no-model boundaries |
 | v0.3.5 observation-to-case join | [Joined CSV](artifacts/v0.3/diagnostics/pcb2-development/observation-case-join.csv) and [execution report](docs/v0.3.5-observation-case-join.md) | Exact 29-row linkage to 28 unchanged observations, fixed output hash, and descriptive per-method visual counts |
 | v0.3.4 first fixed blinded observation | [Observation CSV](artifacts/v0.3/diagnostics/pcb2-development/blind-observations.csv), [completion checkpoint](artifacts/v0.3/diagnostics/pcb2-development/review-completion-checkpoint.json), and [execution report](docs/v0.3.4-first-fixed-blinded-observation.md) | 28 immutable AI observations, exact inventory and observation hashes, complete first pass, and the closed method-join boundary |
 | v0.3.3 synthetic blinded-review verification | [`artifacts/v0.3/synthetic/blinded-review-verification.json`](artifacts/v0.3/synthetic/blinded-review-verification.json) | 18 passing interface, ordering, immutable-pixel, metadata-exclusion, deterministic-serialization, completion-checkpoint, and rejection checks with explicit no-VisA/no-scorer boundaries |

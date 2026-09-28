@@ -137,6 +137,20 @@ not already installed.
 
 ## Check What Is Still Missing
 
+For the later v0.3.6 controlled probe, the restored images and fitted state
+are reused. The separate pinned DINOv2 environment and official model
+downloads are restored reproducibly with:
+
+```bash
+python3 scripts/prepare_v0_3_6_probe_runtime.py
+uv run --locked --no-sync python scripts/run_v0_3_6_controlled_probe.py --check-only
+```
+
+This verifies exact recorded identities without loading a model or reading
+image bytes. Model caches are not part of the Drive archive; no manual
+model-folder copy is required. See the
+[v0.3.6 preparation procedure](v0.3.6-controlled-probe-implementation-and-preflight.md).
+
 ```bash
 python3 scripts/external_data.py status
 ```

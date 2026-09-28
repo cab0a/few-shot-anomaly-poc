@@ -11,6 +11,7 @@ from few_shot_anomaly_poc.v0_3_blinded_review import (
 from few_shot_anomaly_poc.v0_3_diagnostic_contract import (
     EXPECTED_ASSET_IDS,
     EXPECTED_METHOD_CASES,
+    load_v0_3_config,
     load_v0_3_schema,
     sha256_file,
     validate_checkpoint_record,
@@ -20,6 +21,11 @@ from few_shot_anomaly_poc.v0_3_observation_join import (
     JOIN_NAME,
     join_observations,
     serialize_observation_join,
+)
+from few_shot_anomaly_poc.v0_3_probe_artifacts import (
+    SCORE_NAME,
+    SUMMARY_NAME,
+    verify_probe_outputs,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -36,9 +42,7 @@ EXPECTED_HASHES = {
     ),
 }
 OBSERVATION_HASHES = {
-    "blind-observations.csv": (
-        "93a6303824dc9b24819b4027f409b1acb3752086ca72921ac30a2cebbe6783f3"
-    ),
+    "blind-observations.csv": ("93a6303824dc9b24819b4027f409b1acb3752086ca72921ac30a2cebbe6783f3"),
     "review-completion-checkpoint.json": (
         "3c9b56ecd9761ca2a35b3bfbb17fefff5021776b33cc082f8cf1c15e72767dbd"
     ),
@@ -77,7 +81,15 @@ def test_committed_v0_3_2_file_inventory_and_hashes_are_exact() -> None:
     files = sorted(path.name for path in ARTIFACT_ROOT.iterdir() if path.is_file())
 
     required = set(EXPECTED_HASHES) | set(OBSERVATION_HASHES) | {JOIN_NAME}
-    assert set(files) == required
+    probe_pair = {SCORE_NAME, SUMMARY_NAME}
+    assert set(files) in (required, required | probe_pair)
+    if probe_pair <= set(files):
+        verify_probe_outputs(
+            ARTIFACT_ROOT,
+            [_typed_normal(record) for record in _read_csv("normal-diagnostic-partition.csv")],
+            config=load_v0_3_config(ROOT / "configs/v0.3.yaml"),
+            schema=SCHEMA,
+        )
     assert {name: sha256_file(ARTIFACT_ROOT / name) for name in EXPECTED_HASHES} == EXPECTED_HASHES
     assert not list(ARTIFACT_ROOT.rglob("*.jpg"))
     assert not list(ARTIFACT_ROOT.rglob("*.png"))
