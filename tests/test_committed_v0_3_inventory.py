@@ -43,6 +43,7 @@ OBSERVATION_HASHES = {
         "3c9b56ecd9761ca2a35b3bfbb17fefff5021776b33cc082f8cf1c15e72767dbd"
     ),
 }
+JOIN_SHA256 = "e78117d7affe0c3800911cd0cebe62038b872bec2264cf2fc2c5014fa51fc5b8"
 
 
 def _read_csv(name: str) -> list[dict[str, str]]:
@@ -75,8 +76,8 @@ def _typed_normal(record: dict[str, str]) -> dict:
 def test_committed_v0_3_2_file_inventory_and_hashes_are_exact() -> None:
     files = sorted(path.name for path in ARTIFACT_ROOT.iterdir() if path.is_file())
 
-    required = set(EXPECTED_HASHES) | set(OBSERVATION_HASHES)
-    assert set(files) in (required, required | {JOIN_NAME})
+    required = set(EXPECTED_HASHES) | set(OBSERVATION_HASHES) | {JOIN_NAME}
+    assert set(files) == required
     assert {name: sha256_file(ARTIFACT_ROOT / name) for name in EXPECTED_HASHES} == EXPECTED_HASHES
     assert not list(ARTIFACT_ROOT.rglob("*.jpg"))
     assert not list(ARTIFACT_ROOT.rglob("*.png"))
@@ -102,10 +103,9 @@ def test_committed_v0_3_4_observations_are_immutable_complete_and_hash_bound() -
     assert all(record["inferred_cause"] is None for record in records)
 
 
-def test_later_join_if_present_matches_every_immutable_observation() -> None:
+def test_committed_v0_3_5_join_is_immutable_and_matches_every_observation() -> None:
     path = ARTIFACT_ROOT / JOIN_NAME
-    if not path.exists():
-        return
+    assert sha256_file(path) == JOIN_SHA256
     observations = read_blind_observations_csv(
         ARTIFACT_ROOT / "blind-observations.csv",
         expected_sha256=OBSERVATION_HASHES["blind-observations.csv"],
