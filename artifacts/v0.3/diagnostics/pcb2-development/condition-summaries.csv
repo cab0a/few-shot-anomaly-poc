@@ -1,0 +1,16 @@
+contract_version,diagnostic_id,method,condition,attempted_count,successful_count,failed_count,median_signed_delta,median_absolute_delta,nearest_rank_p95_absolute_delta,above_threshold_count,above_threshold_rate,normal_to_anomalous_crossing_count,anomalous_to_normal_crossing_count
+diagnostic-artifacts/v0.3,v0.3.0-pcb2-development-diagnostic-1,ecc_residual,control,60,60,0,,,,4,0.06666666666666667,0,0
+diagnostic-artifacts/v0.3,v0.3.0-pcb2-development-diagnostic-1,ecc_residual,brightness_085,60,60,0,-0.005202720881547107,0.017757318910792894,0.05285152441010965,0,0.0,0,4
+diagnostic-artifacts/v0.3,v0.3.0-pcb2-development-diagnostic-1,ecc_residual,brightness_115,60,60,0,0.04354570489769749,0.04354570489769749,0.07667719209998969,17,0.2833333333333333,13,0
+diagnostic-artifacts/v0.3,v0.3.0-pcb2-development-diagnostic-1,ecc_residual,gaussian_blur,60,60,0,-0.004899165615879525,0.004899165615879525,0.008772916790050822,1,0.016666666666666666,0,3
+diagnostic-artifacts/v0.3,v0.3.0-pcb2-development-diagnostic-1,ecc_residual,translate_4_4,60,60,0,7.181322913708821e-05,0.0006964809721029253,0.35051251918532145,5,0.08333333333333333,3,2
+diagnostic-artifacts/v0.3,v0.3.0-pcb2-development-diagnostic-1,patch_hog_ocsvm,control,60,60,0,,,,2,0.03333333333333333,0,0
+diagnostic-artifacts/v0.3,v0.3.0-pcb2-development-diagnostic-1,patch_hog_ocsvm,brightness_085,60,60,0,-0.00044114613110627504,0.0013549210070331746,0.0047819370993648636,1,0.016666666666666666,0,1
+diagnostic-artifacts/v0.3,v0.3.0-pcb2-development-diagnostic-1,patch_hog_ocsvm,brightness_115,60,60,0,0.001516339154000873,0.0018575036526892602,0.007145751849935544,1,0.016666666666666666,0,1
+diagnostic-artifacts/v0.3,v0.3.0-pcb2-development-diagnostic-1,patch_hog_ocsvm,gaussian_blur,60,60,0,0.004110481561925304,0.004496323501897138,0.011894938307420097,3,0.05,1,0
+diagnostic-artifacts/v0.3,v0.3.0-pcb2-development-diagnostic-1,patch_hog_ocsvm,translate_4_4,60,60,0,0.0013487395760626644,0.006200646513604885,0.02387533546828388,6,0.1,5,1
+diagnostic-artifacts/v0.3,v0.3.0-pcb2-development-diagnostic-1,dinov2_vits14_224_nn,control,60,60,0,,,,3,0.05,0,0
+diagnostic-artifacts/v0.3,v0.3.0-pcb2-development-diagnostic-1,dinov2_vits14_224_nn,brightness_085,60,60,0,0.0002362281084060669,0.0033070743083953857,0.01204732060432434,3,0.05,0,0
+diagnostic-artifacts/v0.3,v0.3.0-pcb2-development-diagnostic-1,dinov2_vits14_224_nn,brightness_115,60,60,0,0.0022270679473876953,0.004444301128387451,0.017671257257461548,4,0.06666666666666667,1,0
+diagnostic-artifacts/v0.3,v0.3.0-pcb2-development-diagnostic-1,dinov2_vits14_224_nn,gaussian_blur,60,60,0,0.0006403028964996338,0.00233401358127594,0.008090585470199585,3,0.05,0,0
+diagnostic-artifacts/v0.3,v0.3.0-pcb2-development-diagnostic-1,dinov2_vits14_224_nn,translate_4_4,60,60,0,-0.0009561628103256226,0.016065821051597595,0.04759514331817627,4,0.06666666666666667,1,0

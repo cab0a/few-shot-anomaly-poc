@@ -326,6 +326,8 @@ def test_changed_state_rejects_before_session_or_decode(preflight):
 
 def test_preflight_missing_external_metadata_opens_no_image(tmp_path, monkeypatch):
     monkeypatch.setattr(module, "check_pushed_source", lambda _root: "a" * 40)
+    # The real completed outputs stay intact; isolate this missing-input check.
+    monkeypatch.setattr(module, "check_unstarted", lambda *_args: None)
     monkeypatch.setattr(module.subprocess, "run", lambda *_a, **_k: SimpleNamespace(stdout=""))
     monkeypatch.setattr(module, "decode_normal", lambda *_a: pytest.fail("image decoded"))
     monkeypatch.setattr(module, "classical_scorers", lambda *_a: pytest.fail("state loaded"))

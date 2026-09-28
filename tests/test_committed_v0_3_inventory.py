@@ -48,6 +48,10 @@ OBSERVATION_HASHES = {
     ),
 }
 JOIN_SHA256 = "e78117d7affe0c3800911cd0cebe62038b872bec2264cf2fc2c5014fa51fc5b8"
+PROBE_HASHES = {
+    SCORE_NAME: "58c82b1447332584f9d2c06bf628d1ce4687be27d2ca8364ec1560101902a7ef",
+    SUMMARY_NAME: "c08b974a84dffbcf6bcd2a327595e9b69fed2a7310e52baec216e001fb38a9c8",
+}
 
 
 def _read_csv(name: str) -> list[dict[str, str]]:
@@ -80,16 +84,15 @@ def _typed_normal(record: dict[str, str]) -> dict:
 def test_committed_v0_3_2_file_inventory_and_hashes_are_exact() -> None:
     files = sorted(path.name for path in ARTIFACT_ROOT.iterdir() if path.is_file())
 
-    required = set(EXPECTED_HASHES) | set(OBSERVATION_HASHES) | {JOIN_NAME}
-    probe_pair = {SCORE_NAME, SUMMARY_NAME}
-    assert set(files) in (required, required | probe_pair)
-    if probe_pair <= set(files):
-        verify_probe_outputs(
-            ARTIFACT_ROOT,
-            [_typed_normal(record) for record in _read_csv("normal-diagnostic-partition.csv")],
-            config=load_v0_3_config(ROOT / "configs/v0.3.yaml"),
-            schema=SCHEMA,
-        )
+    required = set(EXPECTED_HASHES) | set(OBSERVATION_HASHES) | {JOIN_NAME} | set(PROBE_HASHES)
+    assert set(files) == required
+    assert {name: sha256_file(ARTIFACT_ROOT / name) for name in PROBE_HASHES} == PROBE_HASHES
+    verify_probe_outputs(
+        ARTIFACT_ROOT,
+        [_typed_normal(record) for record in _read_csv("normal-diagnostic-partition.csv")],
+        config=load_v0_3_config(ROOT / "configs/v0.3.yaml"),
+        schema=SCHEMA,
+    )
     assert {name: sha256_file(ARTIFACT_ROOT / name) for name in EXPECTED_HASHES} == EXPECTED_HASHES
     assert not list(ARTIFACT_ROOT.rglob("*.jpg"))
     assert not list(ARTIFACT_ROOT.rglob("*.png"))
