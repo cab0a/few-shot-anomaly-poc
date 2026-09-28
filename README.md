@@ -26,6 +26,10 @@ This is a source-available, noncommercially licensed public portfolio project.
 >
 > After the external inputs were [restored from Google Drive](docs/external-data-storage.md), one fresh AI reviewer observed each fixed image once using only its opaque ID, pixels, and blank form. All 28 records are complete, with zero unreadable images. The CSV and completion checkpoint are fixed before any method-case join. These descriptive observations provide no human validation, causal conclusion, or revised v0.2 decision. See the [execution report and preserved procedure](docs/v0.3.4-first-fixed-blinded-observation.md).
 
+> **v0.3.5 status: observation-to-case join command ready; real join not yet executed**
+>
+> Run the [v0.3.5 command](docs/v0.3.5-observation-case-join.md) to verify and join the immutable 28 observations to the 29 fixed method-case records. It requires only committed metadata and preserves the completed v0.3.4 session. No images or fitted states are needed.
+
 ## Representative Result
 
 | Method | AUROC | AUPRC | Normal FPR | Anomaly recall | CPU p95 | Decision |

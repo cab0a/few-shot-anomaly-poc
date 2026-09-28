@@ -16,6 +16,11 @@ from few_shot_anomaly_poc.v0_3_diagnostic_contract import (
     validate_checkpoint_record,
     validate_tabular_record,
 )
+from few_shot_anomaly_poc.v0_3_observation_join import (
+    JOIN_NAME,
+    join_observations,
+    serialize_observation_join,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACT_ROOT = ROOT / "artifacts/v0.3/diagnostics/pcb2-development"
@@ -70,7 +75,8 @@ def _typed_normal(record: dict[str, str]) -> dict:
 def test_committed_v0_3_2_file_inventory_and_hashes_are_exact() -> None:
     files = sorted(path.name for path in ARTIFACT_ROOT.iterdir() if path.is_file())
 
-    assert set(files) == set(EXPECTED_HASHES) | set(OBSERVATION_HASHES)
+    required = set(EXPECTED_HASHES) | set(OBSERVATION_HASHES)
+    assert set(files) in (required, required | {JOIN_NAME})
     assert {name: sha256_file(ARTIFACT_ROOT / name) for name in EXPECTED_HASHES} == EXPECTED_HASHES
     assert not list(ARTIFACT_ROOT.rglob("*.jpg"))
     assert not list(ARTIFACT_ROOT.rglob("*.png"))
@@ -94,6 +100,20 @@ def test_committed_v0_3_4_observations_are_immutable_complete_and_hash_bound() -
     assert [record["asset_id"] for record in records] == list(EXPECTED_ASSET_IDS)
     assert all(record["review_status"] == "reviewed" for record in records)
     assert all(record["inferred_cause"] is None for record in records)
+
+
+def test_later_join_if_present_matches_every_immutable_observation() -> None:
+    path = ARTIFACT_ROOT / JOIN_NAME
+    if not path.exists():
+        return
+    observations = read_blind_observations_csv(
+        ARTIFACT_ROOT / "blind-observations.csv",
+        expected_sha256=OBSERVATION_HASHES["blind-observations.csv"],
+        schema=SCHEMA,
+    )
+    links = [_typed_review_link(record) for record in _read_csv("review-case-linkage.csv")]
+    expected = join_observations(observations, links, schema=SCHEMA)
+    assert path.read_bytes() == serialize_observation_join(expected, schema=SCHEMA)
 
 
 def test_committed_review_assets_are_exact_safe_ordered_identities() -> None:
