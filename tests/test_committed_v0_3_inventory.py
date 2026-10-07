@@ -53,6 +53,14 @@ PROBE_HASHES = {
     SCORE_NAME: "58c82b1447332584f9d2c06bf628d1ce4687be27d2ca8364ec1560101902a7ef",
     SUMMARY_NAME: "c08b974a84dffbcf6bcd2a327595e9b69fed2a7310e52baec216e001fb38a9c8",
 }
+CLOSURE_HASHES = {
+    "diagnostic-decision.json": (
+        "20e801543a89a0363849a86cd59000b3654adb80f733e984b6f0f7a3f60b8bf1"
+    ),
+    "artifact-manifest.json": (
+        "d2d3ede0ae33a9bf6eb30841be66121eda5d334027122119dd4626af4345eaec"
+    ),
+}
 
 
 def _read_csv(name: str) -> list[dict[str, str]]:
@@ -86,9 +94,11 @@ def test_committed_v0_3_2_file_inventory_and_hashes_are_exact() -> None:
     files = sorted(path.name for path in ARTIFACT_ROOT.iterdir() if path.is_file())
 
     required = set(EXPECTED_HASHES) | set(OBSERVATION_HASHES) | {JOIN_NAME} | set(PROBE_HASHES)
-    assert set(files) in (required, required | CLOSURE_NAMES)
-    if set(files) >= CLOSURE_NAMES:
-        verify_closure(ROOT)
+    assert set(files) == required | CLOSURE_NAMES
+    assert {
+        name: sha256_file(ARTIFACT_ROOT / name) for name in CLOSURE_HASHES
+    } == CLOSURE_HASHES
+    verify_closure(ROOT)
     assert {name: sha256_file(ARTIFACT_ROOT / name) for name in PROBE_HASHES} == PROBE_HASHES
     verify_probe_outputs(
         ARTIFACT_ROOT,

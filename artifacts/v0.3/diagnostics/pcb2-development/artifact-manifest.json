@@ -1,0 +1,69 @@
+{
+  "config_sha256": "e3108c837b3c9818b25b86594a7b103091e145f8ee6392e8424c7163f220f548",
+  "contract_version": "diagnostic-artifacts/v0.3",
+  "diagnostic_id": "v0.3.0-pcb2-development-diagnostic-1",
+  "files": [
+    {
+      "artifact_type": "blind_observation",
+      "record_count": 28,
+      "relative_path": "blind-observations.csv",
+      "sha256": "93a6303824dc9b24819b4027f409b1acb3752086ca72921ac30a2cebbe6783f3"
+    },
+    {
+      "artifact_type": "condition_summary",
+      "record_count": 15,
+      "relative_path": "condition-summaries.csv",
+      "sha256": "c08b974a84dffbcf6bcd2a327595e9b69fed2a7310e52baec216e001fb38a9c8"
+    },
+    {
+      "artifact_type": "diagnostic_score",
+      "record_count": 900,
+      "relative_path": "controlled-scores.csv",
+      "sha256": "58c82b1447332584f9d2c06bf628d1ce4687be27d2ca8364ec1560101902a7ef"
+    },
+    {
+      "artifact_type": "diagnostic_decision",
+      "record_count": 1,
+      "relative_path": "diagnostic-decision.json",
+      "sha256": "20e801543a89a0363849a86cd59000b3654adb80f733e984b6f0f7a3f60b8bf1"
+    },
+    {
+      "artifact_type": "normal_partition",
+      "record_count": 60,
+      "relative_path": "normal-diagnostic-partition.csv",
+      "sha256": "39415c626652c4cbfb856e68d8b559d0f119392f869e0569d47165df5a48e110"
+    },
+    {
+      "artifact_type": "observation_join",
+      "record_count": 29,
+      "relative_path": "observation-case-join.csv",
+      "sha256": "e78117d7affe0c3800911cd0cebe62038b872bec2264cf2fc2c5014fa51fc5b8"
+    },
+    {
+      "artifact_type": "pre_access_checkpoint",
+      "record_count": 1,
+      "relative_path": "pre-access-checkpoint.json",
+      "sha256": "a8cade456af699df734007e3b575babd1f624f390dbf19728f912e8a43960df0"
+    },
+    {
+      "artifact_type": "review_asset",
+      "record_count": 28,
+      "relative_path": "review-assets.csv",
+      "sha256": "399ebef79498917ff0cf5b2bf83467541a5417dce74bdd8e0e462fec70a7fd58"
+    },
+    {
+      "artifact_type": "review_case_link",
+      "record_count": 29,
+      "relative_path": "review-case-linkage.csv",
+      "sha256": "861cf3428808de3e300278d54be84de95fa42204393050358c9c2b592a638d7e"
+    },
+    {
+      "artifact_type": "review_completion_checkpoint",
+      "record_count": 1,
+      "relative_path": "review-completion-checkpoint.json",
+      "sha256": "3c9b56ecd9761ca2a35b3bfbb17fefff5021776b33cc082f8cf1c15e72767dbd"
+    }
+  ],
+  "schema_sha256": "173018d554380910147a826a42364dfc8499f0cb6ec6ff76dc1e24f233d87834",
+  "source_commit": "f10b29e6a4171117bab05b162dee04418c03e0ed"
+}

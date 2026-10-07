@@ -1,0 +1,247 @@
+{
+  "contract_version": "diagnostic-artifacts/v0.3",
+  "decision": "STOP: NO BOUNDED DIAGNOSTIC SIGNAL",
+  "diagnostic_id": "v0.3.0-pcb2-development-diagnostic-1",
+  "family_evaluations": [
+    {
+      "family": "framing_or_pose",
+      "method_evaluations": [
+        {
+          "condition_evaluations": [
+            {
+              "condition": "translate_4_4",
+              "crossing_requirement_met": false,
+              "delta_requirement_met": false,
+              "median_absolute_delta": 0.0006964809721029253,
+              "minimum_crossing_count": 6,
+              "minimum_median_absolute_delta": 0.06219927985456926,
+              "normal_to_anomalous_crossing_count": 3,
+              "numeric_requirement_met": false
+            }
+          ],
+          "method": "ecc_residual",
+          "minimum_visual_yes_unique_asset_count": 3,
+          "numeric_requirement_met": false,
+          "supported": false,
+          "visual_requirement_met": false,
+          "visual_yes_unique_asset_count": 0
+        },
+        {
+          "condition_evaluations": [
+            {
+              "condition": "translate_4_4",
+              "crossing_requirement_met": false,
+              "delta_requirement_met": false,
+              "median_absolute_delta": 0.006200646513604885,
+              "minimum_crossing_count": 6,
+              "minimum_median_absolute_delta": 0.014960269900890078,
+              "normal_to_anomalous_crossing_count": 5,
+              "numeric_requirement_met": false
+            }
+          ],
+          "method": "patch_hog_ocsvm",
+          "minimum_visual_yes_unique_asset_count": 3,
+          "numeric_requirement_met": false,
+          "supported": false,
+          "visual_requirement_met": false,
+          "visual_yes_unique_asset_count": 0
+        },
+        {
+          "condition_evaluations": [
+            {
+              "condition": "translate_4_4",
+              "crossing_requirement_met": false,
+              "delta_requirement_met": false,
+              "median_absolute_delta": 0.016065821051597595,
+              "minimum_crossing_count": 6,
+              "minimum_median_absolute_delta": 0.022208529710769656,
+              "normal_to_anomalous_crossing_count": 1,
+              "numeric_requirement_met": false
+            }
+          ],
+          "method": "dinov2_vits14_224_nn",
+          "minimum_visual_yes_unique_asset_count": 3,
+          "numeric_requirement_met": false,
+          "supported": false,
+          "visual_requirement_met": false,
+          "visual_yes_unique_asset_count": 0
+        }
+      ],
+      "priority": 1,
+      "supported": false,
+      "supporting_methods": []
+    },
+    {
+      "family": "global_exposure",
+      "method_evaluations": [
+        {
+          "condition_evaluations": [
+            {
+              "condition": "brightness_085",
+              "crossing_requirement_met": false,
+              "delta_requirement_met": false,
+              "median_absolute_delta": 0.017757318910792894,
+              "minimum_crossing_count": 6,
+              "minimum_median_absolute_delta": 0.06219927985456926,
+              "normal_to_anomalous_crossing_count": 0,
+              "numeric_requirement_met": false
+            },
+            {
+              "condition": "brightness_115",
+              "crossing_requirement_met": true,
+              "delta_requirement_met": false,
+              "median_absolute_delta": 0.04354570489769749,
+              "minimum_crossing_count": 6,
+              "minimum_median_absolute_delta": 0.06219927985456926,
+              "normal_to_anomalous_crossing_count": 13,
+              "numeric_requirement_met": true
+            }
+          ],
+          "method": "ecc_residual",
+          "minimum_visual_yes_unique_asset_count": 3,
+          "numeric_requirement_met": true,
+          "supported": false,
+          "visual_requirement_met": false,
+          "visual_yes_unique_asset_count": 0
+        },
+        {
+          "condition_evaluations": [
+            {
+              "condition": "brightness_085",
+              "crossing_requirement_met": false,
+              "delta_requirement_met": false,
+              "median_absolute_delta": 0.0013549210070331746,
+              "minimum_crossing_count": 6,
+              "minimum_median_absolute_delta": 0.014960269900890078,
+              "normal_to_anomalous_crossing_count": 0,
+              "numeric_requirement_met": false
+            },
+            {
+              "condition": "brightness_115",
+              "crossing_requirement_met": false,
+              "delta_requirement_met": false,
+              "median_absolute_delta": 0.0018575036526892602,
+              "minimum_crossing_count": 6,
+              "minimum_median_absolute_delta": 0.014960269900890078,
+              "normal_to_anomalous_crossing_count": 0,
+              "numeric_requirement_met": false
+            }
+          ],
+          "method": "patch_hog_ocsvm",
+          "minimum_visual_yes_unique_asset_count": 3,
+          "numeric_requirement_met": false,
+          "supported": false,
+          "visual_requirement_met": false,
+          "visual_yes_unique_asset_count": 0
+        },
+        {
+          "condition_evaluations": [
+            {
+              "condition": "brightness_085",
+              "crossing_requirement_met": false,
+              "delta_requirement_met": false,
+              "median_absolute_delta": 0.0033070743083953857,
+              "minimum_crossing_count": 6,
+              "minimum_median_absolute_delta": 0.022208529710769656,
+              "normal_to_anomalous_crossing_count": 0,
+              "numeric_requirement_met": false
+            },
+            {
+              "condition": "brightness_115",
+              "crossing_requirement_met": false,
+              "delta_requirement_met": false,
+              "median_absolute_delta": 0.004444301128387451,
+              "minimum_crossing_count": 6,
+              "minimum_median_absolute_delta": 0.022208529710769656,
+              "normal_to_anomalous_crossing_count": 1,
+              "numeric_requirement_met": false
+            }
+          ],
+          "method": "dinov2_vits14_224_nn",
+          "minimum_visual_yes_unique_asset_count": 3,
+          "numeric_requirement_met": false,
+          "supported": false,
+          "visual_requirement_met": false,
+          "visual_yes_unique_asset_count": 0
+        }
+      ],
+      "priority": 2,
+      "supported": false,
+      "supporting_methods": []
+    },
+    {
+      "family": "blur",
+      "method_evaluations": [
+        {
+          "condition_evaluations": [
+            {
+              "condition": "gaussian_blur",
+              "crossing_requirement_met": false,
+              "delta_requirement_met": false,
+              "median_absolute_delta": 0.004899165615879525,
+              "minimum_crossing_count": 6,
+              "minimum_median_absolute_delta": 0.06219927985456926,
+              "normal_to_anomalous_crossing_count": 0,
+              "numeric_requirement_met": false
+            }
+          ],
+          "method": "ecc_residual",
+          "minimum_visual_yes_unique_asset_count": 3,
+          "numeric_requirement_met": false,
+          "supported": false,
+          "visual_requirement_met": false,
+          "visual_yes_unique_asset_count": 2
+        },
+        {
+          "condition_evaluations": [
+            {
+              "condition": "gaussian_blur",
+              "crossing_requirement_met": false,
+              "delta_requirement_met": false,
+              "median_absolute_delta": 0.004496323501897138,
+              "minimum_crossing_count": 6,
+              "minimum_median_absolute_delta": 0.014960269900890078,
+              "normal_to_anomalous_crossing_count": 1,
+              "numeric_requirement_met": false
+            }
+          ],
+          "method": "patch_hog_ocsvm",
+          "minimum_visual_yes_unique_asset_count": 3,
+          "numeric_requirement_met": false,
+          "supported": false,
+          "visual_requirement_met": false,
+          "visual_yes_unique_asset_count": 1
+        },
+        {
+          "condition_evaluations": [
+            {
+              "condition": "gaussian_blur",
+              "crossing_requirement_met": false,
+              "delta_requirement_met": false,
+              "median_absolute_delta": 0.00233401358127594,
+              "minimum_crossing_count": 6,
+              "minimum_median_absolute_delta": 0.022208529710769656,
+              "normal_to_anomalous_crossing_count": 0,
+              "numeric_requirement_met": false
+            }
+          ],
+          "method": "dinov2_vits14_224_nn",
+          "minimum_visual_yes_unique_asset_count": 3,
+          "numeric_requirement_met": false,
+          "supported": false,
+          "visual_requirement_met": false,
+          "visual_yes_unique_asset_count": 1
+        }
+      ],
+      "priority": 3,
+      "supported": false,
+      "supporting_methods": []
+    }
+  ],
+  "performance_claim_made": false,
+  "reason": "All required evidence is complete. No family meets both the visual and controlled-score requirements for the same method.",
+  "selected_family": null,
+  "status": "complete",
+  "v0_2_decision_changed": false,
+  "weighted_score_used": false
+}

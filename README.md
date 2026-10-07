@@ -6,7 +6,7 @@
 
 v0.1はECC残差法とPatch HOG + One-Class SVM、v0.2はDINOv2 224を加えた3方式を比較しました。opaque IDによるlabel-free scoring、offline reproduction、1回限りのlabel reveal、定量評価、順序付きhard gateを完了し、全方式とプロジェクトを`REJECT`としました。
 
-v0.3.4で28画像のブラインド観察、v0.3.5で29件の手法別ケースとの結合を完了しました。v0.3.6では正常60画像×5条件×3手法の制御実験を実施し、900件すべての採点成功と15集計を検証しました。ECCで明るさ増加への反応が見られましたが、全手法で事前登録の視覚条件に未達です。正式な診断判定は次工程に残ります。詳細は英語本文と各報告を参照してください。
+v0.3では28画像のブラインド観察、29件のケース結合、正常60画像×5条件×3手法の900採点・15集計を完了しました。v0.3.7の正式判定はSTOP: NO BOUNDED DIAGNOSTIC SIGNALです。ECCの露出変化は数値条件を満たしましたが、全信号群で目視条件に未達でした。全11成果物をmanifestで固定し、v0.2のREJECTを維持します。詳細は英語本文と各報告を参照してください。
 
 ---
 
@@ -32,7 +32,11 @@ This is a source-available, noncommercially licensed public portfolio project.
 
 > **v0.3.6 status: all 900 controlled scores completed and hash-locked**
 >
-> The user completed the fixed 60-normal × 5-condition × 3-method experiment with zero scoring failures. Both public CSV hashes match the reported run, and all 15 summaries reproduce from the saved scores. ECC brightness ×1.15 caused 13 normal-to-anomalous crossings, while the matching visual count remains zero. The formal diagnostic decision and complete manifest remain pending; the v0.2 `REJECT` is unchanged. See the [first execution report](docs/v0.3.6-first-controlled-probe.md) and [prior implementation/preflight record](docs/v0.3.6-controlled-probe-implementation-and-preflight.md).
+> The user completed the fixed 60-normal × 5-condition × 3-method experiment with zero scoring failures. Both public CSV hashes match the reported run, and all 15 summaries reproduce from the saved scores. ECC brightness ×1.15 caused 13 normal-to-anomalous crossings, while the matching visual count remains zero. See the [first execution report](docs/v0.3.6-first-controlled-probe.md) and [prior implementation/preflight record](docs/v0.3.6-controlled-probe-implementation-and-preflight.md).
+
+> **v0.3.7 complete: `STOP: NO BOUNDED DIAGNOSTIC SIGNAL`**
+>
+> All required evidence is complete. No signal family meets both the visual and numeric requirements for the same method, so no family is selected for a follow-up preregistration. The formal decision and ten-entry manifest close the eleven-file diagnostic bundle. The v0.2 `REJECT` remains unchanged. See the [diagnostic closure report](docs/v0.3.7-diagnostic-decision-and-artifact-manifest.md).
 
 ## Representative Result
 
@@ -76,6 +80,7 @@ uv run --locked --no-sync python scripts/render_v0_1_summary.py
 
 | Evidence | Location | What it preserves |
 | --- | --- | --- |
+| v0.3.7 diagnostic decision and complete manifest | [Decision](artifacts/v0.3/diagnostics/pcb2-development/diagnostic-decision.json), [manifest](artifacts/v0.3/diagnostics/pcb2-development/artifact-manifest.json), and [closure report](docs/v0.3.7-diagnostic-decision-and-artifact-manifest.md) | Formal STOP, same-method visual/numeric evaluations, no selected family, and complete eleven-file bundle identity |
 | v0.3.6 first controlled-normal probe | [900 scores](artifacts/v0.3/diagnostics/pcb2-development/controlled-scores.csv), [15 summaries](artifacts/v0.3/diagnostics/pcb2-development/condition-summaries.csv), and [execution report](docs/v0.3.6-first-controlled-probe.md) | Fixed 60 × 5 × 3 evidence, zero failures, unchanged thresholds, paired deltas and crossings, source identity, and exact output hashes |
 | v0.3.6 controlled-probe synthetic verification | [Verification record](artifacts/v0.3/synthetic/controlled-probe-verification.json) and [implementation report](docs/v0.3.6-controlled-probe-implementation-and-preflight.md) | Generated 60-image input, 900 fake scores, 15 paired summaries, implementation hashes, and explicit no-VisA/no-model boundaries |
 | v0.3.5 observation-to-case join | [Joined CSV](artifacts/v0.3/diagnostics/pcb2-development/observation-case-join.csv) and [execution report](docs/v0.3.5-observation-case-join.md) | Exact 29-row linkage to 28 unchanged observations, fixed output hash, and descriptive per-method visual counts |
