@@ -8,6 +8,7 @@ from few_shot_anomaly_poc.v0_3_blinded_review import (
     read_blind_observations_csv,
     validate_review_completion_checkpoint,
 )
+from few_shot_anomaly_poc.v0_3_diagnostic_closure import CLOSURE_NAMES, verify_closure
 from few_shot_anomaly_poc.v0_3_diagnostic_contract import (
     EXPECTED_ASSET_IDS,
     EXPECTED_METHOD_CASES,
@@ -85,7 +86,9 @@ def test_committed_v0_3_2_file_inventory_and_hashes_are_exact() -> None:
     files = sorted(path.name for path in ARTIFACT_ROOT.iterdir() if path.is_file())
 
     required = set(EXPECTED_HASHES) | set(OBSERVATION_HASHES) | {JOIN_NAME} | set(PROBE_HASHES)
-    assert set(files) == required
+    assert set(files) in (required, required | CLOSURE_NAMES)
+    if set(files) >= CLOSURE_NAMES:
+        verify_closure(ROOT)
     assert {name: sha256_file(ARTIFACT_ROOT / name) for name in PROBE_HASHES} == PROBE_HASHES
     verify_probe_outputs(
         ARTIFACT_ROOT,
